@@ -12,7 +12,7 @@
     <xd:doc scope="stylesheet">
         <xd:desc>
             <xd:p><xd:b>Title:</xd:b> CDA R2 StyleSheet</xd:p>
-            <xd:p><xd:b>Version:</xd:b> 4.0.0</xd:p>
+            <xd:p><xd:b>Version:</xd:b> 4.0.1</xd:p>
             <xd:p><xd:b>Maintained by:</xd:b> HL7 <xd:a href="https://confluence.hl7.org/display/SD/Structured+Documents">Structured Documents Work Group</xd:a></xd:p>
             <xd:p><xd:b>Purpose:</xd:b> Provide general purpose display of CDA release 2 (Specification: ANSI/HL7 CDAR2) and CDA release 3 (Specification: currently in ballot) documents, and be a starting point for people interested in extending the display. This stylesheet displays all section content, but does not try to render each and every header attribute. For header attributes it tries to be smart in displaying essentials, which is still a lot. </xd:p>
             <xd:p><xd:b>License:</xd:b> Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at <a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a></xd:p>
@@ -24,11 +24,236 @@
                     <!--<xd:li>Remove any temporary cruft from the CDAr3 ballot that does not make it into the final version</xd:li>-->
                     <xd:li>Fix for Mobile Safari (iOS 6): doesn't support opening the table of contents</xd:li>
                     <xd:li>Check additional structural vocabulary for CDA 2.1 (RIM 2.35) - NullFlavors already done</xd:li>
+                    <xd:li>Fix a problem where the footer div will not be rendered by browsers when an iframe exists (pdf usually)</xd:li>
                 </xd:ul>
             </xd:p>
             <xd:p><xd:b>Revisions</xd:b>
                 <xd:ul>
-                    <xd:li><xd:b>10/02/2018 AH, v4.0.0</xd:b> Administrative rename to final product after StrucDoc committee approval</xd:li>
+                    <xd:li>
+                        <xd:b>01/17/2019 AH, v4.0.1</xd:b>
+                        <xd:p>Approved all changes in beta 1 and beta 2 as-is except for the addition of IHE PCC MCV. The StrucDoc WG feels that this addition needs some more thought before a decision on re-adding it can be made.</xd:p>
+                        <xd:ul>
+                            <xd:li>Added support for patient/languageCommunication</xd:li>
+                            <xd:li>Added support for patientRole/providerOrganization</xd:li>
+                            <xd:li>Added support for informationRecipient/intendedRecipient/receivedOrganization</xd:li>
+                            <xd:li>Updated rendering of nonXMLBody and observationMedia to check for Base64 content before checking text/plain. This fixes support for Base64 encoded text/plain.</xd:li>
+                        </xd:ul>
+                    </xd:li>
+                    <xd:li>
+                        <xd:b>01/14/2019 AH, v4.0.1 beta 2</xd:b>
+                        <xd:ul>
+                            <xd:li>As requested per <xd:a href="https://gforge.hl7.org/gf/project/strucdoc/tracker/?action=TrackerItemEdit&amp;tracker_item_id=20000">GForge#20000</xd:a>, added support for <xd:a href="https://www.ihe.net/uploadedFiles/Documents/PCC/IHE_PCC_Suppl_MCV.pdf">IHE PCC MCV, Revision 1.2, Trial Implementation, November 2, 2018</xd:a>. Implementation coverage is based on AllScripts stylesheet implementation (license Apache License, Version 2.0): <table>
+                                    <caption>Table 5.1.X-1: styleCode</caption>
+                                    <thead>
+                                        <tr>
+                                            <th>Covered?</th>
+                                            <th>styleCode</th>
+                                            <th>Description</th>
+                                            <th>Suggested Rendering (Hints)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>No. TODO? How?</td>
+                                            <td>xEmptySection</td>
+                                            <td>Section is empty</td>
+                                            <td>When showing other than complete content, do something special to show that the entire section is empty. See Section 3.1.5.3.1 for an example. </td>
+                                        </tr>
+                                        <tr>
+                                            <td>No. TODO? How?</td>
+                                            <td>xHistoric</td>
+                                            <td>Content is Historic When showing content that was assessed, these data should be hidden. See Section 3.1.5.3.2 for an example. </td>
+                                        </tr>
+                                        <tr>
+                                            <td>No. TODO? How?</td>
+                                            <td>xAssessed</td>
+                                            <td>Content Assessed/Discussed this visit</td>
+                                            <td>When showing content that was assessed, these data shall be shown. See Section 3.1.5.3.2 for an example. </td>
+                                        </tr>
+                                        <tr>
+                                            <td>No. TODO? How?</td>
+                                            <td>xDetail</td>
+                                            <td>Extra Detail – not necessarily for Patients</td>
+                                            <td>When showing patient related views, this content may be omitted. See Section 3.1.5.3.3 for an example. </td>
+                                        </tr>
+                                        <tr>
+                                            <td>No. TODO? How?</td>
+                                            <td>xDate</td>
+                                            <td>Content is a Date</td>
+                                            <td>Show as a date. </td>
+                                        </tr>
+                                        <tr>
+                                            <td>No. TODO? How?</td>
+                                            <td>xDateTime</td>
+                                            <td>Content is a Date with Time</td>
+                                            <td>Show as a date with time. </td>
+                                        </tr>
+                                        <tr>
+                                            <td>No. TODO? How?</td>
+                                            <td>xCode</td>
+                                            <td>Content is a code from some code system.</td>
+                                            <td>Show as a code. </td>
+                                        </tr>
+                                        <tr>
+                                            <td>No. TODO? How?</td>
+                                            <td>xPhone</td>
+                                            <td>Content is a telephone number</td>
+                                            <td>Show as a phone number. </td>
+                                        </tr>
+                                        <tr>
+                                            <td>No. TODO? How?</td>
+                                            <td>xEmail</td>
+                                            <td>Content is an email address</td>
+                                            <td>Show as an email address. </td>
+                                        </tr>
+                                        <tr>
+                                            <td>No. TODO? How?</td>
+                                            <td>xAddress</td>
+                                            <td>Content is a Street Address</td>
+                                            <td>Shows an address. </td>
+                                        </tr>
+                                        <tr>
+                                            <td>No. TODO? How?</td>
+                                            <td>xPersonName</td>
+                                            <td>Content is a person name</td>
+                                            <td>Show as the name of a person. </td>
+                                        </tr>
+                                        <tr>
+                                            <td>No. TODO? How?</td>
+                                            <td>xIdentifier</td>
+                                            <td>Content is an identifier</td>
+                                            <td>Show as an identifier. </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Yes. Rendered with red font color</td>
+                                            <td>xAlert</td>
+                                            <td>The content contains information of importance that needs to be used to alert the reader, for example level of severity considered life threatening.</td>
+                                            <td>Show in some manner to indicate an Alert. </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Yes. Rendered with red font color</td>
+                                            <td>xAbnormal</td>
+                                            <td>The content contains information that may be considered to be not within what are considered to be normal values.</td>
+                                            <td>Show in some manner to indicate a value that is not normal. </td>
+                                        </tr>
+                                        <tr>
+                                            <td>No. TODO? How? Just display:none or with javascript for unhide?</td>
+                                            <td>xHidden</td>
+                                            <td>Content may typically be repetitive and unnecessary to display.</td>
+                                            <td>Hide the content. </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Yes. Rendered in italics</td>
+                                            <td>xLabel</td>
+                                            <td>The content is a label of some data, e.g., Refills:</td>
+                                            <td>Show content as a label. </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Yes. No specifics</td>
+                                            <td>xValue</td>
+                                            <td>The content contains a data that is a value, e.g., 98.6</td>
+                                            <td>Show content as a clinical item status value. </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Yes. No specifics</td>
+                                            <td>xReaction</td>
+                                            <td>The content represents text about a reaction.</td>
+                                            <td>Show content as a reaction. </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Yes. No specifics</td>
+                                            <td>xComment</td>
+                                            <td>The content is comment text.</td>
+                                            <td>Show as a comment. </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Yes. text-align: center</td>
+                                            <td>xCenter</td>
+                                            <td>Text to be centered</td>
+                                            <td>Alignment should be centered. </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Yes. text-align: right</td>
+                                            <td>xRight</td>
+                                            <td>Text to be right justified</td>
+                                            <td>Alignment should be right. </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Yes. text-align:left</td>
+                                            <td>xLeft</td>
+                                            <td>Text to be left justified</td>
+                                            <td>Alignment should be left. </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Yes. font-family: monospace</td>
+                                            <td>xMono</td>
+                                            <td>Text to be output in a monospace font</td>
+                                            <td>Render in a monospace font. </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Yes. background-color: yellow; color: black;</td>
+                                            <td>xHighlight</td>
+                                            <td>Text to be highlighted</td>
+                                            <td>Render with highlight. </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Yes. render an hr element</td>
+                                            <td>xHR</td>
+                                            <td>A horizontal line is to be drawn</td>
+                                            <td>Render a horizontal line. </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Yes</td>
+                                            <td>xRowNormal</td>
+                                            <td>For example, to indicate an odd numbered row of a table.</td>
+                                            <td>Render table row as normal. </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Yes</td>
+                                            <td>xRowAlt</td>
+                                            <td>For example, to indicate an even numbered row of a table.</td>
+                                            <td>Render table row as alternate. </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Yes</td>
+                                            <td>xIndent</td>
+                                            <td>Render content indented.</td>
+                                            <td> </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Yes</td>
+                                            <td>xSecondary</td>
+                                            <td>This content is of secondary importance.</td>
+                                            <td>Render in some manner to indicate this content is of secondary importance, for example in a lighter font color. </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Yes</td>
+                                            <td>xRowGroup</td>
+                                            <td>This is used on table rows to show that children and parent objects are related</td>
+                                            <td>Keep lines from appearing between child objects and their parents in a table together </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Yes</td>
+                                            <td>xContentWrapping</td>
+                                            <td>This is used to keep the text in the first column from wrapping under the bullets that appear for child objects inside of a table</td>
+                                            <td>Prevent text from wrapping under child objects</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </xd:li>
+                            <xd:li>Added support for patient/languageCommunication</xd:li>
+                            <xd:li>Added support for patientRole/providerOrganization</xd:li>
+                            <xd:li>Added support for informationRecipient/intendedRecipient/receivedOrganization</xd:li>
+                        </xd:ul>
+                    </xd:li>
+                    <xd:li>
+                        <xd:b>11/13/2018 AH, v4.0.1 beta 1</xd:b> 
+                        Updated rendering of nonXMLBody and observationMedia to check for Base64 content before checking text/plain. This fixes support for Base64 encoded text/plain.
+                    </xd:li>
+                    <xd:li>
+                        <xd:b>10/02/2018 AH, v4.0.0</xd:b> 
+                        Administrative rename to final product after StrucDoc committee approval
+                    </xd:li>
                     <xd:li>
                         <xd:b>09/26/2018 AH, v4.0.0 beta 8</xd:b>
                         <xd:ul>
@@ -852,6 +1077,81 @@
                     .Square{
                         list-style: square;
                     }</style>
+                <!--<xsl:comment> Stylecode CSS IHE PCC MCV, Revision 1.2, Trial Implementation, November 2, 2018</xsl:comment>
+                <style type="text/css" media="all">
+                    .xOrganizerRow > td, .organizer-row > td {
+                        padding-bottom: 4px;
+                    }
+                    .xOrganizerRow, .organizer-row {
+                        border-bottom: none;
+                    }
+                    .xWhitespace {
+                        padding-left: 4px;
+                    }
+                    .xContentSpacing {
+                        padding-left: 2.5em;
+                    }
+                    .xRowGroup > tr {
+                        border-bottom: none;
+                    }
+                    table:first-of-type > tbody:first-of-type {
+                        border-top: none;
+                    }           
+                    .xRowGroup {
+                        border-top: 1px dotted #222;
+                    }
+                    .xSectionComments {
+                        text-decoration: underline;
+                    }
+                    .xSectionComments, .xReconciliation {
+                        margin-top: 15px;
+                    }
+                    .xLabel {
+                        font-style:italic;
+                    }
+                    .xAlert, .xReaction{
+                        color: red;
+                    }
+                    tr.xAlert {
+                        background-color: #FDE7EC
+                    }
+                    tr.xAlert > td:first-of-type:before {
+                        content: "\25B2";
+                    } 
+                    .xContentWrapping {
+                        display: table-cell;
+                        padding-left: 5px;
+                    }
+                    .xIndent, .xIndention{
+                        white-space: pre;
+                        vertical-align: top;
+                        display: table-cell;
+                    }
+                    .xlistForTable {
+                        list-style: none;
+                        padding: 0;
+                    }
+                    .xtableWithinTable > tr > td {
+                        margin: 0;
+                        padding: 0;
+                    }
+                    xCenter {
+                        text-align: center;
+                    }
+                    xRight {
+                        text-align: right;
+                    }
+                    xLeft {
+                        text-align: left;
+                    }
+                    xMono {
+                        font-family: monospace;
+                    }
+                    xHighlight {
+                        background-color: yellow;
+                        color: black;
+                    }
+                </style>-->
                 <xsl:comment> Section Button Toggle CSS </xsl:comment>
                 <style type="text/css" media="screen">
                     div.button.expandCollapse {
@@ -1228,11 +1528,7 @@
                     </xsl:otherwise>
                 </xsl:choose>
             </xsl:when>
-            <xsl:when test="$renderElement[not(@mediaType) or @mediaType='text/plain']">
-                <pre title="{$renderAltText}">
-                    <xsl:value-of select="$renderElement/text()"/>
-                </pre>
-            </xsl:when>
+            <!-- This is an image of some sort -->
             <xsl:when test="$renderElement[starts-with(@mediaType,'image/')]">
                 <img alt="{$renderAltText}" title="{$renderAltText}">
                     <xsl:if test="string-length($usemap) &gt; 0">
@@ -1245,6 +1541,7 @@
                     </xsl:attribute>
                 </img>
             </xsl:when>
+            <!-- This is something base64 -->
             <xsl:when test="$renderElement[@representation = 'B64']">
                 <xsl:call-template name="getLocalizedString">
                     <xsl:with-param name="key" select="'If the contents are not displayed here, it may be offered as a download.'"/>
@@ -1254,6 +1551,12 @@
                         <xsl:value-of select="concat('data:', $renderElement/@mediaType, ';base64,', $renderElement/text())"/>
                     </xsl:attribute>
                 </iframe>
+            </xsl:when>
+            <!-- This is plain text -->
+            <xsl:when test="$renderElement[not(@mediaType) or @mediaType='text/plain']">
+                <pre title="{$renderAltText}">
+                    <xsl:value-of select="$renderElement/text()"/>
+                </pre>
             </xsl:when>
             <xsl:otherwise>
                 <pre title="{$renderAltText}">
@@ -1793,6 +2096,10 @@
             <xsl:apply-templates select="." mode="handleSectionTextAttributes"/>
             <!--<xsl:if test="@ID">
                 <a name="{@ID}"/>
+            </xsl:if>-->
+            <!-- IHE PCC MCV -->
+            <!--<xsl:if test="@styleCode = 'xHR' or starts-with(@styleCode, 'xHR ')">
+                <hr class="xHR"/>
             </xsl:if>-->
             <xsl:apply-templates/>
         </span>
@@ -4135,9 +4442,14 @@
                             </xsl:call-template>
                         </td>
                         <td>
-                            <xsl:if test="hl7:intendedRecipient/hl7:addr | hl7:intendedRecipient/hl7:telecom">
-                                <xsl:attribute name="style">width: 30%;</xsl:attribute>
-                            </xsl:if>
+                            <xsl:choose>
+                                <xsl:when test="hl7:intendedRecipient/hl7:addr | hl7:intendedRecipient/hl7:telecom">
+                                    <xsl:attribute name="style">width: 30%;</xsl:attribute>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:attribute name="colspan">3</xsl:attribute>
+                                </xsl:otherwise>
+                            </xsl:choose>
                             <xsl:choose>
                                 <xsl:when test="hl7:intendedRecipient/hl7:informationRecipient/hl7:name">
                                     <xsl:for-each select="hl7:intendedRecipient/hl7:informationRecipient">
@@ -4171,6 +4483,57 @@
                             </td>
                         </xsl:if>
                     </tr>
+                    <xsl:for-each select="hl7:intendedRecipient/hl7:receivedOrganization">
+                        <tr>
+                            <td class="td_label td_label_width">
+                                <xsl:call-template name="getLocalizedString">
+                                    <xsl:with-param name="pre" select="''"/>
+                                    <xsl:with-param name="key" select="'Organization'"/>
+                                    <xsl:with-param name="post" select="''"/>
+                                </xsl:call-template>
+                            </td>
+                            <td style="width: 30%;">
+                                <div>
+                                    <xsl:call-template name="show-name-set">
+                                        <xsl:with-param name="in" select="hl7:name"/>
+                                    </xsl:call-template>
+                                </div>
+                                <xsl:if test="hl7:id">
+                                    <table class="table_simple">
+                                        <tbody>
+                                            <tr>
+                                                <td class="td_label">
+                                                    <xsl:call-template name="getLocalizedString">
+                                                        <xsl:with-param name="key" select="'id'"/>
+                                                    </xsl:call-template>
+                                                </td>
+                                                <td>
+                                                    <xsl:call-template name="show-id-set">
+                                                        <xsl:with-param name="in" select="hl7:id"/>
+                                                    </xsl:call-template>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </xsl:if>
+                            </td>
+                            <td class="td_label td_label_width">
+                                <xsl:call-template name="getLocalizedString">
+                                    <xsl:with-param name="key" select="'Contact_details'"/>
+                                </xsl:call-template>
+                                <xsl:text> (</xsl:text>
+                                <xsl:call-template name="getLocalizedString">
+                                    <xsl:with-param name="key" select="'organization'"/>
+                                </xsl:call-template>
+                                <xsl:text>)</xsl:text>
+                            </td>
+                            <td style="width: 30%;">
+                                <xsl:call-template name="show-contactInfo">
+                                    <xsl:with-param name="contact" select="."/>
+                                </xsl:call-template>
+                            </td>
+                        </tr>
+                    </xsl:for-each>
                 </tbody>
             </table>
         </xsl:for-each>
@@ -4337,12 +4700,53 @@
                                 <xsl:with-param name="key" select="'patientIdsLong'"/>
                             </xsl:call-template>
                         </td>
-                        <td colspan="3">
+                        <td>
+                            <xsl:if test="not(hl7:patient/hl7:languageCommunication)">
+                                <xsl:attribute name="colspan">3</xsl:attribute>
+                            </xsl:if>
                             <xsl:call-template name="show-id-set">
                                 <xsl:with-param name="in" select="hl7:id[not(contains($skip-ids-var, concat(',',@root,',')))]"/>
                                 <xsl:with-param name="sep" select="'br'"/>
                             </xsl:call-template>
                         </td>
+                        <xsl:if test="hl7:patient/hl7:languageCommunication">
+                            <td class="td_label td_label_width">
+                                <xsl:call-template name="getLocalizedString">
+                                    <xsl:with-param name="key" select="'languageCommunication'"/>
+                                </xsl:call-template>
+                            </td>
+                            <td colspan="3">
+                                <xsl:for-each select="hl7:patient/hl7:languageCommunication">
+                                    <div>
+                                        <xsl:value-of select="hl7:languageCode/@code"/>
+                                        <xsl:if test="hl7:modeCode">
+                                            <xsl:text>, </xsl:text>
+                                            <xsl:call-template name="show-code-set">
+                                                <xsl:with-param name="in" select="hl7:modeCode"/>
+                                                <xsl:with-param name="sep" select="' '"/>
+                                            </xsl:call-template>
+                                        </xsl:if>
+                                        <xsl:if test="hl7:proficiencyLevelCode">
+                                            <xsl:text>, </xsl:text>
+                                            <xsl:call-template name="show-code-set">
+                                                <xsl:with-param name="in" select="hl7:proficiencyLevelCode"/>
+                                                <xsl:with-param name="sep" select="' '"/>
+                                            </xsl:call-template>
+                                        </xsl:if>
+                                        <xsl:if test="hl7:preferenceInd">
+                                            <xsl:text>, </xsl:text>
+                                            <xsl:call-template name="getLocalizedString">
+                                                <xsl:with-param name="key" select="'preferredLanguage'"/>
+                                                <xsl:with-param name="post" select="': '"/>
+                                            </xsl:call-template>
+                                            <xsl:call-template name="show-boolean">
+                                                <xsl:with-param name="in" select="hl7:preferenceInd"/>
+                                            </xsl:call-template>
+                                        </xsl:if>
+                                    </div>
+                                </xsl:for-each>
+                            </td>
+                        </xsl:if>
                     </tr>
                     <xsl:if test="hl7:patient/hl7:guardian">
                         <tr>
@@ -4374,6 +4778,57 @@
                             </td>
                         </tr>
                     </xsl:if>
+                    <xsl:for-each select="hl7:providerOrganization">
+                        <tr>
+                            <td class="td_label td_label_width">
+                                <xsl:call-template name="getLocalizedString">
+                                    <xsl:with-param name="pre" select="''"/>
+                                    <xsl:with-param name="key" select="'providerOrganization'"/>
+                                    <xsl:with-param name="post" select="''"/>
+                                </xsl:call-template>
+                            </td>
+                            <td style="width: 30%;">
+                                <div>
+                                    <xsl:call-template name="show-name-set">
+                                        <xsl:with-param name="in" select="hl7:name"/>
+                                    </xsl:call-template>
+                                </div>
+                                <xsl:if test="hl7:id">
+                                    <table class="table_simple">
+                                        <tbody>
+                                            <tr>
+                                                <td class="td_label">
+                                                    <xsl:call-template name="getLocalizedString">
+                                                        <xsl:with-param name="key" select="'id'"/>
+                                                    </xsl:call-template>
+                                                </td>
+                                                <td>
+                                                    <xsl:call-template name="show-id-set">
+                                                        <xsl:with-param name="in" select="hl7:id"/>
+                                                    </xsl:call-template>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </xsl:if>
+                            </td>
+                            <td class="td_label td_label_width">
+                                <xsl:call-template name="getLocalizedString">
+                                    <xsl:with-param name="key" select="'Contact_details'"/>
+                                </xsl:call-template>
+                                <xsl:text> (</xsl:text>
+                                <xsl:call-template name="getLocalizedString">
+                                    <xsl:with-param name="key" select="'organization'"/>
+                                </xsl:call-template>
+                                <xsl:text>)</xsl:text>
+                            </td>
+                            <td style="width: 30%;">
+                                <xsl:call-template name="show-contactInfo">
+                                    <xsl:with-param name="contact" select="."/>
+                                </xsl:call-template>
+                            </td>
+                        </tr>
+                    </xsl:for-each>
                 </tbody>
             </table>
         </xsl:for-each>

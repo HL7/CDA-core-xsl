@@ -308,6 +308,11 @@
         <value lang="en-us">Language Communication</value>
         <value lang="nl-nl">Taal</value>
     </translation>
+    <translation key="preferredLanguage">
+        <comment>Label: preferredLanguage</comment>
+        <value lang="en-us">preferred</value>
+        <value lang="nl-nl">voorkeur</value>
+    </translation>
     <translation key="Ethnicity">
         <comment>Label: Ethnicity</comment>
         <value lang="en-us">Ethnicity</value>
@@ -322,6 +327,11 @@
         <comment>Label: Guardian (for recordTarget)</comment>
         <value lang="en-us">Guardian</value>
         <value lang="nl-nl">Voogd</value>
+    </translation>
+    <translation key="providerOrganization">
+        <comment>Label: providerOrganization</comment>
+        <value lang="en-us">Provider Organization</value>
+        <value lang="nl-nl">Zorgaanbieder</value>
     </translation>
     <!-- End: Patient Specific Stuff -->
     <!-- Start: ActRelations Header -->
