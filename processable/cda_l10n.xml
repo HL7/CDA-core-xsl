@@ -38,6 +38,12 @@
         <value lang="nl-nl">Ondertekend</value>
         <value lang="de-ch">Unterzeichnet</value>
     </translation>
+    <translation key="Signature present but not verified">
+        <comment>Label: Signature present but not verified</comment>
+        <value lang="en-us">Signature is present. Validity has not been checked.</value>
+        <value lang="nl-nl">Handtekening is aanwezig. Geldigheid is niet gecontroleerd.</value>
+        <value lang="de-ch">Unterschrift ist vorhanden. Gültigkeit werd nicht geprüft.</value>
+    </translation>
     <translation key="show revisions">
         <comment>Label: show revisions</comment>
         <value lang="en-us">Show Revisions</value>
@@ -7536,8 +7542,8 @@
         <value lang="nl-nl">Code diagnostische bepalingen</value>
     </translation>
     <translation key="2.16.840.1.113883.2.4.4.31.1">
-        <comment>Label: OID ICPC-1-2000NL</comment>
-        <value lang="nl-nl">ICPC-1-2000NL</value>
+        <comment>Label: OID ICPC-1-NL</comment>
+        <value lang="nl-nl">ICPC-1-NL</value>
     </translation>
     <translation key="2.16.840.1.113883.2.4.4.32.2">
         <comment>Label: OID Journaalregeltypen</comment>

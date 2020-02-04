@@ -12,7 +12,7 @@
     <xd:doc scope="stylesheet">
         <xd:desc>
             <xd:p><xd:b>Title:</xd:b> CDA R2 StyleSheet</xd:p>
-            <xd:p><xd:b>Version:</xd:b> 4.0.1</xd:p>
+            <xd:p><xd:b>Version:</xd:b> 4.0.2 beta 2</xd:p>
             <xd:p><xd:b>Maintained by:</xd:b> HL7 <xd:a href="https://confluence.hl7.org/display/SD/Structured+Documents">Structured Documents Work Group</xd:a></xd:p>
             <xd:p><xd:b>Purpose:</xd:b> Provide general purpose display of CDA release 2 (Specification: ANSI/HL7 CDAR2) and CDA release 3 (Specification: currently in ballot) documents, and be a starting point for people interested in extending the display. This stylesheet displays all section content, but does not try to render each and every header attribute. For header attributes it tries to be smart in displaying essentials, which is still a lot. </xd:p>
             <xd:p><xd:b>License:</xd:b> Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at <a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a></xd:p>
@@ -29,6 +29,25 @@
             </xd:p>
             <xd:p><xd:b>Revisions</xd:b>
                 <xd:ul>
+                    <xd:li>
+                        <xd:b>12/01/2019, AH, v4.0.2 beta 3</xd:b>
+                        <xd:ul>
+                            <xd:li>Improved rendering of ClinicalDocument.confidentiality so the lock icon matches the font size</xd:li>
+                        </xd:ul>
+                    </xd:li>
+                    <xd:li>
+                        <xd:b>10/23/2019, AH, v4.0.2 beta 2</xd:b>
+                        <xd:ul>
+                            <xd:li>Previous beta only supported authenticator. Support for legalAuthenticator has been added</xd:li>
+                        </xd:ul>
+                    </xd:li>
+                    <xd:li>
+                        <xd:b>06/19/2019, AH, v4.0.2 beta 1</xd:b>
+                        <xd:ul>
+                            <xd:li>Circumvention for a warning from XSL 1.0 processors: "Non-text output nodes are ignored when writing an attribute, comment or PI."</xd:li>
+                            <xd:li>Added support for (legal) authenticator sdtc:signatureText. This renders a small signature icon with mouse over text that reads that a signature is present, but that this signature has not been verified. If a thumbnail is present is will trail that title.</xd:li>
+                        </xd:ul>
+                    </xd:li>
                     <xd:li>
                         <xd:b>01/17/2019 AH, v4.0.1</xd:b>
                         <xd:p>Approved all changes in beta 1 and beta 2 as-is except for the addition of IHE PCC MCV. The StrucDoc WG feels that this addition needs some more thought before a decision on re-adding it can be made.</xd:p>
@@ -1647,6 +1666,7 @@
                     <xsl:call-template name="show-code-set">
                         <xsl:with-param name="in" select="hl7:code"/>
                         <xsl:with-param name="sep" select="', '"/>
+                        <xsl:with-param name="textonly" select="'true'"/>
                     </xsl:call-template>
                 </xsl:attribute>
             </xsl:if>
@@ -3032,10 +3052,39 @@
         <xsl:text> (</xsl:text>
         <xsl:value-of select="normalize-space($documentEffectiveTime)"/>
         <xsl:if test="hl7:confidentialityCode[@code[not(. = 'N')]]">
+            <xsl:variable name="confidentialityText">
+                <xsl:for-each select="hl7:confidentialityCode">
+                    <xsl:choose>
+                        <xsl:when test="string-length(@displayName) = 0 and @codeSystem = '2.16.840.1.113883.5.25' and (@code = 'N' or @code = 'R' or @code = 'V')">
+                            <xsl:call-template name="getLocalizedString">
+                                <xsl:with-param name="key" select="concat(@codeSystem, '-', @code)"/>
+                            </xsl:call-template>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:call-template name="show-code-set">
+                                <xsl:with-param name="in" select="."/>
+                            </xsl:call-template>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:for-each>
+            </xsl:variable>
+            
             <xsl:text> </xsl:text>
-            <xsl:call-template name="show-code-set">
-                <xsl:with-param name="in" select="hl7:confidentialityCode"/>
-            </xsl:call-template>
+            <img style="width: 1.2em; height: 1.2em;">
+                <xsl:attribute name="src">
+                    <xsl:text>data:image/png;base64,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</xsl:text>
+                </xsl:attribute>
+                <xsl:attribute name="alt"/>
+                <xsl:attribute name="title">
+                    <xsl:call-template name="getLocalizedString">
+                        <xsl:with-param name="key" select="'confidentialityCode'"/>
+                        <xsl:with-param name="post" select="': '"/>
+                    </xsl:call-template>
+                    <xsl:value-of select="$confidentialityText"/>
+                </xsl:attribute>
+            </img>
+            <xsl:text> </xsl:text>
+            <xsl:value-of select="$confidentialityText"/>
         </xsl:if>
         <xsl:text>)</xsl:text>
     </xsl:template>
@@ -3815,6 +3864,9 @@
                                     <xsl:with-param name="in" select="hl7:time"/>
                                 </xsl:call-template>
                             </xsl:if>
+                            <xsl:call-template name="show-signatureText">
+                                <xsl:with-param name="in" select="*[local-name() = 'signatureText']"/>
+                            </xsl:call-template>
                         </td>
                         <xsl:if test="hl7:assignedEntity/hl7:addr | hl7:assignedEntity/hl7:telecom">
                             <td class="td_label td_label_width">
@@ -3870,6 +3922,9 @@
                                     <xsl:with-param name="in" select="hl7:time"/>
                                 </xsl:call-template>
                             </xsl:if>
+                            <xsl:call-template name="show-signatureText">
+                                <xsl:with-param name="in" select="*[local-name() = 'signatureText']"/>
+                            </xsl:call-template>
                         </td>
                         <xsl:if test="hl7:assignedEntity/hl7:addr | hl7:assignedEntity/hl7:telecom">
                             <td class="td_label td_label_width">
@@ -5526,10 +5581,12 @@
         </xd:desc>
         <xd:param name="in">Set of 0 to * elements</xd:param>
         <xd:param name="sep">Separator between output of different elements. Default ', ' and special is 'br' which generates an HTML br tag</xd:param>
+        <xd:param name="textonly">XSLT 1.0 will output a warning when you create an element inside an attribute/text node/processing instruction. To prevent that warning, we should just prevent creation of elements in that context. Set to 'true' if that's the case. Default is 'false'.</xd:param>
     </xd:doc>
     <xsl:template name="show-code-set">
         <xsl:param name="in"/>
         <xsl:param name="sep" select="', '"/>
+        <xsl:param name="textonly" select="'false'"/>
         <xsl:if test="$in">
             <xsl:choose>
                 <!-- DTr1 -->
@@ -5537,10 +5594,11 @@
                     <xsl:for-each select="$in">
                         <xsl:call-template name="show-code">
                             <xsl:with-param name="in" select="."/>
+                            <xsl:with-param name="textonly" select="$textonly"/>
                         </xsl:call-template>
                         <xsl:if test="position() != last()">
                             <xsl:choose>
-                                <xsl:when test="$sep = 'br'">
+                                <xsl:when test="$sep = 'br' and not($textonly = 'true')">
                                     <br/>
                                 </xsl:when>
                                 <xsl:otherwise>
@@ -5555,10 +5613,11 @@
                     <xsl:for-each select="$in/hl7:item">
                         <xsl:call-template name="show-code">
                             <xsl:with-param name="in" select="."/>
+                            <xsl:with-param name="textonly" select="$textonly"/>
                         </xsl:call-template>
                         <xsl:if test="position() != last()">
                             <xsl:choose>
-                                <xsl:when test="$sep = 'br'">
+                                <xsl:when test="$sep = 'br' and not($textonly = 'true')">
                                     <br/>
                                 </xsl:when>
                                 <xsl:otherwise>
@@ -5572,6 +5631,7 @@
                 <xsl:otherwise>
                     <xsl:call-template name="show-code">
                         <xsl:with-param name="in" select="$in"/>
+                        <xsl:with-param name="textonly" select="$textonly"/>
                     </xsl:call-template>
                 </xsl:otherwise>
             </xsl:choose>
@@ -5583,9 +5643,11 @@
             <xd:p>Show elements with datatype CD, CE, CV, CO</xd:p>
         </xd:desc>
         <xd:param name="in">One element, possibly out of a set</xd:param>
+        <xd:param name="textonly">XSLT 1.0 will output a warning when you create an element inside an attribute/text node/processing instruction. To prevent that warning, we should just prevent creation of elements in that context. Set to 'true' if that's the case. Default is 'false'.</xd:param>
     </xd:doc>
     <xsl:template name="show-code">
         <xsl:param name="in"/>
+        <xsl:param name="textonly" select="'false'"/>
         <xsl:if test="$in">
             <xsl:variable name="codeSystem">
                 <xsl:choose>
@@ -5647,15 +5709,29 @@
                 <xsl:value-of select="."/>
             </xsl:for-each>
             <xsl:for-each select="$in/*[local-name() = 'translation']">
-                <div style="margin-left: 2em;">
-                    <xsl:call-template name="getLocalizedString">
-                        <xsl:with-param name="key" select="local-name()"/>
-                        <xsl:with-param name="post" select="' '"/>
-                    </xsl:call-template>
-                    <xsl:call-template name="show-code-set">
-                        <xsl:with-param name="in" select="."/>
-                    </xsl:call-template>
-                </div>
+                <xsl:choose>
+                    <xsl:when test="$textonly = 'true'">
+                        <xsl:text>. </xsl:text>
+                        <xsl:call-template name="getLocalizedString">
+                            <xsl:with-param name="key" select="local-name()"/>
+                            <xsl:with-param name="post" select="': '"/>
+                        </xsl:call-template>
+                        <xsl:call-template name="show-code-set">
+                            <xsl:with-param name="in" select="."/>
+                        </xsl:call-template>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <div style="margin-left: 2em;">
+                            <xsl:call-template name="getLocalizedString">
+                                <xsl:with-param name="key" select="local-name()"/>
+                                <xsl:with-param name="post" select="': '"/>
+                            </xsl:call-template>
+                            <xsl:call-template name="show-code-set">
+                                <xsl:with-param name="in" select="."/>
+                            </xsl:call-template>
+                        </div>
+                    </xsl:otherwise>
+                </xsl:choose>
             </xsl:for-each>
         </xsl:if>
     </xsl:template>
@@ -6681,7 +6757,31 @@
             </xsl:call-template>
         </xsl:if>
     </xsl:template>
-
+    
+    <xd:doc>
+        <xd:desc>SDTC defines sdtc:signatureText including a digital signature. XSLT lacks tools to verify validity, but may signal its presence</xd:desc>
+        <xd:param name="in">sdtc:signatureText element</xd:param>
+    </xd:doc>
+    <xsl:template name="show-signatureText">
+        <xsl:param name="in"/>
+        <xsl:for-each select="$in[local-name() = 'signatureText'][string-length(.) > 0]">
+            <xsl:text> </xsl:text>
+            <img>
+                <xsl:attribute name="src">
+                    <xsl:text>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAAsTAAALEwEAmpwYAAACC2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS40LjAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyI+CiAgICAgICAgIDx0aWZmOlJlc29sdXRpb25Vbml0PjI8L3RpZmY6UmVzb2x1dGlvblVuaXQ+CiAgICAgICAgIDx0aWZmOkNvbXByZXNzaW9uPjE8L3RpZmY6Q29tcHJlc3Npb24+CiAgICAgICAgIDx0aWZmOk9yaWVudGF0aW9uPjE8L3RpZmY6T3JpZW50YXRpb24+CiAgICAgICAgIDx0aWZmOlBob3RvbWV0cmljSW50ZXJwcmV0YXRpb24+MjwvdGlmZjpQaG90b21ldHJpY0ludGVycHJldGF0aW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KD0UqkwAAApdJREFUOBGVVL9LslEUfszbD12yBmmRICmkbAiC0v9AQadAQdAaoiFoam5qaYmWCAKFGtqiRQQHpyJ1avMHBkFIQRItYj/Mbu9zPm7IR8P3Hbjvfb3nnOc+5zzn1Vav1/XR0RHe398xMDAArTX+x2w2m+QopbCxsQF1cnKCg4MDeDwePD8/CxaDaCb473dx9j3GxsbQbDYxPDwM9fn5KS7uQ0ND8m4ATY5hbS4wfp5zfX19YXR0VAgolknzer2YnJxEr9eTIJNkQH/bCcZS7+/vcXl5KSHKJIZCIaysrODj40N6SS9vNqzMxf3A9DscDlxcXAggYxQPadlsFtVqFU9PTxgZGRFgl8sFu90urF9fX38EMySYOzg4iLu7O8Fgdcr0p1aroVgs4vj4GNPT07i9vcX6+roE+nw+7O/vS9MZ3w/IywuFAm5ubqQyJRnW4+XlBVdXVxgfH8f19TWCwSBKpRKWl5eFcavVEkCKZ6oiOIVkrjHFkmgcHbfbjZmZGeNDpVLB4eEhNjc3kUql5Jy9np+fl5bwgCWzOpqIZOhzDqkWLRwOI5fLodFoYGpqSs7ImMxjsRgCgQDe3t4EwIiSz+f/lGzoU/atrS0kk0mcnp4iHo9jdnYW6XRaAAnOalZXV+V3/4Pi0Yhl297e1mdnZ3h4eBDp/X6/lEohKMzS0hIWFhbw+PgogJw7LiMmK+S4tNttJBIJKE44wWgcDZZ1fn6OSCQCczMV/BdzOp1Qa2tr4LdIFScmJlAul5HJZLC4uCjjs7OzI8CcsX4jMzNCLJXjE41GQbU0l9VkbSXpvb09bTVd7+7uamtEtMVa/Na/kf5tMZfn3W5Xlq3T6VgXaekDd44Kv2uKMDc39zPE/ex+ezdsvwFm7oHDCGA3ogAAAABJRU5ErkJggg==</xsl:text>
+                </xsl:attribute>
+                <xsl:attribute name="alt"/>
+                <xsl:attribute name="title">
+                    <xsl:call-template name="getLocalizedString">
+                        <xsl:with-param name="key" select="'Signature present but not verified'"/>
+                    </xsl:call-template>
+                    <xsl:text> </xsl:text>
+                    <xsl:value-of select="*[local-name() = 'thumbnail']"/>
+                </xsl:attribute>
+            </img>
+        </xsl:for-each>
+    </xsl:template>
+    
     <!-- ====================================================================== -->
     <!--                           Supporting functions                         -->
     <!-- ====================================================================== -->
