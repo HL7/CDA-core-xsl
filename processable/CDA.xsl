@@ -2,7 +2,7 @@
 <!--
   Title: CDA XSL StyleSheet
   Original Filename: cda.xsl 
-  Version: 3.1
+  Version: 3.1.1
   Revision History: 08/12/08 Jingdong Li updated
   Revision History: 12/11/09 KH updated 
   Revision History: 03/30/10 Jingdong Li updated.
@@ -18,6 +18,7 @@
   Revision History: 02/15/18 Alexander Henket. Fixed casing of "inFulfillmentOf" and added call to it under documentationOf (GForge#3169)
   Revision History: 02/15/18 Alexander Henket. Minor formatting fix to table/caption and ul captions. (GForge#3185)
   Revision History: 02/15/18 Alexander Henket. Render recordTarget regardless of nullFlavor in id. Updated rendering of ids with nullFlavors (GForge#3590)
+  Revision History: 05/14/18 Alexander Henket. Better use of variables (GForge#15683)
   Specification: ANSI/HL7 CDAR2
   The current version and documentation are available at http://www.lantanagroup.com/resources/tools/. 
   We welcome feedback and contributions to tools@lantanagroup.com
@@ -2443,8 +2444,9 @@
                     </xsl:when>
                 </xsl:choose>
             </xsl:variable>
-            <xsl:choose>
-                <!-- reference: http://www.timeanddate.com/library/abbreviations/timezones/na/ -->
+            <!-- Gforge #15684 Offset by itself is not indicative of timezone, -0500 might be EST it might also be CDT. -->
+            <!--<xsl:choose>
+                <!-\- reference: http://www.timeanddate.com/library/abbreviations/timezones/na/ -\->
                 <xsl:when test="$tzon = '-0500' ">
                     <xsl:text>, EST</xsl:text>
                 </xsl:when>
@@ -2461,21 +2463,23 @@
                     <xsl:text> </xsl:text>
                     <xsl:value-of select="$tzon"/>
                 </xsl:otherwise>
-            </xsl:choose>
+            </xsl:choose>-->
+            <xsl:text> </xsl:text>
+            <xsl:value-of select="$tzon"/>
         </xsl:if>
     </xsl:template>
     <!-- convert to lower case -->
     <xsl:template name="caseDown">
         <xsl:param name="data"/>
         <xsl:if test="$data">
-            <xsl:value-of select="translate($data, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')"/>
+            <xsl:value-of select="translate($data, $uc, $lc)"/>
         </xsl:if>
     </xsl:template>
     <!-- convert to upper case -->
     <xsl:template name="caseUp">
         <xsl:param name="data"/>
         <xsl:if test="$data">
-            <xsl:value-of select="translate($data,'abcdefghijklmnopqrstuvwxyz', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ')"/>
+            <xsl:value-of select="translate($data, $lc, $uc)"/>
         </xsl:if>
     </xsl:template>
     <!-- convert first character to upper case -->
