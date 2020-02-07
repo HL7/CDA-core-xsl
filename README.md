@@ -81,82 +81,82 @@ This is only relevant when certain vocabulary or a certain identifier OID is ina
 Make sure that you have en-US covered at the very least. Other languages as you see fit.
 ## Parameters
 The stylesheet supports many way to parametrize.
-- currentDate
+- `currentDate`
   - XSLT 1.0 does not have date function, so we need something to compare against e.g. to get someones age
   - Default: /hl7:ClinicalDocument/hl7:effectiveTime/@value
-- vocFile
+- `vocFile`
     - Vocabulary file containing language dependant strings such as labels
     - Default: cda_l10n.xml
-- textLangDefault
-  - Default language for retrieval of language dependant strings such as labels, e.g. 'en-US'. This is the fallback language in case the string is not available in the actual language. See also textLang.
+- `textLangDefault`
+  - Default language for retrieval of language dependant strings such as labels, e.g. 'en-US'. This is the fallback language in case the string is not available in the actual language. See also `textLang`.
   - Default: en-US
-- textLang
-  - Actual language for retrieval of language dependant strings such as labels, e.g. 'en-US'. Unless supplied, this is taken from the ClinicalDocument/language/@code attribute, or in case that is not present from textlangDefault.
+- `textLang`
+  - Actual language for retrieval of language dependant strings such as labels, e.g. 'en-US'. Unless supplied, this is taken from the ClinicalDocument/language/@code attribute, or in case that is not present from `textlangDefault`.
   - Default /hl7:ClinicalDocument/hl7:languageCode/@code or if missing the value of $textlangDefault
-- textEncoding
+- `textEncoding`
   - Currently unused. Unsupported by Internet Explorer. Text encoding to render the output in. Defaults to UTF-8 which is fine for most environments. Could change into more localized encodings such as cp-1252 (Windows Latin 1), iso-8859-1 (Latin 1), or shift-jis (Japanese Kanji table))
   - Default: utf-8
-- useJavascript
+- `useJavascript`
   - Boolean value for whether the result document may contain JavaScript. Some environments forbid the use of JavaScript. Without JavaScript, certain more dynamic features may not work.
   - Default: true
-- externalCss
+- `externalCss`
   - Absolute or relative URI to an external Cascading Stylesheet (CSS) file that contains style attributes for custom markup, e.g. in the @styleCode attribute in Section.text
   - Default: none
-- font-family
+- `font-family`
   - Determines the font family for the whole document unless overruled somewhere
   - Default: Verdana, Tahoma, sans-serif
-- font-size-main
+- `font-size-main`
   - Determines the font size for all text unless otherwise specified, and is the base value for other font sizes
   - Default: 9pt
-- font-size-h1
+- `font-size-h1`
   - Determines the font size for text in the h1 tag
   - Defaults to font-size-main + 3
-- font-size-h2
+- `font-size-h2`
   - Determines the font size for text in the h2 tag
   - Defaults to font-size-main + 2
-- font-size-h3
+- `font-size-h3`
   - Determines the font size for text in the h3 tag
   - Defaults to font-size-main + 1
-- font-size-h4
+- `font-size-h4`
   - Determines the font size for text in the h4 tag
   - Defaults to font-size-main
-- font-size-h5
+- `font-size-h5`
   - Determines the font size for text in the h5 tag
   - Defaults to font-size-main
-- font-size-h6
+- `font-size-h6`
   - Determines the font size for text in the h6 tag
   - Defaults to font-size-main
-- font-size-footnote
+- `font-size-footnote`
   - Determines the font size for text in footnotes
   - Defaults to font-size-main - 1
-- bgcolor-th
+- `bgcolor-th`
   - Determines the background-color, as any legal hex, rgb or named color, for header like table elements, e.g. th tags
   - Defaults to "LightGrey"
-- bgcolor-td
+- `bgcolor-td`
   - Determines the background-color, as any legal hex, rgb or named color, for body like table elements, e.g. td tags, defaults to "#f2f2f2".
   - Defaults to "#f2f2f2"
-- dohtmlheader
+- `dohtmlheader`
   - Determines if the document title and top level summary of header information (patient/guardian/author/encounter/documentationOf, inFulfillmentOf) should be rendered. Defaults to "true", any other value is interpreted as "do not render". Some systems may have a context around the rendering of the document that would make rendering the header superfluous. Note that the footer, which may be switched off separately contains everything that the header does and more.
   - Default: true
-- dohtmlfooter
+- `dohtmlfooter`
   - Determines if the document footer containing a listing of everything in the CDA Header should be rendered. Defaults to "true", any other value is interpreted as "do not render". Some systems may have a context around the rendering of the document that would make rendering the footer superfluous, or just want to concentrate on document contents.
   - Default: true
-- menu-depth
+- `menu-depth`
   - Determines depth of table of contents menu at the top of the document. Default is 1, which means just head section. Max is 3 which is head section + 2 levels (if any)
   - Default: 3
-- external-image-whitelist
-  - Security parameter. May contain a vertical bar separated list of URI prefixes, such as "http://www.example.com|https://www.example.com". See parameter limit-external-images for more detail.
+- `external-image-whitelist`
+  - Security parameter. May contain a vertical bar separated list of URI prefixes, such as "http://www.example.com|https://www.example.com". See parameter `limit-external-images` for more detail.
   - Default: none
-- limit-external-images
-  - Security parameter. When set to 'yes' limits the URIs to images (if any) to locally attached images and/or images that are on the external-image-whitelist. When set to anything other than 'yes' also allows for arbritrary external images (e.g. through http:// or https://). Default value is 'yes' which is considered defensive against potential security risks that could stem from resources loaded from arbitrary source.
+- `limit-external-images`
+  - Security parameter. When set to 'yes' limits the URIs to images (if any) to locally attached images and/or images that are on the `external-image-whitelist`. When set to anything other than 'yes' also allows for arbritrary external images (e.g. through http:// or https://). Default value is 'yes' which is considered defensive against potential security risks that could stem from resources loaded from arbitrary source.
   - Default: yes
-- mask-ids
-  - Privacy parameter. Accepts a comma separated list of patient ID root values (normally OID's). When a patient ID is encountered with a root value in this list, then the rendering of the extension will be xxx-xxx-xxx regardless of what the actual value is. This is useful to prevent public display of for example the US SSN. Default is to render any ID as it occurs in the document. Note that this setting only affects human rendering and that it does not affect automated processing of the underlying document. If the same value also occurs in the skip-ids list, then that takes precedence.
+- `mask-ids`
+  - Privacy parameter. Accepts a comma separated list of patient ID root values (normally OID's). When a patient ID is encountered with a root value in this list, then the rendering of the extension will be xxx-xxx-xxx regardless of what the actual value is. This is useful to prevent public display of for example the US SSN. Default is to render any ID as it occurs in the document. Note that this setting only affects human rendering and that it does not affect automated processing of the underlying document. If the same value also occurs in the `skip-ids` list, then that takes precedence.
   - Default: none
-- skip-ids
+- `skip-ids`
   - Privacy parameter. Accepts a comma separated list of patient ID root values (normally OID's). When a patient ID is encountered with a root value in this list, then the rendering of this ID will be skipped. This is useful to prevent public display of for example the US SSN. Default is to render any ID as it occurs in the document. Note that this setting only affects human rendering and that it does not affect automated processing of the underlying document.
   - Default: none
-- dosectionnumbering
+- `dosectionnumbering`
   - Determines if sections will receive numbering according to ClinicalDocument order. Value 'true' activates numbering. Top level sections are 1, 2, 3, 4, sub level sections are 1.1, 1.2, 1.2.1, 1.2.2 etc.
   - Default: false
 ## Acknowledgements
