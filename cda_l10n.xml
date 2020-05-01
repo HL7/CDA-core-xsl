@@ -774,10 +774,23 @@
         <value lang="it-ch">Generata</value>
         <value lang="nl-nl">Gemaakt op</value>
     </translation>
+    <translation key="Created">
+        <comment>Label: Created</comment>
+        <value lang="en-us">Created</value>
+        <value lang="de-ch">Erzeugt</value>
+        <value lang="fr-ch">Création</value>
+        <value lang="it-ch">Generata</value>
+        <value lang="nl-nl">Gemaakt</value>
+    </translation>
     <translation key="Authored_on">
         <comment>Label: Authored on</comment>
         <value lang="en-us">Authored On</value>
         <value lang="nl-nl">Gemaakt op</value>
+    </translation>
+    <translation key="Authored">
+        <comment>Label: Authored</comment>
+        <value lang="en-us">Authored</value>
+        <value lang="nl-nl">Gemaakt</value>
     </translation>
     <translation key="Exam_Date">
         <comment>Label: Exam Date</comment>
@@ -1036,6 +1049,10 @@
         <value lang="nl-nl">Verwijzing</value>
     </translation>
     <translation key="Status">
+        <comment>Status</comment>
+        <value lang="en-us">Status</value>
+    </translation>
+    <translation key="Time">
         <comment>Dates: Time</comment>
         <value lang="en-us">Time</value>
         <value lang="de-ch">Zeit</value>
@@ -1052,6 +1069,12 @@
         <value lang="en-us">From</value>
         <value lang="de-ch">Von</value>
         <value lang="nl-nl">Van</value>
+    </translation>
+    <translation key="FromNoTo">
+        <comment>Dates: From (as in from without to)</comment>
+        <value lang="en-us">From</value>
+        <value lang="de-ch">Von</value>
+        <value lang="nl-nl">Vanaf</value>
     </translation>
     <translation key="to">
         <comment>Dates: to (as in from/to)</comment>
@@ -1167,6 +1190,11 @@
         <comment>Label: Referring Organization</comment>
         <value lang="en-us">Referring Organization</value>
         <value lang="nl-nl">Verwijzende organisatie</value>
+    </translation>
+    <translation key="Service Provider">
+        <comment>Label: Service Provider</comment>
+        <value lang="en-us">Service Provider</value>
+        <value lang="nl-nl">Zorgaanbieder</value>
     </translation>
     <translation key="Document_ID">
         <comment>Label: Document ID</comment>
@@ -2005,6 +2033,11 @@
         <value lang="de-ch">unbekannt</value>
         <value lang="nl-nl">onbekend</value>
     </translation>
+    <translation key="nullFlavor_NP">
+        <comment>Label: NullFlavor NP</comment>
+        <value lang="en-us">not present</value>
+        <value lang="nl-nl">niet aanwezig</value>
+    </translation>
     <translation key="statusCode-active">
         <comment>Label: Status active</comment>
         <value lang="en-us">Active</value>
@@ -2666,7 +2699,7 @@
     <translation key="2.16.840.1.113883.5.110-SUBSCR">
         <comment>Label: RoleClass subscriber</comment>
         <value lang="en-us">subscriber</value>
-        <value lang="nl-nl">abonnmenthouder</value>
+        <value lang="nl-nl">abonnee</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-PROG">
         <comment>Label: RoleClass program eligible</comment>
@@ -7851,5 +7884,1762 @@
         <comment>Label: Collapse section</comment>
         <value lang="en-us">Collapse</value>
         <value lang="nl-nl">Invouwen</value>
+    </translation>
+    <translation key="untitled_doc">
+        <comment>Label: when a document has no name</comment>
+        <value lang="en-us">Untitled Document</value>
+        <value lang="nl-nl">Naamloos document</value>
+    </translation>
+    <translation key="no_human_display">
+        <comment>Label: when a document has no human readable text</comment>
+        <value lang="en-us">No human-readable content available</value>
+        <value lang="nl-nl">Geen voor-mensen-leesbare content beschikbaar</value>
+    </translation>
+    <translation key="subject-heading">
+        <comment>Label: starting point for subject details</comment>
+        <value lang="en-us">Subject Details</value>
+        <value lang="nl-nl">Patiëntgegevens</value>
+    </translation>
+    <translation key="author-heading">
+        <comment>Label: starting point for author details</comment>
+        <value lang="en-us">Author Details</value>
+        <value lang="nl-nl">Auteurgegevens</value>
+    </translation>
+    <translation key="encounter-heading">
+        <comment>Label: starting point for encounter details</comment>
+        <value lang="en-us">Encounter Details</value>
+        <value lang="nl-nl">Bezoekgegevens</value>
+    </translation>
+    <translation key="untitled-section">
+        <comment>Label: starting point for untitled section</comment>
+        <value lang="en-us">Untitled Section</value>
+        <value lang="nl-nl">Naamloze sectie</value>
+    </translation>
+    <translation key="err-fhir-1">
+        <comment>Error message: Source document must be a bundle</comment>
+        <value lang="en-us">Source document must be a bundle</value>
+        <value lang="nl-nl">Brondocument moet een bundle zijn</value>
+    </translation>
+    <translation key="err-fhir-2">
+        <comment>Error message: Bundle must start with a Composition resource</comment>
+        <value lang="en-us">Bundle must start with a Composition resource</value>
+        <value lang="nl-nl">Bundle moet beginnen met een Composition resource</value>
+    </translation>
+    <translation key="err-fhir-3">
+        <comment>Error message: Warning: Bundle type does not indicate it is a document.</comment>
+        <value lang="en-us">Warning: Bundle type does not indicate it is a document.</value>
+        <value lang="nl-nl">Waarschuwing: Bundle type zegt niet dat dit een document is.</value>
+    </translation>
+    <translation key="err-fhir-4">
+        <comment>Error message: Error: The document composition includes a reference to a resource not contained inside the document bundle:</comment>
+        <value lang="en-us">Error: The document composition includes a reference to a resource not contained inside the document bundle: </value>
+        <value lang="nl-nl">Fout: Er is een verwijzing in de document Composition naar een resource die ontbreekt in de Bundle: </value>
+    </translation>
+    <translation key="err-fhir-5">
+        <comment>Error message: Error: A referenced resource is not contained and is not fully qualified:</comment>
+        <value lang="en-us">Error: A referenced resource is not contained and is not fully qualified: </value>
+        <value lang="nl-nl">Fout: Er is een verwijzing naar een resource die ontbreekt en waarvan de verwijzing niet volledig is: </value>
+    </translation>
+    <translation key="err-fhir-6">
+        <comment>Error message: Warning: Headings exceed 6 levels deep. Remaining headings converted to simple paragraphs</comment>
+        <value lang="en-us">Warning: Headings exceed 6 levels deep. Remaining headings converted to simple paragraphs</value>
+        <value lang="nl-nl">Waarschuwing: Kopniveau's gaan dieper dan 6. De overgebleven kopniveau's worden omgezet naar normale paragrafen</value>
+    </translation>
+    <translation key="err-fhir-7">
+        <comment>Error message: Source document must be a composition</comment>
+        <value lang="en-us">Source document must be a composition</value>
+        <value lang="nl-nl">Brondocument moet een composition zijn</value>
+    </translation>
+    <translation key="ucum-s">
+        <comment>UCUM code s</comment>
+        <value lang="en-us">second</value>
+        <value lang="nl-nl">seconde</value>
+    </translation>
+    <translation key="ucum-min">
+        <comment>UCUM code min</comment>
+        <value lang="en-us">minute</value>
+        <value lang="nl-nl">minuut</value>
+    </translation>
+    <translation key="ucum-h">
+        <comment>UCUM code h</comment>
+        <value lang="en-us">hour</value>
+        <value lang="nl-nl">uur</value>
+    </translation>
+    <translation key="ucum-d">
+        <comment>UCUM code d</comment>
+        <value lang="en-us">day</value>
+        <value lang="nl-nl">dag</value>
+    </translation>
+    <translation key="ucum-wk">
+        <comment>UCUM code wk</comment>
+        <value lang="en-us">week</value>
+        <value lang="nl-nl">week</value>
+    </translation>
+    <translation key="ucum-mo">
+        <comment>UCUM code mo</comment>
+        <value lang="en-us">month</value>
+        <value lang="nl-nl">maand</value>
+    </translation>
+    <translation key="ucum-a">
+        <comment>UCUM code a</comment>
+        <value lang="en-us">year</value>
+        <value lang="nl-nl">jaar</value>
+    </translation>
+    <translation key="ucums-s">
+        <comment>seconds</comment>
+        <value lang="en-us">seconds</value>
+        <value lang="nl-nl">seconden</value>
+    </translation>
+    <translation key="ucums-min">
+        <comment>UCUM code min</comment>
+        <value lang="en-us">minutes</value>
+        <value lang="nl-nl">minuten</value>
+    </translation>
+    <translation key="ucums-h">
+        <comment>UCUM code h</comment>
+        <value lang="en-us">hours</value>
+        <value lang="nl-nl">uren</value>
+    </translation>
+    <translation key="ucums-d">
+        <comment>UCUM code d</comment>
+        <value lang="en-us">days</value>
+        <value lang="nl-nl">dagen</value>
+    </translation>
+    <translation key="ucums-wk">
+        <comment>UCUM code wk</comment>
+        <value lang="en-us">weeks</value>
+        <value lang="nl-nl">weken</value>
+    </translation>
+    <translation key="ucums-mo">
+        <comment>UCUM code mo</comment>
+        <value lang="en-us">months</value>
+        <value lang="nl-nl">maanden</value>
+    </translation>
+    <translation key="ucums-a">
+        <comment>UCUM code a</comment>
+        <value lang="en-us">year</value>
+        <value lang="nl-nl">jaar</value>
+    </translation>
+    <translation key="eventtiming-HS">
+        <comment>EventTiming code HS</comment>
+        <value lang="en-us">before (trying to) sleep</value>
+        <value lang="nl-nl">voor het (proberen te) slapen</value>
+    </translation>
+    <translation key="eventtiming-WAKE">
+        <comment>EventTiming code WAKE</comment>
+        <value lang="en-us">after waking</value>
+        <value lang="nl-nl">na ontwaken</value>
+    </translation>
+    <translation key="eventtiming-C">
+        <comment>EventTiming code C</comment>
+        <value lang="en-us">at a meal</value>
+        <value lang="nl-nl">bij de maaltijd</value>
+    </translation>
+    <translation key="eventtiming-CM">
+        <comment>EventTiming code CM</comment>
+        <value lang="en-us">at breakfast</value>
+        <value lang="nl-nl">bij het ontbijt</value>
+    </translation>
+    <translation key="eventtiming-CD">
+        <comment>EventTiming code CD</comment>
+        <value lang="en-us">at lunch</value>
+        <value lang="nl-nl">bij de lunch</value>
+    </translation>
+    <translation key="eventtiming-CV">
+        <comment>EventTiming code CV</comment>
+        <value lang="en-us">at dinner</value>
+        <value lang="nl-nl">bij het avondeten</value>
+    </translation>
+    <translation key="eventtiming-AC">
+        <comment>EventTiming code AC</comment>
+        <value lang="en-us">before a meal</value>
+        <value lang="nl-nl">voor de maaltijd</value>
+    </translation>
+    <translation key="eventtiming-ACM">
+        <comment>EventTiming code ACM</comment>
+        <value lang="en-us">before breakfast</value>
+        <value lang="nl-nl">voor het ontbijt</value>
+    </translation>
+    <translation key="eventtiming-ACD">
+        <comment>EventTiming code ACD</comment>
+        <value lang="en-us">before lunch</value>
+        <value lang="nl-nl">voor de lunch</value>
+    </translation>
+    <translation key="eventtiming-ACV">
+        <comment>EventTiming code ACV</comment>
+        <value lang="en-us">before dinner</value>
+        <value lang="nl-nl">voor het avondeten</value>
+    </translation>
+    <translation key="eventtiming-PC">
+        <comment>EventTiming code PC</comment>
+        <value lang="en-us">after a meal</value>
+        <value lang="nl-nl">na de maaltijd</value>
+    </translation>
+    <translation key="eventtiming-PCM">
+        <comment>EventTiming code PCM</comment>
+        <value lang="en-us">after breakfast</value>
+        <value lang="nl-nl">na het ontbijt</value>
+    </translation>
+    <translation key="eventtiming-PCD">
+        <comment>EventTiming code PCD</comment>
+        <value lang="en-us">after lunch</value>
+        <value lang="nl-nl">na de lunch</value>
+    </translation>
+    <translation key="eventtiming-PCV">
+        <comment>EventTiming code PCV</comment>
+        <value lang="en-us">after dinner</value>
+        <value lang="nl-nl">na het avondeten</value>
+    </translation>
+    <translation key="status-draft">
+        <comment>Status code draft</comment>
+        <value lang="en-us">draft</value>
+        <value lang="nl-nl">concept</value>
+    </translation>
+    <translation key="status-active">
+        <comment>Status code active</comment>
+        <value lang="en-us">active</value>
+        <value lang="nl-nl">actief</value>
+    </translation>
+    <translation key="status-suspended">
+        <comment>Status code suspended</comment>
+        <value lang="en-us">suspended</value>
+        <value lang="nl-nl">uitgesteld</value>
+    </translation>
+    <translation key="status-completed">
+        <comment>Status code completed</comment>
+        <value lang="en-us">completed</value>
+        <value lang="nl-nl">voltooid</value>
+    </translation>
+    <translation key="status-entered-in-error">
+        <comment>Status code entered-in-error</comment>
+        <value lang="en-us">entered-in-error</value>
+        <value lang="nl-nl">foutieve invoer</value>
+    </translation>
+    <translation key="status-cancelled">
+        <comment>Status code cancelled</comment>
+        <value lang="en-us">cancelled</value>
+        <value lang="nl-nl">geannuleerd</value>
+    </translation>
+    <translation key="status-unknown">
+        <comment>Status code unknown</comment>
+        <value lang="en-us">unknown</value>
+        <value lang="nl-nl">onbekend</value>
+    </translation>
+    <translation key="status-inactive">
+        <comment>Status code inactive</comment>
+        <value lang="en-us">inactive</value>
+        <value lang="nl-nl">inactief</value>
+    </translation>
+    <translation key="status-resolved">
+        <comment>Status code resolved</comment>
+        <value lang="en-us">resolved</value>
+        <value lang="nl-nl">opgelost</value>
+    </translation>
+    <translation key="status-unconfirmed">
+        <comment>Status code unconfirmed</comment>
+        <value lang="en-us">unconfirmed</value>
+        <value lang="nl-nl">niet bevestigd</value>
+    </translation>
+    <translation key="status-confirmed">
+        <comment>Status code confirmed</comment>
+        <value lang="en-us">confirmed</value>
+        <value lang="nl-nl">bevestigd</value>
+    </translation>
+    <translation key="status-refuted">
+        <comment>Status code refuted</comment>
+        <value lang="en-us">refuted</value>
+        <value lang="nl-nl">weerlegd</value>
+    </translation>
+    <translation key="status-recurrence">
+        <comment>Status code recurrence</comment>
+        <value lang="en-us">recurrence</value>
+        <value lang="nl-nl">teruggekeerd</value>
+    </translation>
+    <translation key="status-remission">
+        <comment>Status code remission</comment>
+        <value lang="en-us">remission</value>
+        <value lang="nl-nl">remissie</value>
+    </translation>
+    <translation key="status-provisional">
+        <comment>Status code provisional</comment>
+        <value lang="en-us">provisional</value>
+        <value lang="nl-nl">voorlopig</value>
+    </translation>
+    <translation key="status-differential">
+        <comment>Status code differential</comment>
+        <value lang="en-us">differential</value>
+        <value lang="nl-nl">differentiaal</value>
+    </translation>
+    <translation key="status-proposed">
+        <comment>Status code proposed</comment>
+        <value lang="en-us">proposed</value>
+        <value lang="nl-nl">voorgesteld</value>
+    </translation>
+    <translation key="status-pending">
+        <comment>Status code pending</comment>
+        <value lang="en-us">pending</value>
+        <value lang="nl-nl">in behandeling</value>
+    </translation>
+    <translation key="status-booked">
+        <comment>Status code booked</comment>
+        <value lang="en-us">booked</value>
+        <value lang="nl-nl">geboekt</value>
+    </translation>
+    <translation key="status-arrived">
+        <comment>Status code arrived</comment>
+        <value lang="en-us">arrived</value>
+        <value lang="nl-nl">gearriveerd</value>
+    </translation>
+    <translation key="status-fulfilled">
+        <comment>Status code fulfilled</comment>
+        <value lang="en-us">fulfilled</value>
+        <value lang="nl-nl">voltooid</value>
+    </translation>
+    <translation key="status-noshow">
+        <comment>Status code noshow</comment>
+        <value lang="en-us">noshow</value>
+        <value lang="nl-nl">noshow</value>
+    </translation>
+    <translation key="status-busy">
+        <comment>Status code busy</comment>
+        <value lang="en-us">busy</value>
+        <value lang="nl-nl">bezet</value>
+    </translation>
+    <translation key="status-free">
+        <comment>Status code free</comment>
+        <value lang="en-us">free</value>
+        <value lang="nl-nl">vrij</value>
+    </translation>
+    <translation key="status-busy-unavailable">
+        <comment>Status code busy-unavailable</comment>
+        <value lang="en-us">busy unavailable</value>
+        <value lang="nl-nl">niet beschikbaar</value>
+    </translation>
+    <translation key="status-busy-tentative">
+        <comment>Status code busy-tentative</comment>
+        <value lang="en-us">busy tentative</value>
+        <value lang="nl-nl">mogelijk bezet</value>
+    </translation>
+    <translation key="status-not-started">
+        <comment>Status code not-started</comment>
+        <value lang="en-us">not started</value>
+        <value lang="nl-nl">nog niet begonnen</value>
+    </translation>
+    <translation key="status-scheduled">
+        <comment>Status code scheduled</comment>
+        <value lang="en-us">scheduled</value>
+        <value lang="nl-nl">gepland</value>
+    </translation>
+    <translation key="status-in-progress">
+        <comment>Status code in-progress</comment>
+        <value lang="en-us">in progress</value>
+        <value lang="nl-nl">is bezig</value>
+    </translation>
+    <translation key="status-on-hold">
+        <comment>Status code on-hold</comment>
+        <value lang="en-us">on hold</value>
+        <value lang="nl-nl">in de wacht</value>
+    </translation>
+    <translation key="status-onhold">
+        <comment>Status code onhold</comment>
+        <value lang="en-us">on hold</value>
+        <value lang="nl-nl">in de wacht</value>
+    </translation>
+    <translation key="status-rejected">
+        <comment>Status code rejected</comment>
+        <value lang="en-us">rejected</value>
+        <value lang="nl-nl">geweigerd</value>
+    </translation>
+    <translation key="status-intended">
+        <comment>Status code intended</comment>
+        <value lang="en-us">intended</value>
+        <value lang="nl-nl">bedoeld</value>
+    </translation>
+    <translation key="status-stopped">
+        <comment>Status code stopped</comment>
+        <value lang="en-us">stopped</value>
+        <value lang="nl-nl">gestopt</value>
+    </translation>
+    <translation key="status-finished">
+        <comment>Status code finished</comment>
+        <value lang="en-us">finished</value>
+        <value lang="nl-nl">voltooid</value>
+    </translation>
+    <translation key="status-planned">
+        <comment>Status code planned</comment>
+        <value lang="en-us">planned</value>
+        <value lang="nl-nl">gepland</value>
+    </translation>
+    <translation key="status-available">
+        <comment>Status code available</comment>
+        <value lang="en-us">available</value>
+        <value lang="nl-nl">beschikbaar</value>
+    </translation>
+    <translation key="status-unavailable">
+        <comment>Status code unavailable</comment>
+        <value lang="en-us">unavailable</value>
+        <value lang="nl-nl">niet beschikbaar</value>
+    </translation>
+    <translation key="status-unsatisfactory">
+        <comment>Status code unsatisfactory</comment>
+        <value lang="en-us">unsatisfactory</value>
+        <value lang="nl-nl">onvoldoende</value>
+    </translation>
+    <translation key="status-final">
+        <comment>Status code final</comment>
+        <value lang="en-us">final</value>
+        <value lang="nl-nl">definitief</value>
+    </translation>
+    <translation key="status-aborted">
+        <comment>Status code aborted</comment>
+        <value lang="en-us">aborted</value>
+        <value lang="nl-nl">afgebroken</value>
+    </translation>
+    <translation key="status-preparation">
+        <comment>Status code preparation</comment>
+        <value lang="en-us">preparation</value>
+        <value lang="nl-nl">in voorbereiding</value>
+    </translation>
+    <translation key="status-amended">
+        <comment>Status code amended</comment>
+        <value lang="en-us">amended</value>
+        <value lang="nl-nl">aangevuld</value>
+    </translation>
+    <translation key="status-corrected">
+        <comment>Status code corrected</comment>
+        <value lang="en-us">corrected</value>
+        <value lang="nl-nl">gecorrigeerd</value>
+    </translation>
+    <translation key="status-current">
+        <comment>Status code current</comment>
+        <value lang="en-us">current</value>
+        <value lang="nl-nl">actueel</value>
+    </translation>
+    <translation key="status-registered">
+        <comment>Status code registered</comment>
+        <value lang="en-us">registered</value>
+        <value lang="nl-nl">geregistreerd</value>
+    </translation>
+    <translation key="status-preliminary">
+        <comment>Status code preliminary</comment>
+        <value lang="en-us">preliminary</value>
+        <value lang="nl-nl">voorlopig</value>
+    </translation>
+    <translation key="status-retired">
+        <comment>Status code retired</comment>
+        <value lang="en-us">retired</value>
+        <value lang="nl-nl">niet meer in gebruik</value>
+    </translation>
+    <translation key="status-requested">
+        <comment>Status code requested</comment>
+        <value lang="en-us">requested</value>
+        <value lang="nl-nl">aangevraagd</value>
+    </translation>
+    <translation key="status-accepted">
+        <comment>Status code accepted</comment>
+        <value lang="en-us">accepted</value>
+        <value lang="nl-nl">geaccepteerd</value>
+    </translation>
+    <translation key="status-on-target">
+        <comment>Status code on-target</comment>
+        <value lang="en-us">on target</value>
+        <value lang="nl-nl">op schema</value>
+    </translation>
+    <translation key="status-ahead-of-target">
+        <comment>Status code ahead-of-target</comment>
+        <value lang="en-us">ahead of target</value>
+        <value lang="nl-nl">voor op schema</value>
+    </translation>
+    <translation key="status-behind-target">
+        <comment>Status code behind-target</comment>
+        <value lang="en-us">behind target</value>
+        <value lang="nl-nl">achter op schema</value>
+    </translation>
+    <translation key="status-sustaining">
+        <comment>Status code sustaining</comment>
+        <value lang="en-us">sustaining</value>
+        <value lang="nl-nl">doel gehaald, actie blijft nodig</value>
+    </translation>
+    <translation key="status-achieved">
+        <comment>Status code achieved</comment>
+        <value lang="en-us">achieved</value>
+        <value lang="nl-nl">doel gehaald</value>
+    </translation>
+    <translation key="status-failed">
+        <comment>Status code failed</comment>
+        <value lang="en-us">failed</value>
+        <value lang="nl-nl">mislukt</value>
+    </translation>
+    <translation key="status-ready">
+        <comment>Status code ready</comment>
+        <value lang="en-us">ready</value>
+        <value lang="nl-nl">gereed</value>
+    </translation>
+    <translation key="status-waitlist">
+        <comment>Status code waitlist</comment>
+        <value lang="en-us">waitlist</value>
+        <value lang="nl-nl">wachtlijst</value>
+    </translation>
+    <translation key="intent-proposal">
+        <comment>Status code proposal</comment>
+        <value lang="en-us">proposal</value>
+        <value lang="nl-nl">voorstel</value>
+    </translation>
+    <translation key="intent-plan">
+        <comment>Status code plan</comment>
+        <value lang="en-us">plan</value>
+    </translation>
+    <translation key="intent-order">
+        <comment>Status code order</comment>
+        <value lang="en-us">order</value>
+        <value lang="nl-nl">aanvraag</value>
+    </translation>
+    <translation key="intent-original-order">
+        <comment>Status code original-order</comment>
+        <value lang="en-us">original order</value>
+        <value lang="nl-nl">oorspronkelijke aanvraag</value>
+    </translation>
+    <translation key="intent-reflex-order">
+        <comment>Status code reflex-order</comment>
+        <value lang="en-us">reflex order</value>
+        <value lang="nl-nl">aanvullende aanvraag</value>
+    </translation>
+    <translation key="intent-filler-order">
+        <comment>Status code filler-order</comment>
+        <value lang="en-us">filler order</value>
+        <value lang="nl-nl">aanvraag (uitvoerende)</value>
+    </translation>
+    <translation key="intent-instance-order">
+        <comment>Status code instance-order</comment>
+        <value lang="en-us">instance order</value>
+        <value lang="nl-nl">deelaanvraag</value>
+    </translation>
+    <translation key="intent-option">
+        <comment>Status code option</comment>
+        <value lang="en-us">option</value>
+        <value lang="nl-nl">optie</value>
+    </translation>
+    <translation key="listmode-working">
+        <comment>List mode code working</comment>
+        <value lang="en-us">Working List</value>
+        <value lang="nl-nl">Werklijst</value>
+    </translation>
+    <translation key="listmode-snapshot">
+        <comment>List mode code snapshot</comment>
+        <value lang="en-us">Snapshot List</value>
+        <value lang="nl-nl">Snapshot-kopie</value>
+    </translation>
+    <translation key="listmode-changes">
+        <comment>List mode code changes</comment>
+        <value lang="en-us">Changes List</value>
+        <value lang="nl-nl">Lijst van wijzigingen</value>
+    </translation>
+    <translation key="requestpriority-routine">
+        <comment>Request priority code routine</comment>
+        <value lang="en-us">routine</value>
+    </translation>
+    <translation key="requestpriority-urgent">
+        <comment>Request priority code urgent</comment>
+        <value lang="en-us">urgent</value>
+    </translation>
+    <translation key="requestpriority-asap">
+        <comment>Request priority code asap</comment>
+        <value lang="en-us">asap</value>
+    </translation>
+    <translation key="requestpriority-stat">
+        <comment>Request priority code stat</comment>
+        <value lang="en-us">stat</value>
+    </translation>
+    <translation key="Activity">
+        <comment>Activity</comment>
+        <value lang="en-us">Activity</value>
+        <value lang="nl-nl">Activiteit</value>
+    </translation>
+    <translation key="Consenting Party">
+        <comment>Consenting Party</comment>
+        <value lang="en-us">Consenting Party</value>
+        <value lang="nl-nl">Toestemminggevende partij</value>
+    </translation>
+    <translation key="Method">
+        <comment>Method</comment>
+        <value lang="en-us">Method</value>
+        <value lang="nl-nl">Methode</value>
+    </translation>
+    <translation key="Dose Status">
+        <comment>Dose Status</comment>
+        <value lang="en-us">Dose Status</value>
+        <value lang="nl-nl">Doseerstatus</value>
+    </translation>
+    <translation key="Dose Status Reason">
+        <comment>Dose Status Reason</comment>
+        <value lang="en-us">Dose Status Reason</value>
+        <value lang="nl-nl">Reden doseerstatus</value>
+    </translation>
+    <translation key="Sequence">
+        <comment>Sequence</comment>
+        <value lang="en-us">Sequence</value>
+        <value lang="nl-nl">Volgnummer</value>
+    </translation>
+    <translation key="Practitioner">
+        <comment>Practitioner</comment>
+        <value lang="en-us">Practitioner</value>
+        <value lang="nl-nl">Zorgverlener</value>
+    </translation>
+    <translation key="PractitionerRole">
+        <comment>PractitionerRole</comment>
+        <value lang="en-us">Practitioner Role</value>
+        <value lang="nl-nl">Zorgverlenerrol</value>
+    </translation>
+    <translation key="Task">
+        <comment>Task</comment>
+        <value lang="en-us">Task</value>
+        <value lang="nl-nl">Taak</value>
+    </translation>
+    <translation key="Ordered By">
+        <comment>Ordered By</comment>
+        <value lang="en-us">Ordered By</value>
+        <value lang="nl-nl">Aangevraagd door</value>
+    </translation>
+    <translation key="Preferred Pharmacy">
+        <comment>Preferred Pharmacy</comment>
+        <value lang="en-us">Preferred Pharmacy</value>
+        <value lang="nl-nl">Voorkeursapotheek</value>
+    </translation>
+    <translation key="Operator">
+        <comment>Operator</comment>
+        <value lang="en-us">Operator</value>
+    </translation>
+    <translation key="Related">
+        <comment>As in Related Observation</comment>
+        <value lang="en-us">Related</value>
+        <value lang="nl-nl">Gerelateerd</value>
+    </translation>
+    <translation key="Based On">
+        <comment>As in Based On</comment>
+        <value lang="en-us">Based On</value>
+        <value lang="nl-nl">Gebaseerd op</value>
+    </translation>
+    <translation key="Derived From">
+        <comment>As in Derived From</comment>
+        <value lang="en-us">Derived From</value>
+        <value lang="nl-nl">Afgeleid van</value>
+    </translation>
+    <translation key="Business Status">
+        <comment>As in Business Status</comment>
+        <value lang="en-us">Business Status</value>
+        <value lang="nl-nl">Processtatus</value>
+    </translation>
+    <translation key="Capacity">
+        <comment>As in Capacity</comment>
+        <value lang="en-us">Capacity</value>
+        <value lang="nl-nl">Capaciteit</value>
+    </translation>
+    <translation key="Group ID">
+        <comment>As in Group ID</comment>
+        <value lang="en-us">Group ID</value>
+        <value lang="nl-nl">Id groep</value>
+    </translation>
+    <translation key="Effective Time">
+        <comment>Effective Time</comment>
+        <value lang="en-us">Effective Time</value>
+        <value lang="nl-nl">Bepalingdatum/tijd</value>
+    </translation>
+    <translation key="Enteral Formula">
+        <comment>Enteral Formula</comment>
+        <value lang="en-us">Enteral Formula</value>
+        <value lang="nl-nl">Sondeformule</value>
+    </translation>
+    <translation key="Enteral Nutrition">
+        <comment>Enteral Nutrition</comment>
+        <value lang="en-us">Enteral Nutrition</value>
+        <value lang="nl-nl">Sondevoeding</value>
+    </translation>
+    <translation key="Feeding Tube Length">
+        <comment>Feeding Tube Length</comment>
+        <value lang="en-us">Feeding Tube Length</value>
+        <value lang="nl-nl">Sondelengte</value>
+    </translation>
+    <translation key="Administered">
+        <comment>Administered</comment>
+        <value lang="en-us">Administered</value>
+        <value lang="nl-nl">Toegediend</value>
+    </translation>
+    <translation key="Container">
+        <comment>Container</comment>
+        <value lang="en-us">Container</value>
+    </translation>
+    <translation key="Endpoint">
+        <comment>Endpoint</comment>
+        <value lang="en-us">Endpoint</value>
+    </translation>
+    <translation key="Consent Period">
+        <comment>Period that this consent applies</comment>
+        <value lang="en-us">Consent Period</value>
+        <value lang="nl-nl">Geldigheidsperiode</value>
+    </translation>
+    <translation key="Repetitions">
+        <comment>Repetitions</comment>
+        <value lang="en-us">Repetitions</value>
+        <value lang="nl-nl">Herhalingen</value>
+    </translation>
+    <translation key="Requested Performer">
+        <comment>Requested Performer</comment>
+        <value lang="en-us">Requested Performer</value>
+        <value lang="nl-nl">Beoogde uitvoerende</value>
+    </translation>
+    <translation key="Requested Performer Type">
+        <comment>Requested Performer Type</comment>
+        <value lang="en-us">Requested Performer Type</value>
+        <value lang="nl-nl">Beoogd type uitvoerende</value>
+    </translation>
+    <translation key="Requester">
+        <comment>Requester</comment>
+        <value lang="en-us">Requester</value>
+        <value lang="nl-nl">Aanvrager</value>
+    </translation>
+    <translation key="Relevant History">
+        <comment>Relevant History</comment>
+        <value lang="en-us">Relevant History</value>
+        <value lang="nl-nl">Relevante historie</value>
+    </translation>
+    <translation key="Input">
+        <comment>Input</comment>
+        <value lang="en-us">Input</value>
+    </translation>
+    <translation key="Output">
+        <comment>Output</comment>
+        <value lang="en-us">Output</value>
+    </translation>
+    <translation key="Responsible Owner">
+        <comment>Responsible Owner</comment>
+        <value lang="en-us">Responsible Owner</value>
+        <value lang="nl-nl">Verantwoordelijk eigenaar</value>
+    </translation>
+    <translation key="Instruction">
+        <comment>Instruction</comment>
+        <value lang="en-us">Instruction</value>
+        <value lang="nl-nl">Instructie</value>
+    </translation>
+    <translation key="Interpretation">
+        <comment>Interpretation</comment>
+        <value lang="en-us">Interpretation</value>
+        <value lang="nl-nl">Interpretatie</value>
+    </translation>
+    <translation key="on behalf of">
+        <comment>Practitioner(Role) on behalf of Organization</comment>
+        <value lang="en-us">on behalf of</value>
+        <value lang="nl-nl">uit naam van</value>
+    </translation>
+    <translation key="Healthcare Service">
+        <comment>Healthcare Service</comment>
+        <value lang="en-us">Healthcare Service</value>
+        <value lang="nl-nl">Type zorgservice</value>
+    </translation>
+    <translation key="Reported By Performer">
+        <comment>Reported By Performer</comment>
+        <value lang="en-us">Reported By Performer</value>
+        <value lang="nl-nl">Gemeld door uitvoerende</value>
+    </translation>
+    <translation key="Reference Range">
+        <comment>Reference Range</comment>
+        <value lang="en-us">Reference Range</value>
+        <value lang="nl-nl">Referentiewaarden</value>
+    </translation>
+    <translation key="Immunization">
+        <comment>Immunization</comment>
+        <value lang="en-us">Immunization</value>
+        <value lang="nl-nl">Vaccinatie</value>
+    </translation>
+    <translation key="ImmunizationRecommendation">
+        <comment>ImmunizationRecommendation</comment>
+        <value lang="en-us">ImmunizationRecommendation</value>
+        <value lang="nl-nl">Vaccinatieschema</value>
+    </translation>
+    <translation key="Supporting Immunization">
+        <comment>Supporting Immunization</comment>
+        <value lang="en-us">Supporting Immunization</value>
+        <value lang="nl-nl">Eerdere vaccinatie</value>
+    </translation>
+    <translation key="Supporting Information">
+        <comment>Supporting Information</comment>
+        <value lang="en-us">Supporting Information</value>
+        <value lang="nl-nl">Ondersteunende informatie</value>
+    </translation>
+    <translation key="Occurrence">
+        <comment>Occurrence</comment>
+        <value lang="en-us">Occurrence</value>
+        <value lang="nl-nl">Voorkomen</value>
+    </translation>
+    <translation key="Media Collected DateTime">
+        <comment>Media Collected DateTime</comment>
+        <value lang="en-us">Media Collected DateTime</value>
+        <value lang="nl-nl">Media verzameldatum/tijd</value>
+    </translation>
+    <translation key="Media Collected Period">
+        <comment>Media Collected Period</comment>
+        <value lang="en-us">Media Collected Period</value>
+        <value lang="nl-nl">Media verzamelperiode</value>
+    </translation>
+    <translation key="Mode">
+        <comment>Mode</comment>
+        <value lang="en-us">Mode</value>
+        <value lang="nl-nl">Wijze</value>
+    </translation>
+    <translation key="Permission">
+        <comment>Permission</comment>
+        <value lang="en-us">Permission</value>
+        <value lang="nl-nl">Toestemming</value>
+    </translation>
+    <translation key="Start">
+        <comment>Start</comment>
+        <value lang="en-us">Start</value>
+    </translation>
+    <translation key="Available">
+        <comment>Available</comment>
+        <value lang="en-us">Available</value>
+        <value lang="nl-nl">Beschikbaar</value>
+    </translation>
+    <translation key="Not Available">
+        <comment>Not Available</comment>
+        <value lang="en-us">Not Available</value>
+        <value lang="nl-nl">Niet beschikbaar</value>
+    </translation>
+    <translation key="Availability Exceptions">
+        <comment>Availability Exceptions</comment>
+        <value lang="en-us">Availability Exceptions</value>
+        <value lang="nl-nl">Beschikbaarheidsuitzonderingen</value>
+    </translation>
+    <translation key="Living at home">
+        <comment>Living at home</comment>
+        <value lang="en-us">Living at home</value>
+        <value lang="nl-nl">Inwonend</value>
+    </translation>
+    <translation key="Living away from home">
+        <comment>Living away from home</comment>
+        <value lang="en-us">Living away from home</value>
+        <value lang="nl-nl">Uitwonend</value>
+    </translation>
+    <translation key="Living at home unknown">
+        <comment>Living at home status unknown</comment>
+        <value lang="en-us">Living at home unknown</value>
+        <value lang="nl-nl">Inwonend onbekend</value>
+    </translation>
+    <translation key="All Day">
+        <comment>All Day</comment>
+        <value lang="en-us">All Day</value>
+        <value lang="nl-nl">Hele dag</value>
+    </translation>
+    <translation key="Amount">
+        <comment>Amount</comment>
+        <value lang="en-us">Amount</value>
+        <value lang="nl-nl">Hoeveelheid</value>
+    </translation>
+    <translation key="Legally Capable">
+        <comment>Legally Capable</comment>
+        <value lang="en-us">Legally Capable</value>
+        <value lang="nl-nl">Wilsbekwaam</value>
+    </translation>
+    <translation key="Legal Status">
+        <comment>As in: Legal Status</comment>
+        <value lang="en-us">Legal Status</value>
+        <value lang="nl-nl">Juridische status</value>
+    </translation>
+    <translation key="Due">
+        <comment>Due</comment>
+        <value lang="en-us">Due</value>
+        <value lang="nl-nl">Streefdatum</value>
+    </translation>
+    <translation key="Target">
+        <comment>Target</comment>
+        <value lang="en-us">Target</value>
+        <value lang="nl-nl">Doel</value>
+    </translation>
+    <translation key="CareTeam">
+        <comment>CareTeam</comment>
+        <value lang="en-us">Care Team</value>
+        <value lang="nl-nl">Zorgteam</value>
+    </translation>
+    <translation key="Performed">
+        <comment>Performed</comment>
+        <value lang="en-us">Performed</value>
+        <value lang="nl-nl">Uitgevoerd</value>
+    </translation>
+    <translation key="General Practitioner">
+        <comment>General Practitioner</comment>
+        <value lang="en-us">General Practitioner</value>
+        <value lang="nl-nl">Huisarts</value>
+    </translation>
+    <translation key="Care Manager">
+        <comment>Care Manager</comment>
+        <value lang="en-us">Care Manager</value>
+        <value lang="nl-nl">Zorgmanager</value>
+    </translation>
+    <translation key="Managing Organization">
+        <comment>Managing Organization</comment>
+        <value lang="en-us">Managing Organization</value>
+        <value lang="nl-nl">Verantwoordelijke organisatie</value>
+    </translation>
+    <translation key="Category">
+        <comment>Category</comment>
+        <value lang="en-us">Category</value>
+        <value lang="nl-nl">Categorie</value>
+    </translation>
+    <translation key="Deleted">
+        <comment>Deleted</comment>
+        <value lang="en-us">Deleted</value>
+        <value lang="nl-nl">Verwijderd</value>
+    </translation>
+    <translation key="Data">
+        <comment>Data</comment>
+        <value lang="en-us">Data</value>
+        <value lang="nl-nl">Gegevens</value>
+    </translation>
+    <translation key="Data Period">
+        <comment>Data Period</comment>
+        <value lang="en-us">Data Period</value>
+        <value lang="nl-nl">Gegevensperiode</value>
+    </translation>
+    <translation key="Do NOT do">
+        <comment>Do NOT do</comment>
+        <value lang="en-us">Do NOT do</value>
+        <value lang="nl-nl">NIET doen</value>
+    </translation>
+    <translation key="Dose Number">
+        <comment>Dose Number</comment>
+        <value lang="en-us">Dose Number</value>
+        <value lang="nl-nl">Doseeraantal</value>
+    </translation>
+    <translation key="Do Not Perform">
+        <comment>Do Not Perform</comment>
+        <value lang="en-us">Do Not Perform</value>
+        <value lang="nl-nl">Niet uitvoeren</value>
+    </translation>
+    <translation key="Context">
+        <comment>Context</comment>
+        <value lang="en-us">Context</value>
+    </translation>
+    <translation key="Details">
+        <comment>Details</comment>
+        <value lang="en-us">Details</value>
+    </translation>
+    <translation key="Definition">
+        <comment>Definition</comment>
+        <value lang="en-us">Definition</value>
+        <value lang="nl-nl">Definitie</value>
+    </translation>
+    <translation key="Detail Definition">
+        <comment>Detail Definition</comment>
+        <value lang="en-us">Detail Definition</value>
+        <value lang="nl-nl">Detaildefinitie</value>
+    </translation>
+    <translation key="Medical Device">
+        <comment>Medical Device</comment>
+        <value lang="en-us">Medical Device</value>
+        <value lang="nl-nl">Medisch hulpmiddel</value>
+    </translation>
+    <translation key="Goal">
+        <comment>Goal</comment>
+        <value lang="en-us">Goal</value>
+        <value lang="nl-nl">Doel</value>
+    </translation>
+    <translation key="Linked To">
+        <comment>As in: RelatedPerson Linked To Target</comment>
+        <value lang="en-us">Linked To</value>
+        <value lang="nl-nl">Gekoppeld aan</value>
+    </translation>
+    <translation key="Location">
+        <comment>Location</comment>
+        <value lang="en-us">Location</value>
+        <value lang="nl-nl">Locatie</value>
+    </translation>
+    <translation key="Appointment">
+        <comment>Appointment</comment>
+        <value lang="en-us">Appointment</value>
+        <value lang="nl-nl">Afspraak</value>
+    </translation>
+    <translation key="Binary">
+        <comment>Binary</comment>
+        <value lang="en-us">Binary</value>
+        <value lang="nl-nl">Binair bestand</value>
+    </translation>
+    <translation key="Slot">
+        <comment>Slot in an agenda</comment>
+        <value lang="en-us">Slot</value>
+        <value lang="nl-nl">Slot</value>
+    </translation>
+    <translation key="Specialty">
+        <comment>Specialty</comment>
+        <value lang="en-us">Specialty</value>
+        <value lang="nl-nl">Specialisme</value>
+    </translation>
+    <translation key="Service Type">
+        <comment>Service Type</comment>
+        <value lang="en-us">Service Type</value>
+        <value lang="nl-nl">Servicetype</value>
+    </translation>
+    <translation key="Problem">
+        <comment>Problem</comment>
+        <value lang="en-us">Problem</value>
+        <value lang="nl-nl">Probleem</value>
+    </translation>
+    <translation key="Note">
+        <comment>Note as in a note for some topic</comment>
+        <value lang="en-us">Note</value>
+        <value lang="nl-nl">Notitie</value>
+    </translation>
+    <translation key="Outcome">
+        <comment>Outcome</comment>
+        <value lang="en-us">Outcome</value>
+        <value lang="nl-nl">Resultaat</value>
+    </translation>
+    <translation key="Scheduled">
+        <comment>Scheduled</comment>
+        <value lang="en-us">Scheduled</value>
+        <value lang="nl-nl">Schema</value>
+    </translation>
+    <translation key="Schedule">
+        <comment>Schedule</comment>
+        <value lang="en-us">Schedule</value>
+        <value lang="nl-nl">Schema</value>
+    </translation>
+    <translation key="Device">
+        <comment>Device</comment>
+        <value lang="en-us">Device</value>
+        <value lang="nl-nl">Apparaat/Systeem</value>
+    </translation>
+    <translation key="Organization">
+        <comment>Organization</comment>
+        <value lang="en-us">Organization</value>
+        <value lang="nl-nl">Organisatie</value>
+    </translation>
+    <translation key="Nationality">
+        <comment>Nationality</comment>
+        <value lang="en-us">Nationality</value>
+        <value lang="nl-nl">Nationaliteit</value>
+    </translation>
+    <translation key="Description">
+        <comment>Description</comment>
+        <value lang="en-us">Description</value>
+        <value lang="nl-nl">Omschrijving</value>
+    </translation>
+    <translation key="Patient Instructions">
+        <comment>Patient Instructions</comment>
+        <value lang="en-us">Patient Instructions</value>
+        <value lang="nl-nl">Patiëntinstructies</value>
+    </translation>
+    <translation key="Timing">
+        <comment>Timing</comment>
+        <value lang="en-us">Timing</value>
+        <value lang="nl-nl">Timing</value>
+    </translation>
+    <translation key="Lumen or Line">
+        <comment>Lumen or Line</comment>
+        <value lang="en-us">Lumen or Line</value>
+        <value lang="nl-nl">Lumen of lijn</value>
+    </translation>
+    <translation key="Line Status">
+        <comment>Line Status</comment>
+        <value lang="en-us">Line Status</value>
+        <value lang="nl-nl">Lijnstatus</value>
+    </translation>
+    <translation key="Lumen Location">
+        <comment>Lumen Location</comment>
+        <value lang="en-us">Lumen Location</value>
+        <value lang="nl-nl">Lumenlocatie</value>
+    </translation>
+    <translation key="Lock Fluid">
+        <comment>Lock Fluid</comment>
+        <value lang="en-us">Lock Fluid</value>
+        <value lang="nl-nl">Slotvloeistof</value>
+    </translation>
+    <translation key="Administering System">
+        <comment>Administering System</comment>
+        <value lang="en-us">Administering System</value>
+        <value lang="nl-nl">Toedieningssysteem</value>
+    </translation>
+    <translation key="Infusion Fluid">
+        <comment>Infusion Fluid</comment>
+        <value lang="en-us">Infusion Fluid</value>
+        <value lang="nl-nl">Infuusvloeistof</value>
+    </translation>
+    <translation key="Peripheral">
+        <comment>Peripheral</comment>
+        <value lang="en-us">Peripheral</value>
+        <value lang="nl-nl">Randapparaat</value>
+    </translation>
+    <translation key="Alias">
+        <comment>Alias</comment>
+        <value lang="en-us">Alias</value>
+    </translation>
+    <translation key="Online Editable">
+        <comment>Online Editable</comment>
+        <value lang="en-us">Online Editable</value>
+        <value lang="nl-nl">Online wijzigbaar</value>
+    </translation>
+    <translation key="until">
+        <comment>until</comment>
+        <value lang="en-us">until</value>
+        <value lang="nl-nl">tot</value>
+    </translation>
+    <translation key="MedicationAdministration">
+        <comment>MedicationAdministration</comment>
+        <value lang="en-us">MedicationAdministration</value>
+        <value lang="nl-nl">Medicatietoediening</value>
+    </translation>
+    <translation key="Medication Agreement">
+        <comment>Medication Agreement</comment>
+        <value lang="en-us">Medication Agreement</value>
+        <value lang="nl-nl">Medicatieafspraak</value>
+    </translation>
+    <translation key="Dispense Request">
+        <comment>Dispense Request</comment>
+        <value lang="en-us">Dispense Request</value>
+        <value lang="nl-nl">Toedieningsverzoek</value>
+    </translation>
+    <translation key="Administration Agreement">
+        <comment>Administration Agreement</comment>
+        <value lang="en-us">Administration Agreement</value>
+        <value lang="nl-nl">Toedieningsafspraak</value>
+    </translation>
+    <translation key="Medication Dispense">
+        <comment>Medication Dispense</comment>
+        <value lang="en-us">Medication Dispense</value>
+        <value lang="nl-nl">Medicatieverstrekking</value>
+    </translation>
+    <translation key="Medication Use">
+        <comment>Medication Use</comment>
+        <value lang="en-us">Medication Use</value>
+        <value lang="nl-nl">Medicatiegebruik</value>
+    </translation>
+    <translation key="DiagnosticReport">
+        <comment>DiagnosticReport</comment>
+        <value lang="en-us">DiagnosticReport</value>
+        <value lang="nl-nl">Diagnostisch verslag</value>
+    </translation>
+    <translation key="List">
+        <comment>List</comment>
+        <value lang="en-us">List</value>
+        <value lang="nl-nl">Lijst</value>
+    </translation>
+    <translation key="Used Item">
+        <comment>Used Item</comment>
+        <value lang="en-us">Used Item</value>
+        <value lang="nl-nl">Gebruikt item</value>
+    </translation>
+    <translation key="Participants">
+        <comment>Participants</comment>
+        <value lang="en-us">Participants</value>
+        <value lang="nl-nl">Deelnemers</value>
+    </translation>
+    <translation key="Onset">
+        <comment>E.g. When allergy or intolerance was identified</comment>
+        <value lang="en-us">Onset</value>
+        <value lang="nl-nl">Eerste symptomen</value>
+    </translation>
+    <translation key="Abatement">
+        <comment>E.g. If/when in resolution/remission</comment>
+        <value lang="en-us">Abatement</value>
+        <value lang="nl-nl">Oplossing/remissie</value>
+    </translation>
+    <translation key="Last Occurrence">
+        <comment>E.g. Date(/time) of last known occurrence of a reaction</comment>
+        <value lang="en-us">Last Occurrence</value>
+        <value lang="nl-nl">Meest recente voorkomen</value>
+    </translation>
+    <translation key="Modified Date">
+        <comment>E.g. Date(/time) of last update</comment>
+        <value lang="en-us">Modified Date</value>
+        <value lang="nl-nl">Wijzigingsdatum</value>
+    </translation>
+    <translation key="Reaction">
+        <comment>Reaction to an Allergy</comment>
+        <value lang="en-us">Reaction</value>
+        <value lang="nl-nl">Reactie</value>
+    </translation>
+    <translation key="Stage">
+        <comment>Condition stage</comment>
+        <value lang="en-us">Stage</value>
+        <value lang="nl-nl">Stadium</value>
+    </translation>
+    <translation key="Evidence">
+        <comment>Condition evidence</comment>
+        <value lang="en-us">Evidence</value>
+        <value lang="nl-nl">Ondersteunend onderzoek</value>
+    </translation>
+    <translation key="frequency">
+        <comment>As in: frequency X times per Y</comment>
+        <value lang="en-us">frequency</value>
+        <value lang="nl-nl">frequentie</value>
+    </translation>
+    <translation key="times">
+        <comment>As in: X times per Y</comment>
+        <value lang="en-us">times</value>
+        <value lang="nl-nl">maal</value>
+    </translation>
+    <translation key="of">
+        <comment>As in: Relationship of Patient</comment>
+        <value lang="en-us">of</value>
+        <value lang="nl-nl">van</value>
+    </translation>
+    <translation key="once">
+        <comment>once</comment>
+        <value lang="en-us">once</value>
+        <value lang="nl-nl">eenmalig</value>
+    </translation>
+    <translation key="max">
+        <comment>max</comment>
+        <value lang="en-us">max</value>
+        <value lang="nl-nl">max</value>
+    </translation>
+    <translation key="frequency max">
+        <comment>frequency max</comment>
+        <value lang="en-us">frequency max</value>
+        <value lang="nl-nl">max frequentie</value>
+    </translation>
+    <translation key="bounds">
+        <comment>bounds</comment>
+        <value lang="en-us">bounds</value>
+        <value lang="nl-nl">grenswaarden</value>
+    </translation>
+    <translation key="preferred">
+        <comment>As in: preferred language</comment>
+        <value lang="en-us">preferred</value>
+        <value lang="nl-nl">voorkeur</value>
+    </translation>
+    <translation key="not preferred">
+        <comment>As in: not preferred language</comment>
+        <value lang="en-us">not preferred</value>
+        <value lang="nl-nl">geen voorkeur</value>
+    </translation>
+    <translation key="Complication">
+        <comment>As in: Complication</comment>
+        <value lang="en-us">Complication</value>
+        <value lang="nl-nl">Complicatie</value>
+    </translation>
+    <translation key="Body Site">
+        <comment>As in: Body Site</comment>
+        <value lang="en-us">Body Site</value>
+        <value lang="nl-nl">Deel van lichaam</value>
+    </translation>
+    <translation key="Usage Period">
+        <comment>As in: Period device was used</comment>
+        <value lang="en-us">Usage Period</value>
+        <value lang="nl-nl">Gebruiksperiode</value>
+    </translation>
+    <translation key="Collection">
+        <comment>As in: Collection</comment>
+        <value lang="en-us">Collection</value>
+        <value lang="nl-nl">Inzameling</value>
+    </translation>
+    <translation key="Indication">
+        <comment>As in: Indication</comment>
+        <value lang="en-us">Indication</value>
+        <value lang="nl-nl">Indicatie</value>
+    </translation>
+    <translation key="UDI">
+        <comment>As in: UDI</comment>
+        <value lang="en-us">UDI</value>
+    </translation>
+    <translation key="UDI Barcode">
+        <comment>As in: UDI Barcode</comment>
+        <value lang="en-us">UDI Barcode</value>
+        <value lang="nl-nl">UDI barcode</value>
+    </translation>
+    <translation key="Request Date">
+        <comment>As in: Request Date</comment>
+        <value lang="en-us">Request Date</value>
+        <value lang="nl-nl">Aanvraagdatum</value>
+    </translation>
+    <translation key="Oral Diet">
+        <comment>As in: Oral Diet</comment>
+        <value lang="en-us">Oral Diet</value>
+        <value lang="nl-nl">Orale voeding</value>
+    </translation>
+    <translation key="Fluid Consistency">
+        <comment>As in: Fluid Consistency</comment>
+        <value lang="en-us">Fluid Consistency</value>
+        <value lang="nl-nl">Vloeistofconsistentie</value>
+    </translation>
+    <translation key="Verified">
+        <comment>As in: Verified</comment>
+        <value lang="en-us">Verified</value>
+        <value lang="nl-nl">Geverifieerd</value>
+    </translation>
+    <translation key="Actor">
+        <comment>As in: Actor</comment>
+        <value lang="en-us">Actor</value>
+        <value lang="nl-nl">Actor</value>
+    </translation>
+    <translation key="Additive">
+        <comment>As in: Additive</comment>
+        <value lang="en-us">Additive</value>
+        <value lang="nl-nl">Toevoeging</value>
+    </translation>
+    <translation key="Purpose">
+        <comment>As in: Purpose</comment>
+        <value lang="en-us">Purpose</value>
+        <value lang="nl-nl">Doel</value>
+    </translation>
+    <translation key="Action">
+        <comment>As in: Action</comment>
+        <value lang="en-us">Action</value>
+        <value lang="nl-nl">Actie</value>
+    </translation>
+    <translation key="Security Label">
+        <comment>As in: Security Label</comment>
+        <value lang="en-us">Security Label</value>
+        <value lang="nl-nl">Securitylabel</value>
+    </translation>
+    <translation key="Not permitted unless">
+        <comment>As in: Not permitted unless</comment>
+        <value lang="en-us">Not permitted unless</value>
+        <value lang="nl-nl">Niet toegestaan tenzij</value>
+    </translation>
+    <translation key="Permitted if">
+        <comment>As in: Permitted if</comment>
+        <value lang="en-us">Permitted if</value>
+        <value lang="nl-nl">Toegestaan als</value>
+    </translation>
+    <translation key="Allowed">
+        <comment>As in: Allowed</comment>
+        <value lang="en-us">Allowed</value>
+        <value lang="nl-nl">Toegestaan</value>
+    </translation>
+    <translation key="Treatment Restriction">
+        <comment>As in: Treatment Restriction</comment>
+        <value lang="en-us">Treatment Restriction</value>
+        <value lang="nl-nl">Behandelrestrictie</value>
+    </translation>
+    <translation key="Source">
+        <comment>As in: Source</comment>
+        <value lang="en-us">Source</value>
+        <value lang="nl-nl">Bron</value>
+    </translation>
+    <translation key="Expiration Date">
+        <comment>As in: Expiration Date</comment>
+        <value lang="en-us">Expiration Date</value>
+        <value lang="nl-nl">Verloopdatum</value>
+    </translation>
+    <translation key="When">
+        <comment>As in: When</comment>
+        <value lang="en-us">When</value>
+        <value lang="nl-nl">Wanneer</value>
+    </translation>
+    <translation key="Event">
+        <comment>As in: Event</comment>
+        <value lang="en-us">Event</value>
+        <value lang="nl-nl">Gebeurtenis</value>
+    </translation>
+    <translation key="Conclusion">
+        <comment>As in: Conclusion</comment>
+        <value lang="en-us">Conclusion</value>
+        <value lang="nl-nl">Conclusie</value>
+    </translation>
+    <translation key="Medication">
+        <comment>As in: Medication</comment>
+        <value lang="en-us">Medication</value>
+        <value lang="nl-nl">Medicatie</value>
+    </translation>
+    <translation key="Restriction">
+        <comment>As in: Restriction</comment>
+        <value lang="en-us">Restriction</value>
+        <value lang="nl-nl">Restrictie</value>
+    </translation>
+    <translation key="Task Focus">
+        <comment>As in: Task Focus</comment>
+        <value lang="en-us">Task Focus</value>
+        <value lang="nl-nl">Taak focus</value>
+    </translation>
+    <translation key="Part Of">
+        <comment>As in: Task Part Of</comment>
+        <value lang="en-us">Part Of</value>
+        <value lang="nl-nl">Deel van</value>
+    </translation>
+    <translation key="Execution Period">
+        <comment>As in: Task Execution Period</comment>
+        <value lang="en-us">Execution Period</value>
+        <value lang="nl-nl">Uitvoeringsperiode</value>
+    </translation>
+    <translation key="Task For">
+        <comment>As in: Task For</comment>
+        <value lang="en-us">Task Beneficiary</value>
+        <value lang="nl-nl">Taak bedoeld voor</value>
+    </translation>
+    <translation key="Result">
+        <comment>As in: Result</comment>
+        <value lang="en-us">Result</value>
+        <value lang="nl-nl">Resultaat</value>
+    </translation>
+    <translation key="Diagnosis">
+        <comment>As in: Diagnosis</comment>
+        <value lang="en-us">Diagnosis</value>
+        <value lang="nl-nl">Diagnose</value>
+    </translation>
+    <translation key="Lot Number">
+        <comment>As in: Lot Number</comment>
+        <value lang="en-us">Lot Number</value>
+        <value lang="nl-nl">Partijnummer</value>
+    </translation>
+    <translation key="Intent">
+        <comment>As in: Intent of a CarePlan</comment>
+        <value lang="en-us">Intent</value>
+        <value lang="nl-nl">Intentie</value>
+    </translation>
+    <translation key="Entire Report">
+        <comment>As in: Entire Report</comment>
+        <value lang="en-us">Entire Report</value>
+        <value lang="nl-nl">Geheel rapport</value>
+    </translation>
+    <translation key="CarePlan">
+        <comment>As in: CarePlan</comment>
+        <value lang="en-us">Care Plan</value>
+        <value lang="nl-nl">Zorgplan</value>
+    </translation>
+    <translation key="Coverage">
+        <comment>As in: Coverage</comment>
+        <value lang="en-us">Coverage</value>
+        <value lang="nl-nl">Verzekering/garantstelling</value>
+    </translation>
+    <translation key="Composition">
+        <comment>As in: Composition</comment>
+        <value lang="en-us">Composition</value>
+        <value lang="nl-nl">Samengestelde informatie</value>
+    </translation>
+    <translation key="Condition">
+        <comment>As in: Condition</comment>
+        <value lang="en-us">Condition</value>
+        <value lang="nl-nl">Aandoening</value>
+    </translation>
+    <translation key="Flag">
+        <comment>As in: Flag</comment>
+        <value lang="en-us">Flag</value>
+        <value lang="nl-nl">Attentievlag</value>
+    </translation>
+    <translation key="Observation">
+        <comment>As in: Observation</comment>
+        <value lang="en-us">Observation</value>
+        <value lang="nl-nl">Observatie/bepaling</value>
+    </translation>
+    <translation key="Procedure">
+        <comment>As in: Procedure</comment>
+        <value lang="en-us">Procedure</value>
+        <value lang="nl-nl">Verrichting</value>
+    </translation>
+    <translation key="Consent">
+        <comment>As in: Consent</comment>
+        <value lang="en-us">Consent</value>
+        <value lang="nl-nl">Toestemming</value>
+    </translation>
+    <translation key="Specimen">
+        <comment>As in: Specimen</comment>
+        <value lang="en-us">Specimen</value>
+        <value lang="nl-nl">Specimen</value>
+    </translation>
+    <translation key="NutritionOrder">
+        <comment>As in: NutritionOrder</comment>
+        <value lang="en-us">NutritionOrder</value>
+        <value lang="nl-nl">Voedingsadvies</value>
+    </translation>
+    <translation key="DeviceUseStatement">
+        <comment>As in: DeviceUseStatement</comment>
+        <value lang="en-us">Device Use Statement</value>
+        <value lang="nl-nl">Beschrijving apparaatgebruik</value>
+    </translation>
+    <translation key="Encounter">
+        <comment>As in: Encounter</comment>
+        <value lang="en-us">Encounter</value>
+        <value lang="nl-nl">Contact</value>
+    </translation>
+    <translation key="AllergyIntolerance">
+        <comment>As in: AllergyIntolerance</comment>
+        <value lang="en-us">Allergy/Intolerance</value>
+        <value lang="nl-nl">Allergie/intolerantie</value>
+    </translation>
+    <translation key="Bank Name">
+        <comment>As in: Bank name</comment>
+        <value lang="en-us">Bank Name</value>
+        <value lang="nl-nl">Bank naam</value>
+    </translation>
+    <translation key="data absent">
+        <comment>As in: data absent</comment>
+        <value lang="en-us">data absent</value>
+        <value lang="nl-nl">ontbrekend gegeven</value>
+    </translation>
+    <translation key="Account Number">
+        <comment>As in: Bank account number</comment>
+        <value lang="en-us">Account Number</value>
+        <value lang="nl-nl">Rekeningnummer</value>
+    </translation>
+    <translation key="Bank Code">
+        <comment>As in: Bank code</comment>
+        <value lang="en-us">Bank code</value>
+        <value lang="nl-nl">Bank code</value>
+    </translation>
+    <translation key="This Version">
+        <comment>As in: This Version</comment>
+        <value lang="en-us">This Version</value>
+        <value lang="nl-nl">Deze versie</value>
+    </translation>
+    <translation key="Media">
+        <comment>As in: Media</comment>
+        <value lang="en-us">Media</value>
+        <value lang="nl-nl">Media</value>
+    </translation>
+    <translation key="Prescriber">
+        <comment>As in: Prescriber</comment>
+        <value lang="en-us">Prescriber</value>
+        <value lang="nl-nl">Voorschrijver</value>
+    </translation>
+    <translation key="Days Supply">
+        <comment>As in: Days Supply</comment>
+        <value lang="en-us">Days Supply</value>
+        <value lang="nl-nl">Dagen voorraad</value>
+    </translation>
+    <translation key="When Prepared">
+        <comment>As in: When Prepared</comment>
+        <value lang="en-us">When Prepared</value>
+        <value lang="nl-nl">Datum bereid/gemaakt</value>
+    </translation>
+    <translation key="When Handed Over">
+        <comment>As in: When Handed Over</comment>
+        <value lang="en-us">When Handed Over</value>
+        <value lang="nl-nl">Datum overhandigd</value>
+    </translation>
+    <translation key="Taken As Agreed">
+        <comment>As in: Taken As Agreed</comment>
+        <value lang="en-us">Taken As Agreed</value>
+        <value lang="nl-nl">Genomen zoals afgesproken</value>
+    </translation>
+    <translation key="Not Taken As Agreed">
+        <comment>As in: Not Taken As Agreed</comment>
+        <value lang="en-us">Not Taken As Agreed</value>
+        <value lang="nl-nl">Niet genomen zoals afgesproken</value>
+    </translation>
+    <translation key="Reason For Change Or Discontinuation">
+        <comment>As in: Reason For Change Or Discontinuation</comment>
+        <value lang="en-us">Reason For Change Or Discontinuation</value>
+        <value lang="nl-nl">Reden voor wijzigen of stoppen</value>
+    </translation>
+    <translation key="Substitution">
+        <comment>As in: Substitution</comment>
+        <value lang="en-us">Substitution</value>
+        <value lang="nl-nl">Substitutie</value>
+    </translation>
+    <translation key="Inactive record">
+        <comment>As in: Inactive record</comment>
+        <value lang="en-us">Inactive record</value>
+        <value lang="nl-nl">Inactief record</value>
+    </translation>
+    <translation key="Use Duration">
+        <comment>As in: Use Duration</comment>
+        <value lang="en-us">Use Duration</value>
+        <value lang="nl-nl">Gebruiksduur</value>
+    </translation>
+    <translation key="This information is copied from a third party">
+        <comment>As in: This information is copied from a third party</comment>
+        <value lang="en-us">This information is copied from a third party</value>
+        <value lang="nl-nl">Deze informatie is gekopieerd van een derde partij</value>
+    </translation>
+    <translation key="Medication has been stopped">
+        <comment>As in: Medication has been stopped</comment>
+        <value lang="en-us">Medication has been stopped</value>
+        <value lang="nl-nl">Medicatie is gestopt</value>
+    </translation>
+    <translation key="Repeat Period Cyclical Schedule">
+        <comment>As in: Repeat Period Cyclical Schedule</comment>
+        <value lang="en-us">Repeat Period Cyclical Schedule</value>
+        <value lang="nl-nl">Herhaalperiode cyclisch schedule</value>
+    </translation>
+    <translation key="Medication Treatment ID">
+        <comment>As in: Medication Treatment ID</comment>
+        <value lang="en-us">Medication Treatment ID</value>
+        <value lang="nl-nl">Medicamenteuze behandel-id</value>
+    </translation>
+    <translation key="Prior Request">
+        <comment>As in: Prior Medication Request</comment>
+        <value lang="en-us">Prior Medication Request</value>
+        <value lang="nl-nl">Voorgaande medicatieverzoek</value>
+    </translation>
+    <translation key="Attester">
+        <comment>As in: Attester</comment>
+        <value lang="en-us">Attester</value>
+        <value lang="nl-nl">Attester</value>
+    </translation>
+    <translation key="Authority">
+        <comment>As in: Authority</comment>
+        <value lang="en-us">Authority</value>
+        <value lang="nl-nl">Bevoegdheid</value>
+    </translation>
+    <translation key="Assessment">
+        <comment>As in: Assessment</comment>
+        <value lang="en-us">Assessment</value>
+        <value lang="nl-nl">Vaststelling</value>
+    </translation>
+    <translation key="As Needed">
+        <comment>As in: As Needed</comment>
+        <value lang="en-us">As Needed</value>
+        <value lang="nl-nl">Zo nodig</value>
+    </translation>
+    <translation key="Route Of Administration">
+        <comment>Label: Route Of Administration</comment>
+        <value lang="en-us">Route Of Administration</value>
+        <value lang="nl-nl">Toedieningsweg</value>
+    </translation>
+    <translation key="Expected Supply Duration">
+        <comment>As in: Expected Supply Duration</comment>
+        <value lang="en-us">Expected Supply Duration</value>
+        <value lang="nl-nl">Verwachte duur voorraad</value>
+    </translation>
+    <translation key="Number of Repeats Allowed">
+        <comment>As in: Max Repeats</comment>
+        <value lang="en-us">Max Repeats</value>
+        <value lang="nl-nl">Max herhalingen</value>
+    </translation>
+    <translation key="official">
+        <comment>As in: official address qualifier</comment>
+        <value lang="en-us">official</value>
+        <value lang="nl-nl">officieel</value>
+    </translation>
+    <translation key="Validity Period">
+        <comment>As in: Validity Period</comment>
+        <value lang="en-us">Validity Period</value>
+        <value lang="nl-nl">Geldigheidsperiode</value>
+    </translation>
+    <translation key="Destination">
+        <comment>Label: Destination</comment>
+        <value lang="en-us">Destination</value>
+        <value lang="nl-nl">Bestemming</value>
+    </translation>
+    <translation key="Dosage">
+        <comment>As in: Dosage</comment>
+        <value lang="en-us">Dosage</value>
+        <value lang="nl-nl">Dosering</value>
+    </translation>
+    <translation key="Dosage Instruction">
+        <comment>As in: Dosage Instruction</comment>
+        <value lang="en-us">Dosage Instruction</value>
+        <value lang="nl-nl">Doseerinstructie</value>
+    </translation>
+    <translation key="Medication Taken">
+        <comment>As in: Medication Taken</comment>
+        <value lang="en-us">Medication Taken</value>
+        <value lang="nl-nl">Medicatie gebruikt</value>
+    </translation>
+    <translation key="Reason For Medication">
+        <comment>As in: Reason For Medication</comment>
+        <value lang="en-us">Reason For Medication</value>
+        <value lang="nl-nl">Reden voor medicatie</value>
+    </translation>
+    <translation key="Distribution Form">
+        <comment>As in: Distribution Form</comment>
+        <value lang="en-us">Distribution Form</value>
+        <value lang="nl-nl">Distributievorm</value>
+    </translation>
+    <translation key="Medication Dispensed">
+        <comment>As in: Medication Dispensed</comment>
+        <value lang="en-us">Medication Dispensed</value>
+        <value lang="nl-nl">Medicatie verstrekt</value>
+    </translation>
+    <translation key="Daily">
+        <comment>As in: Daily</comment>
+        <value lang="en-us">Daily</value>
+        <value lang="nl-nl">Dagelijks</value>
+    </translation>
+    <translation key="Reason Not Dispensed">
+        <comment>As in: Reason Not Dispensed</comment>
+        <value lang="en-us">Reason Not Dispensed</value>
+        <value lang="nl-nl">Reden niet verstrekt</value>
+    </translation>
+    <translation key="Reason Not Given">
+        <comment>As in: Reason Not Given</comment>
+        <value lang="en-us">Reason Not Given</value>
+        <value lang="nl-nl">Reden niet gegeven</value>
+    </translation>
+    <translation key="Substituted">
+        <comment>As in: Substituted</comment>
+        <value lang="en-us">Substituted</value>
+        <value lang="nl-nl">Vervangen</value>
+    </translation>
+    <translation key="ProcedureRequest">
+        <comment>As in: ProcedureRequest</comment>
+        <value lang="en-us">Procedure Request</value>
+        <value lang="nl-nl">Verrichtingaanvraag</value>
+    </translation>
+    <translation key="EpisodeOfCare">
+        <comment>As in: EpisodeOfCare</comment>
+        <value lang="en-us">Episode of Care</value>
+        <value lang="nl-nl">Zorgepisode</value>
+    </translation>
+    <translation key="Image Study">
+        <comment>As in: Image Study</comment>
+        <value lang="en-us">Image Study</value>
+        <value lang="nl-nl">Beeldonderzoek</value>
+    </translation>
+    <translation key="2.16.840.1.113883.2.4.6.7">
+        <comment>As in: 2.16.840.1.113883.2.4.6.7</comment>
+        <value lang="en-us">AGB-medical specialism</value>
+        <value lang="nl-nl">AGB-medisch specialisme</value>
+    </translation>
+    <translation key="2.16.840.1.113883.2.4.3.11.60.40.4.0">
+        <comment>As in: 2.16.840.1.113883.2.4.3.11.60.40.4.0</comment>
+        <value lang="en-us">HCIM Element Code</value>
+        <value lang="nl-nl">zib elementcode</value>
+    </translation>
+    <translation key="2.16.840.1.113883.2.4.3.11.22.472">
+        <comment>As in: 2.16.840.1.113883.2.4.3.11.22.472</comment>
+        <value lang="en-us">RoleCodeList (COD472-VEKT)</value>
+        <value lang="nl-nl">RoleCodeLijst (COD472-VEKT)</value>
+    </translation>
+    <translation key="dataAbsentReason_unknown">
+        <comment>Label: DataAbsentReason unknown</comment>
+        <value lang="en-us">unknown</value>
+        <value lang="de-ch">unbekannt</value>
+        <value lang="nl-nl">onbekend</value>
+    </translation>
+    <translation key="dataAbsentReason_asked">
+        <comment>Label: DataAbsentReason asked</comment>
+        <value lang="en-us">asked but unknown</value>
+        <value lang="nl-nl">gevraagd maar onbekend</value>
+    </translation>
+    <translation key="dataAbsentReason_temp">
+        <comment>Label: DataAbsentReason unknown</comment>
+        <value lang="en-us">temporarily unknown</value>
+        <value lang="nl-nl">nog niet bekend</value>
+    </translation>
+    <translation key="dataAbsentReason_not-asked">
+        <comment>Label: DataAbsentReason noot-asked</comment>
+        <value lang="en-us">not asked</value>
+        <value lang="nl-nl">niet gevraagd</value>
+    </translation>
+    <translation key="dataAbsentReason_masked">
+        <comment>Label: DataAbsentReason masked</comment>
+        <value lang="en-us">masked</value>
+        <value lang="de-ch">maskiert</value>
+        <value lang="nl-nl">afgeschermd</value>
+    </translation>
+    <translation key="dataAbsentReason_unsupported">
+        <comment>Label: DataAbsentReason unsupported</comment>
+        <value lang="en-us">unsupported</value>
+        <value lang="nl-nl">niet-ondersteund</value>
+    </translation>
+    <translation key="dataAbsentReason_astext">
+        <comment>Label: DataAbsentReason astext</comment>
+        <value lang="en-us">as text</value>
+        <value lang="nl-nl">in tekst</value>
+    </translation>
+    <translation key="dataAbsentReason_error">
+        <comment>Label: DataAbsentReason error</comment>
+        <value lang="en-us">system/workflow failure</value>
+        <value lang="nl-nl">systeem/workflow fout</value>
+    </translation>
+    <translation key="dataAbsentReason_NaN">
+        <comment>Label: DataAbsentReason NaN</comment>
+        <value lang="en-us">not a number</value>
+        <value lang="nl-nl">geen getal</value>
+    </translation>
+    <translation key="dataAbsentReason_not-performed">
+        <comment>Label: DataAbsentReason not-performed</comment>
+        <value lang="en-us">not performed</value>
+        <value lang="nl-nl">niet gedaan</value>
     </translation>
 </translations>

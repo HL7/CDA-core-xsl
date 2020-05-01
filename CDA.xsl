@@ -12,7 +12,7 @@
     <xd:doc scope="stylesheet">
         <xd:desc>
             <xd:p><xd:b>Title:</xd:b> CDA R2 StyleSheet</xd:p>
-            <xd:p><xd:b>Version:</xd:b> 4.0.2 beta 2</xd:p>
+            <xd:p><xd:b>Version:</xd:b> 4.0.2 beta 4</xd:p>
             <xd:p><xd:b>Maintained by:</xd:b> HL7 <xd:a href="https://confluence.hl7.org/display/SD/Structured+Documents">Structured Documents Work Group</xd:a></xd:p>
             <xd:p><xd:b>Purpose:</xd:b> Provide general purpose display of CDA release 2 (Specification: ANSI/HL7 CDAR2) and CDA release 3 (Specification: currently in ballot) documents, and be a starting point for people interested in extending the display. This stylesheet displays all section content, but does not try to render each and every header attribute. For header attributes it tries to be smart in displaying essentials, which is still a lot. </xd:p>
             <xd:p><xd:b>License:</xd:b> Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at <a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a></xd:p>
@@ -27,8 +27,17 @@
                     <xd:li>Fix a problem where the footer div will not be rendered by browsers when an iframe exists (pdf usually)</xd:li>
                 </xd:ul>
             </xd:p>
-            <xd:p><xd:b>Revisions</xd:b>
+            <xd:p>
+                <xd:b>Revisions</xd:b>
                 <xd:ul>
+                    <xd:li>
+                        <xd:b>05/01/2020, AH, v4.0.2 beta 4</xd:b>
+                        <xd:ul>
+                            <xd:li>Improved performance of label retrieval by using xsl:key</xd:li>
+                            <xd:li>Improved graceful fallback for label retrieval when default language is not en-us</xd:li>
+                            <xd:li>Added various strings gathered through other uses of the same localization file</xd:li>
+                        </xd:ul>
+                    </xd:li>
                     <xd:li>
                         <xd:b>12/01/2019, AH, v4.0.2 beta 3</xd:b>
                         <xd:ul>
@@ -589,28 +598,28 @@
         </xd:desc>
     </xd:doc>
     <xsl:param name="currentDate" select="(/hl7:ClinicalDocument/hl7:effectiveTime/@value)[1]"/>
-
+    
     <xd:doc>
         <xd:desc>
             <xd:p>Vocabulary file containing language dependant strings such as labels</xd:p>
         </xd:desc>
     </xd:doc>
     <xsl:param name="vocFile" select="'cda_l10n.xml'"/>
-
+    
     <xd:doc>
         <xd:desc>
             <xd:p>Cache language dependant strings</xd:p>
         </xd:desc>
     </xd:doc>
     <xsl:variable name="vocMessages" select="document($vocFile)"/>
-
+    
     <xd:doc>
         <xd:desc>
             <xd:p>Default language for retrieval of language dependant strings such as labels, e.g. 'en-US'. This is the fallback language in case the string is not available in the actual language. See also <xd:ref name="textLang" type="parameter">textLang</xd:ref>.</xd:p>
         </xd:desc>
     </xd:doc>
     <xsl:param name="textlangDefault" select="'en-US'"/>
-
+    
     <xd:doc>
         <xd:desc>
             <xd:p>Actual language for retrieval of language dependant strings such as labels, e.g. 'en-US'. Unless supplied, this is taken from the ClinicalDocument/language/@code attribute, or in case that is not present from <xd:ref name="textlangDefault" type="parameter">textlangDefault</xd:ref>.</xd:p>
@@ -7258,7 +7267,12 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
-
+    
+    <xd:doc>
+        <xd:desc>Index the translation file for performance</xd:desc>
+    </xd:doc>
+    <xsl:key name="util-i18nkey" match="translation" use="@key"/>
+    
     <xd:doc>
         <xd:desc>
             <xd:p>Retrieves a language dependant string from our <xd:ref name="vocFile" type="parameter">language file</xd:ref> such as a label based on a key. Returns string based on <xd:ref name="textLang" type="parameter">textLang</xd:ref>, <xd:ref name="textLangDefault" type="parameter">textLangDefault</xd:ref>, the first two characters of the textLangDefault, e.g. 'en' in 'en-US' and finally if all else fails just the key text.</xd:p>
@@ -7272,27 +7286,33 @@
         <xsl:param name="key"/>
         <xsl:param name="post" select="''"/>
         
-        <xsl:choose>
-            <!-- compare 'de-CH' -->
-            <xsl:when test="$vocMessages//translation[@key = $key]/value[@lang = $textLangLowerCase]">
-                <xsl:value-of select="concat($pre,$vocMessages//translation[@key = $key]/value[@lang=$textLangLowerCase]/text(),$post)"/>
-            </xsl:when>
-            <!-- compare 'de' in 'de-CH' -->
-            <xsl:when test="$vocMessages//translation[@key = $key]/value[substring(@lang, 1, 2)=$textLangPartLowerCase]">
-                <xsl:value-of select="concat($pre,$vocMessages//translation[@key = $key]/value[substring(@lang, 1, 2)=$textLangPartLowerCase]/text(),$post)"/>
-            </xsl:when>
-            <!-- compare 'en-US' -->
-            <xsl:when test="$vocMessages//translation[@key = $key]/value[@lang=$textLangDefaultLowerCase]">
-                <xsl:value-of select="concat($pre,$vocMessages//translation[@key = $key]/value[@lang=$textLangDefaultLowerCase]/text(),$post)"/>
-            </xsl:when>
-            <!-- compare 'en' in 'en-US' -->
-            <xsl:when test="$vocMessages//translation[@key = $key]/value[substring(@lang, 1, 2)=$textLangDefaultPartLowerCase]">
-                <xsl:value-of select="concat($pre,$vocMessages//translation[@key = $key]/value[substring(@lang, 1, 2)=$textLangDefaultPartLowerCase]/text(),$post)"/>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:value-of select="concat($pre,$key,$post)"/>
-            </xsl:otherwise>
-        </xsl:choose>
+        <xsl:for-each select="$vocMessages">
+            <xsl:variable name="translation" select="key('util-i18nkey', $key)"/>
+            <xsl:choose>
+                <!-- compare 'de-CH' -->
+                <xsl:when test="$translation/value[@lang = $textLangLowerCase]">
+                    <xsl:value-of select="concat($pre, $translation/value[@lang = $textLangLowerCase]/text(), $post)"/>
+                </xsl:when>
+                <!-- compare 'de' in 'de-CH' -->
+                <xsl:when test="$translation/value[substring(@lang, 1, 2) = $textLangPartLowerCase]">
+                    <xsl:value-of select="concat($pre, $translation/value[substring(@lang, 1, 2) = $textLangPartLowerCase]/text(), $post)"/>
+                </xsl:when>
+                <!-- compare 'en-US' -->
+                <xsl:when test="$translation/value[@lang = $textLangDefaultLowerCase]">
+                    <xsl:value-of select="concat($pre, $translation/value[@lang = $textLangDefaultLowerCase]/text(), $post)"/>
+                </xsl:when>
+                <!-- compare 'en' in 'en-US' -->
+                <xsl:when test="$translation/value[substring(@lang, 1, 2) = $textLangDefaultPartLowerCase]">
+                    <xsl:value-of select="concat($pre, $translation/value[substring(@lang, 1, 2) = $textLangDefaultPartLowerCase]/text(), $post)"/>
+                </xsl:when>
+                <xsl:when test="$translation/value[@lang = 'en-us']">
+                    <xsl:value-of select="concat($pre, $translation/text(), $post)"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="concat($pre, $key, $post)"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:for-each>
     </xsl:template>
     
     <xd:doc>
