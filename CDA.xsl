@@ -14,12 +14,12 @@
             <xd:p><xd:b>Title:</xd:b> CDA R2 StyleSheet</xd:p>
             <xd:p><xd:b>Version:</xd:b> 4.0.2 beta 4</xd:p>
             <xd:p><xd:b>Maintained by:</xd:b> HL7 <xd:a href="https://confluence.hl7.org/display/SD/Structured+Documents">Structured Documents Work Group</xd:a></xd:p>
-            <xd:p><xd:b>Purpose:</xd:b> Provide general purpose display of CDA release 2 (Specification: ANSI/HL7 CDAR2) and CDA release 3 (Specification: currently in ballot) documents, and be a starting point for people interested in extending the display. This stylesheet displays all section content, but does not try to render each and every header attribute. For header attributes it tries to be smart in displaying essentials, which is still a lot. </xd:p>
+            <xd:p><xd:b>Purpose:</xd:b> Provides general purpose display of CDA release 2.0 and 2.1 (Specification: ANSI/HL7 CDAR2) and CDA release 3 (Specification was pulled after ballot) documents. It may also be a starting point for people interested in extending the display. This stylesheet displays all section content, but does not try to render each and every header attribute. For header attributes it tries to be smart in displaying essentials, which is still a lot.</xd:p>
             <xd:p><xd:b>License:</xd:b> Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at <a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a></xd:p>
-            <xd:p><xd:b>Download link:</xd:b> <xd:a href="https://gforge.hl7.org/gf/project/strucdoc/frs/?action=FrsReleaseBrowse&amp;frs_package_id=239">https://gforge.hl7.org/gf/project/strucdoc/frs/?action=FrsReleaseBrowse&amp;frs_package_id=239</xd:a> (soon...)</xd:p>
+            <xd:p><xd:b>Download link:</xd:b> <xd:a href="https://github.com/HL7/cda-core-xsl">https://github.com/HL7/cda-core-xsl</xd:a></xd:p>
             <xd:p><xd:b>Documentation/manual:</xd:b> <xd:a href="https://confluence.hl7.org/display/SD/CDA+R2+Stylesheet">https://confluence.hl7.org/display/SD/CDA+R2+Stylesheet</xd:a></xd:p>
             <xd:p><xd:b>History:</xd:b> This stylesheet stands on the shoulders of giants. The stylesheet is the cumulative work of several developers; the most significant prior milestones were the foundation work from HL7 Germany and Finland (Tyylitiedosto) and HL7 US (Calvin Beebe), and the presentation approach from Tony Schaller, medshare GmbH provided at IHIC 2009. The stylesheet has subsequently been maintained/updated by Lantana Group (US) and Nictiz (NL).</xd:p>
-            <xd:p><xd:b>TODO</xd:b>
+            <xd:p><xd:b>Known issues</xd:b>
                 <xd:ul>
                     <!--<xd:li>Remove any temporary cruft from the CDAr3 ballot that does not make it into the final version</xd:li>-->
                     <xd:li>Fix for Mobile Safari (iOS 6): doesn't support opening the table of contents</xd:li>
