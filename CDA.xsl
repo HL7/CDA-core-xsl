@@ -12,7 +12,7 @@
     <xd:doc scope="stylesheet">
         <xd:desc>
             <xd:p><xd:b>Title:</xd:b> CDA R2 StyleSheet</xd:p>
-            <xd:p><xd:b>Version:</xd:b> 4.0.2 beta 2</xd:p>
+            <xd:p><xd:b>Version:</xd:b> 4.0.2 beta 4</xd:p>
             <xd:p><xd:b>Maintained by:</xd:b> HL7 <xd:a href="https://confluence.hl7.org/display/SD/Structured+Documents">Structured Documents Work Group</xd:a></xd:p>
             <xd:p><xd:b>Purpose:</xd:b> Provide general purpose display of CDA release 2 (Specification: ANSI/HL7 CDAR2) and CDA release 3 (Specification: currently in ballot) documents, and be a starting point for people interested in extending the display. This stylesheet displays all section content, but does not try to render each and every header attribute. For header attributes it tries to be smart in displaying essentials, which is still a lot. </xd:p>
             <xd:p><xd:b>License:</xd:b> Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at <a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a></xd:p>
@@ -27,8 +27,17 @@
                     <xd:li>Fix a problem where the footer div will not be rendered by browsers when an iframe exists (pdf usually)</xd:li>
                 </xd:ul>
             </xd:p>
-            <xd:p><xd:b>Revisions</xd:b>
+            <xd:p>
+                <xd:b>Revisions</xd:b>
                 <xd:ul>
+                    <xd:li>
+                        <xd:b>05/01/2020, AH, v4.0.2 beta 4</xd:b>
+                        <xd:ul>
+                            <xd:li>Improved performance of label retrieval by using xsl:key</xd:li>
+                            <xd:li>Improved graceful fallback for label retrieval when default language is not en-us</xd:li>
+                            <xd:li>Added various strings gathered through other uses of the same localization file</xd:li>
+                        </xd:ul>
+                    </xd:li>
                     <xd:li>
                         <xd:b>12/01/2019, AH, v4.0.2 beta 3</xd:b>
                         <xd:ul>
