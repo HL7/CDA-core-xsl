@@ -12,7 +12,7 @@
     <xd:doc scope="stylesheet">
         <xd:desc>
             <xd:p><xd:b>Title:</xd:b> CDA R2 StyleSheet</xd:p>
-            <xd:p><xd:b>Version:</xd:b> 4.0.2 beta 4</xd:p>
+            <xd:p><xd:b>Version:</xd:b> 4.0.2 beta 5</xd:p>
             <xd:p><xd:b>Maintained by:</xd:b> HL7 <xd:a href="https://confluence.hl7.org/display/SD/Structured+Documents">Structured Documents Work Group</xd:a></xd:p>
             <xd:p><xd:b>Purpose:</xd:b> Provides general purpose display of CDA release 2.0 and 2.1 (Specification: ANSI/HL7 CDAR2) and CDA release 3 (Specification was pulled after ballot) documents. It may also be a starting point for people interested in extending the display. This stylesheet displays all section content, but does not try to render each and every header attribute. For header attributes it tries to be smart in displaying essentials, which is still a lot.</xd:p>
             <xd:p><xd:b>License:</xd:b> Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at <a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a></xd:p>
@@ -30,6 +30,12 @@
             <xd:p>
                 <xd:b>Revisions</xd:b>
                 <xd:ul>
+                    <xd:li>
+                        <xd:b>05/01/2020, AH, v4.0.2 beta 5</xd:b>
+                        <xd:ul>
+                            <xd:li>Add security mitigation for base64 encoded contents to only render in case of application/pdf. Before this patch any Base64 encoded contents would be rendered in an iframe regardless of its mimetype. This left the door open for 'active' contents like text/html with embedded javascript to do potentially malicious things.</xd:li>
+                        </xd:ul>
+                    </xd:li>
                     <xd:li>
                         <xd:b>05/01/2020, AH, v4.0.2 beta 4</xd:b>
                         <xd:ul>
@@ -1172,6 +1178,15 @@
                     xLeft {
                         text-align: left;
                     }
+                    xTop {
+                        vertical-align: top;
+                    }
+                    xMiddle {
+                        vertical-align: middle;
+                    }
+                    xBottom {
+                        vertical-align: bottom;
+                    }
                     xMono {
                         font-family: monospace;
                     }
@@ -1570,7 +1585,7 @@
                 </img>
             </xsl:when>
             <!-- This is something base64 -->
-            <xsl:when test="$renderElement[@representation = 'B64']">
+            <xsl:when test="$renderElement[@mediaType = 'application/pdf'][@representation = 'B64']">
                 <xsl:call-template name="getLocalizedString">
                     <xsl:with-param name="key" select="'If the contents are not displayed here, it may be offered as a download.'"/>
                 </xsl:call-template>

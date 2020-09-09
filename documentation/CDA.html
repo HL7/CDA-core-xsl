@@ -2057,7 +2057,7 @@
                                  
                                  <p><b>Title:</b> CDA R2 StyleSheet</p>
                                  
-                                 <p><b>Version:</b> 4.0.2 beta 4</p>
+                                 <p><b>Version:</b> 4.0.2 beta 5</p>
                                  
                                  <p><b>Maintained by:</b> HL7 <a href="https://confluence.hl7.org/display/SD/Structured+Documents" target="_blank">Structured Documents Work Group</a></p>
                                  
@@ -2102,6 +2102,18 @@
                                     <b>Revisions</b>
                                     
                                     <ul>
+                                       
+                                       <li class="doc">
+                                          <b>05/01/2020, AH, v4.0.2 beta 5</b>
+                                          
+                                          <ul>
+                                             
+                                             <li class="doc">Add security mitigation for base64 encoded contents to only render in case of application/pdf.
+                                                Before this patch any Base64 encoded contents would be rendered in an iframe regardless
+                                                of its mimetype. This left the door open for 'active' contents like text/html with
+                                                embedded javascript to do potentially malicious things.</li>
+                                             </ul>
+                                          </li>
                                        
                                        <li class="doc">
                                           <b>05/01/2020, AH, v4.0.2 beta 4</b>
@@ -3272,10 +3284,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -3698,6 +3706,15 @@
                     xLeft {
                         text-align: left;
                     }
+                    xTop {
+                        vertical-align: top;
+                    }
+                    xMiddle {
+                        vertical-align: middle;
+                    }
+                    xBottom {
+                        vertical-align: bottom;
+                    }
                     xMono {
                         font-family: monospace;
                     }
@@ -3989,10 +4006,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -4090,10 +4103,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -4320,7 +4329,7 @@
       </span><span class="tEl">&lt;/img&gt;</span><span class="tI">
     </span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
     </span><span class="tC">&lt;!-- This is something base64 --&gt;</span><span class="tI">
-    </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"$renderElement[@representation = 'B64']"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"$renderElement[@mediaType = 'application/pdf'][@representation = 'B64']"</span><span class="tXSLEl">&gt;</span><span class="tI">
       </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"getLocalizedString"</span><span class="tXSLEl">&gt;</span><span class="tI">
         </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"key"</span><span class="tAN"> select=</span><span class="tAV">"'If the contents are not displayed here, it may be offered as a download.'"</span><span class="tXSLEl">/&gt;</span><span class="tI">
       </span><span class="tXSLEl">&lt;/xsl:call-template&gt;</span><span class="tI">
@@ -4350,10 +4359,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -4558,10 +4563,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -4737,10 +4738,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -4820,10 +4817,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -4898,10 +4891,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -5035,10 +5024,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -5242,10 +5227,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -5471,10 +5452,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -5661,10 +5638,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -5753,10 +5726,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -5837,10 +5806,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -5920,10 +5885,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -5999,10 +5960,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -6088,10 +6045,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -6167,10 +6120,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -6289,10 +6238,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -6386,10 +6331,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -6479,10 +6420,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -6586,10 +6523,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -6668,10 +6601,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -7022,10 +6951,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -7171,10 +7096,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -7255,10 +7176,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -7338,10 +7255,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -7733,10 +7646,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -7824,10 +7733,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -8010,10 +7915,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -8673,10 +8574,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -8808,10 +8705,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -8911,10 +8804,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -9169,10 +9058,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -9332,10 +9217,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -9497,10 +9378,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -9640,10 +9517,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -9992,10 +9865,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -10147,10 +10016,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -10347,10 +10212,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -10493,10 +10354,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -10663,10 +10520,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -10881,10 +10734,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -11053,10 +10902,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -11398,10 +11243,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -11542,10 +11383,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -11679,10 +11516,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -11869,10 +11702,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -12032,10 +11861,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -12267,10 +12092,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -12423,10 +12244,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -12585,10 +12402,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -12798,10 +12611,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -12942,10 +12751,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -13085,10 +12890,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -13227,10 +13028,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -13409,10 +13206,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -13629,10 +13422,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -13829,10 +13618,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -14009,10 +13794,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -14165,10 +13946,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -14399,10 +14176,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -14647,10 +14420,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -14857,10 +14626,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -15077,10 +14842,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -15276,10 +15037,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -15758,10 +15515,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -15937,10 +15690,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -16123,10 +15872,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -16346,10 +16091,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -16548,10 +16289,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -16730,10 +16467,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -16898,10 +16631,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -17098,10 +16827,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -17258,10 +16983,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -17415,10 +17136,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -17570,10 +17287,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -17724,10 +17437,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -17951,10 +17660,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -18224,10 +17929,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -18397,10 +18098,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -18567,10 +18264,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -18720,10 +18413,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -18864,10 +18553,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -19014,10 +18699,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -19209,10 +18890,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -19390,10 +19067,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -19605,10 +19278,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -19860,10 +19529,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -20007,10 +19672,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -20138,10 +19799,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -20261,10 +19918,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -20483,10 +20136,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -20572,10 +20221,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -20659,10 +20304,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -20757,10 +20398,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -20873,10 +20510,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -20943,10 +20576,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -21036,10 +20665,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -21120,10 +20745,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -21208,10 +20829,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -21308,10 +20925,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -21417,10 +21030,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -21524,10 +21133,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -21633,10 +21238,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -21740,10 +21341,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -21849,10 +21446,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -21956,10 +21549,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -22065,10 +21654,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -22150,10 +21735,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -22234,10 +21815,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -22323,10 +21900,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -22411,10 +21984,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -22475,10 +22044,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -22547,10 +22112,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -22633,10 +22194,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -22721,10 +22278,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -22806,10 +22359,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -22893,10 +22442,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -23002,10 +22547,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -23096,10 +22637,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -23188,10 +22725,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -23314,10 +22847,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -23422,10 +22951,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -23547,10 +23072,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -23655,10 +23176,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -23745,10 +23262,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -23837,10 +23350,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -23927,10 +23436,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -24015,10 +23520,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
@@ -24215,10 +23716,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -24306,10 +23803,6 @@
                            </div>
                         </td>
                      </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
-                     </tr>
                   </tbody>
                </table>
             </td>
@@ -24394,10 +23887,6 @@
                               </table>
                            </div>
                         </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Stylesheet location</td>
-                        <td><a href="CDA.html#CDA.xsl" target="_self" title="No namespace">CDA.xsl</a></td>
                      </tr>
                   </tbody>
                </table>
