@@ -2057,7 +2057,7 @@
                                  
                                  <p><b>Title:</b> CDA R2 StyleSheet</p>
                                  
-                                 <p><b>Version:</b> 4.0.2 beta 6</p>
+                                 <p><b>Version:</b> 4.0.2 beta 7</p>
                                  
                                  <p><b>Maintained by:</b> HL7 <a href="https://confluence.hl7.org/display/SD/Structured+Documents" target="_blank">Structured Documents Work Group</a></p>
                                  
@@ -3214,7 +3214,14 @@
           </span><span class="tEl">&lt;/img&gt;</span><span class="tI">
         </span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
         </span><span class="tXSLEl">&lt;xsl:otherwise</span><span class="tXSLEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:comment</span><span class="tXSLEl">&gt;</span><span class="tT" style="white-space:normal">[if lt IE 9]&gt;</span><span class="tXSLEl">&lt;/xsl:comment&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"getLocalizedString"</span><span class="tXSLEl">&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"key"</span><span class="tAN"> select=</span><span class="tAV">"'iframe-warning'"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;/xsl:call-template&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:comment</span><span class="tXSLEl">&gt;</span><span class="tT" style="white-space:normal">&lt;![endif]</span><span class="tXSLEl">&lt;/xsl:comment&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:comment</span><span class="tXSLEl">&gt;</span><span class="tT" style="white-space:normal">[if gt IE 9]&gt;</span><span class="tXSLEl">&lt;/xsl:comment&gt;</span><span class="tI">
           </span><span class="tEl">&lt;iframe</span><span class="tAN"> name=</span><span class="tAV">"{$renderID}"</span><span class="tAN"> id=</span><span class="tAV">"{$renderID}"</span><span class="tAN"> width=</span><span class="tAV">"100%"</span><span class="tAN"> height=</span><span class="tAV">"600"</span><span class="tAN"> src=</span><span class="tAV">"{$source}"</span><span class="tAN"> title=</span><span class="tAV">"{$renderAltText}"</span><span class="tAN"> sandbox=</span><span class="tAV">""</span><span class="tEl">/&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:comment</span><span class="tXSLEl">&gt;</span><span class="tT" style="white-space:normal">&lt;![endif]</span><span class="tXSLEl">&lt;/xsl:comment&gt;</span><span class="tI">
         </span><span class="tXSLEl">&lt;/xsl:otherwise&gt;</span><span class="tI">
       </span><span class="tXSLEl">&lt;/xsl:choose&gt;</span><span class="tI">
     </span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
@@ -3233,7 +3240,14 @@
     </span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
     </span><span class="tC">&lt;!-- This is something base64 --&gt;</span><span class="tI">
     </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"$renderElement[@representation = 'B64']"</span><span class="tXSLEl">&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:comment</span><span class="tXSLEl">&gt;</span><span class="tT" style="white-space:normal">[if lt IE 9]&gt;</span><span class="tXSLEl">&lt;/xsl:comment&gt;</span><span class="tI">
       </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"getLocalizedString"</span><span class="tXSLEl">&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"key"</span><span class="tAN"> select=</span><span class="tAV">"'iframe-warning'"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;/xsl:call-template&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:comment</span><span class="tXSLEl">&gt;</span><span class="tT" style="white-space:normal">&lt;![endif]</span><span class="tXSLEl">&lt;/xsl:comment&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:comment</span><span class="tXSLEl">&gt;</span><span class="tT" style="white-space:normal">[if gt IE 9]&gt;</span><span class="tXSLEl">&lt;/xsl:comment&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"getLocalizedString"</span><span class="tXSLEl">&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"pre"</span><span class="tAN"> select=</span><span class="tAV">"' '"</span><span class="tXSLEl">/&gt;</span><span class="tI">
         </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"key"</span><span class="tAN"> select=</span><span class="tAV">"'If the contents are not displayed here, it may be offered as a download.'"</span><span class="tXSLEl">/&gt;</span><span class="tI">
       </span><span class="tXSLEl">&lt;/xsl:call-template&gt;</span><span class="tI">
       </span><span class="tEl">&lt;iframe</span><span class="tAN"> name=</span><span class="tAV">"{$renderID}"</span><span class="tAN"> id=</span><span class="tAV">"{$renderID}"</span><span class="tAN"> width=</span><span class="tAV">"100%"</span><span class="tAN"> height=</span><span class="tAV">"600"</span><span class="tAN"> title=</span><span class="tAV">"{$renderAltText}"</span><span class="tEl">&gt;</span><span class="tI">
@@ -3244,6 +3258,7 @@
           </span><span class="tXSLEl">&lt;xsl:attribute</span><span class="tAN"> name=</span><span class="tAV">"sandbox"</span><span class="tXSLEl">/&gt;</span><span class="tI">
         </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/iframe&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:comment</span><span class="tXSLEl">&gt;</span><span class="tT" style="white-space:normal">&lt;![endif]</span><span class="tXSLEl">&lt;/xsl:comment&gt;</span><span class="tI">
     </span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
     </span><span class="tC">&lt;!-- This is plain text --&gt;</span><span class="tI">
     </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"$renderElement[not(@mediaType) or @mediaType='text/plain']"</span><span class="tXSLEl">&gt;</span><span class="tI">

@@ -7830,6 +7830,11 @@
         <value lang="nl-nl">Voorbeelden</value>
     </translation>
     <!-- End: OIDs -->
+    <translation key="iframe-warning">
+        <comment>Label: unsupported browser for iframe</comment>
+        <value lang="en-us">WARNING: This browser does not support sandboxed iframes which makes rendering here potentially unsafe. Please try a different browser.</value>
+        <value lang="nl-nl">WAARSCHUWING: Deze browser ondersteunt geen sanboxed iframes wat weergave op deze plaats onveilig maakt. Probeer een modernere browser.</value>
+    </translation>
     <translation key="javascript-injection-warning">
         <comment>Label: security warning text</comment>
         <value lang="en-us">WARNING: Javascript injection attempt detected in source CDA document. Terminating</value>
