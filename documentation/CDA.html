@@ -2057,7 +2057,7 @@
                                  
                                  <p><b>Title:</b> CDA R2 StyleSheet</p>
                                  
-                                 <p><b>Version:</b> 4.0.2 beta 5</p>
+                                 <p><b>Version:</b> 4.0.2 beta 6</p>
                                  
                                  <p><b>Maintained by:</b> HL7 <a href="https://confluence.hl7.org/display/SD/Structured+Documents" target="_blank">Structured Documents Work Group</a></p>
                                  
@@ -2102,6 +2102,16 @@
                                     <b>Revisions</b>
                                     
                                     <ul>
+                                       
+                                       <li class="doc">
+                                          <b>05/01/2020, AH, v4.0.2 beta 6</b>
+                                          
+                                          <ul>
+                                             
+                                             <li class="doc">Reimplemented the security mitigation from beta 5 by allowing all Base64 mimetypes
+                                                in the iframe again but adding <a href="https://www.w3schools.com/tags/att_iframe_sandbox.asp" target="_blank">the sandbox attribute</a> to avoid opening too much for what that iframe can do.</li>
+                                             </ul>
+                                          </li>
                                        
                                        <li class="doc">
                                           <b>05/01/2020, AH, v4.0.2 beta 5</b>
@@ -4329,7 +4339,7 @@
       </span><span class="tEl">&lt;/img&gt;</span><span class="tI">
     </span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
     </span><span class="tC">&lt;!-- This is something base64 --&gt;</span><span class="tI">
-    </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"$renderElement[@mediaType = 'application/pdf'][@representation = 'B64']"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"$renderElement[@representation = 'B64']"</span><span class="tXSLEl">&gt;</span><span class="tI">
       </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"getLocalizedString"</span><span class="tXSLEl">&gt;</span><span class="tI">
         </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"key"</span><span class="tAN"> select=</span><span class="tAV">"'If the contents are not displayed here, it may be offered as a download.'"</span><span class="tXSLEl">/&gt;</span><span class="tI">
       </span><span class="tXSLEl">&lt;/xsl:call-template&gt;</span><span class="tI">
@@ -4337,6 +4347,9 @@
         </span><span class="tXSLEl">&lt;xsl:attribute</span><span class="tAN"> name=</span><span class="tAV">"src"</span><span class="tXSLEl">&gt;</span><span class="tI">
           </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"concat('data:', $renderElement/@mediaType, ';base64,', $renderElement/text())"</span><span class="tXSLEl">/&gt;</span><span class="tI">
         </span><span class="tXSLEl">&lt;/xsl:attribute&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$renderElement/@mediaType != 'application/pdf'"</span><span class="tXSLEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:attribute</span><span class="tAN"> name=</span><span class="tAV">"sandbox"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/iframe&gt;</span><span class="tI">
     </span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
     </span><span class="tC">&lt;!-- This is plain text --&gt;</span><span class="tI">
