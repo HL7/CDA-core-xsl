@@ -992,11 +992,11 @@
                         </img>
                     </xsl:when>
                     <xsl:otherwise>
-                        <xsl:comment>[if lte IE 9]&gt;</xsl:comment>
-                        <xsl:call-template name="getLocalizedString">
-                            <xsl:with-param name="key" select="'iframe-warning'"/>
-                        </xsl:call-template>
-                        <xsl:comment>&lt;![endif]</xsl:comment>
+                        <xsl:comment>[if lte IE 9]&gt;
+                            <xsl:call-template name="getLocalizedString">
+                                <xsl:with-param name="key" select="'iframe-warning'"/>
+                            </xsl:call-template>
+                        &lt;![endif]</xsl:comment>
                         <xsl:comment>[if gt IE 9]&gt;</xsl:comment>
                         <iframe name="{$renderID}" id="{$renderID}" width="100%" height="600" src="{$source}" title="{$renderAltText}" sandbox=""/>
                         <xsl:comment>&lt;![endif]</xsl:comment>
@@ -1018,11 +1018,11 @@
             </xsl:when>
             <!-- This is something base64 -->
             <xsl:when test="$renderElement[@representation = 'B64']">
-                <xsl:comment>[if lt IE 9]&gt;</xsl:comment>
-                <xsl:call-template name="getLocalizedString">
-                    <xsl:with-param name="key" select="'iframe-warning'"/>
-                </xsl:call-template>
-                <xsl:comment>&lt;![endif]</xsl:comment>
+                <xsl:comment>[if lte IE 9]&gt;
+                    <xsl:call-template name="getLocalizedString">
+                        <xsl:with-param name="key" select="'iframe-warning'"/>
+                    </xsl:call-template>
+                &lt;![endif]</xsl:comment>
                 <xsl:comment>[if gt IE 9]&gt;</xsl:comment>
                 <xsl:call-template name="getLocalizedString">
                     <xsl:with-param name="pre" select="' '"/>
