@@ -7833,7 +7833,12 @@
     <translation key="iframe-warning">
         <comment>Label: unsupported browser for iframe</comment>
         <value lang="en-us">WARNING: This browser does not support sandboxed iframes which makes rendering here potentially unsafe. Please try a different browser.</value>
-        <value lang="nl-nl">WAARSCHUWING: Deze browser ondersteunt geen sanboxed iframes wat weergave op deze plaats onveilig maakt. Probeer een modernere browser.</value>
+        <value lang="nl-nl">WAARSCHUWING: Deze browser ondersteunt geen sandboxed iframes wat weergave op deze plaats onveilig maakt. Probeer een modernere browser.</value>
+    </translation>
+    <translation key="iframe-warning-pdf">
+        <comment>Label: unsupported browser for iframe with pdf</comment>
+        <value lang="en-us">WARNING: This browser does not support (sandboxed) iframes with inline pdf which makes rendering here potentially unsafe and/or impossible. Please try a different browser.</value>
+        <value lang="nl-nl">WAARSCHUWING: Deze browser ondersteunt geen (sandboxed) iframes met inline pdf wat weergave op deze plaats onveilig en/of onmogelijk maakt. Probeer een modernere browser.</value>
     </translation>
     <translation key="javascript-injection-warning">
         <comment>Label: security warning text</comment>
