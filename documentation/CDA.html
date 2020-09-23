@@ -2057,7 +2057,7 @@
                                  
                                  <p><b>Title:</b> CDA R2 StyleSheet</p>
                                  
-                                 <p><b>Version:</b> 4.0.2 beta 8</p>
+                                 <p><b>Version:</b> 4.0.2 beta 9</p>
                                  
                                  <p><b>Maintained by:</b> HL7 <a href="https://confluence.hl7.org/display/SD/Structured+Documents" target="_blank">Structured Documents Work Group</a></p>
                                  
@@ -2091,27 +2091,6 @@
                      <tr>
                         <td class="fCol">Stylesheet version</td>
                         <td>1.0</td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">
-                           <div class="flL">Extension functions reliance</div>
-                        </td>
-                        <td>
-                           <div>
-                              <table class="attsT">
-                                 <th class="fCol">
-                                    <div class="flL">Namespace</div>
-                                 </th>
-                                 <th class="fCol">
-                                    <div class="flL">Functions</div>
-                                 </th>
-                                 <tr>
-                                    <td class="fCol">http://exslt.org/common</td>
-                                    <td><span title="Arity: 1 Used in: CDA.xsl&#xA;">node-set</span></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
                      </tr>
                   </tbody>
                </table>
@@ -3214,11 +3193,10 @@
           </span><span class="tEl">&lt;/img&gt;</span><span class="tI">
         </span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
         </span><span class="tXSLEl">&lt;xsl:otherwise</span><span class="tXSLEl">&gt;</span><span class="tI">
-          </span><span class="tXSLEl">&lt;xsl:comment</span><span class="tXSLEl">&gt;</span><span class="tT" style="white-space:normal">[if lte IE 9]&gt;</span><span class="tXSLEl">&lt;/xsl:comment&gt;</span><span class="tI">
-          </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"getLocalizedString"</span><span class="tXSLEl">&gt;</span><span class="tI">
-            </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"key"</span><span class="tAN"> select=</span><span class="tAV">"'iframe-warning'"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-          </span><span class="tXSLEl">&lt;/xsl:call-template&gt;</span><span class="tI">
-          </span><span class="tXSLEl">&lt;xsl:comment</span><span class="tXSLEl">&gt;</span><span class="tT" style="white-space:normal">&lt;![endif]</span><span class="tXSLEl">&lt;/xsl:comment&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:comment</span><span class="tXSLEl">&gt;</span><span class="tT" style="white-space:normal">[if lte IE 9]&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"getLocalizedString"</span><span class="tXSLEl">&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"key"</span><span class="tAN"> select=</span><span class="tAV">"'iframe-warning'"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;/xsl:call-template&gt;</span><span class="tT" style="white-space:normal">&lt;![endif]</span><span class="tXSLEl">&lt;/xsl:comment&gt;</span><span class="tI">
           </span><span class="tXSLEl">&lt;xsl:comment</span><span class="tXSLEl">&gt;</span><span class="tT" style="white-space:normal">[if gt IE 9]&gt;</span><span class="tXSLEl">&lt;/xsl:comment&gt;</span><span class="tI">
           </span><span class="tEl">&lt;iframe</span><span class="tAN"> name=</span><span class="tAV">"{$renderID}"</span><span class="tAN"> id=</span><span class="tAV">"{$renderID}"</span><span class="tAN"> width=</span><span class="tAV">"100%"</span><span class="tAN"> height=</span><span class="tAV">"600"</span><span class="tAN"> src=</span><span class="tAV">"{$source}"</span><span class="tAN"> title=</span><span class="tAV">"{$renderAltText}"</span><span class="tAN"> sandbox=</span><span class="tAV">""</span><span class="tEl">/&gt;</span><span class="tI">
           </span><span class="tXSLEl">&lt;xsl:comment</span><span class="tXSLEl">&gt;</span><span class="tT" style="white-space:normal">&lt;![endif]</span><span class="tXSLEl">&lt;/xsl:comment&gt;</span><span class="tI">
@@ -3238,13 +3216,15 @@
         </span><span class="tXSLEl">&lt;/xsl:attribute&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/img&gt;</span><span class="tI">
     </span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
-    </span><span class="tC">&lt;!-- This is something base64 --&gt;</span><span class="tI">
+    </span><span class="tC">&lt;!-- This is something base64. Internet Explorer 11 and below will not be able to render PDF this way, but 
+                IE 10 and 11 stopped supporting HTML conditionals so unable to check. Microsoft Edge, Safari, Chrome, Firefox is fine.
+                So we're good on all major browsers except IE 10 and 11. 
+            --&gt;</span><span class="tI">
     </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"$renderElement[@representation = 'B64']"</span><span class="tXSLEl">&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;xsl:comment</span><span class="tXSLEl">&gt;</span><span class="tT" style="white-space:normal">[if lt IE 9]&gt;</span><span class="tXSLEl">&lt;/xsl:comment&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"getLocalizedString"</span><span class="tXSLEl">&gt;</span><span class="tI">
-        </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"key"</span><span class="tAN"> select=</span><span class="tAV">"'iframe-warning'"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;/xsl:call-template&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;xsl:comment</span><span class="tXSLEl">&gt;</span><span class="tT" style="white-space:normal">&lt;![endif]</span><span class="tXSLEl">&lt;/xsl:comment&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:comment</span><span class="tXSLEl">&gt;</span><span class="tT" style="white-space:normal">[if lte IE 9]&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"getLocalizedString"</span><span class="tXSLEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"key"</span><span class="tAN"> select=</span><span class="tAV">"'iframe-warning-pdf'"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;/xsl:call-template&gt;</span><span class="tT" style="white-space:normal">&lt;![endif]</span><span class="tXSLEl">&lt;/xsl:comment&gt;</span><span class="tI">
       </span><span class="tXSLEl">&lt;xsl:comment</span><span class="tXSLEl">&gt;</span><span class="tT" style="white-space:normal">[if gt IE 9]&gt;</span><span class="tXSLEl">&lt;/xsl:comment&gt;</span><span class="tI">
       </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"getLocalizedString"</span><span class="tXSLEl">&gt;</span><span class="tI">
         </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"pre"</span><span class="tAN"> select=</span><span class="tAV">"' '"</span><span class="tXSLEl">/&gt;</span><span class="tI">
@@ -6398,7 +6378,7 @@
           </span><span class="tXSLEl">&lt;/xsl:attribute&gt;</span><span class="tI">
         </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
       </span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"exslt:node-set($table-elem-attrs)/elem[@name = $elem-name] and                                  not(exslt:node-set($table-elem-attrs)//elem[@name = $elem-name]/attr[@name = $attr-name])"</span><span class="tXSLEl">&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"$table-elem-attrs/elem[@name = $elem-name] and not($table-elem-attrs//elem[@name = $elem-name]/attr[@name = $attr-name])"</span><span class="tXSLEl">&gt;</span><span class="tI">
         </span><span class="tXSLEl">&lt;xsl:message</span><span class="tXSLEl">&gt;</span><span class="tI">
           </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$attr-name"</span><span class="tXSLEl">/&gt;</span><span class="tT" style="white-space:normal">is not legal in</span><span class="tI">
           </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$elem-name"</span><span class="tXSLEl">/&gt;</span><span class="tI">
@@ -7905,29 +7885,22 @@
                 </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"post"</span><span class="tAN"> select=</span><span class="tAV">"': '"</span><span class="tXSLEl">/&gt;</span><span class="tI">
               </span><span class="tXSLEl">&lt;/xsl:call-template&gt;</span><span class="tI">
             </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
-            </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"name-set"</span><span class="tXSLEl">&gt;</span><span class="tI">
-              </span><span class="tXSLEl">&lt;xsl:choose</span><span class="tXSLEl">&gt;</span><span class="tI">
-                </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"hl7:representedOrganization/hl7:name"</span><span class="tXSLEl">&gt;</span><span class="tI">
-                  </span><span class="tXSLEl">&lt;xsl:copy-of</span><span class="tAN"> select=</span><span class="tAV">"hl7:representedOrganization/hl7:name"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-                </span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
-                </span><span class="tXSLEl">&lt;xsl:otherwise</span><span class="tXSLEl">&gt;</span><span class="tI">
-                  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"id-root"</span><span class="tAN"> select=</span><span class="tAV">"(hl7:representedOrganization/hl7:id[not(@nullFlavor)])[1]/@root"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-                  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"id-ext"</span><span class="tAN"> select=</span><span class="tAV">"(hl7:representedOrganization/hl7:id[not(@nullFlavor)])[1]/@extension"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-                  </span><span class="tXSLEl">&lt;xsl:choose</span><span class="tXSLEl">&gt;</span><span class="tI">
-                    </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"$id-ext"</span><span class="tXSLEl">&gt;</span><span class="tI">
-                      </span><span class="tXSLEl">&lt;xsl:copy-of</span><span class="tAN"> select=</span><span class="tAV">"(ancestor::hl7:ClinicalDocument//*[hl7:id[@root = $id-root][@extension = $id-ext]][hl7:name])[1]/hl7:name"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-                    </span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
-                    </span><span class="tXSLEl">&lt;xsl:otherwise</span><span class="tXSLEl">&gt;</span><span class="tI">
-                      </span><span class="tXSLEl">&lt;xsl:copy-of</span><span class="tAN"> select=</span><span class="tAV">"(ancestor::hl7:ClinicalDocument//*[hl7:id[@root = $id-root][not(@extension)]][hl7:name])[1]/hl7:name"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-                    </span><span class="tXSLEl">&lt;/xsl:otherwise&gt;</span><span class="tI">
-                  </span><span class="tXSLEl">&lt;/xsl:choose&gt;</span><span class="tI">
-                </span><span class="tXSLEl">&lt;/xsl:otherwise&gt;</span><span class="tI">
-              </span><span class="tXSLEl">&lt;/xsl:choose&gt;</span><span class="tI">
-            </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"id-root"</span><span class="tAN"> select=</span><span class="tAV">"(hl7:representedOrganization/hl7:id[not(@nullFlavor)])[1]/@root"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"id-ext"</span><span class="tAN"> select=</span><span class="tAV">"(hl7:representedOrganization/hl7:id[not(@nullFlavor)])[1]/@extension"</span><span class="tXSLEl">/&gt;</span><span class="tI">
             </span><span class="tXSLEl">&lt;xsl:choose</span><span class="tXSLEl">&gt;</span><span class="tI">
-              </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"exslt:node-set($name-set)"</span><span class="tXSLEl">&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"hl7:representedOrganization/hl7:name"</span><span class="tXSLEl">&gt;</span><span class="tI">
                 </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"show-name-set"</span><span class="tXSLEl">&gt;</span><span class="tI">
-                  </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"in"</span><span class="tAN"> select=</span><span class="tAV">"exslt:node-set($name-set)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+                  </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"in"</span><span class="tAN"> select=</span><span class="tAV">"hl7:representedOrganization/hl7:name"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+                </span><span class="tXSLEl">&lt;/xsl:call-template&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"string-length($id-ext) &gt; 0 and (ancestor::hl7:ClinicalDocument//*[hl7:id[@root = $id-root][@extension = $id-ext]][hl7:name])[1]/hl7:name"</span><span class="tXSLEl">&gt;</span><span class="tI">
+                </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"show-name-set"</span><span class="tXSLEl">&gt;</span><span class="tI">
+                  </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"in"</span><span class="tAN"> select=</span><span class="tAV">"(ancestor::hl7:ClinicalDocument//*[hl7:id[@root = $id-root][@extension = $id-ext]][hl7:name])[1]/hl7:name"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+                </span><span class="tXSLEl">&lt;/xsl:call-template&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"string-length($id-ext) = 0 and (ancestor::hl7:ClinicalDocument//*[hl7:id[@root = $id-root]][hl7:name])[1]/hl7:name"</span><span class="tXSLEl">&gt;</span><span class="tI">
+                </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"show-name-set"</span><span class="tXSLEl">&gt;</span><span class="tI">
+                  </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"in"</span><span class="tAN"> select=</span><span class="tAV">"(ancestor::hl7:ClinicalDocument//*[hl7:id[@root = $id-root]][hl7:name])[1]/hl7:name"</span><span class="tXSLEl">/&gt;</span><span class="tI">
                 </span><span class="tXSLEl">&lt;/xsl:call-template&gt;</span><span class="tI">
               </span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
               </span><span class="tXSLEl">&lt;xsl:otherwise</span><span class="tXSLEl">&gt;</span><span class="tI">
@@ -22498,6 +22471,10 @@
                         <td>No namespace</td>
                      </tr>
                      <tr>
+                        <td class="fCol">Select</td>
+                        <td>document('cda_narrativeblock.xml')/tableElems</td>
+                     </tr>
+                     <tr>
                         <td class="fCol">
                            <div class="flL">Used by</div>
                            <div class="flR"><input id="bt_uB_V_table-elem-attrsS_CDA.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('uB_V_table-elem-attrsS_CDA.xsl');" class="control" /></div>
@@ -22527,110 +22504,7 @@
                               <table class="pWCont">
                                  <tr>
                                     <td width="100%">
-                                       <pre><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"table-elem-attrs"</span><span class="tXSLEl">&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;tableElems</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;elem</span><span class="tAN"> name=</span><span class="tAV">"table"</span><span class="tEl">&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"ID"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"language"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"styleCode"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"summary"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"width"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"border"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"frame"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"rules"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"cellspacing"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"cellpadding"</span><span class="tEl">/&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;/elem&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;elem</span><span class="tAN"> name=</span><span class="tAV">"thead"</span><span class="tEl">&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"ID"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"language"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"styleCode"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"align"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"char"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"charoff"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"valign"</span><span class="tEl">/&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;/elem&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;elem</span><span class="tAN"> name=</span><span class="tAV">"tfoot"</span><span class="tEl">&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"ID"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"language"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"styleCode"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"align"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"char"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"charoff"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"valign"</span><span class="tEl">/&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;/elem&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;elem</span><span class="tAN"> name=</span><span class="tAV">"tbody"</span><span class="tEl">&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"ID"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"language"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"styleCode"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"align"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"char"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"charoff"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"valign"</span><span class="tEl">/&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;/elem&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;elem</span><span class="tAN"> name=</span><span class="tAV">"colgroup"</span><span class="tEl">&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"ID"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"language"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"styleCode"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"span"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"width"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"align"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"char"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"charoff"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"valign"</span><span class="tEl">/&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;/elem&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;elem</span><span class="tAN"> name=</span><span class="tAV">"col"</span><span class="tEl">&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"ID"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"language"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"styleCode"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"span"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"width"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"align"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"char"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"charoff"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"valign"</span><span class="tEl">/&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;/elem&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;elem</span><span class="tAN"> name=</span><span class="tAV">"tr"</span><span class="tEl">&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"ID"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"language"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"styleCode"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"align"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"char"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"charoff"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"valign"</span><span class="tEl">/&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;/elem&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;elem</span><span class="tAN"> name=</span><span class="tAV">"th"</span><span class="tEl">&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"ID"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"language"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"styleCode"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"abbr"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"axis"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"headers"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"scope"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"rowspan"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"colspan"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"align"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"char"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"charoff"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"valign"</span><span class="tEl">/&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;/elem&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;elem</span><span class="tAN"> name=</span><span class="tAV">"td"</span><span class="tEl">&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"ID"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"language"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"styleCode"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"abbr"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"axis"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"headers"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"scope"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"rowspan"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"colspan"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"align"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"char"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"charoff"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;attr</span><span class="tAN"> name=</span><span class="tAV">"valign"</span><span class="tEl">/&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;/elem&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;/tableElems&gt;</span><span class="tI">
-</span><span class="tXSLEl">&lt;/xsl:variable&gt;</span></pre>
+                                       <pre><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"table-elem-attrs"</span><span class="tAN"> select=</span><span class="tAV">"document('cda_narrativeblock.xml')/tableElems"</span><span class="tXSLEl">/&gt;</span></pre>
                                     </td>
                                  </tr>
                               </table>
