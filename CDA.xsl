@@ -5,14 +5,13 @@
     xmlns:hl7="urn:hl7-org:v3"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
-    xmlns:exslt="http://exslt.org/common"
     xmlns:sdtc="urn:hl7-org:sdtc"
     xmlns="http://www.w3.org/1999/xhtml"
-    exclude-result-prefixes="xd hl7 xsi xhtml exslt sdtc">
+    exclude-result-prefixes="xd hl7 xsi xhtml sdtc">
     <xd:doc scope="stylesheet">
         <xd:desc>
             <xd:p><xd:b>Title:</xd:b> CDA R2 StyleSheet</xd:p>
-            <xd:p><xd:b>Version:</xd:b> 4.0.2 beta 8</xd:p>
+            <xd:p><xd:b>Version:</xd:b> 4.0.2 beta 9</xd:p>
             <xd:p><xd:b>Maintained by:</xd:b> HL7 <xd:a href="https://confluence.hl7.org/display/SD/Structured+Documents">Structured Documents Work Group</xd:a></xd:p>
             <xd:p><xd:b>Purpose:</xd:b> Provides general purpose display of CDA release 2.0 and 2.1 (Specification: ANSI/HL7 CDAR2) and CDA release 3 (Specification was pulled after ballot) documents. It may also be a starting point for people interested in extending the display. This stylesheet displays all section content, but does not try to render each and every header attribute. For header attributes it tries to be smart in displaying essentials, which is still a lot.</xd:p>
             <xd:p><xd:b>License:</xd:b> Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at <a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a></xd:p>
@@ -1016,11 +1015,14 @@
                     </xsl:attribute>
                 </img>
             </xsl:when>
-            <!-- This is something base64 -->
+            <!-- This is something base64. Internet Explorer 11 and below will not be able to render PDF this way, but 
+                IE 10 and 11 stopped supporting HTML conditionals so unable to check. Microsoft Edge, Safari, Chrome, Firefox is fine.
+                So we're good on all major browsers except IE 10 and 11. 
+            -->
             <xsl:when test="$renderElement[@representation = 'B64']">
                 <xsl:comment>[if lte IE 9]&gt;
                     <xsl:call-template name="getLocalizedString">
-                        <xsl:with-param name="key" select="'iframe-warning'"/>
+                        <xsl:with-param name="key" select="'iframe-warning-pdf'"/>
                     </xsl:call-template>
                 &lt;![endif]</xsl:comment>
                 <xsl:comment>[if gt IE 9]&gt;</xsl:comment>
@@ -1758,110 +1760,7 @@
         <xsl:apply-templates select="ancestor::hl7:ClinicalDocument//hl7:observationMedia[@ID = $idrefs]"/>
     </xsl:template>-->
     
-    <xsl:variable name="table-elem-attrs">
-        <tableElems>
-            <elem name="table">
-                <attr name="ID"/>
-                <attr name="language"/>
-                <attr name="styleCode"/>
-                <attr name="summary"/>
-                <attr name="width"/>
-                <attr name="border"/>
-                <attr name="frame"/>
-                <attr name="rules"/>
-                <attr name="cellspacing"/>
-                <attr name="cellpadding"/>
-            </elem>
-            <elem name="thead">
-                <attr name="ID"/>
-                <attr name="language"/>
-                <attr name="styleCode"/>
-                <attr name="align"/>
-                <attr name="char"/>
-                <attr name="charoff"/>
-                <attr name="valign"/>
-            </elem>
-            <elem name="tfoot">
-                <attr name="ID"/>
-                <attr name="language"/>
-                <attr name="styleCode"/>
-                <attr name="align"/>
-                <attr name="char"/>
-                <attr name="charoff"/>
-                <attr name="valign"/>
-            </elem>
-            <elem name="tbody">
-                <attr name="ID"/>
-                <attr name="language"/>
-                <attr name="styleCode"/>
-                <attr name="align"/>
-                <attr name="char"/>
-                <attr name="charoff"/>
-                <attr name="valign"/>
-            </elem>
-            <elem name="colgroup">
-                <attr name="ID"/>
-                <attr name="language"/>
-                <attr name="styleCode"/>
-                <attr name="span"/>
-                <attr name="width"/>
-                <attr name="align"/>
-                <attr name="char"/>
-                <attr name="charoff"/>
-                <attr name="valign"/>
-            </elem>
-            <elem name="col">
-                <attr name="ID"/>
-                <attr name="language"/>
-                <attr name="styleCode"/>
-                <attr name="span"/>
-                <attr name="width"/>
-                <attr name="align"/>
-                <attr name="char"/>
-                <attr name="charoff"/>
-                <attr name="valign"/>
-            </elem>
-            <elem name="tr">
-                <attr name="ID"/>
-                <attr name="language"/>
-                <attr name="styleCode"/>
-                <attr name="align"/>
-                <attr name="char"/>
-                <attr name="charoff"/>
-                <attr name="valign"/>
-            </elem>
-            <elem name="th">
-                <attr name="ID"/>
-                <attr name="language"/>
-                <attr name="styleCode"/>
-                <attr name="abbr"/>
-                <attr name="axis"/>
-                <attr name="headers"/>
-                <attr name="scope"/>
-                <attr name="rowspan"/>
-                <attr name="colspan"/>
-                <attr name="align"/>
-                <attr name="char"/>
-                <attr name="charoff"/>
-                <attr name="valign"/>
-            </elem>
-            <elem name="td">
-                <attr name="ID"/>
-                <attr name="language"/>
-                <attr name="styleCode"/>
-                <attr name="abbr"/>
-                <attr name="axis"/>
-                <attr name="headers"/>
-                <attr name="scope"/>
-                <attr name="rowspan"/>
-                <attr name="colspan"/>
-                <attr name="align"/>
-                <attr name="char"/>
-                <attr name="charoff"/>
-                <attr name="valign"/>
-            </elem>
-        </tableElems>
-    </xsl:variable>
+    <xsl:variable name="table-elem-attrs" select="document('cda_narrativeblock.xml')/tableElems"/>
     
     <xd:doc>
         <xd:desc>Handle table and constituents of table</xd:desc>
@@ -2294,8 +2193,7 @@
                         </xsl:attribute>
                     </xsl:if>
                 </xsl:when>
-                <xsl:when test="exslt:node-set($table-elem-attrs)/elem[@name = $elem-name] and 
-                                not(exslt:node-set($table-elem-attrs)//elem[@name = $elem-name]/attr[@name = $attr-name])">
+                <xsl:when test="$table-elem-attrs/elem[@name = $elem-name] and not($table-elem-attrs//elem[@name = $elem-name]/attr[@name = $attr-name])">
                     <xsl:message><xsl:value-of select="$attr-name"/> is not legal in <xsl:value-of select="$elem-name"/></xsl:message>
                 </xsl:when>
                 <!-- Regular handling from here -->
@@ -3226,29 +3124,22 @@
                                     <xsl:with-param name="post" select="': '"/>
                                 </xsl:call-template>
                             </xsl:if>
-                            <xsl:variable name="name-set">
-                                <xsl:choose>
-                                    <xsl:when test="hl7:representedOrganization/hl7:name">
-                                        <xsl:copy-of select="hl7:representedOrganization/hl7:name"/>
-                                    </xsl:when>
-                                    <xsl:otherwise>
-                                        <xsl:variable name="id-root" select="(hl7:representedOrganization/hl7:id[not(@nullFlavor)])[1]/@root"/>
-                                        <xsl:variable name="id-ext" select="(hl7:representedOrganization/hl7:id[not(@nullFlavor)])[1]/@extension"/>
-                                        <xsl:choose>
-                                            <xsl:when test="$id-ext">
-                                                <xsl:copy-of select="(ancestor::hl7:ClinicalDocument//*[hl7:id[@root = $id-root][@extension = $id-ext]][hl7:name])[1]/hl7:name"/>
-                                            </xsl:when>
-                                            <xsl:otherwise>
-                                                <xsl:copy-of select="(ancestor::hl7:ClinicalDocument//*[hl7:id[@root = $id-root][not(@extension)]][hl7:name])[1]/hl7:name"/>
-                                            </xsl:otherwise>
-                                        </xsl:choose>
-                                    </xsl:otherwise>
-                                </xsl:choose>
-                            </xsl:variable>
+                            <xsl:variable name="id-root" select="(hl7:representedOrganization/hl7:id[not(@nullFlavor)])[1]/@root"/>
+                            <xsl:variable name="id-ext" select="(hl7:representedOrganization/hl7:id[not(@nullFlavor)])[1]/@extension"/>
                             <xsl:choose>
-                                <xsl:when test="exslt:node-set($name-set)">
+                                <xsl:when test="hl7:representedOrganization/hl7:name">
                                     <xsl:call-template name="show-name-set">
-                                        <xsl:with-param name="in" select="exslt:node-set($name-set)"/>
+                                        <xsl:with-param name="in" select="hl7:representedOrganization/hl7:name"/>
+                                    </xsl:call-template>
+                                </xsl:when>
+                                <xsl:when test="string-length($id-ext) &gt; 0 and (ancestor::hl7:ClinicalDocument//*[hl7:id[@root = $id-root][@extension = $id-ext]][hl7:name])[1]/hl7:name">
+                                    <xsl:call-template name="show-name-set">
+                                        <xsl:with-param name="in" select="(ancestor::hl7:ClinicalDocument//*[hl7:id[@root = $id-root][@extension = $id-ext]][hl7:name])[1]/hl7:name"/>
+                                    </xsl:call-template>
+                                </xsl:when>
+                                <xsl:when test="string-length($id-ext) = 0 and (ancestor::hl7:ClinicalDocument//*[hl7:id[@root = $id-root]][hl7:name])[1]/hl7:name">
+                                    <xsl:call-template name="show-name-set">
+                                        <xsl:with-param name="in" select="(ancestor::hl7:ClinicalDocument//*[hl7:id[@root = $id-root]][hl7:name])[1]/hl7:name"/>
                                     </xsl:call-template>
                                 </xsl:when>
                                 <xsl:otherwise>
