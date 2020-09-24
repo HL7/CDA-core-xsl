@@ -14,7 +14,7 @@ Licensed under the Apache License, Version 2.0 (the "License"); you may not use 
 ## Compatibility
 The CDA XSL has been tested to work with Saxon-PE and major browsers. Effort has been put in to make rendering friendly for visually impaired people, based on the [American Foundation for the Blind Section 508](http://www.afb.org/info/programs-and-services/public-policy-center/technology-and-information-accessibility/section-508-key-links/1235). Effort has been put in to make the document friendly for screen and for print.
 ## Warranty
-The CDA XSL is a sample rendering and should be used in that fashion without warranty or guarantees of suitability for a particular purpose.
+The CDA XSL is a sample rendering and should be used in that fashion without warranty or guarantees of suitability for a particular purpose. The stylesheet should be tested locally by implementers before production usage.
 ## Package Contents
 The CDA R2 Stylesheet package contains at minimum two files that you need accessible for CDA documents to call or for programmatic access (see next section "*Manual*")
 - CDA.xsl - main logic
@@ -149,6 +149,9 @@ The stylesheet supports many way to parametrize.
   - Default: none
 - `limit-external-images`
   - Security parameter. When set to 'yes' limits the URIs to images (if any) to locally attached images and/or images that are on the `external-image-whitelist`. When set to anything other than 'yes' also allows for arbritrary external images (e.g. through http:// or https://). Default value is 'yes' which is considered defensive against potential security risks that could stem from resources loaded from arbitrary source.
+  - Default: yes
+- `limit-pdf`
+  - Security parameter. When set to 'yes' [sandboxes the iframe](https://html.spec.whatwg.org/multipage/origin.html#sandboxed-plugins-browsing-context-flag) for pdfs. Sandboxed iframe disallow plug-ins, including the plug-in needed to render pdf. Effectively this setting thus prohibits pdf rendering. When set to anything other than 'yes', pdf carrying iframes are not sandboxed and pdf rendering is possible. Default value is 'yes' which is considered defensive against potential security risks that could stem from resources loaded from arbitrary source.
   - Default: yes
 - `mask-ids`
   - Privacy parameter. Accepts a comma separated list of patient ID root values (normally OID's). When a patient ID is encountered with a root value in this list, then the rendering of the extension will be xxx-xxx-xxx regardless of what the actual value is. This is useful to prevent public display of for example the US SSN. Default is to render any ID as it occurs in the document. Note that this setting only affects human rendering and that it does not affect automated processing of the underlying document. If the same value also occurs in the `skip-ids` list, then that takes precedence.
