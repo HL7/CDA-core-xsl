@@ -14,7 +14,7 @@ Licensed under the Apache License, Version 2.0 (the "License"); you may not use 
 ## Compatibility
 The CDA XSL has been tested to work with Saxon-PE and major browsers. Effort has been put in to make rendering friendly for visually impaired people, based on the [American Foundation for the Blind Section 508](http://www.afb.org/info/programs-and-services/public-policy-center/technology-and-information-accessibility/section-508-key-links/1235). Effort has been put in to make the document friendly for screen and for print.
 ## Warranty
-The CDA XSL is a sample rendering and should be used in that fashion without warranty or guarantees of suitability for a particular purpose.
+The CDA XSL is a sample rendering and should be used in that fashion without warranty or guarantees of suitability for a particular purpose. The stylesheet should be tested locally by implementers before production usage.
 ## Package Contents
 The CDA R2 Stylesheet package contains at minimum two files that you need accessible for CDA documents to call or for programmatic access (see next section "*Manual*")
 - CDA.xsl - main logic
