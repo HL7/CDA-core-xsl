@@ -11,12 +11,12 @@
     <xd:doc scope="stylesheet">
         <xd:desc>
             <xd:p><xd:b>Title:</xd:b> CDA R2 StyleSheet</xd:p>
-            <xd:p><xd:b>Version:</xd:b> 4.0.2 beta 9</xd:p>
+            <xd:p><xd:b>Version:</xd:b> 4.0.2 beta 10</xd:p>
             <xd:p><xd:b>Maintained by:</xd:b> HL7 <xd:a href="https://confluence.hl7.org/display/SD/Structured+Documents">Structured Documents Work Group</xd:a></xd:p>
             <xd:p><xd:b>Purpose:</xd:b> Provides general purpose display of CDA release 2.0 and 2.1 (Specification: ANSI/HL7 CDAR2) and CDA release 3 (Specification was pulled after ballot) documents. It may also be a starting point for people interested in extending the display. This stylesheet displays all section content, but does not try to render each and every header attribute. For header attributes it tries to be smart in displaying essentials, which is still a lot.</xd:p>
             <xd:p><xd:b>License:</xd:b> Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at <a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a></xd:p>
-            <xd:p><xd:b>Download link:</xd:b> <xd:a href="https://github.com/HL7/cda-core-xsl">https://github.com/HL7/cda-core-xsl</xd:a></xd:p>
-            <xd:p><xd:b>Documentation/manual:</xd:b> <xd:a href="https://confluence.hl7.org/display/SD/CDA+R2+Stylesheet">https://confluence.hl7.org/display/SD/CDA+R2+Stylesheet</xd:a></xd:p>
+            <xd:p><xd:b>Warranty</xd:b> The CDA XSL is a sample rendering and should be used in that fashion without warranty or guarantees of suitability for a particular purpose. The stylesheet should be tested locally by implementers before production usage.</xd:p>
+            <xd:p><xd:b>Project Link:</xd:b> <xd:a href="https://github.com/HL7/cda-core-xsl">https://github.com/HL7/cda-core-xsl</xd:a>. Including downloads of releases, documentation, issue tracker and more.</xd:p>
             <xd:p><xd:b>History:</xd:b> This stylesheet stands on the shoulders of giants. The stylesheet is the cumulative work of several developers; the most significant prior milestones were the foundation work from HL7 Germany and Finland (Tyylitiedosto) and HL7 US (Calvin Beebe), and the presentation approach from Tony Schaller, medshare GmbH provided at IHIC 2009. The stylesheet has subsequently been maintained/updated by Lantana Group (US) and Nictiz (NL).</xd:p>
             <xd:p><xd:b>Revisions:</xd:b> The release notes previously contained in the stylesheet, have moved to the <xd:a href="https://github.com/HL7/cda-core-xsl/wiki/Revisions">GitHub</xd:a> where the project is maintained.</xd:p>
         </xd:desc>
@@ -207,6 +207,13 @@
         </xd:desc>
     </xd:doc>
     <xsl:param name="limit-external-images" select="'yes'"/>
+    
+    <xd:doc>
+        <xd:desc>
+            <xd:p>Security parameter. When set to 'yes' <xd:a href="https://html.spec.whatwg.org/multipage/origin.html#sandboxed-plugins-browsing-context-flag">sandboxes the iframe for pdfs</xd:a>. Sandboxed iframe disallow plug-ins, including the plug-in needed to render pdf. Effectively this setting thus prohibits pdf rendering. When set to anything other than 'yes', pdf carrying iframes are not sandboxed and pdf rendering is possible. Default value is 'yes' which is considered defensive against potential security risks that could stem from resources loaded from arbitrary source.</xd:p>
+        </xd:desc>
+    </xd:doc>
+    <xsl:param name="limit-pdf" select="'yes'"/>
     
     <xd:doc>
         <xd:desc>Determines depth of menu at the top of the document. Default is 1, which means just head section. Max is 3 which is head section + 2 levels (if any)</xd:desc>
@@ -993,11 +1000,29 @@
                     <xsl:otherwise>
                         <xsl:comment>[if lte IE 9]&gt;
                             <xsl:call-template name="getLocalizedString">
-                                <xsl:with-param name="key" select="'iframe-warning'"/>
+                                <xsl:with-param name="key" select="'iframe-warning-ie9'"/>
                             </xsl:call-template>
                         &lt;![endif]</xsl:comment>
                         <xsl:comment>[if gt IE 9]&gt;</xsl:comment>
-                        <iframe name="{$renderID}" id="{$renderID}" width="100%" height="600" src="{$source}" title="{$renderAltText}" sandbox=""/>
+                        <xsl:choose>
+                            <xsl:when test="$renderElement/@mediaType = 'application/pdf' and $limit-pdf = 'yes'">
+                                <div style="font-style: italic;">
+                                    <xsl:call-template name="getLocalizedString">
+                                        <xsl:with-param name="key" select="'iframe-warning-sandboxed-pdf'"/>
+                                    </xsl:call-template>
+                                </div>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <iframe name="{$renderID}" id="{$renderID}" width="100%" height="600" title="{$renderAltText}">
+                                    <xsl:if test="$renderElement/@mediaType != 'application/pdf' or $limit-pdf = 'yes'">
+                                        <xsl:attribute name="sandbox"/>
+                                    </xsl:if>
+                                    <xsl:attribute name="src">
+                                        <xsl:value-of select="$source"/>
+                                    </xsl:attribute>
+                                </iframe>
+                            </xsl:otherwise>
+                        </xsl:choose>
                         <xsl:comment>&lt;![endif]</xsl:comment>
                     </xsl:otherwise>
                 </xsl:choose>
@@ -1022,7 +1047,7 @@
             <xsl:when test="$renderElement[@representation = 'B64']">
                 <xsl:comment>[if lte IE 9]&gt;
                     <xsl:call-template name="getLocalizedString">
-                        <xsl:with-param name="key" select="'iframe-warning-pdf'"/>
+                        <xsl:with-param name="key" select="'iframe-warning-pdf-ie9'"/>
                     </xsl:call-template>
                 &lt;![endif]</xsl:comment>
                 <xsl:comment>[if gt IE 9]&gt;</xsl:comment>
@@ -1030,14 +1055,25 @@
                     <xsl:with-param name="pre" select="' '"/>
                     <xsl:with-param name="key" select="'If the contents are not displayed here, it may be offered as a download.'"/>
                 </xsl:call-template>
-                <iframe name="{$renderID}" id="{$renderID}" width="100%" height="600" title="{$renderAltText}">
-                    <xsl:attribute name="src">
-                        <xsl:value-of select="concat('data:', $renderElement/@mediaType, ';base64,', $renderElement/text())"/>
-                    </xsl:attribute>
-                    <xsl:if test="$renderElement/@mediaType != 'application/pdf'">
-                        <xsl:attribute name="sandbox"/>
-                    </xsl:if>
-                </iframe>
+                <xsl:choose>
+                    <xsl:when test="$renderElement/@mediaType = 'application/pdf' and $limit-pdf = 'yes'">
+                        <div style="font-style: italic;">
+                            <xsl:call-template name="getLocalizedString">
+                                <xsl:with-param name="key" select="'iframe-warning-sandboxed-pdf'"/>
+                            </xsl:call-template>
+                        </div>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <iframe name="{$renderID}" id="{$renderID}" width="100%" height="600" title="{$renderAltText}">
+                            <xsl:if test="$renderElement/@mediaType != 'application/pdf' or $limit-pdf = 'yes'">
+                                <xsl:attribute name="sandbox"/>
+                            </xsl:if>
+                            <xsl:attribute name="src">
+                                <xsl:value-of select="concat('data:', $renderElement/@mediaType, ';base64,', $renderElement/text())"/>
+                            </xsl:attribute>
+                        </iframe>
+                    </xsl:otherwise>
+                </xsl:choose>
                 <xsl:comment>&lt;![endif]</xsl:comment>
             </xsl:when>
             <!-- This is plain text -->
@@ -1998,8 +2034,7 @@
             </xsl:call-template>
         </xsl:variable>-->
         <xsl:variable name="referencedObjects" select="ancestor::hl7:ClinicalDocument//hl7:regionOfInterest[@ID = $imageRefs] | ancestor::hl7:ClinicalDocument//hl7:observationMedia[@ID = $imageRefs]"/>
-        <br/>
-        <span>
+        <div>
             <xsl:apply-templates select="hl7:caption"/>
             <xsl:for-each select="$referencedObjects">
                 <xsl:choose>
@@ -2056,7 +2091,7 @@
                     </xsl:when>
                 </xsl:choose>
             </xsl:for-each>
-        </span>
+        </div>
     </xsl:template>
     
     <xd:doc>

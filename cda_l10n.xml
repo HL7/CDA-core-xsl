@@ -7830,15 +7830,20 @@
         <value lang="nl-nl">Voorbeelden</value>
     </translation>
     <!-- End: OIDs -->
-    <translation key="iframe-warning">
+    <translation key="iframe-warning-ie9">
         <comment>Label: unsupported browser for iframe</comment>
         <value lang="en-us">WARNING: This browser does not support sandboxed iframes which makes rendering here potentially unsafe. Please try a different browser.</value>
         <value lang="nl-nl">WAARSCHUWING: Deze browser ondersteunt geen sandboxed iframes wat weergave op deze plaats onveilig maakt. Probeer een modernere browser.</value>
     </translation>
-    <translation key="iframe-warning-pdf">
+    <translation key="iframe-warning-pdf-ie9">
         <comment>Label: unsupported browser for iframe with pdf</comment>
         <value lang="en-us">WARNING: This browser does not support (sandboxed) iframes with inline pdf which makes rendering here potentially unsafe and/or impossible. Please try a different browser.</value>
         <value lang="nl-nl">WAARSCHUWING: Deze browser ondersteunt geen (sandboxed) iframes met inline pdf wat weergave op deze plaats onveilig en/of onmogelijk maakt. Probeer een modernere browser.</value>
+    </translation>
+    <translation key="iframe-warning-sandboxed-pdf">
+        <comment>Label: unsupported browser for iframe with pdf (limit-pdf = yes)</comment>
+        <value lang="en-us">WARNING: Due to the security setting of this rendering, it is not possible to show the pdf.</value>
+        <value lang="nl-nl">WAARSCHUWING: Vanwege de beveiligingsinstellingen voor deze weergaven, is het niet mogelijk om de pdf weer te geven.</value>
     </translation>
     <translation key="javascript-injection-warning">
         <comment>Label: security warning text</comment>
@@ -7848,7 +7853,7 @@
     <translation key="malicious-content-warning">
         <comment>Label: security warning text</comment>
         <value lang="en-us">WARNING: Potentially malicious content found in CDA document.</value>
-        <value lang="nl-nl">WAARSCHUWING: potentieel kwaadaardige inhoud gevonden in CDA-document.</value>
+        <value lang="nl-nl">WAARSCHUWING: potentieel gevaarlijke inhoud gevonden in CDA-document.</value>
     </translation>
     <translation key="is-in-the-whitelist">
         <comment>Label: security warning text</comment>
