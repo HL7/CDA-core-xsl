@@ -18,7 +18,8 @@ The CDA XSL is a sample rendering and should be used in that fashion without war
 ## Package Contents
 The CDA R2 Stylesheet package contains at minimum two files that you need accessible for CDA documents to call or for programmatic access (see next section "*Manual*")
 - CDA.xsl - main logic
-- cda_l10n.xml - location file containing translations for terms
+- cda_l10n.xml - location file containing translations for terms (as of 4.0.0)
+- cda_narrativeblock.xml - lookup file for checking if certain combinations of elements/attributes are legal in the narrative block (as of 4.0.2 beta 10)
 ## Manual
 There are multiple ways to apply the stylesheet. If you have files on disk or on a webserver for a web browser to consume, you need a hint for the web browser how to render to document. This hint is called a processing instruction and needs to be inserted before the ClinicalDocument element:
 
