@@ -81,7 +81,7 @@ This is only relevant when certain vocabulary or a certain identifier OID is ina
 
 Make sure that you have en-US covered at the very least. Other languages as you see fit.
 ## Parameters
-The stylesheet supports many way to parametrize.
+The stylesheet supports many ways to parametrize.
 - `currentDate`
   - XSLT 1.0 does not have date function, so we need something to compare against e.g. to get someones age
   - Default: /hl7:ClinicalDocument/hl7:effectiveTime/@value
