@@ -1,5 +1,5 @@
 # CDA R2 Stylesheet
-Quick Links: [Manual](#manual) - [Localization](#localization) - [Parameters](#parameters) - [Wiki](https://github.com/HL7/cda-core-xsl/wiki) - [Release Notes](https://github.com/HL7/cda-core-xsl/wiki/Revisions) - **[Security Notes](https://github.com/HL7/cda-core-xsl/wiki/Security-Notes)**
+Quick Links: [About This Branch](#about-this-branch) - [Manual](#manual) - [Localization](#localization) - [Parameters](#parameters) - [Wiki](https://github.com/HL7/cda-core-xsl/wiki) - [Release Notes](https://github.com/HL7/cda-core-xsl/wiki/Revisions) - **[Security Notes](https://github.com/HL7/cda-core-xsl/wiki/Security-Notes)**
 
 ## Introduction
 The CDA Release 2.0 and 2.1 publications come with an *informative* stylesheet based on [XSLT 1.0](https://www.w3.org/TR/1999/REC-xslt-19991116). The stylesheet is maintained under responsibility of the [Structured Documents Workgroup](https://confluence.hl7.org/display/SD). Publications are under [releases](https://github.com/HL7/cda-core-xsl/releases)
@@ -20,6 +20,69 @@ The CDA R2 Stylesheet package contains at minimum two files that you need access
 - CDA.xsl - main logic
 - cda_l10n.xml - location file containing translations for terms (as of 4.0.0)
 - cda_narrativeblock.xml - lookup file for checking if certain combinations of elements/attributes are legal in the narrative block (as of 4.0.2 beta 10)
+
+## About This Branch
+This branch differs from the `master` branch in its added support for provenance display according to the requirements in [USCDI v1](https://www.healthit.gov/isa/uscdi-data/provenance#uscdi-v1). Any narrative entry linked to a discrete entry in the document via a matching `@ID` displays that entry's provenance authorship in a tooltip, if it exists.
+As described in [Appendix C](https://hl7.org/ccdasearch/templates/2.16.840.1.113883.10.20.22.5.6.html) of the C-CDA Companion Guide, only authors with a templateId containing the root `2.16.840.1.113883.10.20.22.5.6` are considered for provenance.
+For example:
+
+```xml
+<!-- Narrative -->
+<tr ID="temperature">
+    <td>Temperature</td>
+    <td>37.2 °C (98.9 °F)</td>
+    <td>02/21/2019  9:47 AM CST</td>
+</tr>
+
+<!-- ... -->
+
+<!-- Entry -->
+<observation classCode="OBS" moodCode="EVN">
+  <templateId root="2.16.840.1.113883.10.20.22.4.27" />
+  <templateId root="2.16.840.1.113883.10.20.22.4.27" extension="2014-06-09" />
+  <id extension="5621672820-tempC83-Z9008" root="1.2.840.114350.1.13.861.1.7.1.2109.1" />
+  <code code="8310-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC">
+    <originalText>Body temperature</originalText>
+  </code>
+  <text>
+    <!-- This reference links this entry to the <tr> in the narrative;
+         therefore, its provenance info is taken from the <author> below -->
+    <reference value="#temperature" />
+  </text>
+  <statusCode code="completed" />
+  <effectiveTime value="20190221154700+0000" />
+  <value xsi:type="PQ" unit="Cel" value="37.2" />
+  <author>
+    <templateId root="2.16.840.1.113883.10.20.22.4.119" />
+    <templateId root="2.16.840.1.113883.10.20.22.5.6" extension="2019-10-01" />
+    <!-- Author Time Stamp -->
+    <time value="201902210947-0600" />
+    <assignedAuthor>
+      <id root="2.16.840.1.113883.4.6" extension="1234567"/>
+      <!-- Author Person -->
+      <assignedPerson>
+        <name>
+          <given>Nurse</given>
+          <family>Nightingale</family>
+          <suffix>RN</suffix>
+        </name>
+      </assignedPerson>
+      <representedOrganization>
+        <id root="2.16.840.1.113883.5.1008" nullFlavor="UNK"/>
+        <id root="2.16.840.1.113883.4.6" extension="1104145838"/>
+        <!-- Author Organization -->
+        <name>Good Health Hospital</name>
+        <telecom value="tel:+1(555)867-5309"/>
+      </representedOrganization>
+    </assignedAuthor>
+  </author>
+</observation>
+```
+
+Users of this stylesheet should take note of the following details:
+- Tabbing through the document exposes provenance in a manner that may be more accessible to vision-impaired users.
+- In CDA, authorship propagates down from parent to child elements unless explicitly overridden, either by a new child-level author or by setting `@contextConductionInd="false"`. Thus, if a document contains provenance authorship at the document level, this authorship is used for all child elements by default. Users may wish to examine their CDA implementations to ensure that their behavior matches HL7 guidelines.
+- If one author has the same `id` in two different provenance contexts (for instance, the same provider with the same NPI working at two different organizations), the provenance shown may be inaccurate. This issue is somewhat intrinsic to the conflation of "id" in the sense of an NPI with "id" in the sense of uniquely identifying a CDA element and users of this stylesheet may wish to add their own mitigations (custom ids, limited id lookup, etc.) to address it.
 ## Manual
 There are multiple ways to apply the stylesheet. If you have files on disk or on a webserver for a web browser to consume, you need a hint for the web browser how to render to document. This hint is called a processing instruction and needs to be inserted before the ClinicalDocument element:
 
