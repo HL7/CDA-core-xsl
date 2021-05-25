@@ -9657,4 +9657,16 @@
         <value lang="en-us">not performed</value>
         <value lang="nl-nl">niet gedaan</value>
     </translation>
+    <translation key="provenance_authored-by">
+        <comment>Label: Provenance authored-by</comment>
+        <value lang="en-us">Authored by:</value>
+    </translation>
+    <translation key="provenance_authored-on">
+        <comment>Label: Provenance authored-on</comment>
+        <value lang="en-us">Authored on:</value>
+    </translation>
+    <translation key="provenance_source-org">
+        <comment>Label: Provenance source-org</comment>
+        <value lang="en-us">Source organization:</value>
+    </translation>
 </translations>
