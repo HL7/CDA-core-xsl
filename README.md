@@ -30,7 +30,7 @@ For example:
 <!-- Narrative -->
 <tr ID="temperature">
     <td>Temperature</td>
-    <td>37.2 °C (98.9 °F)</td>
+    <td>37.2 °C</td>
     <td>02/21/2019  9:47 AM CST</td>
 </tr>
 
@@ -38,25 +38,22 @@ For example:
 
 <!-- Entry -->
 <observation classCode="OBS" moodCode="EVN">
-  <templateId root="2.16.840.1.113883.10.20.22.4.27" />
-  <templateId root="2.16.840.1.113883.10.20.22.4.27" extension="2014-06-09" />
-  <id extension="5621672820-tempC83-Z9008" root="1.2.840.114350.1.13.861.1.7.1.2109.1" />
-  <code code="8310-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC">
-    <originalText>Body temperature</originalText>
-  </code>
+  <templateId root="2.16.840.1.113883.10.20.22.4.27"/>
+  <templateId root="2.16.840.1.113883.10.20.22.4.27" extension="2014-06-09"/>
+  <code code="8310-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Body temperature"/>
   <text>
     <!-- This reference links this entry to the <tr> in the narrative;
-         therefore, its provenance info is taken from the <author> below -->
-    <reference value="#temperature" />
+         therefore, its provenance info is taken from the <author> below. -->
+    <reference value="#temperature"/>
   </text>
   <statusCode code="completed" />
-  <effectiveTime value="20190221154700+0000" />
-  <value xsi:type="PQ" unit="Cel" value="37.2" />
+  <effectiveTime value="201902210947-0600"/>
+  <value xsi:type="PQ" unit="Cel" value="37.2"/>
   <author>
-    <templateId root="2.16.840.1.113883.10.20.22.4.119" />
-    <templateId root="2.16.840.1.113883.10.20.22.5.6" extension="2019-10-01" />
+    <templateId root="2.16.840.1.113883.10.20.22.4.119"/>
+    <templateId root="2.16.840.1.113883.10.20.22.5.6" extension="2019-10-01"/>
     <!-- Author Time Stamp -->
-    <time value="201902210947-0600" />
+    <time value="201902210947-0600"/>
     <assignedAuthor>
       <id root="2.16.840.1.113883.4.6" extension="1234567"/>
       <!-- Author Person -->
