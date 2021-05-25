@@ -960,7 +960,7 @@
             <!-- if there is a reference, use that in an iframe -->
             <xsl:when test="$renderElement/hl7:reference">
                 <xsl:variable name="source" select="string($renderElement/hl7:reference/@value)"/>
-                <xsl:variable name="lcSource" select="translate($source, $uc, $lc)"/>
+                <xsl:variable name="lcSource" select="translate($source, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')"/>
                 <xsl:variable name="scrubbedSource" select="translate($source, $simple-sanitizer-match, $simple-sanitizer-replace)"/>
                 <xsl:message><xsl:value-of select="$source"/>, <xsl:value-of select="$lcSource"/></xsl:message>
                 <xsl:choose>
@@ -2191,7 +2191,7 @@
             <xsl:sort select="local-name()" order="descending"/>
             <xsl:variable name="attr-name" select="local-name(.)"/>
             <xsl:variable name="attr-value" select="."/>
-            <xsl:variable name="lcSource" select="translate($attr-value, $uc, $lc)"/>
+            <xsl:variable name="lcSource" select="translate($attr-value, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')"/>
             <xsl:variable name="scrubbedSource" select="translate($attr-value, $simple-sanitizer-match, $simple-sanitizer-replace)"/>
             <xsl:choose>
                 <xsl:when test="contains($lcSource,'javascript')">
@@ -6497,7 +6497,7 @@
     <xsl:template name="caseDown">
         <xsl:param name="data"/>
         <xsl:if test="$data">
-            <xsl:value-of select="translate($data, $uc, $lc)"/>
+            <xsl:value-of select="translate($data, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')"/>
         </xsl:if>
     </xsl:template>
 
@@ -6510,7 +6510,7 @@
     <xsl:template name="caseUp">
         <xsl:param name="data"/>
         <xsl:if test="$data">
-            <xsl:value-of select="translate($data,$lc, $uc)"/>
+            <xsl:value-of select="translate($data, 'abcdefghijklmnopqrstuvwxyz', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ')"/>
         </xsl:if>
     </xsl:template>
 
