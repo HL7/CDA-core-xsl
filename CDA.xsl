@@ -439,7 +439,7 @@
                     @media (-webkit-min-device-pixel-ratio:0) {
                        table.has_provenance > tbody > tr > *,
                         .has_provenance:not(:empty):not(table) {
-                        text-decoration: underline grey dashed;
+                            text-decoration: underline grey dashed;
                             text-decoration-thickness: 0.01em;
                         }
 
@@ -2472,7 +2472,7 @@
         <!-- Find the nearest ancestor (up to any context break) containing a child author -->
         <xsl:variable name="ancestry" select="$ref/ancestor-or-self::*[count(ancestor-or-self::hl7:entryRelationship[@contextConductionInd='false']) = $contextBreaks][hl7:author][1]" />
         <!-- Then find the provenance author (if any) for that ancestor -->
-        <xsl:variable name="author" select="$ancestry/hl7:author[hl7:templateId[@root='2.16.840.1.113883.10.20.22.4.119']]" />
+        <xsl:variable name="author" select="$ancestry/hl7:author[hl7:templateId[@root='2.16.840.1.113883.10.20.22.5.6']]" />
 
         <xsl:if test="$author">
             <xsl:variable name="authorId" select="$author/hl7:assignedAuthor/hl7:id"/>
@@ -2483,7 +2483,7 @@
                          and users of this stylesheet may wish to add their own mitigations (custom ids, limited id lookup, etc.) to
                          address it. -->
             <xsl:variable name="srcAuthor" select="/hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:component/hl7:section/hl7:entry//
-                hl7:author[hl7:templateId[@root='2.16.840.1.113883.10.20.22.4.119']]/hl7:assignedAuthor[hl7:id[(@root=$authorId/@root and @extension=$authorId/@extension)
+                hl7:author[hl7:templateId[@root='2.16.840.1.113883.10.20.22.5.6']]/hl7:assignedAuthor[hl7:id[(@root=$authorId/@root and @extension=$authorId/@extension)
                 or (@root=$authorId/@root and not(@extension | @nullFlavor | $authorId/@extension | $authorId/@nullFlavor))]]
                 | $author/hl7:assignedAuthor" />
 
