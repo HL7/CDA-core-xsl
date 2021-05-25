@@ -40,6 +40,7 @@ For example:
 <observation classCode="OBS" moodCode="EVN">
   <templateId root="2.16.840.1.113883.10.20.22.4.27"/>
   <templateId root="2.16.840.1.113883.10.20.22.4.27" extension="2014-06-09"/>
+  <id nullFlavor="NI"/>
   <code code="8310-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Body temperature"/>
   <text>
     <!-- This reference links this entry to the <tr> in the narrative;
