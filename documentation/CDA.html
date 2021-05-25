@@ -158,6 +158,7 @@
 				'uB_V_simple-sanitizer-matchS_CDA.xsl', 
 				'uB_V_simple-sanitizer-replaceS_CDA.xsl', 
 				'uB_V_table-elem-attrsS_CDA.xsl', 
+				'uB_V_globalAuthorsS_CDA.xsl', 
 				'uB_K_util-i18nkeyS_CDA.xsl');
 
         var docBoxes= new Array('dS_CDA.xsl', 
@@ -292,6 +293,7 @@
 				'dS_V_simple-sanitizer-matchS_CDA.xsl', 
 				'dS_V_simple-sanitizer-replaceS_CDA.xsl', 
 				'dS_V_table-elem-attrsS_CDA.xsl', 
+				'dS_V_globalAuthorsS_CDA.xsl', 
 				'dS_O_S_CDA.xsl');
 
         var sourceBoxes= new Array('src_M_S_CDA.xsl', 
@@ -427,6 +429,7 @@
 				'src_V_simple-sanitizer-matchS_CDA.xsl', 
 				'src_V_simple-sanitizer-replaceS_CDA.xsl', 
 				'src_V_table-elem-attrsS_CDA.xsl', 
+				'src_V_globalAuthorsS_CDA.xsl', 
 				'src_O_S_CDA.xsl', 
 				'src_K_util-i18nkeyS_CDA.xsl');
 
@@ -1199,6 +1202,8 @@
                                            class="control" />Variables
                                  </div>
                                  <div id="boxIdNamespace1variable" style="display:block">
+                                    <div class="indentWrapDiv"><a href="CDA.html#V_globalAuthorsS_CDA.xsl" target="_self" class="iRf"
+                                          title="No namespace"><span class="cRfI">globalAuthors</span></a></div>
                                     <div class="indentWrapDiv"><a href="CDA.html#V_lcS_CDA.xsl" target="_self" class="iRf" title="No namespace"><span class="cRfI">lc</span></a></div>
                                     <div class="indentWrapDiv"><a href="CDA.html#V_mask-ids-varS_CDA.xsl" target="_self" class="iRf"
                                           title="No namespace"><span class="cRfI">mask-ids-var</span></a></div>
@@ -1826,6 +1831,8 @@
                                         class="control" />Variables
                               </div>
                               <div id="boxIdNoModevariable" style="display:block">
+                                 <div class="indentWrapDiv"><a href="CDA.html#V_globalAuthorsS_CDA.xsl" target="_self" class="iRf"
+                                       title="No namespace"><span class="cRfI">globalAuthors</span></a></div>
                                  <div class="indentWrapDiv"><a href="CDA.html#V_lcS_CDA.xsl" target="_self" class="iRf" title="No namespace"><span class="cRfI">lc</span></a></div>
                                  <div class="indentWrapDiv"><a href="CDA.html#V_mask-ids-varS_CDA.xsl" target="_self" class="iRf"
                                        title="No namespace"><span class="cRfI">mask-ids-var</span></a></div>
@@ -2244,6 +2251,8 @@
                                      class="control" />Variables
                            </div>
                            <div id="variable" style="display:block">
+                              <div class="indentWrapDiv"><a href="CDA.html#V_globalAuthorsS_CDA.xsl" target="_self" class="iRf"
+                                    title="No namespace"><span class="cRfI">globalAuthors</span></a></div>
                               <div class="indentWrapDiv"><a href="CDA.html#V_lcS_CDA.xsl" target="_self" class="iRf" title="No namespace"><span class="cRfI">lc</span></a></div>
                               <div class="indentWrapDiv"><a href="CDA.html#V_mask-ids-varS_CDA.xsl" target="_self" class="iRf"
                                     title="No namespace"><span class="cRfI">mask-ids-var</span></a></div>
@@ -2666,6 +2675,8 @@
                                            class="control" />Variables
                                  </div>
                                  <div id="CDA.xslvariable" style="display:block">
+                                    <div class="indentWrapDiv"><a href="CDA.html#V_globalAuthorsS_CDA.xsl" target="_self" class="iRf"
+                                          title="No namespace"><span class="cRfI">globalAuthors</span></a></div>
                                     <div class="indentWrapDiv"><a href="CDA.html#V_lcS_CDA.xsl" target="_self" class="iRf" title="No namespace"><span class="cRfI">lc</span></a></div>
                                     <div class="indentWrapDiv"><a href="CDA.html#V_mask-ids-varS_CDA.xsl" target="_self" class="iRf"
                                           title="No namespace"><span class="cRfI">mask-ids-var</span></a></div>
@@ -3188,7 +3199,11 @@
                     @media (-webkit-min-device-pixel-ratio:0) {
                        table.has_provenance &gt; tbody &gt; tr &gt; *,
                         .has_provenance:not(:empty):not(table) {
+<<<<<<< HEAD
                         text-decoration: underline grey dashed;
+=======
+                            text-decoration: underline grey dashed;
+>>>>>>> 9767fdf... Cache author list in global variable
                             text-decoration-thickness: 0.01em;
                         }
 
@@ -7684,6 +7699,14 @@
                            <div id="refs_M_IDM_handleProvenanceS_CDA.xsl" style="display:block">
                               <table class="uBT">
                                  <tr>
+                                    <td class="fCol">Variable</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="CDA.html#V_globalAuthorsS_CDA.xsl" target="_self" title="No namespace">globalAuthors</a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
                                     <td class="fCol">Templates</td>
                                     <td>
                                        <div class="listGrouping">
@@ -7722,16 +7745,20 @@
   </span><span class="tC">&lt;!-- Find the nearest ancestor (up to any context break) containing a child author --&gt;</span><span class="tI">
   </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"ancestry"</span><span class="tAN"> select=</span><span class="tAV">"$ref/ancestor-or-self::*[count(ancestor-or-self::hl7:entryRelationship[@contextConductionInd='false']) = $contextBreaks][hl7:author][1]"</span><span class="tXSLEl">/&gt;</span><span class="tI">
   </span><span class="tC">&lt;!-- Then find the provenance author (if any) for that ancestor --&gt;</span><span class="tI">
-  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"author"</span><span class="tAN"> select=</span><span class="tAV">"$ancestry/hl7:author[hl7:templateId[@root='2.16.840.1.113883.10.20.22.4.119']]"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"author"</span><span class="tAN"> select=</span><span class="tAV">"$ancestry/hl7:author[hl7:templateId[@root='2.16.840.1.113883.10.20.22.5.6']]"</span><span class="tXSLEl">/&gt;</span><span class="tI">
   </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$author"</span><span class="tXSLEl">&gt;</span><span class="tI">
     </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"authorId"</span><span class="tAN"> select=</span><span class="tAV">"$author/hl7:assignedAuthor/hl7:id"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-    </span><span class="tC">&lt;!-- Find the first instance of the author in the document; use the local one as a fallback.
+    </span><span class="tC">&lt;!-- Pull provenance information from this author or else an author defined elsewhere in the document with a matching id.
                  Beware: If one author has the same id in two different provenance contexts (for instance, the same provider with the
                          same NPI working at two different organizations) this lookup will misbehave! This issue is somewhat intrinsic
                          to the conflation of "id" in the sense of an NPI with "id" in the sense of uniquely identifying a CDA element
                          and users of this stylesheet may wish to add their own mitigations (custom ids, limited id lookup, etc.) to
                          address it. --&gt;</span><span class="tI">
+<<<<<<< HEAD
     </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"srcAuthor"</span><span class="tAN"> select=</span><span class="tAV">"/hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:component/hl7:section/hl7:entry//                 hl7:author[hl7:templateId[@root='2.16.840.1.113883.10.20.22.4.119']]/hl7:assignedAuthor[hl7:id[(@root=$authorId/@root and @extension=$authorId/@extension)                 or (@root=$authorId/@root and not(@extension | @nullFlavor | $authorId/@extension | $authorId/@nullFlavor))]]                 | $author/hl7:assignedAuthor"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+=======
+    </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"srcAuthor"</span><span class="tAN"> select=</span><span class="tAV">"$author/hl7:assignedAuthor |                 $globalAuthors/hl7:assignedAuthor[hl7:id[(@root=$authorId/@root and @extension=$authorId/@extension)                         or (@root=$authorId/@root and not(@extension | @nullFlavor | $authorId/@extension | $authorId/@nullFlavor))]]"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+>>>>>>> 9767fdf... Cache author list in global variable
     </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"nameInfo"</span><span class="tXSLEl">&gt;</span><span class="tI">
       </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"rawValue"</span><span class="tXSLEl">&gt;</span><span class="tI">
         </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"show-name"</span><span class="tXSLEl">&gt;</span><span class="tI">
@@ -24864,6 +24891,100 @@
                               <table class="pWCont">
                                  <tr>
                                     <td width="100%"><pre><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"table-elem-attrs"</span><span class="tAN"> select=</span><span class="tAV">"document('cda_narrativeblock.xml')/tableElems"</span><span class="tXSLEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lR"></td>
+         </tr>
+         <tr>
+            <td class="rt_cBL"></td>
+            <td class="rt_lB"></td>
+            <td class="rt_cBR"></td>
+         </tr>
+      </table>
+      <div class="toTop"><a href="#INDEX"> [ top ] </a></div><a id="V_globalAuthorsS_CDA.xsl"></a><div class="cmpT">Variable
+         <span class="qname">globalAuthors</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cTL"></td>
+            <td class="rt_lT"></td>
+            <td class="rt_cTR"></td>
+         </tr>
+         <tr>
+            <td class="rt_lL"></td>
+            <td class="rt_cnt">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Documentation</div>
+                           <div class="flR"><input id="bt_dS_V_globalAuthorsS_CDA.xsl" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('dS_V_globalAuthorsS_CDA.xsl');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="dS_V_globalAuthorsS_CDA.xsl" style="display:block">
+                              <div>
+                                 <h3>Description</h3>
+                                 
+                                 <p>Perform a one-time lookup of all authors in the document, so we can figure out where
+                                    to find the ones we need for provenance display.
+                                 </p>
+                                 
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Namespace</td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Select</td>
+                        <td>(/hl7:ClinicalDocument/hl7:author |         /hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:component/hl7:section/hl7:author
+                           |         /hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:component/hl7:section/hl7:entry//hl7:author)
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Used by</div>
+                           <div class="flR"><input id="bt_uB_V_globalAuthorsS_CDA.xsl" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('uB_V_globalAuthorsS_CDA.xsl');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="uB_V_globalAuthorsS_CDA.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td class="fCol">Template</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="CDA.html#M_IDM_handleProvenanceS_CDA.xsl" target="_self"
+                                                title="No namespace"><span class="mRf">@ID</span><span class="mdRf">handleProvenance</span></a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Source</div>
+                           <div class="flR"><input id="bt_src_V_globalAuthorsS_CDA.xsl" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('src_V_globalAuthorsS_CDA.xsl');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="src_V_globalAuthorsS_CDA.xsl" style="display:block">
+                              <table class="pWCont">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"globalAuthors"</span><span class="tAN"> select=</span><span class="tAV">"(/hl7:ClinicalDocument/hl7:author |         /hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:component/hl7:section/hl7:author |         /hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:component/hl7:section/hl7:entry//hl7:author)"</span><span class="tXSLEl">/&gt;</span></pre></td>
                                  </tr>
                               </table>
                            </div>

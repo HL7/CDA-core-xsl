@@ -2461,6 +2461,15 @@
     
     <xd:doc>
         <xd:desc>
+            <xd:p>Perform a one-time lookup of all authors in the document, so we can figure out where to find the ones we need for provenance display.</xd:p>
+        </xd:desc>
+    </xd:doc>
+    <xsl:variable name="globalAuthors" select="(/hl7:ClinicalDocument/hl7:author |
+        /hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:component/hl7:section/hl7:author |
+        /hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:component/hl7:section/hl7:entry//hl7:author)"/>
+
+    <xd:doc>
+        <xd:desc>
             <xd:p>Special handling for provenance; an element's provenance is pulled from the discrete author entries and rendered as HTML title text.</xd:p>
         </xd:desc>
     </xd:doc>
@@ -2476,16 +2485,15 @@
 
         <xsl:if test="$author">
             <xsl:variable name="authorId" select="$author/hl7:assignedAuthor/hl7:id"/>
-            <!-- Find the first instance of the author in the document; use the local one as a fallback.
+            <!-- Pull provenance information from this author or else an author defined elsewhere in the document with a matching id.
                  Beware: If one author has the same id in two different provenance contexts (for instance, the same provider with the
                          same NPI working at two different organizations) this lookup will misbehave! This issue is somewhat intrinsic
                          to the conflation of "id" in the sense of an NPI with "id" in the sense of uniquely identifying a CDA element
                          and users of this stylesheet may wish to add their own mitigations (custom ids, limited id lookup, etc.) to
                          address it. -->
-            <xsl:variable name="srcAuthor" select="/hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:component/hl7:section/hl7:entry//
-                hl7:author[hl7:templateId[@root='2.16.840.1.113883.10.20.22.5.6']]/hl7:assignedAuthor[hl7:id[(@root=$authorId/@root and @extension=$authorId/@extension)
-                or (@root=$authorId/@root and not(@extension | @nullFlavor | $authorId/@extension | $authorId/@nullFlavor))]]
-                | $author/hl7:assignedAuthor" />
+            <xsl:variable name="srcAuthor" select="$author/hl7:assignedAuthor |
+                $globalAuthors/hl7:assignedAuthor[hl7:id[(@root=$authorId/@root and @extension=$authorId/@extension)
+                        or (@root=$authorId/@root and not(@extension | @nullFlavor | $authorId/@extension | $authorId/@nullFlavor))]]" />
 
             <xsl:variable name="nameInfo">
                 <xsl:variable name="rawValue">
