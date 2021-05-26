@@ -154,8 +154,6 @@
 				'uB_V_textLangPartLowerCaseS_CDA.xsl', 
 				'uB_V_textLangDefaultLowerCaseS_CDA.xsl', 
 				'uB_V_textLangDefaultPartLowerCaseS_CDA.xsl', 
-				'uB_V_lcS_CDA.xsl', 
-				'uB_V_ucS_CDA.xsl', 
 				'uB_V_simple-sanitizer-matchS_CDA.xsl', 
 				'uB_V_simple-sanitizer-replaceS_CDA.xsl', 
 				'uB_V_table-elem-attrsS_CDA.xsl', 
@@ -495,8 +493,6 @@
 				'refs_T_formatMonthS_CDA.xsl', 
 				'refs_T_formatDateTimeS_CDA.xsl', 
 				'refs_T_translateTelecomUriSchemeS_CDA.xsl', 
-				'refs_T_caseDownS_CDA.xsl', 
-				'refs_T_caseUpS_CDA.xsl', 
 				'refs_T_firstCharCaseUpS_CDA.xsl', 
 				'refs_T_tokenizeS_CDA.xsl', 
 				'refs_T__tokenize-charactersS_CDA.xsl', 
@@ -2064,7 +2060,7 @@
                                  
                                  <p><b>Title:</b> CDA R2 StyleSheet</p>
                                  
-                                 <p><b>Version:</b> 4.0.2 beta 10</p>
+                                 <p><b>Version:</b> 4.0.2 beta 11</p>
                                  
                                  <p><b>Maintained by:</b> HL7 <a href="https://confluence.hl7.org/display/SD/Structured+Documents" target="_blank">Structured Documents Work Group</a></p>
                                  
@@ -3074,10 +3070,8 @@
                                     <td class="fCol">Variables</td>
                                     <td>
                                        <div class="listGrouping">
-                                          <div class="refItemBlock"><a href="CDA.html#V_lcS_CDA.xsl" target="_self" title="No namespace">lc</a><span class="refItemSep">;</span></div>
                                           <div class="refItemBlock"><a href="CDA.html#V_simple-sanitizer-matchS_CDA.xsl" target="_self" title="No namespace">simple-sanitizer-match</a><span class="refItemSep">;</span></div>
-                                          <div class="refItemBlock"><a href="CDA.html#V_simple-sanitizer-replaceS_CDA.xsl" target="_self" title="No namespace">simple-sanitizer-replace</a><span class="refItemSep">;</span></div>
-                                          <div class="refItemBlock"><a href="CDA.html#V_ucS_CDA.xsl" target="_self" title="No namespace">uc</a></div>
+                                          <div class="refItemBlock"><a href="CDA.html#V_simple-sanitizer-replaceS_CDA.xsl" target="_self" title="No namespace">simple-sanitizer-replace</a></div>
                                        </div>
                                     </td>
                                  </tr>
@@ -3169,7 +3163,7 @@
     </span><span class="tC">&lt;!-- if there is a reference, use that in an iframe --&gt;</span><span class="tI">
     </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"$renderElement/hl7:reference"</span><span class="tXSLEl">&gt;</span><span class="tI">
       </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"source"</span><span class="tAN"> select=</span><span class="tAV">"string($renderElement/hl7:reference/@value)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"lcSource"</span><span class="tAN"> select=</span><span class="tAV">"translate($source, $uc, $lc)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"lcSource"</span><span class="tAN"> select=</span><span class="tAV">"translate($source, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')"</span><span class="tXSLEl">/&gt;</span><span class="tI">
       </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"scrubbedSource"</span><span class="tAN"> select=</span><span class="tAV">"translate($source, $simple-sanitizer-match, $simple-sanitizer-replace)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
       </span><span class="tXSLEl">&lt;xsl:message</span><span class="tXSLEl">&gt;</span><span class="tI">
         </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$source"</span><span class="tXSLEl">/&gt;</span><span class="tT" style="white-space:normal">,</span><span class="tI">
@@ -6273,11 +6267,9 @@
                                     <td class="fCol">Variables</td>
                                     <td>
                                        <div class="listGrouping">
-                                          <div class="refItemBlock"><a href="CDA.html#V_lcS_CDA.xsl" target="_self" title="No namespace">lc</a><span class="refItemSep">;</span></div>
                                           <div class="refItemBlock"><a href="CDA.html#V_simple-sanitizer-matchS_CDA.xsl" target="_self" title="No namespace">simple-sanitizer-match</a><span class="refItemSep">;</span></div>
                                           <div class="refItemBlock"><a href="CDA.html#V_simple-sanitizer-replaceS_CDA.xsl" target="_self" title="No namespace">simple-sanitizer-replace</a><span class="refItemSep">;</span></div>
-                                          <div class="refItemBlock"><a href="CDA.html#V_table-elem-attrsS_CDA.xsl" target="_self" title="No namespace">table-elem-attrs</a><span class="refItemSep">;</span></div>
-                                          <div class="refItemBlock"><a href="CDA.html#V_ucS_CDA.xsl" target="_self" title="No namespace">uc</a></div>
+                                          <div class="refItemBlock"><a href="CDA.html#V_table-elem-attrsS_CDA.xsl" target="_self" title="No namespace">table-elem-attrs</a></div>
                                        </div>
                                     </td>
                                  </tr>
@@ -6386,7 +6378,7 @@
     </span><span class="tXSLEl">&lt;xsl:sort</span><span class="tAN"> select=</span><span class="tAV">"local-name()"</span><span class="tAN"> order=</span><span class="tAV">"descending"</span><span class="tXSLEl">/&gt;</span><span class="tI">
     </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"attr-name"</span><span class="tAN"> select=</span><span class="tAV">"local-name(.)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
     </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"attr-value"</span><span class="tAN"> select=</span><span class="tAV">"."</span><span class="tXSLEl">/&gt;</span><span class="tI">
-    </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"lcSource"</span><span class="tAN"> select=</span><span class="tAV">"translate($attr-value, $uc, $lc)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"lcSource"</span><span class="tAN"> select=</span><span class="tAV">"translate($attr-value, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')"</span><span class="tXSLEl">/&gt;</span><span class="tI">
     </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"scrubbedSource"</span><span class="tAN"> select=</span><span class="tAV">"translate($attr-value, $simple-sanitizer-match, $simple-sanitizer-replace)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
     </span><span class="tXSLEl">&lt;xsl:choose</span><span class="tXSLEl">&gt;</span><span class="tI">
       </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"contains($lcSource,'javascript')"</span><span class="tXSLEl">&gt;</span><span class="tI">
@@ -17285,27 +17277,6 @@
                      </tr>
                      <tr>
                         <td class="fCol">
-                           <div class="flL">References</div>
-                           <div class="flR"><input id="bt_refs_T_caseDownS_CDA.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('refs_T_caseDownS_CDA.xsl');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="refs_T_caseDownS_CDA.xsl" style="display:block">
-                              <table class="uBT">
-                                 <tr>
-                                    <td class="fCol">Variables</td>
-                                    <td>
-                                       <div class="listGrouping">
-                                          <div class="refItemBlock"><a href="CDA.html#V_lcS_CDA.xsl" target="_self" title="No namespace">lc</a><span class="refItemSep">;</span></div>
-                                          <div class="refItemBlock"><a href="CDA.html#V_ucS_CDA.xsl" target="_self" title="No namespace">uc</a></div>
-                                       </div>
-                                    </td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">
                            <div class="flL">Parameters</div>
                            <div class="flR"><input id="bt_prs_T_caseDownS_CDA.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('prs_T_caseDownS_CDA.xsl');" class="control" /></div>
                         </td>
@@ -17343,7 +17314,7 @@
                                        <pre><span class="tXSLEl">&lt;xsl:template</span><span class="tAN"> name=</span><span class="tAV">"caseDown"</span><span class="tXSLEl">&gt;</span><span class="tI">
   </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"data"</span><span class="tXSLEl">/&gt;</span><span class="tI">
   </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$data"</span><span class="tXSLEl">&gt;</span><span class="tI">
-    </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"translate($data, $uc, $lc)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"translate($data, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')"</span><span class="tXSLEl">/&gt;</span><span class="tI">
   </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
 </span><span class="tXSLEl">&lt;/xsl:template&gt;</span></pre>
                                     </td>
@@ -17426,27 +17397,6 @@
                      </tr>
                      <tr>
                         <td class="fCol">
-                           <div class="flL">References</div>
-                           <div class="flR"><input id="bt_refs_T_caseUpS_CDA.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('refs_T_caseUpS_CDA.xsl');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="refs_T_caseUpS_CDA.xsl" style="display:block">
-                              <table class="uBT">
-                                 <tr>
-                                    <td class="fCol">Variables</td>
-                                    <td>
-                                       <div class="listGrouping">
-                                          <div class="refItemBlock"><a href="CDA.html#V_lcS_CDA.xsl" target="_self" title="No namespace">lc</a><span class="refItemSep">;</span></div>
-                                          <div class="refItemBlock"><a href="CDA.html#V_ucS_CDA.xsl" target="_self" title="No namespace">uc</a></div>
-                                       </div>
-                                    </td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">
                            <div class="flL">Parameters</div>
                            <div class="flR"><input id="bt_prs_T_caseUpS_CDA.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('prs_T_caseUpS_CDA.xsl');" class="control" /></div>
                         </td>
@@ -17484,7 +17434,7 @@
                                        <pre><span class="tXSLEl">&lt;xsl:template</span><span class="tAN"> name=</span><span class="tAV">"caseUp"</span><span class="tXSLEl">&gt;</span><span class="tI">
   </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"data"</span><span class="tXSLEl">/&gt;</span><span class="tI">
   </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$data"</span><span class="tXSLEl">&gt;</span><span class="tI">
-    </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"translate($data,$lc, $uc)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"translate($data, 'abcdefghijklmnopqrstuvwxyz', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ')"</span><span class="tXSLEl">/&gt;</span><span class="tI">
   </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
 </span><span class="tXSLEl">&lt;/xsl:template&gt;</span></pre>
                                     </td>
@@ -22252,29 +22202,6 @@
                      </tr>
                      <tr>
                         <td class="fCol">
-                           <div class="flL">Used by</div>
-                           <div class="flR"><input id="bt_uB_V_lcS_CDA.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('uB_V_lcS_CDA.xsl');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="uB_V_lcS_CDA.xsl" style="display:block">
-                              <table class="uBT">
-                                 <tr>
-                                    <td class="fCol">Templates</td>
-                                    <td>
-                                       <div class="listGrouping">
-                                          <div class="refItemBlock"><a href="CDA.html#T_caseDownS_CDA.xsl" target="_self" title="No namespace"><span class="nRf">caseDown</span></a><span class="refItemSep">;</span></div>
-                                          <div class="refItemBlock"><a href="CDA.html#T_caseUpS_CDA.xsl" target="_self" title="No namespace"><span class="nRf">caseUp</span></a><span class="refItemSep">;</span></div>
-                                          <div class="refItemBlock"><a href="CDA.html#M_hl7componenthl7nonXMLBodyhl7observationMediaS_CDA.xsl" target="_self" title="No namespace"><span class="mRf">hl7:component/hl7:nonXMLBody | hl7:observationMedia</span></a><span class="refItemSep">;</span></div>
-                                          <div class="refItemBlock"><a href="CDA.html#M_M_handleSectionTextAttributesS_CDA.xsl" target="_self" title="No namespace"><span class="mRf">*</span><span class="mdRf">handleSectionTextAttributes</span></a></div>
-                                       </div>
-                                    </td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">
                            <div class="flL">Source</div>
                            <div class="flR"><input id="bt_src_V_lcS_CDA.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('src_V_lcS_CDA.xsl');" class="control" /></div>
                         </td>
@@ -22336,29 +22263,6 @@
                      <tr>
                         <td class="fCol">Select</td>
                         <td>'ABCDEFGHIJKLMNOPQRSTUVWXYZ'</td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">
-                           <div class="flL">Used by</div>
-                           <div class="flR"><input id="bt_uB_V_ucS_CDA.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('uB_V_ucS_CDA.xsl');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="uB_V_ucS_CDA.xsl" style="display:block">
-                              <table class="uBT">
-                                 <tr>
-                                    <td class="fCol">Templates</td>
-                                    <td>
-                                       <div class="listGrouping">
-                                          <div class="refItemBlock"><a href="CDA.html#T_caseDownS_CDA.xsl" target="_self" title="No namespace"><span class="nRf">caseDown</span></a><span class="refItemSep">;</span></div>
-                                          <div class="refItemBlock"><a href="CDA.html#T_caseUpS_CDA.xsl" target="_self" title="No namespace"><span class="nRf">caseUp</span></a><span class="refItemSep">;</span></div>
-                                          <div class="refItemBlock"><a href="CDA.html#M_hl7componenthl7nonXMLBodyhl7observationMediaS_CDA.xsl" target="_self" title="No namespace"><span class="mRf">hl7:component/hl7:nonXMLBody | hl7:observationMedia</span></a><span class="refItemSep">;</span></div>
-                                          <div class="refItemBlock"><a href="CDA.html#M_M_handleSectionTextAttributesS_CDA.xsl" target="_self" title="No namespace"><span class="mRf">*</span><span class="mdRf">handleSectionTextAttributes</span></a></div>
-                                       </div>
-                                    </td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
                      </tr>
                      <tr>
                         <td class="fCol">
