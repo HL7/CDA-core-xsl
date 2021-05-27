@@ -7681,8 +7681,7 @@
                               <div>
                                  <h3>Description</h3>
                                  
-                                 <p>Index all references whose parent is a <i>text</i> or <i>value</i> element so we can quickly find them from a narrative ID.
-                                 </p>
+                                 <p>Index all discrete references so we can quickly find them from a narrative ID.</p>
                                  
                               </div>
                               <hr />
@@ -25061,7 +25060,7 @@
                               <div>
                                  <h3>Description</h3>
                                  
-                                 <p>Perform a one-time lookup of all authors in the document, so we can figure out where
+                                 <p>Perform a one-time lookup of all authors in the document so we can figure out where
                                     to find the ones we need for provenance display.
                                  </p>
                                  
@@ -25075,8 +25074,8 @@
                      </tr>
                      <tr>
                         <td class="fCol">Select</td>
-                        <td>(/hl7:ClinicalDocument/hl7:author |         /hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:component/hl7:section/hl7:author
-                           |         /hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:component/hl7:section/hl7:entry//hl7:author)
+                        <td>/hl7:ClinicalDocument/hl7:author |         /hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:component/hl7:section/hl7:author
+                           |         /hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:component/hl7:section/hl7:entry//hl7:author
                         </td>
                      </tr>
                      <tr>
@@ -25113,7 +25112,7 @@
                            <div id="src_V_globalAuthorsS_CDA.xsl" style="display:block">
                               <table class="pWCont">
                                  <tr>
-                                    <td width="100%"><pre><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"globalAuthors"</span><span class="tAN"> select=</span><span class="tAV">"(/hl7:ClinicalDocument/hl7:author |         /hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:component/hl7:section/hl7:author |         /hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:component/hl7:section/hl7:entry//hl7:author)"</span><span class="tXSLEl">/&gt;</span></pre></td>
+                                    <td width="100%"><pre><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"globalAuthors"</span><span class="tAN"> select=</span><span class="tAV">"/hl7:ClinicalDocument/hl7:author |         /hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:component/hl7:section/hl7:author |         /hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:component/hl7:section/hl7:entry//hl7:author"</span><span class="tXSLEl">/&gt;</span></pre></td>
                                  </tr>
                               </table>
                            </div>
@@ -25242,7 +25241,7 @@
                      </tr>
                      <tr>
                         <td class="fCol">Match</td>
-                        <td>hl7:reference[parent::hl7:text or parent::hl7:value]</td>
+                        <td>hl7:reference</td>
                      </tr>
                      <tr>
                         <td class="fCol">Use</td>
@@ -25284,7 +25283,7 @@
                            <div id="src_K_provenance-ref-keyS_CDA.xsl" style="display:block">
                               <table class="pWCont">
                                  <tr>
-                                    <td width="100%"><pre><span class="tXSLEl">&lt;xsl:key</span><span class="tAN"> name=</span><span class="tAV">"provenance-ref-key"</span><span class="tAN"> match=</span><span class="tAV">"hl7:reference[parent::hl7:text or parent::hl7:value]"</span><span class="tAN"> use=</span><span class="tAV">"@value"</span><span class="tXSLEl">/&gt;</span></pre></td>
+                                    <td width="100%"><pre><span class="tXSLEl">&lt;xsl:key</span><span class="tAN"> name=</span><span class="tAV">"provenance-ref-key"</span><span class="tAN"> match=</span><span class="tAV">"hl7:reference"</span><span class="tAN"> use=</span><span class="tAV">"@value"</span><span class="tXSLEl">/&gt;</span></pre></td>
                                  </tr>
                               </table>
                            </div>
