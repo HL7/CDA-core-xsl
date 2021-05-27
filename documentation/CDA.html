@@ -161,6 +161,7 @@
 				'uB_V_simple-sanitizer-replaceS_CDA.xsl', 
 				'uB_V_table-elem-attrsS_CDA.xsl', 
 				'uB_V_globalAuthorsS_CDA.xsl', 
+				'uB_K_provenance-ref-keyS_CDA.xsl', 
 				'uB_K_util-i18nkeyS_CDA.xsl');
 
         var docBoxes= new Array('dS_CDA.xsl', 
@@ -433,6 +434,7 @@
 				'src_V_table-elem-attrsS_CDA.xsl', 
 				'src_V_globalAuthorsS_CDA.xsl', 
 				'src_O_S_CDA.xsl', 
+				'src_K_provenance-ref-keyS_CDA.xsl', 
 				'src_K_util-i18nkeyS_CDA.xsl');
 
         
@@ -1281,9 +1283,11 @@
                               <td class="rt_cnt">
                                  <div class="componentGroupTitle"><input id="bt_boxIdNamespace1key" type="image" value="-" src="img/btM.gif"
                                            onclick="switchState('boxIdNamespace1key');"
-                                           class="control" />Key
+                                           class="control" />Keys
                                  </div>
                                  <div id="boxIdNamespace1key" style="display:block">
+                                    <div class="indentWrapDiv"><a href="CDA.html#K_provenance-ref-keyS_CDA.xsl" target="_self" class="iRf"
+                                          title="No namespace"><span class="cRfI">provenance-ref-key</span></a></div>
                                     <div class="indentWrapDiv"><a href="CDA.html#K_util-i18nkeyS_CDA.xsl" target="_self" class="iRf"
                                           title="No namespace"><span class="cRfI">util-i18nkey</span></a></div>
                                  </div>
@@ -1910,9 +1914,11 @@
                            <td class="rt_cnt">
                               <div class="componentGroupTitle"><input id="bt_boxIdNoModekey" type="image" value="-" src="img/btM.gif"
                                         onclick="switchState('boxIdNoModekey');"
-                                        class="control" />Key
+                                        class="control" />Keys
                               </div>
                               <div id="boxIdNoModekey" style="display:block">
+                                 <div class="indentWrapDiv"><a href="CDA.html#K_provenance-ref-keyS_CDA.xsl" target="_self" class="iRf"
+                                       title="No namespace"><span class="cRfI">provenance-ref-key</span></a></div>
                                  <div class="indentWrapDiv"><a href="CDA.html#K_util-i18nkeyS_CDA.xsl" target="_self" class="iRf"
                                        title="No namespace"><span class="cRfI">util-i18nkey</span></a></div>
                               </div>
@@ -2330,9 +2336,11 @@
                         <td class="rt_cnt">
                            <div class="componentGroupTitle"><input id="bt_key" type="image" value="-" src="img/btM.gif"
                                      onclick="switchState('key');"
-                                     class="control" />Key
+                                     class="control" />Keys
                            </div>
                            <div id="key" style="display:block">
+                              <div class="indentWrapDiv"><a href="CDA.html#K_provenance-ref-keyS_CDA.xsl" target="_self" class="iRf"
+                                    title="No namespace"><span class="cRfI">provenance-ref-key</span></a></div>
                               <div class="indentWrapDiv"><a href="CDA.html#K_util-i18nkeyS_CDA.xsl" target="_self" class="iRf"
                                     title="No namespace"><span class="cRfI">util-i18nkey</span></a></div>
                            </div>
@@ -2754,9 +2762,11 @@
                               <td class="rt_cnt">
                                  <div class="componentGroupTitle"><input id="bt_CDA.xslkey" type="image" value="-" src="img/btM.gif"
                                            onclick="switchState('CDA.xslkey');"
-                                           class="control" />Key
+                                           class="control" />Keys
                                  </div>
                                  <div id="CDA.xslkey" style="display:block">
+                                    <div class="indentWrapDiv"><a href="CDA.html#K_provenance-ref-keyS_CDA.xsl" target="_self" class="iRf"
+                                          title="No namespace"><span class="cRfI">provenance-ref-key</span></a></div>
                                     <div class="indentWrapDiv"><a href="CDA.html#K_util-i18nkeyS_CDA.xsl" target="_self" class="iRf"
                                           title="No namespace"><span class="cRfI">util-i18nkey</span></a></div>
                                  </div>
@@ -7671,6 +7681,14 @@
                               <div>
                                  <h3>Description</h3>
                                  
+                                 <p>Index all references whose parent is a <i>text</i> or <i>value</i> element so we can quickly find them from a narrative ID.
+                                 </p>
+                                 
+                              </div>
+                              <hr />
+                              <div>
+                                 <h3>Description</h3>
+                                 
                                  <p>Special handling for provenance; an element's provenance is pulled from the discrete
                                     author entries and rendered as HTML title text.
                                  </p>
@@ -7702,6 +7720,15 @@
                         <td>
                            <div id="refs_M_IDM_handleProvenanceS_CDA.xsl" style="display:block">
                               <table class="uBT">
+                                 <tr>
+                                    <td class="fCol">Key</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="CDA.html#K_provenance-ref-keyS_CDA.xsl" target="_self"
+                                                title="No namespace">provenance-ref-key</a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
                                  <tr>
                                     <td class="fCol">Variable</td>
                                     <td>
@@ -7743,7 +7770,7 @@
                                  <tr>
                                     <td width="100%"><pre><span class="tXSLEl">&lt;xsl:template</span><span class="tAN"> match=</span><span class="tAV">"@ID"</span><span class="tAN"> mode=</span><span class="tAV">"handleProvenance"</span><span class="tXSLEl">&gt;</span><span class="tI">
   </span><span class="tC">&lt;!-- Find a reference element belonging to a &lt;text&gt; or &lt;value&gt; (in this section only) that matches the ID --&gt;</span><span class="tI">
-  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"ref"</span><span class="tAN"> select=</span><span class="tAV">"ancestor::hl7:section/hl7:entry//hl7:reference[parent::hl7:text or parent::hl7:value][@value = concat('#', current())]"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"ref"</span><span class="tAN"> select=</span><span class="tAV">"key('provenance-ref-key', concat('#',.))"</span><span class="tXSLEl">/&gt;</span><span class="tI">
   </span><span class="tC">&lt;!-- Don't look above any ancestor that breaks the context conduction --&gt;</span><span class="tI">
   </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"contextBreaks"</span><span class="tAN"> select=</span><span class="tAV">"count($ref/ancestor::hl7:entryRelationship[@contextConductionInd='false'])"</span><span class="tXSLEl">/&gt;</span><span class="tI">
   </span><span class="tC">&lt;!-- Find the nearest ancestor (up to any context break) containing a child author --&gt;</span><span class="tI">
@@ -25180,6 +25207,84 @@
                               <table class="pWCont">
                                  <tr>
                                     <td width="100%"><pre><span class="tXSLEl">&lt;xsl:output</span><span class="tAN"> indent=</span><span class="tAV">"yes"</span><span class="tAN"> encoding=</span><span class="tAV">"utf-8"</span><span class="tAN"> doctype-public=</span><span class="tAV">"-//W3C//DTD XHTML 1.0 Strict//EN"</span><span class="tAN"> doctype-system=</span><span class="tAV">"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"</span><span class="tXSLEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lR"></td>
+         </tr>
+         <tr>
+            <td class="rt_cBL"></td>
+            <td class="rt_lB"></td>
+            <td class="rt_cBR"></td>
+         </tr>
+      </table>
+      <div class="toTop"><a href="#INDEX"> [ top ] </a></div><a id="K_provenance-ref-keyS_CDA.xsl"></a><div class="cmpT">Key
+         <span class="qname">provenance-ref-key</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cTL"></td>
+            <td class="rt_lT"></td>
+            <td class="rt_cTR"></td>
+         </tr>
+         <tr>
+            <td class="rt_lL"></td>
+            <td class="rt_cnt">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="fCol">Namespace</td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Match</td>
+                        <td>hl7:reference[parent::hl7:text or parent::hl7:value]</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Use</td>
+                        <td>@value</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Used by</div>
+                           <div class="flR"><input id="bt_uB_K_provenance-ref-keyS_CDA.xsl" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('uB_K_provenance-ref-keyS_CDA.xsl');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="uB_K_provenance-ref-keyS_CDA.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td class="fCol">Template</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="CDA.html#M_IDM_handleProvenanceS_CDA.xsl" target="_self"
+                                                title="No namespace"><span class="mRf">@ID</span><span class="mdRf">handleProvenance</span></a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Source</div>
+                           <div class="flR"><input id="bt_src_K_provenance-ref-keyS_CDA.xsl" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('src_K_provenance-ref-keyS_CDA.xsl');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="src_K_provenance-ref-keyS_CDA.xsl" style="display:block">
+                              <table class="pWCont">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tXSLEl">&lt;xsl:key</span><span class="tAN"> name=</span><span class="tAV">"provenance-ref-key"</span><span class="tAN"> match=</span><span class="tAV">"hl7:reference[parent::hl7:text or parent::hl7:value]"</span><span class="tAN"> use=</span><span class="tAV">"@value"</span><span class="tXSLEl">/&gt;</span></pre></td>
                                  </tr>
                               </table>
                            </div>
