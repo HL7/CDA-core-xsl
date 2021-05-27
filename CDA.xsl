@@ -2458,22 +2458,22 @@
             </xsl:choose>
         </xsl:for-each>
     </xsl:template>
-    
-    <xd:doc>
-        <xd:desc>
-            <xd:p>Perform a one-time lookup of all authors in the document, so we can figure out where to find the ones we need for provenance display.</xd:p>
-        </xd:desc>
-    </xd:doc>
-    <xsl:variable name="globalAuthors" select="(/hl7:ClinicalDocument/hl7:author |
-        /hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:component/hl7:section/hl7:author |
-        /hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:component/hl7:section/hl7:entry//hl7:author)"/>
 
     <xd:doc>
         <xd:desc>
-            <xd:p>Index all references whose parent is a <xd:i>text</xd:i> or <xd:i>value</xd:i> element so we can quickly find them from a narrative ID.</xd:p>
+            <xd:p>Perform a one-time lookup of all authors in the document so we can figure out where to find the ones we need for provenance display.</xd:p>
         </xd:desc>
     </xd:doc>
-    <xsl:key name="provenance-ref-key" match="hl7:reference[parent::hl7:text or parent::hl7:value]" use="@value"/>
+    <xsl:variable name="globalAuthors" select="/hl7:ClinicalDocument/hl7:author |
+        /hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:component/hl7:section/hl7:author |
+        /hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:component/hl7:section/hl7:entry//hl7:author"/>
+
+    <xd:doc>
+        <xd:desc>
+            <xd:p>Index all discrete references so we can quickly find them from a narrative ID.</xd:p>
+        </xd:desc>
+    </xd:doc>
+    <xsl:key name="provenance-ref-key" match="hl7:reference" use="@value"/>
 
     <xd:doc>
         <xd:desc>
