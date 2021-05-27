@@ -2470,12 +2470,19 @@
 
     <xd:doc>
         <xd:desc>
+            <xd:p>Index all references whose parent is a <xd:i>text</xd:i> or <xd:i>value</xd:i> element so we can quickly find them from a narrative ID.</xd:p>
+        </xd:desc>
+    </xd:doc>
+    <xsl:key name="provenance-ref-key" match="hl7:reference[parent::hl7:text or parent::hl7:value]" use="@value"/>
+
+    <xd:doc>
+        <xd:desc>
             <xd:p>Special handling for provenance; an element's provenance is pulled from the discrete author entries and rendered as HTML title text.</xd:p>
         </xd:desc>
     </xd:doc>
     <xsl:template match="@ID" mode="handleProvenance">
         <!-- Find a reference element belonging to a <text> or <value> (in this section only) that matches the ID -->
-        <xsl:variable name="ref" select="ancestor::hl7:section/hl7:entry//hl7:reference[parent::hl7:text or parent::hl7:value][@value = concat('#', current())]"/>
+        <xsl:variable name="ref" select="key('provenance-ref-key', concat('#',.))"/>
         <!-- Don't look above any ancestor that breaks the context conduction -->
         <xsl:variable name="contextBreaks" select="count($ref/ancestor::hl7:entryRelationship[@contextConductionInd='false'])" />
         <!-- Find the nearest ancestor (up to any context break) containing a child author -->
