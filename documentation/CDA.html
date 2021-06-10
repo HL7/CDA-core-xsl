@@ -12,6 +12,8 @@
 				'prs_T_section-titleS_CDA.xsl', 
 				'prs_T_check-external-image-whitelistS_CDA.xsl', 
 				'prs_M_M_handleSectionTextAttributesS_CDA.xsl', 
+				'prs_T_ProcessAuthorIdsS_CDA.xsl', 
+				'prs_T_BuildProvenanceCardS_CDA.xsl', 
 				'prs_T_show-assignedEntityS_CDA.xsl', 
 				'prs_T_show-relatedEntityS_CDA.xsl', 
 				'prs_T_show-associatedEntityS_CDA.xsl', 
@@ -63,6 +65,8 @@
 				'uB_T_section-subjectS_CDA.xsl', 
 				'uB_T_section-textS_CDA.xsl', 
 				'uB_T_check-external-image-whitelistS_CDA.xsl', 
+				'uB_T_ProcessAuthorIdsS_CDA.xsl', 
+				'uB_T_BuildProvenanceCardS_CDA.xsl', 
 				'uB_T_show-titleS_CDA.xsl', 
 				'uB_T_show-headerS_CDA.xsl', 
 				'uB_T_documentGeneralS_CDA.xsl', 
@@ -160,7 +164,8 @@
 				'uB_V_simple-sanitizer-matchS_CDA.xsl', 
 				'uB_V_simple-sanitizer-replaceS_CDA.xsl', 
 				'uB_V_table-elem-attrsS_CDA.xsl', 
-				'uB_V_globalAuthorsS_CDA.xsl', 
+				'uB_K_provenance-author-ext-keyS_CDA.xsl', 
+				'uB_K_provenance-author-root-keyS_CDA.xsl', 
 				'uB_K_provenance-ref-keyS_CDA.xsl', 
 				'uB_K_util-i18nkeyS_CDA.xsl');
 
@@ -194,6 +199,8 @@
 				'dS_M_hl7subS_CDA.xsl', 
 				'dS_M_M_handleSectionTextAttributesS_CDA.xsl', 
 				'dS_M_IDM_handleProvenanceS_CDA.xsl', 
+				'dS_T_ProcessAuthorIdsS_CDA.xsl', 
+				'dS_T_BuildProvenanceCardS_CDA.xsl', 
 				'dS_M_hl7ahl7ddhl7dlhl7imghl7inshl7spanhl7phl7olhl7ulhl7liS_CDA.xsl', 
 				'dS_T_show-titleS_CDA.xsl', 
 				'dS_T_show-headerS_CDA.xsl', 
@@ -296,7 +303,6 @@
 				'dS_V_simple-sanitizer-matchS_CDA.xsl', 
 				'dS_V_simple-sanitizer-replaceS_CDA.xsl', 
 				'dS_V_table-elem-attrsS_CDA.xsl', 
-				'dS_V_globalAuthorsS_CDA.xsl', 
 				'dS_O_S_CDA.xsl');
 
         var sourceBoxes= new Array('src_M_S_CDA.xsl', 
@@ -328,6 +334,8 @@
 				'src_M_hl7subS_CDA.xsl', 
 				'src_M_M_handleSectionTextAttributesS_CDA.xsl', 
 				'src_M_IDM_handleProvenanceS_CDA.xsl', 
+				'src_T_ProcessAuthorIdsS_CDA.xsl', 
+				'src_T_BuildProvenanceCardS_CDA.xsl', 
 				'src_M_hl7ahl7ddhl7dlhl7imghl7inshl7spanhl7phl7olhl7ulhl7liS_CDA.xsl', 
 				'src_T_show-titleS_CDA.xsl', 
 				'src_T_show-headerS_CDA.xsl', 
@@ -432,8 +440,9 @@
 				'src_V_simple-sanitizer-matchS_CDA.xsl', 
 				'src_V_simple-sanitizer-replaceS_CDA.xsl', 
 				'src_V_table-elem-attrsS_CDA.xsl', 
-				'src_V_globalAuthorsS_CDA.xsl', 
 				'src_O_S_CDA.xsl', 
+				'src_K_provenance-author-ext-keyS_CDA.xsl', 
+				'src_K_provenance-author-root-keyS_CDA.xsl', 
 				'src_K_provenance-ref-keyS_CDA.xsl', 
 				'src_K_util-i18nkeyS_CDA.xsl');
 
@@ -451,6 +460,8 @@
 				'refs_T_check-external-image-whitelistS_CDA.xsl', 
 				'refs_M_M_handleSectionTextAttributesS_CDA.xsl', 
 				'refs_M_IDM_handleProvenanceS_CDA.xsl', 
+				'refs_T_ProcessAuthorIdsS_CDA.xsl', 
+				'refs_T_BuildProvenanceCardS_CDA.xsl', 
 				'refs_T_show-titleS_CDA.xsl', 
 				'refs_T_show-headerS_CDA.xsl', 
 				'refs_T_documentGeneralS_CDA.xsl', 
@@ -900,6 +911,10 @@
                                            class="control" />Templates
                                  </div>
                                  <div id="boxIdNamespace1template" style="display:block">
+                                    <div class="indentWrapDiv"><a href="CDA.html#T_BuildProvenanceCardS_CDA.xsl" target="_self" class="iRf"
+                                          title="No namespace"><span class="nRf">BuildProvenanceCard</span></a></div>
+                                    <div class="indentWrapDiv"><a href="CDA.html#T_ProcessAuthorIdsS_CDA.xsl" target="_self" class="iRf"
+                                          title="No namespace"><span class="nRf">ProcessAuthorIds</span></a></div>
                                     <div class="indentWrapDiv"><a href="CDA.html#T__tokenize-charactersS_CDA.xsl" target="_self" class="iRf"
                                           title="No namespace"><span class="nRf">_tokenize-characters</span></a></div>
                                     <div class="indentWrapDiv"><a href="CDA.html#T__tokenize-delimitersS_CDA.xsl" target="_self" class="iRf"
@@ -1208,8 +1223,6 @@
                                            class="control" />Variables
                                  </div>
                                  <div id="boxIdNamespace1variable" style="display:block">
-                                    <div class="indentWrapDiv"><a href="CDA.html#V_globalAuthorsS_CDA.xsl" target="_self" class="iRf"
-                                          title="No namespace"><span class="cRfI">globalAuthors</span></a></div>
                                     <div class="indentWrapDiv"><a href="CDA.html#V_lcS_CDA.xsl" target="_self" class="iRf" title="No namespace"><span class="cRfI">lc</span></a></div>
                                     <div class="indentWrapDiv"><a href="CDA.html#V_mask-ids-varS_CDA.xsl" target="_self" class="iRf"
                                           title="No namespace"><span class="cRfI">mask-ids-var</span></a></div>
@@ -1286,6 +1299,11 @@
                                            class="control" />Keys
                                  </div>
                                  <div id="boxIdNamespace1key" style="display:block">
+                                    <div class="indentWrapDiv"><a href="CDA.html#K_provenance-author-ext-keyS_CDA.xsl" target="_self" class="iRf"
+                                          title="No namespace"><span class="cRfI">provenance-author-ext-key</span></a></div>
+                                    <div class="indentWrapDiv"><a href="CDA.html#K_provenance-author-root-keyS_CDA.xsl" target="_self"
+                                          class="iRf"
+                                          title="No namespace"><span class="cRfI">provenance-author-root-key</span></a></div>
                                     <div class="indentWrapDiv"><a href="CDA.html#K_provenance-ref-keyS_CDA.xsl" target="_self" class="iRf"
                                           title="No namespace"><span class="cRfI">provenance-ref-key</span></a></div>
                                     <div class="indentWrapDiv"><a href="CDA.html#K_util-i18nkeyS_CDA.xsl" target="_self" class="iRf"
@@ -1588,6 +1606,10 @@
                                         class="control" />Templates
                               </div>
                               <div id="boxIdNoModetemplate" style="display:block">
+                                 <div class="indentWrapDiv"><a href="CDA.html#T_BuildProvenanceCardS_CDA.xsl" target="_self" class="iRf"
+                                       title="No namespace"><span class="nRf">BuildProvenanceCard</span></a></div>
+                                 <div class="indentWrapDiv"><a href="CDA.html#T_ProcessAuthorIdsS_CDA.xsl" target="_self" class="iRf"
+                                       title="No namespace"><span class="nRf">ProcessAuthorIds</span></a></div>
                                  <div class="indentWrapDiv"><a href="CDA.html#T__tokenize-charactersS_CDA.xsl" target="_self" class="iRf"
                                        title="No namespace"><span class="nRf">_tokenize-characters</span></a></div>
                                  <div class="indentWrapDiv"><a href="CDA.html#T__tokenize-delimitersS_CDA.xsl" target="_self" class="iRf"
@@ -1839,8 +1861,6 @@
                                         class="control" />Variables
                               </div>
                               <div id="boxIdNoModevariable" style="display:block">
-                                 <div class="indentWrapDiv"><a href="CDA.html#V_globalAuthorsS_CDA.xsl" target="_self" class="iRf"
-                                       title="No namespace"><span class="cRfI">globalAuthors</span></a></div>
                                  <div class="indentWrapDiv"><a href="CDA.html#V_lcS_CDA.xsl" target="_self" class="iRf" title="No namespace"><span class="cRfI">lc</span></a></div>
                                  <div class="indentWrapDiv"><a href="CDA.html#V_mask-ids-varS_CDA.xsl" target="_self" class="iRf"
                                        title="No namespace"><span class="cRfI">mask-ids-var</span></a></div>
@@ -1917,6 +1937,11 @@
                                         class="control" />Keys
                               </div>
                               <div id="boxIdNoModekey" style="display:block">
+                                 <div class="indentWrapDiv"><a href="CDA.html#K_provenance-author-ext-keyS_CDA.xsl" target="_self" class="iRf"
+                                       title="No namespace"><span class="cRfI">provenance-author-ext-key</span></a></div>
+                                 <div class="indentWrapDiv"><a href="CDA.html#K_provenance-author-root-keyS_CDA.xsl" target="_self"
+                                       class="iRf"
+                                       title="No namespace"><span class="cRfI">provenance-author-root-key</span></a></div>
                                  <div class="indentWrapDiv"><a href="CDA.html#K_provenance-ref-keyS_CDA.xsl" target="_self" class="iRf"
                                        title="No namespace"><span class="cRfI">provenance-ref-key</span></a></div>
                                  <div class="indentWrapDiv"><a href="CDA.html#K_util-i18nkeyS_CDA.xsl" target="_self" class="iRf"
@@ -1953,6 +1978,10 @@
                                      class="control" />Templates
                            </div>
                            <div id="template" style="display:block">
+                              <div class="indentWrapDiv"><a href="CDA.html#T_BuildProvenanceCardS_CDA.xsl" target="_self" class="iRf"
+                                    title="No namespace"><span class="nRf">BuildProvenanceCard</span></a></div>
+                              <div class="indentWrapDiv"><a href="CDA.html#T_ProcessAuthorIdsS_CDA.xsl" target="_self" class="iRf"
+                                    title="No namespace"><span class="nRf">ProcessAuthorIds</span></a></div>
                               <div class="indentWrapDiv"><a href="CDA.html#T__tokenize-charactersS_CDA.xsl" target="_self" class="iRf"
                                     title="No namespace"><span class="nRf">_tokenize-characters</span></a></div>
                               <div class="indentWrapDiv"><a href="CDA.html#T__tokenize-delimitersS_CDA.xsl" target="_self" class="iRf"
@@ -2261,8 +2290,6 @@
                                      class="control" />Variables
                            </div>
                            <div id="variable" style="display:block">
-                              <div class="indentWrapDiv"><a href="CDA.html#V_globalAuthorsS_CDA.xsl" target="_self" class="iRf"
-                                    title="No namespace"><span class="cRfI">globalAuthors</span></a></div>
                               <div class="indentWrapDiv"><a href="CDA.html#V_lcS_CDA.xsl" target="_self" class="iRf" title="No namespace"><span class="cRfI">lc</span></a></div>
                               <div class="indentWrapDiv"><a href="CDA.html#V_mask-ids-varS_CDA.xsl" target="_self" class="iRf"
                                     title="No namespace"><span class="cRfI">mask-ids-var</span></a></div>
@@ -2339,6 +2366,11 @@
                                      class="control" />Keys
                            </div>
                            <div id="key" style="display:block">
+                              <div class="indentWrapDiv"><a href="CDA.html#K_provenance-author-ext-keyS_CDA.xsl" target="_self" class="iRf"
+                                    title="No namespace"><span class="cRfI">provenance-author-ext-key</span></a></div>
+                              <div class="indentWrapDiv"><a href="CDA.html#K_provenance-author-root-keyS_CDA.xsl" target="_self"
+                                    class="iRf"
+                                    title="No namespace"><span class="cRfI">provenance-author-root-key</span></a></div>
                               <div class="indentWrapDiv"><a href="CDA.html#K_provenance-ref-keyS_CDA.xsl" target="_self" class="iRf"
                                     title="No namespace"><span class="cRfI">provenance-ref-key</span></a></div>
                               <div class="indentWrapDiv"><a href="CDA.html#K_util-i18nkeyS_CDA.xsl" target="_self" class="iRf"
@@ -2379,6 +2411,10 @@
                                            class="control" />Templates
                                  </div>
                                  <div id="CDA.xsltemplate" style="display:block">
+                                    <div class="indentWrapDiv"><a href="CDA.html#T_BuildProvenanceCardS_CDA.xsl" target="_self" class="iRf"
+                                          title="No namespace"><span class="nRf">BuildProvenanceCard</span></a></div>
+                                    <div class="indentWrapDiv"><a href="CDA.html#T_ProcessAuthorIdsS_CDA.xsl" target="_self" class="iRf"
+                                          title="No namespace"><span class="nRf">ProcessAuthorIds</span></a></div>
                                     <div class="indentWrapDiv"><a href="CDA.html#T__tokenize-charactersS_CDA.xsl" target="_self" class="iRf"
                                           title="No namespace"><span class="nRf">_tokenize-characters</span></a></div>
                                     <div class="indentWrapDiv"><a href="CDA.html#T__tokenize-delimitersS_CDA.xsl" target="_self" class="iRf"
@@ -2687,8 +2723,6 @@
                                            class="control" />Variables
                                  </div>
                                  <div id="CDA.xslvariable" style="display:block">
-                                    <div class="indentWrapDiv"><a href="CDA.html#V_globalAuthorsS_CDA.xsl" target="_self" class="iRf"
-                                          title="No namespace"><span class="cRfI">globalAuthors</span></a></div>
                                     <div class="indentWrapDiv"><a href="CDA.html#V_lcS_CDA.xsl" target="_self" class="iRf" title="No namespace"><span class="cRfI">lc</span></a></div>
                                     <div class="indentWrapDiv"><a href="CDA.html#V_mask-ids-varS_CDA.xsl" target="_self" class="iRf"
                                           title="No namespace"><span class="cRfI">mask-ids-var</span></a></div>
@@ -2765,6 +2799,11 @@
                                            class="control" />Keys
                                  </div>
                                  <div id="CDA.xslkey" style="display:block">
+                                    <div class="indentWrapDiv"><a href="CDA.html#K_provenance-author-ext-keyS_CDA.xsl" target="_self" class="iRf"
+                                          title="No namespace"><span class="cRfI">provenance-author-ext-key</span></a></div>
+                                    <div class="indentWrapDiv"><a href="CDA.html#K_provenance-author-root-keyS_CDA.xsl" target="_self"
+                                          class="iRf"
+                                          title="No namespace"><span class="cRfI">provenance-author-root-key</span></a></div>
                                     <div class="indentWrapDiv"><a href="CDA.html#K_provenance-ref-keyS_CDA.xsl" target="_self" class="iRf"
                                           title="No namespace"><span class="cRfI">provenance-ref-key</span></a></div>
                                     <div class="indentWrapDiv"><a href="CDA.html#K_util-i18nkeyS_CDA.xsl" target="_self" class="iRf"
@@ -3196,28 +3235,13 @@
                         font-style: italic;
                         padding-right: 0.2cm;
                     }
-
-                    </span><span class="tXSLEl">&lt;xsl:text</span><span class="tAN"> disable-output-escaping=</span><span class="tAV">"yes"</span><span class="tXSLEl">&gt;</span><span class="tT">
-                    </span><span class="tC">&lt;!-- Provenance (IE) --&gt;</span><span class="tT">
-                    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-                        table.has_provenance &gt; tbody &gt; tr &gt; *,
-                        .has_provenance:not(:empty):not(table) {
-                            text-decoration: underline;
-                        }
+                    .has_provenance th, .has_provenance td,
+                    .has_provenance:not(:empty):not(table),
+                    .has_provenance:focus:after {
+                        text-decoration: underline grey dashed;
+                        text-decoration-thickness: 0.01em;
                     }
-
-                    </span><span class="tC">&lt;!-- Chromium-based browsers fail to render the title text when tabbed over, so
-                         this adds a CSS-based tooltip as a workaround. See Chromium issue #829352:
-                         https://bugs.chromium.org/p/chromium/issues/detail?id=829352
-                    --&gt;</span><span class="tT">
-                    @media (-webkit-min-device-pixel-ratio:0) {
-                       table.has_provenance &gt; tbody &gt; tr &gt; *,
-                        .has_provenance:not(:empty):not(table) {
-                            text-decoration: underline grey dashed;
-                            text-decoration-thickness: 0.01em;
-                        }
-
-                        .has_provenance:focus:after{
+                    .has_provenance:focus:after {
                             content: attr(title);
                             white-space: break-spaces;
                             padding: 2px;
@@ -3227,18 +3251,28 @@
                             background-color: #fef4c5;
                             border: 1px solid #d4b943;
                             border-radius: 2px;
-                        }
-
-                        :not(tr).has_provenance:focus:after{
+                            font-weight: normal;
+                            color: black;
+                            font-size: 10pt;
+                            line-height: 12pt;
                             width: fit-content;
+                    }
+                    tr.has_provenance:focus:after {
+                           width: max-content;
+                    }
+                    </span><span class="tC">&lt;!-- IE doesn't support styled underlines, so fall back to a regular one. --&gt;</span><span class="tT">
+                    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+                        .has_provenance th, .has_provenance td,
+                        .has_provenance:not(:empty):not(table),
+                        .has_provenance:focus:after {
+                            text-decoration: underline;
                         }
-
-                        tr.has_provenance:focus:after{
-                            width: max-content;
+                        .has_provenance:focus:after {
+                            white-space: pre;
+                            display: table;
+                            width: auto;
                         }
                     }
-                    </span><span class="tXSLEl">&lt;/xsl:text&gt;</span><span class="tT">
-
                     .header_table{
                         border: 1pt solid #00008b;
                     }
@@ -7679,9 +7713,19 @@
                         <td>
                            <div id="dS_M_IDM_handleProvenanceS_CDA.xsl" style="display:block">
                               <div>
+                                 <h3>Description</h3>Index provenance authors with a root + extension that have an organization or author
+                                 name
+                              </div>
+                              <hr />
+                              <div>
+                                 <h3>Description</h3>Index provenance authors with a root + no nullFlavor that have an organization or
+                                 author name
+                              </div>
+                              <hr />
+                              <div>
                                  <h3>Description</h3>
                                  
-                                 <p>Index all discrete references so we can quickly find them from a narrative ID.</p>
+                                 <p>Index all discrete references so we can quickly find them from a narrative ID</p>
                                  
                               </div>
                               <hr />
@@ -7729,21 +7773,12 @@
                                     </td>
                                  </tr>
                                  <tr>
-                                    <td class="fCol">Variable</td>
-                                    <td>
-                                       <div class="listGrouping">
-                                          <div class="refItemBlock"><a href="CDA.html#V_globalAuthorsS_CDA.xsl" target="_self" title="No namespace">globalAuthors</a></div>
-                                       </div>
-                                    </td>
-                                 </tr>
-                                 <tr>
                                     <td class="fCol">Templates</td>
                                     <td>
                                        <div class="listGrouping">
-                                          <div class="refItemBlock"><a href="CDA.html#T_getLocalizedStringS_CDA.xsl" target="_self"
-                                                title="No namespace"><span class="nRf">getLocalizedString</span></a><span class="refItemSep">;</span></div>
-                                          <div class="refItemBlock"><a href="CDA.html#T_show-nameS_CDA.xsl" target="_self" title="No namespace"><span class="nRf">show-name</span></a><span class="refItemSep">;</span></div>
-                                          <div class="refItemBlock"><a href="CDA.html#T_show-timestampS_CDA.xsl" target="_self" title="No namespace"><span class="nRf">show-timestamp</span></a></div>
+                                          <div class="refItemBlock"><a href="CDA.html#T_BuildProvenanceCardS_CDA.xsl" target="_self"
+                                                title="No namespace"><span class="nRf">BuildProvenanceCard</span></a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="CDA.html#T_ProcessAuthorIdsS_CDA.xsl" target="_self" title="No namespace"><span class="nRf">ProcessAuthorIds</span></a></div>
                                        </div>
                                     </td>
                                  </tr>
@@ -7775,62 +7810,441 @@
   </span><span class="tC">&lt;!-- Find the nearest ancestor (up to any context break) containing a child author --&gt;</span><span class="tI">
   </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"ancestry"</span><span class="tAN"> select=</span><span class="tAV">"$ref/ancestor-or-self::*[count(ancestor-or-self::hl7:entryRelationship[@contextConductionInd='false']) = $contextBreaks][hl7:author][1]"</span><span class="tXSLEl">/&gt;</span><span class="tI">
   </span><span class="tC">&lt;!-- Then find the provenance author (if any) for that ancestor --&gt;</span><span class="tI">
-  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"author"</span><span class="tAN"> select=</span><span class="tAV">"$ancestry/hl7:author[hl7:templateId[@root='2.16.840.1.113883.10.20.22.5.6']]"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$author"</span><span class="tXSLEl">&gt;</span><span class="tI">
-    </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"authorId"</span><span class="tAN"> select=</span><span class="tAV">"$author/hl7:assignedAuthor/hl7:id"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-    </span><span class="tC">&lt;!-- Pull provenance information from this author or else an author defined elsewhere in the document with a matching id.
-                 Beware: If one author has the same id in two different provenance contexts (for instance, the same provider with the
-                         same NPI working at two different organizations) this lookup will misbehave! This issue is somewhat intrinsic
-                         to the conflation of "id" in the sense of an NPI with "id" in the sense of uniquely identifying a CDA element
-                         and users of this stylesheet may wish to add their own mitigations (custom ids, limited id lookup, etc.) to
-                         address it. --&gt;</span><span class="tI">
-    </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"srcAuthor"</span><span class="tAN"> select=</span><span class="tAV">"$author/hl7:assignedAuthor |                 $globalAuthors/hl7:assignedAuthor[hl7:id[(@root=$authorId/@root and @extension=$authorId/@extension)                         or (@root=$authorId/@root and not(@extension | @nullFlavor | $authorId/@extension | $authorId/@nullFlavor))]]"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-    </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"nameInfo"</span><span class="tXSLEl">&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"rawValue"</span><span class="tXSLEl">&gt;</span><span class="tI">
-        </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"show-name"</span><span class="tXSLEl">&gt;</span><span class="tI">
-          </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"in"</span><span class="tAN"> select=</span><span class="tAV">"($srcAuthor/hl7:assignedPerson/hl7:name)[1]"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"author"</span><span class="tAN"> select=</span><span class="tAV">"($ancestry/hl7:author[hl7:templateId[@root='2.16.840.1.113883.10.20.22.5.6']])[last()]"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- Get author name and organization --&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"authorName"</span><span class="tAN"> select=</span><span class="tAV">"$author/hl7:assignedAuthor/hl7:assignedPerson/hl7:name[not(@nullFlavor)]"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"authorOrg"</span><span class="tAN"> select=</span><span class="tAV">"$author/hl7:assignedAuthor/hl7:representedOrganization/hl7:name[not(@nullFlavor)]"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:choose</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tC">&lt;!-- Use local author info if it's present --&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"$authorName or $authorOrg"</span><span class="tXSLEl">&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"tooltipText"</span><span class="tXSLEl">&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"BuildProvenanceCard"</span><span class="tXSLEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"authorName"</span><span class="tAN"> select=</span><span class="tAV">"$authorName[1]"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"authorTime"</span><span class="tAN"> select=</span><span class="tAV">"$author/hl7:time"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"authorOrg"</span><span class="tAN"> select=</span><span class="tAV">"$authorOrg"</span><span class="tXSLEl">/&gt;</span><span class="tI">
         </span><span class="tXSLEl">&lt;/xsl:call-template&gt;</span><span class="tI">
       </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"normalize-space($rawValue)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-    </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
-    </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"timeInfo"</span><span class="tXSLEl">&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"rawValue"</span><span class="tXSLEl">&gt;</span><span class="tI">
-        </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"show-timestamp"</span><span class="tXSLEl">&gt;</span><span class="tI">
-          </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"in"</span><span class="tAN"> select=</span><span class="tAV">"$author/hl7:time"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$tooltipText"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
+    </span><span class="tC">&lt;!-- Otherwise, look for a source author elsewhere in the document --&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:otherwise</span><span class="tXSLEl">&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"ProcessAuthorIds"</span><span class="tXSLEl">&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"localAuthor"</span><span class="tAN"> select=</span><span class="tAV">"$author"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"authorId"</span><span class="tAN"> select=</span><span class="tAV">"$author/hl7:assignedAuthor/hl7:id[1]"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;/xsl:call-template&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;/xsl:otherwise&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:choose&gt;</span><span class="tI">
+</span><span class="tXSLEl">&lt;/xsl:template&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lR"></td>
+         </tr>
+         <tr>
+            <td class="rt_cBL"></td>
+            <td class="rt_lB"></td>
+            <td class="rt_cBR"></td>
+         </tr>
+      </table>
+      <div class="toTop"><a href="#INDEX"> [ top ] </a></div><a id="T_ProcessAuthorIdsS_CDA.xsl"></a><div class="cmpT">Template
+         <span class="titleTemplateName">ProcessAuthorIds</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cTL"></td>
+            <td class="rt_lT"></td>
+            <td class="rt_cTR"></td>
+         </tr>
+         <tr>
+            <td class="rt_lL"></td>
+            <td class="rt_cnt">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Documentation</div>
+                           <div class="flR"><input id="bt_dS_T_ProcessAuthorIdsS_CDA.xsl" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('dS_T_ProcessAuthorIdsS_CDA.xsl');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="dS_T_ProcessAuthorIdsS_CDA.xsl" style="display:block">
+                              <div>
+                                 <h3>Description</h3>Process the author's ids to find a matching source author elsewhere in the document
+                                 <table>
+                                    <tr>
+                                       <h4>Parameters</h4>
+                                       <td class="paramName"><b>localAuthor</b></td>
+                                       <td>The local provenance <b class="paramDesc">author</b> element
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <td class="paramName"><b>authorId</b></td>
+                                       <td>The current single instance of <b class="paramDesc">author/assignedAuthor/id</b> to process
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Namespace</td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Used by</div>
+                           <div class="flR"><input id="bt_uB_T_ProcessAuthorIdsS_CDA.xsl" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('uB_T_ProcessAuthorIdsS_CDA.xsl');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="uB_T_ProcessAuthorIdsS_CDA.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td class="fCol">Templates</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="CDA.html#T_ProcessAuthorIdsS_CDA.xsl" target="_self" title="No namespace"><span class="nRf">ProcessAuthorIds</span></a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="CDA.html#M_IDM_handleProvenanceS_CDA.xsl" target="_self"
+                                                title="No namespace"><span class="mRf">@ID</span><span class="mdRf">handleProvenance</span></a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">References</div>
+                           <div class="flR"><input id="bt_refs_T_ProcessAuthorIdsS_CDA.xsl" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('refs_T_ProcessAuthorIdsS_CDA.xsl');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="refs_T_ProcessAuthorIdsS_CDA.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td class="fCol">Keys</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="CDA.html#K_provenance-author-ext-keyS_CDA.xsl" target="_self"
+                                                title="No namespace">provenance-author-ext-key</a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="CDA.html#K_provenance-author-root-keyS_CDA.xsl" target="_self"
+                                                title="No namespace">provenance-author-root-key</a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="fCol">Templates</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="CDA.html#T_BuildProvenanceCardS_CDA.xsl" target="_self"
+                                                title="No namespace"><span class="nRf">BuildProvenanceCard</span></a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="CDA.html#T_ProcessAuthorIdsS_CDA.xsl" target="_self" title="No namespace"><span class="nRf">ProcessAuthorIds</span></a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Parameters</div>
+                           <div class="flR"><input id="bt_prs_T_ProcessAuthorIdsS_CDA.xsl" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('prs_T_ProcessAuthorIdsS_CDA.xsl');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="prs_T_ProcessAuthorIdsS_CDA.xsl" style="display:block">
+                              <table class="attsT">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th>Namespace</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="fCol">authorId</td>
+                                    <td>No namespace</td>
+                                 </tr>
+                                 <tr>
+                                    <td class="fCol">localAuthor</td>
+                                    <td>No namespace</td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Import precedence</td>
+                        <td>0</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Source</div>
+                           <div class="flR"><input id="bt_src_T_ProcessAuthorIdsS_CDA.xsl" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('src_T_ProcessAuthorIdsS_CDA.xsl');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="src_T_ProcessAuthorIdsS_CDA.xsl" style="display:block">
+                              <table class="pWCont">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tXSLEl">&lt;xsl:template</span><span class="tAN"> name=</span><span class="tAV">"ProcessAuthorIds"</span><span class="tXSLEl">&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"localAuthor"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"authorId"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"nextId"</span><span class="tAN"> select=</span><span class="tAV">"$authorId/following-sibling::hl7:id[1]"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$authorId"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"srcAuthorIds"</span><span class="tAN"> select=</span><span class="tAV">"(key('provenance-author-ext-key',$authorId[@extension!='' and @root!='']/@extension))[(@extension=$authorId/@extension) and (@root=$authorId/@root) and (generate-id(.)!=generate-id($authorId))]                 | (key('provenance-author-root-key',$authorId[@root!='' and not(@extension | @nullFlavor)]/@root))[generate-id(.)!=generate-id($authorId)]"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:choose</span><span class="tXSLEl">&gt;</span><span class="tI">
+      </span><span class="tC">&lt;!-- Use the source author if one was found; time will always come from the local author --&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"$srcAuthorIds"</span><span class="tXSLEl">&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"tooltipText"</span><span class="tXSLEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"BuildProvenanceCard"</span><span class="tXSLEl">&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"authorName"</span><span class="tAN"> select=</span><span class="tAV">"($srcAuthorIds/parent::hl7:assignedAuthor/hl7:assignedPerson/hl7:name)[1]"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"authorTime"</span><span class="tAN"> select=</span><span class="tAV">"$localAuthor/hl7:time"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+            </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"authorOrg"</span><span class="tAN"> select=</span><span class="tAV">"$srcAuthorIds/parent::hl7:assignedAuthor/hl7:representedOrganization/hl7:name"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;/xsl:call-template&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$tooltipText"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
+      </span><span class="tC">&lt;!-- No source author found, go to the next ID --&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"$nextId"</span><span class="tXSLEl">&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"ProcessAuthorIds"</span><span class="tXSLEl">&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"localAuthor"</span><span class="tAN"> select=</span><span class="tAV">"$localAuthor"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+          </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"authorId"</span><span class="tAN"> select=</span><span class="tAV">"$nextId"</span><span class="tXSLEl">/&gt;</span><span class="tI">
         </span><span class="tXSLEl">&lt;/xsl:call-template&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"normalize-space($rawValue)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;/xsl:choose&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+</span><span class="tXSLEl">&lt;/xsl:template&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lR"></td>
+         </tr>
+         <tr>
+            <td class="rt_cBL"></td>
+            <td class="rt_lB"></td>
+            <td class="rt_cBR"></td>
+         </tr>
+      </table>
+      <div class="toTop"><a href="#INDEX"> [ top ] </a></div><a id="T_BuildProvenanceCardS_CDA.xsl"></a><div class="cmpT">Template
+         <span class="titleTemplateName">BuildProvenanceCard</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cTL"></td>
+            <td class="rt_lT"></td>
+            <td class="rt_cTR"></td>
+         </tr>
+         <tr>
+            <td class="rt_lL"></td>
+            <td class="rt_cnt">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Documentation</div>
+                           <div class="flR"><input id="bt_dS_T_BuildProvenanceCardS_CDA.xsl" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('dS_T_BuildProvenanceCardS_CDA.xsl');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="dS_T_BuildProvenanceCardS_CDA.xsl" style="display:block">
+                              <div>
+                                 <h3>Description</h3>Build out the provenance text we will display to the user
+                                 <table>
+                                    <tr>
+                                       <h4>Parameters</h4>
+                                       <td class="paramName"><b>authorName</b></td>
+                                       <td>The <b class="paramDesc">author/assignedAuthor/assignedPerson/name</b> node to use
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <td class="paramName"><b>authorTime</b></td>
+                                       <td>The <b class="paramDesc">author/time/@value</b> to use
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <td class="paramName"><b>authorOrg</b></td>
+                                       <td>The <b class="paramDesc">author/assignedAuthor/representedOrganization/name</b> node to use
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Namespace</td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Used by</div>
+                           <div class="flR"><input id="bt_uB_T_BuildProvenanceCardS_CDA.xsl" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('uB_T_BuildProvenanceCardS_CDA.xsl');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="uB_T_BuildProvenanceCardS_CDA.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td class="fCol">Templates</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="CDA.html#T_ProcessAuthorIdsS_CDA.xsl" target="_self" title="No namespace"><span class="nRf">ProcessAuthorIds</span></a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="CDA.html#M_IDM_handleProvenanceS_CDA.xsl" target="_self"
+                                                title="No namespace"><span class="mRf">@ID</span><span class="mdRf">handleProvenance</span></a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">References</div>
+                           <div class="flR"><input id="bt_refs_T_BuildProvenanceCardS_CDA.xsl" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('refs_T_BuildProvenanceCardS_CDA.xsl');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="refs_T_BuildProvenanceCardS_CDA.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td class="fCol">Templates</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="CDA.html#T_getLocalizedStringS_CDA.xsl" target="_self"
+                                                title="No namespace"><span class="nRf">getLocalizedString</span></a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="CDA.html#T_show-nameS_CDA.xsl" target="_self" title="No namespace"><span class="nRf">show-name</span></a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="CDA.html#T_show-timestampS_CDA.xsl" target="_self" title="No namespace"><span class="nRf">show-timestamp</span></a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Parameters</div>
+                           <div class="flR"><input id="bt_prs_T_BuildProvenanceCardS_CDA.xsl" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('prs_T_BuildProvenanceCardS_CDA.xsl');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="prs_T_BuildProvenanceCardS_CDA.xsl" style="display:block">
+                              <table class="attsT">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th>Namespace</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="fCol">authorName</td>
+                                    <td>No namespace</td>
+                                 </tr>
+                                 <tr>
+                                    <td class="fCol">authorOrg</td>
+                                    <td>No namespace</td>
+                                 </tr>
+                                 <tr>
+                                    <td class="fCol">authorTime</td>
+                                    <td>No namespace</td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Import precedence</td>
+                        <td>0</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Source</div>
+                           <div class="flR"><input id="bt_src_T_BuildProvenanceCardS_CDA.xsl" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('src_T_BuildProvenanceCardS_CDA.xsl');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="src_T_BuildProvenanceCardS_CDA.xsl" style="display:block">
+                              <table class="pWCont">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tXSLEl">&lt;xsl:template</span><span class="tAN"> name=</span><span class="tAV">"BuildProvenanceCard"</span><span class="tXSLEl">&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"authorName"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"authorTime"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"authorOrg"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"nameInfo"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"rawValue"</span><span class="tXSLEl">&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"show-name"</span><span class="tXSLEl">&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"in"</span><span class="tAN"> select=</span><span class="tAV">"$authorName"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;/xsl:call-template&gt;</span><span class="tI">
     </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
-    </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"orgInfo"</span><span class="tAN"> select=</span><span class="tAV">"normalize-space($srcAuthor/hl7:representedOrganization/hl7:name)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-    </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$nameInfo != ''"</span><span class="tXSLEl">&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"getLocalizedString"</span><span class="tXSLEl">&gt;</span><span class="tI">
-        </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"key"</span><span class="tAN"> select=</span><span class="tAV">"'provenance_authored-by'"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-        </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"post"</span><span class="tAN"> select=</span><span class="tAV">"' '"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"normalize-space($rawValue)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"timeInfo"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"rawValue"</span><span class="tXSLEl">&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"show-timestamp"</span><span class="tXSLEl">&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"in"</span><span class="tAN"> select=</span><span class="tAV">"$authorTime"</span><span class="tXSLEl">/&gt;</span><span class="tI">
       </span><span class="tXSLEl">&lt;/xsl:call-template&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;xsl:copy-of</span><span class="tAN"> select=</span><span class="tAV">"$nameInfo"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$timeInfo != '' or $orgInfo != ''"</span><span class="tXSLEl">&gt;</span><span class="tI">
-        </span><span class="tXSLEl">&lt;xsl:text</span><span class="tXSLEl">&gt;</span><span class="tT">
+    </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"normalize-space($rawValue)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"orgInfo"</span><span class="tAN"> select=</span><span class="tAV">"normalize-space($authorOrg)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$nameInfo != ''"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"getLocalizedString"</span><span class="tXSLEl">&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"key"</span><span class="tAN"> select=</span><span class="tAV">"'provenance_authored-by'"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"post"</span><span class="tAN"> select=</span><span class="tAV">"' '"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;/xsl:call-template&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:copy-of</span><span class="tAN"> select=</span><span class="tAV">"$nameInfo"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$timeInfo != '' or $orgInfo != ''"</span><span class="tXSLEl">&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:text</span><span class="tXSLEl">&gt;</span><span class="tT">
 </span><span class="tXSLEl">&lt;/xsl:text&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
     </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
-    </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$timeInfo != ''"</span><span class="tXSLEl">&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"getLocalizedString"</span><span class="tXSLEl">&gt;</span><span class="tI">
-        </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"key"</span><span class="tAN"> select=</span><span class="tAV">"'provenance_authored-on'"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-        </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"post"</span><span class="tAN"> select=</span><span class="tAV">"' '"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;/xsl:call-template&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$timeInfo"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$orgInfo != ''"</span><span class="tXSLEl">&gt;</span><span class="tI">
-        </span><span class="tXSLEl">&lt;xsl:text</span><span class="tXSLEl">&gt;</span><span class="tT">
-</span><span class="tXSLEl">&lt;/xsl:text&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
-    </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$timeInfo != ''"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"getLocalizedString"</span><span class="tXSLEl">&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"key"</span><span class="tAN"> select=</span><span class="tAV">"'provenance_authored-on'"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"post"</span><span class="tAN"> select=</span><span class="tAV">"' '"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;/xsl:call-template&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$timeInfo"</span><span class="tXSLEl">/&gt;</span><span class="tI">
     </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$orgInfo != ''"</span><span class="tXSLEl">&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"getLocalizedString"</span><span class="tXSLEl">&gt;</span><span class="tI">
-        </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"key"</span><span class="tAN"> select=</span><span class="tAV">"'provenance_source-org'"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-        </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"post"</span><span class="tAN"> select=</span><span class="tAV">"' '"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;/xsl:call-template&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$orgInfo"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:text</span><span class="tXSLEl">&gt;</span><span class="tT">
+</span><span class="tXSLEl">&lt;/xsl:text&gt;</span><span class="tI">
     </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$orgInfo != ''"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"getLocalizedString"</span><span class="tXSLEl">&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"key"</span><span class="tAN"> select=</span><span class="tAV">"'provenance_source-org'"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"post"</span><span class="tAN"> select=</span><span class="tAV">"' '"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;/xsl:call-template&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:value-of</span><span class="tAN"> select=</span><span class="tAV">"$orgInfo"</span><span class="tXSLEl">/&gt;</span><span class="tI">
   </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
 </span><span class="tXSLEl">&lt;/xsl:template&gt;</span></pre></td>
                                  </tr>
@@ -15318,10 +15732,10 @@
                                     <td class="fCol">Templates</td>
                                     <td>
                                        <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="CDA.html#T_BuildProvenanceCardS_CDA.xsl" target="_self"
+                                                title="No namespace"><span class="nRf">BuildProvenanceCard</span></a><span class="refItemSep">;</span></div>
                                           <div class="refItemBlock"><a href="CDA.html#T_show-headerS_CDA.xsl" target="_self" title="No namespace"><span class="nRf">show-header</span></a><span class="refItemSep">;</span></div>
-                                          <div class="refItemBlock"><a href="CDA.html#T_show-name-setS_CDA.xsl" target="_self" title="No namespace"><span class="nRf">show-name-set</span></a><span class="refItemSep">;</span></div>
-                                          <div class="refItemBlock"><a href="CDA.html#M_IDM_handleProvenanceS_CDA.xsl" target="_self"
-                                                title="No namespace"><span class="mRf">@ID</span><span class="mdRf">handleProvenance</span></a></div>
+                                          <div class="refItemBlock"><a href="CDA.html#T_show-name-setS_CDA.xsl" target="_self" title="No namespace"><span class="nRf">show-name-set</span></a></div>
                                        </div>
                                     </td>
                                  </tr>
@@ -17249,6 +17663,8 @@
                                     <td class="fCol">Templates</td>
                                     <td>
                                        <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="CDA.html#T_BuildProvenanceCardS_CDA.xsl" target="_self"
+                                                title="No namespace"><span class="nRf">BuildProvenanceCard</span></a><span class="refItemSep">;</span></div>
                                           <div class="refItemBlock"><a href="CDA.html#T_authenticatorS_CDA.xsl" target="_self" title="No namespace"><span class="nRf">authenticator</span></a><span class="refItemSep">;</span></div>
                                           <div class="refItemBlock"><a href="CDA.html#T_authorS_CDA.xsl" target="_self" title="No namespace"><span class="nRf">author</span></a><span class="refItemSep">;</span></div>
                                           <div class="refItemBlock"><a href="CDA.html#T_documentGeneralS_CDA.xsl" target="_self" title="No namespace"><span class="nRf">documentGeneral</span></a><span class="refItemSep">;</span></div>
@@ -17267,9 +17683,7 @@
                                           <div class="refItemBlock"><a href="CDA.html#T_show-ivltsS_CDA.xsl" target="_self" title="No namespace"><span class="nRf">show-ivlts</span></a><span class="refItemSep">;</span></div>
                                           <div class="refItemBlock"><a href="CDA.html#T_show-relatedEntityS_CDA.xsl" target="_self"
                                                 title="No namespace"><span class="nRf">show-relatedEntity</span></a><span class="refItemSep">;</span></div>
-                                          <div class="refItemBlock"><a href="CDA.html#T_show-titleS_CDA.xsl" target="_self" title="No namespace"><span class="nRf">show-title</span></a><span class="refItemSep">;</span></div>
-                                          <div class="refItemBlock"><a href="CDA.html#M_IDM_handleProvenanceS_CDA.xsl" target="_self"
-                                                title="No namespace"><span class="mRf">@ID</span><span class="mdRf">handleProvenance</span></a></div>
+                                          <div class="refItemBlock"><a href="CDA.html#T_show-titleS_CDA.xsl" target="_self" title="No namespace"><span class="nRf">show-title</span></a></div>
                                        </div>
                                     </td>
                                  </tr>
@@ -20255,6 +20669,8 @@
                                     <td class="fCol">Templates</td>
                                     <td>
                                        <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="CDA.html#T_BuildProvenanceCardS_CDA.xsl" target="_self"
+                                                title="No namespace"><span class="nRf">BuildProvenanceCard</span></a><span class="refItemSep">;</span></div>
                                           <div class="refItemBlock"><a href="CDA.html#T__tokenize-charactersS_CDA.xsl" target="_self"
                                                 title="No namespace"><span class="nRf">_tokenize-characters</span></a><span class="refItemSep">;</span></div>
                                           <div class="refItemBlock"><a href="CDA.html#T__tokenize-delimitersS_CDA.xsl" target="_self"
@@ -20331,8 +20747,6 @@
                                                 title="No namespace"><span class="mRf">hl7:component/hl7:nonXMLBody | hl7:observationMedia</span></a><span class="refItemSep">;</span></div>
                                           <div class="refItemBlock"><a href="CDA.html#M_hl7sectionM_getTitleNameS_CDA.xsl" target="_self"
                                                 title="No namespace"><span class="mRf">hl7:section</span><span class="mdRf">getTitleName</span></a><span class="refItemSep">;</span></div>
-                                          <div class="refItemBlock"><a href="CDA.html#M_IDM_handleProvenanceS_CDA.xsl" target="_self"
-                                                title="No namespace"><span class="mRf">@ID</span><span class="mdRf">handleProvenance</span></a><span class="refItemSep">;</span></div>
                                           <div class="refItemBlock"><a href="CDA.html#M_M_handleSectionTextAttributesS_CDA.xsl" target="_self"
                                                 title="No namespace"><span class="mRf">*</span><span class="mdRf">handleSectionTextAttributes</span></a></div>
                                        </div>
@@ -25035,100 +25449,6 @@
             <td class="rt_cBR"></td>
          </tr>
       </table>
-      <div class="toTop"><a href="#INDEX"> [ top ] </a></div><a id="V_globalAuthorsS_CDA.xsl"></a><div class="cmpT">Variable
-         <span class="qname">globalAuthors</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cTL"></td>
-            <td class="rt_lT"></td>
-            <td class="rt_cTR"></td>
-         </tr>
-         <tr>
-            <td class="rt_lL"></td>
-            <td class="rt_cnt">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="fCol">
-                           <div class="flL">Documentation</div>
-                           <div class="flR"><input id="bt_dS_V_globalAuthorsS_CDA.xsl" type="image" src="img/btM.gif" value="-"
-                                     onclick="switchState('dS_V_globalAuthorsS_CDA.xsl');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="dS_V_globalAuthorsS_CDA.xsl" style="display:block">
-                              <div>
-                                 <h3>Description</h3>
-                                 
-                                 <p>Perform a one-time lookup of all authors in the document so we can figure out where
-                                    to find the ones we need for provenance display.
-                                 </p>
-                                 
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Namespace</td>
-                        <td>No namespace</td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Select</td>
-                        <td>/hl7:ClinicalDocument/hl7:author |         /hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:component/hl7:section/hl7:author
-                           |         /hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:component/hl7:section/hl7:entry//hl7:author
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">
-                           <div class="flL">Used by</div>
-                           <div class="flR"><input id="bt_uB_V_globalAuthorsS_CDA.xsl" type="image" src="img/btM.gif" value="-"
-                                     onclick="switchState('uB_V_globalAuthorsS_CDA.xsl');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="uB_V_globalAuthorsS_CDA.xsl" style="display:block">
-                              <table class="uBT">
-                                 <tr>
-                                    <td class="fCol">Template</td>
-                                    <td>
-                                       <div class="listGrouping">
-                                          <div class="refItemBlock"><a href="CDA.html#M_IDM_handleProvenanceS_CDA.xsl" target="_self"
-                                                title="No namespace"><span class="mRf">@ID</span><span class="mdRf">handleProvenance</span></a></div>
-                                       </div>
-                                    </td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">
-                           <div class="flL">Source</div>
-                           <div class="flR"><input id="bt_src_V_globalAuthorsS_CDA.xsl" type="image" src="img/btM.gif" value="-"
-                                     onclick="switchState('src_V_globalAuthorsS_CDA.xsl');"
-                                     class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="src_V_globalAuthorsS_CDA.xsl" style="display:block">
-                              <table class="pWCont">
-                                 <tr>
-                                    <td width="100%"><pre><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"globalAuthors"</span><span class="tAN"> select=</span><span class="tAV">"/hl7:ClinicalDocument/hl7:author |         /hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:component/hl7:section/hl7:author |         /hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:component/hl7:section/hl7:entry//hl7:author"</span><span class="tXSLEl">/&gt;</span></pre></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lR"></td>
-         </tr>
-         <tr>
-            <td class="rt_cBL"></td>
-            <td class="rt_lB"></td>
-            <td class="rt_cBR"></td>
-         </tr>
-      </table>
       <div class="toTop"><a href="#INDEX"> [ top ] </a></div><a id="O_S_CDA.xsl"></a><div class="cmpT">Output
          <span class="qname">(default)</span></div>
       <table class="rt">
@@ -25206,6 +25526,167 @@
                               <table class="pWCont">
                                  <tr>
                                     <td width="100%"><pre><span class="tXSLEl">&lt;xsl:output</span><span class="tAN"> indent=</span><span class="tAV">"yes"</span><span class="tAN"> encoding=</span><span class="tAV">"utf-8"</span><span class="tAN"> doctype-public=</span><span class="tAV">"-//W3C//DTD XHTML 1.0 Strict//EN"</span><span class="tAN"> doctype-system=</span><span class="tAV">"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"</span><span class="tXSLEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lR"></td>
+         </tr>
+         <tr>
+            <td class="rt_cBL"></td>
+            <td class="rt_lB"></td>
+            <td class="rt_cBR"></td>
+         </tr>
+      </table>
+      <div class="toTop"><a href="#INDEX"> [ top ] </a></div><a id="K_provenance-author-ext-keyS_CDA.xsl"></a><div class="cmpT">Key
+         <span class="qname">provenance-author-ext-key</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cTL"></td>
+            <td class="rt_lT"></td>
+            <td class="rt_cTR"></td>
+         </tr>
+         <tr>
+            <td class="rt_lL"></td>
+            <td class="rt_cnt">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="fCol">Namespace</td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Match</td>
+                        <td>hl7:author[hl7:templateId[@root='2.16.840.1.113883.10.20.22.5.6']]         /hl7:assignedAuthor[(hl7:representedOrganization
+                           | hl7:assignedPerson)[not(@nullFlavor)]/hl7:name[not(@nullFlavor)]]         /hl7:id[@extension!=''
+                           and @root!='']
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Use</td>
+                        <td>@extension</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Used by</div>
+                           <div class="flR"><input id="bt_uB_K_provenance-author-ext-keyS_CDA.xsl" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('uB_K_provenance-author-ext-keyS_CDA.xsl');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="uB_K_provenance-author-ext-keyS_CDA.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td class="fCol">Template</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="CDA.html#T_ProcessAuthorIdsS_CDA.xsl" target="_self" title="No namespace"><span class="nRf">ProcessAuthorIds</span></a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Source</div>
+                           <div class="flR"><input id="bt_src_K_provenance-author-ext-keyS_CDA.xsl" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('src_K_provenance-author-ext-keyS_CDA.xsl');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="src_K_provenance-author-ext-keyS_CDA.xsl" style="display:block">
+                              <table class="pWCont">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tXSLEl">&lt;xsl:key</span><span class="tAN"> name=</span><span class="tAV">"provenance-author-ext-key"</span><span class="tAN"> match=</span><span class="tAV">"hl7:author[hl7:templateId[@root='2.16.840.1.113883.10.20.22.5.6']]         /hl7:assignedAuthor[(hl7:representedOrganization | hl7:assignedPerson)[not(@nullFlavor)]/hl7:name[not(@nullFlavor)]]         /hl7:id[@extension!='' and @root!='']"</span><span class="tAN"> use=</span><span class="tAV">"@extension"</span><span class="tXSLEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lR"></td>
+         </tr>
+         <tr>
+            <td class="rt_cBL"></td>
+            <td class="rt_lB"></td>
+            <td class="rt_cBR"></td>
+         </tr>
+      </table>
+      <div class="toTop"><a href="#INDEX"> [ top ] </a></div><a id="K_provenance-author-root-keyS_CDA.xsl"></a><div class="cmpT">Key
+         <span class="qname">provenance-author-root-key</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cTL"></td>
+            <td class="rt_lT"></td>
+            <td class="rt_cTR"></td>
+         </tr>
+         <tr>
+            <td class="rt_lL"></td>
+            <td class="rt_cnt">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="fCol">Namespace</td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Match</td>
+                        <td>hl7:author[hl7:templateId[@root='2.16.840.1.113883.10.20.22.5.6']]         /hl7:assignedAuthor[(hl7:representedOrganization
+                           | hl7:assignedPerson)[not(@nullFlavor)]/hl7:name[not(@nullFlavor)]]         /hl7:id[@root!=''
+                           and not(@extension | @nullFlavor)]
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Use</td>
+                        <td>@root</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Used by</div>
+                           <div class="flR"><input id="bt_uB_K_provenance-author-root-keyS_CDA.xsl" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('uB_K_provenance-author-root-keyS_CDA.xsl');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="uB_K_provenance-author-root-keyS_CDA.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td class="fCol">Template</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="CDA.html#T_ProcessAuthorIdsS_CDA.xsl" target="_self" title="No namespace"><span class="nRf">ProcessAuthorIds</span></a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Source</div>
+                           <div class="flR"><input id="bt_src_K_provenance-author-root-keyS_CDA.xsl" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('src_K_provenance-author-root-keyS_CDA.xsl');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="src_K_provenance-author-root-keyS_CDA.xsl" style="display:block">
+                              <table class="pWCont">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tXSLEl">&lt;xsl:key</span><span class="tAN"> name=</span><span class="tAV">"provenance-author-root-key"</span><span class="tAN"> match=</span><span class="tAV">"hl7:author[hl7:templateId[@root='2.16.840.1.113883.10.20.22.5.6']]         /hl7:assignedAuthor[(hl7:representedOrganization | hl7:assignedPerson)[not(@nullFlavor)]/hl7:name[not(@nullFlavor)]]         /hl7:id[@root!='' and not(@extension | @nullFlavor)]"</span><span class="tAN"> use=</span><span class="tAV">"@root"</span><span class="tXSLEl">/&gt;</span></pre></td>
                                  </tr>
                               </table>
                            </div>
