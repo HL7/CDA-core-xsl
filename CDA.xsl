@@ -422,7 +422,7 @@
                         font-style: italic;
                         padding-right: 0.2cm;
                     }
-                    .has_provenance th, .has_provenance td,
+                    .has_provenance td,
                     .has_provenance:not(:empty):not(table),
                     .has_provenance:focus:after {
                         text-decoration: underline grey dashed;
@@ -449,7 +449,7 @@
                     }
                     <!-- IE doesn't support styled underlines, so fall back to a regular one. -->
                     @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-                        .has_provenance th, .has_provenance td,
+                        .has_provenance td,
                         .has_provenance:not(:empty):not(table),
                         .has_provenance:focus:after {
                             text-decoration: underline;
