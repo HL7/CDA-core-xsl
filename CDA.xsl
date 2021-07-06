@@ -422,6 +422,44 @@
                         font-style: italic;
                         padding-right: 0.2cm;
                     }
+                    .has_provenance td,
+                    .has_provenance:not(:empty):not(table),
+                    .has_provenance:focus:after {
+                        text-decoration: underline grey dashed;
+                        text-decoration-thickness: 0.01em;
+                    }
+                    .has_provenance:focus:after {
+                            content: attr(title);
+                            white-space: break-spaces;
+                            padding: 2px;
+                            display: block;
+                            position: relative;
+                            text-align: left;
+                            background-color: #fef4c5;
+                            border: 1px solid #d4b943;
+                            border-radius: 2px;
+                            font-weight: normal;
+                            color: black;
+                            font-size: 10pt;
+                            line-height: 12pt;
+                            width: fit-content;
+                    }
+                    tr.has_provenance:focus:after {
+                           width: max-content;
+                    }
+                    <!-- IE doesn't support styled underlines, so fall back to a regular one. -->
+                    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+                        .has_provenance td,
+                        .has_provenance:not(:empty):not(table),
+                        .has_provenance:focus:after {
+                            text-decoration: underline;
+                        }
+                        .has_provenance:focus:after {
+                            white-space: pre;
+                            display: table;
+                            width: auto;
+                        }
+                    }
                     .header_table{
                         border: 1pt solid #00008b;
                     }
@@ -2139,6 +2177,22 @@
             </xsl:choose>
         </xsl:param>
         
+        <xsl:variable name="provenanceInfo">
+            <xsl:apply-templates select="@ID" mode="handleProvenance"/>
+        </xsl:variable>
+
+        <xsl:variable name="title">
+            <!-- Write title with @revised (CDAr1 / CDAr2) prefixing to @title if one exists already -->
+            <xsl:value-of select="normalize-space(concat(@revised,' ',@title))"/>
+
+            <xsl:if test="$provenanceInfo != ''">
+                <xsl:if test="@revised or @title">
+                    <xsl:text>&#xa;</xsl:text>
+                </xsl:if>
+                <xsl:copy-of select="$provenanceInfo"/>
+            </xsl:if>
+        </xsl:variable>
+
         <xsl:variable name="classes">
             <xsl:if test="string-length($class)">
                 <xsl:value-of select="$class"/>
@@ -2157,6 +2211,10 @@
                 <xsl:text> </xsl:text>
                 <xsl:value-of select="@class"/>
             </xsl:if>
+            <xsl:if test="$provenanceInfo != ''">
+                <xsl:text> </xsl:text>
+                <xsl:text>has_provenance</xsl:text>
+            </xsl:if>
         </xsl:variable>
         
         <xsl:variable name="elem-name" select="local-name(.)"/>
@@ -2167,11 +2225,13 @@
                 <xsl:value-of select="normalize-space($classes)"/>
             </xsl:attribute>
         </xsl:if>
-        <!-- Write title with @revised (CDAr1 / CDAr2) prefixing to @title if one exists already -->
-        <xsl:if test="@revised">
+        <!-- Write @title attribute if there's data for it -->
+        <xsl:if test="$title != ''">
             <xsl:attribute name="title">
-                <xsl:value-of select="normalize-space(concat(@revised,' ',@title))"/>
+                <xsl:copy-of select="$title" />
             </xsl:attribute>
+            <!-- Allow tabbing through elements with additional title info -->
+            <xsl:attribute name="tabindex">0</xsl:attribute>
         </xsl:if>
         <!-- Write default table cellspacing / cellpadding -->
         <xsl:if test="self::hl7:table">
@@ -2207,7 +2267,11 @@
                     </xsl:message>
                     <xsl:if test="$attr-name = 'href'">
                         <xsl:attribute name="title">
-                            <xsl:value-of select="concat(normalize-space(concat(../@title, ' ', $warningText)), ' ', $attr-value)"/>
+                            <xsl:value-of select="concat($warningText, ' ', $attr-value)"/>
+                            <xsl:if test="$title != ''">
+                                <xsl:text>&#xa;</xsl:text>
+                                <xsl:copy-of select="$title"/>
+                            </xsl:if>
                         </xsl:attribute>
                     </xsl:if>
                 </xsl:when>
@@ -2224,7 +2288,11 @@
                     </xsl:message>
                     <xsl:if test="$attr-name = 'href'">
                         <xsl:attribute name="title">
-                            <xsl:value-of select="concat(normalize-space(concat(../@title, ' ', $warningText)), ' ', $attr-value)"/>
+                            <xsl:value-of select="concat($warningText, ' ', $attr-value)"/>
+                            <xsl:if test="$title != ''">
+                                <xsl:text>&#xa;</xsl:text>
+                                <xsl:copy-of select="$title"/>
+                            </xsl:if>
                         </xsl:attribute>
                     </xsl:if>
                 </xsl:when>
@@ -2245,9 +2313,6 @@
                 </xsl:when>
                 <xsl:when test="$attr-name = 'styleCode'">
                     <!-- Already handled -->
-                </xsl:when>
-                <xsl:when test="$attr-name = 'ID'">
-                    <!-- @ID should be handled in a name tag, so don't add here -->
                 </xsl:when>
                 <xsl:when test="$attr-name = 'IDREF'">
                     <!-- @IDREF doubtful. Should be in an href attribute, but doesn't hurt to add here -->
@@ -2370,9 +2435,7 @@
                     </xsl:attribute>
                 </xsl:when>
                 <xsl:when test="$attr-name = 'title'">
-                    <xsl:attribute name="title">
-                        <xsl:value-of select="."/>
-                    </xsl:attribute>
+                    <!-- Already handled -->
                 </xsl:when>
                 <xsl:when test="$attr-name = 'rev'">
                     <xsl:attribute name="rev">
@@ -2391,6 +2454,166 @@
         </xsl:for-each>
     </xsl:template>
     
+    <xd:doc>
+        <xd:desc>Index provenance authors with a root + extension that have an organization or author name</xd:desc>
+    </xd:doc>
+    <xsl:key name="provenance-author-ext-key" 
+        match="hl7:author[hl7:templateId[@root='2.16.840.1.113883.10.20.22.5.6']]
+        /hl7:assignedAuthor[(hl7:representedOrganization | hl7:assignedPerson)[not(@nullFlavor)]/hl7:name[not(@nullFlavor)]]
+        /hl7:id[@extension!='' and @root!='']" 
+        use="@extension"/>
+    
+    <xd:doc>
+        <xd:desc>Index provenance authors with a root + no nullFlavor that have an organization or author name</xd:desc>
+    </xd:doc>
+    <xsl:key name="provenance-author-root-key" 
+        match="hl7:author[hl7:templateId[@root='2.16.840.1.113883.10.20.22.5.6']]
+        /hl7:assignedAuthor[(hl7:representedOrganization | hl7:assignedPerson)[not(@nullFlavor)]/hl7:name[not(@nullFlavor)]]
+        /hl7:id[@root!='' and not(@extension | @nullFlavor)]" 
+        use="@root"/>
+
+    <xd:doc>
+        <xd:desc>
+            <xd:p>Index all discrete references so we can quickly find them from a narrative ID</xd:p>
+        </xd:desc>
+    </xd:doc>
+    <xsl:key name="provenance-ref-key" match="hl7:reference" use="@value"/>
+
+    <xd:doc>
+        <xd:desc>
+            <xd:p>Special handling for provenance; an element's provenance is pulled from the discrete author entries and rendered as HTML title text.</xd:p>
+        </xd:desc>
+    </xd:doc>
+    <xsl:template match="@ID" mode="handleProvenance">
+        <!-- Find a reference element belonging to a <text> or <value> (in this section only) that matches the ID -->
+        <xsl:variable name="ref" select="key('provenance-ref-key', concat('#',.))"/>
+        <!-- Don't look above any ancestor that breaks the context conduction -->
+        <xsl:variable name="contextBreaks" select="count($ref/ancestor::hl7:entryRelationship[@contextConductionInd='false'])" />
+        <!-- Find the nearest ancestor (up to any context break) containing a child author -->
+        <xsl:variable name="ancestry" select="$ref/ancestor-or-self::*[count(ancestor-or-self::hl7:entryRelationship[@contextConductionInd='false']) = $contextBreaks][hl7:author][1]" />
+        <!-- Then find the provenance author (if any) for that ancestor -->
+        <xsl:variable name="author" select="($ancestry/hl7:author[hl7:templateId[@root='2.16.840.1.113883.10.20.22.5.6']])[last()]" />
+        <!-- Get author name and organization -->
+        <xsl:variable name="authorName" select="$author/hl7:assignedAuthor/hl7:assignedPerson/hl7:name[not(@nullFlavor)]" />
+        <xsl:variable name="authorOrg" select="$author/hl7:assignedAuthor/hl7:representedOrganization/hl7:name[not(@nullFlavor)]" />
+        
+        <xsl:choose>
+            <!-- Use local author info if it's present -->
+            <xsl:when test="$authorName or $authorOrg" >
+                <xsl:variable name="tooltipText">
+                    <xsl:call-template name="BuildProvenanceCard">
+                        <xsl:with-param name="authorName" select="$authorName[1]"/>
+                        <xsl:with-param name="authorTime" select="$author/hl7:time"/>
+                        <xsl:with-param name="authorOrg" select="$authorOrg"/>
+                    </xsl:call-template>
+                </xsl:variable>
+                <xsl:value-of select="$tooltipText"/>
+            </xsl:when>
+            <!-- Otherwise, look for a source author elsewhere in the document -->
+            <xsl:otherwise>
+                <xsl:call-template name="ProcessAuthorIds">
+                    <xsl:with-param name="localAuthor" select="$author"/>
+                    <xsl:with-param name="authorId" select="$author/hl7:assignedAuthor/hl7:id[1]"/>
+                </xsl:call-template>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+    
+    <xd:doc>
+        <xd:desc>Process the author's ids to find a matching source author elsewhere in the document</xd:desc>
+        <xd:param name="localAuthor">The local provenance <xd:b>author</xd:b> element</xd:param>
+        <xd:param name="authorId">The current single instance of <xd:b>author/assignedAuthor/id</xd:b> to process</xd:param>
+    </xd:doc>
+    <xsl:template name="ProcessAuthorIds">
+        <xsl:param name="localAuthor"/>
+        <xsl:param name="authorId"/>
+        <xsl:variable name="nextId" select="$authorId/following-sibling::hl7:id[1]"/>
+        <xsl:if test="$authorId">
+            <xsl:variable name="srcAuthorIds"
+                select="(key('provenance-author-ext-key',$authorId[@extension!='' and @root!='']/@extension))[(@extension=$authorId/@extension) and (@root=$authorId/@root) and (generate-id(.)!=generate-id($authorId))]
+                | (key('provenance-author-root-key',$authorId[@root!='' and not(@extension | @nullFlavor)]/@root))[generate-id(.)!=generate-id($authorId)]"/>
+            
+            <xsl:choose>
+                <!-- Use the source author if one was found; time will always come from the local author -->
+                <xsl:when test="$srcAuthorIds">
+                    <xsl:variable name="tooltipText">
+                        <xsl:call-template name="BuildProvenanceCard">
+                            <xsl:with-param name="authorName" select="($srcAuthorIds/parent::hl7:assignedAuthor/hl7:assignedPerson/hl7:name)[1]"/>
+                            <xsl:with-param name="authorTime" select="$localAuthor/hl7:time"/>
+                            <xsl:with-param name="authorOrg" select="$srcAuthorIds/parent::hl7:assignedAuthor/hl7:representedOrganization/hl7:name"/>
+                        </xsl:call-template>
+                    </xsl:variable>
+                    <xsl:value-of select="$tooltipText"/>
+                </xsl:when>
+                <!-- No source author found, go to the next ID -->
+                <xsl:when test="$nextId">
+                    <xsl:call-template name="ProcessAuthorIds">
+                        <xsl:with-param name="localAuthor" select="$localAuthor"/>
+                        <xsl:with-param name="authorId" select="$nextId"/>
+                    </xsl:call-template>
+                </xsl:when>
+            </xsl:choose>
+        </xsl:if>
+    </xsl:template>
+    
+    <xd:doc>
+        <xd:desc>Build out the provenance text we will display to the user</xd:desc>
+        <xd:param name="authorName">The <xd:b>author/assignedAuthor/assignedPerson/name</xd:b> node to use</xd:param>
+        <xd:param name="authorTime">The <xd:b>author/time/@value</xd:b> to use</xd:param>
+        <xd:param name="authorOrg">The <xd:b>author/assignedAuthor/representedOrganization/name</xd:b> node to use</xd:param>
+    </xd:doc>
+    <xsl:template name="BuildProvenanceCard">
+        <xsl:param name="authorName"/>
+        <xsl:param name="authorTime"/>
+        <xsl:param name="authorOrg"/>
+
+        <xsl:variable name="nameInfo">
+            <xsl:variable name="rawValue">
+                <xsl:call-template name="show-name">
+                    <xsl:with-param name="in" select="$authorName"/>
+                </xsl:call-template>
+            </xsl:variable>
+            <xsl:value-of select="normalize-space($rawValue)"/>
+        </xsl:variable>
+        <xsl:variable name="timeInfo">
+            <xsl:variable name="rawValue">
+                <xsl:call-template name="show-timestamp">
+                    <xsl:with-param name="in" select="$authorTime"/>
+                </xsl:call-template>
+            </xsl:variable>
+            <xsl:value-of select="normalize-space($rawValue)"/>
+        </xsl:variable>
+        <xsl:variable name="orgInfo" select="normalize-space($authorOrg)"/>
+        
+        <xsl:if test="$nameInfo != ''">
+            <xsl:call-template name="getLocalizedString">
+                <xsl:with-param name="key" select="'provenance_authored-by'"/>
+                <xsl:with-param name="post" select="' '"/>
+            </xsl:call-template>
+            <xsl:copy-of select="$nameInfo"/>
+            <xsl:if test="$timeInfo != '' or $orgInfo != ''">
+                <xsl:text>&#xa;</xsl:text>
+            </xsl:if>
+        </xsl:if>
+        <xsl:if test="$timeInfo != ''">
+            <xsl:call-template name="getLocalizedString">
+                <xsl:with-param name="key" select="'provenance_authored-on'"/>
+                <xsl:with-param name="post" select="' '"/>
+            </xsl:call-template>
+            <xsl:value-of select="$timeInfo" />
+            <xsl:if test="$orgInfo != ''">
+                <xsl:text>&#xa;</xsl:text>
+            </xsl:if>
+        </xsl:if>
+        <xsl:if test="$orgInfo != ''">
+            <xsl:call-template name="getLocalizedString">
+                <xsl:with-param name="key" select="'provenance_source-org'"/>
+                <xsl:with-param name="post" select="' '"/>
+            </xsl:call-template>
+            <xsl:value-of select="$orgInfo" />
+        </xsl:if>
+    </xsl:template>
+
     <!-- 
         ====================================
         START CDAr3 NarrativeBlock specifics
