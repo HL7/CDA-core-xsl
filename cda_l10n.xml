@@ -106,7 +106,7 @@
         <value lang="en-us">Custodian</value>
         <value lang="de-ch">Verwalter</value>
         <value lang="nl-nl">Beheerder</value>
-        <value lang="fr-fr">Organisation chargée de la conservation du document </value>
+        <value lang="fr-fr">Organisation chargée de la conservation du document</value>
     </translation>
     <translation key="dataEnterer">
         <comment>Label: Data enterer</comment>
@@ -115,20 +115,20 @@
         <value lang="fr-ch">Saisie par</value>
         <value lang="it-ch">Registrati da</value>
         <value lang="nl-nl">Ingevoerd door</value>
-        <value lang="fr-fr">Opérateur de saisie </value>
+        <value lang="fr-fr">Opérateur de saisie</value>
     </translation>
     <translation key="overseer">
         <comment>Label: Overseer</comment>
         <value lang="en-us">Overseer</value>
         <value lang="nl-nl">Mandaterende/eindverantwoordelijke</value>
-        <value lang="fr-fr">Superviseur </value>
+        <value lang="fr-fr">Superviseur</value>
     </translation>
     <translation key="recordTarget">
         <comment>Label: recordTarget</comment>
         <value lang="en-us">Patient</value>
         <value lang="it-ch">Paziente</value>
         <value lang="nl-nl">Patiënt</value>
-        <value lang="fr-fr">Patient </value>
+        <value lang="fr-fr">Patient</value>
     </translation>
     <translation key="informant">
         <comment>Label: Informant - An informant (or source of information) is a person that provides relevant information</comment>
@@ -136,12 +136,12 @@
         <value lang="de-ch">Informiert</value>
         <value lang="fr-ch">Informé</value>
         <value lang="it-ch">Informati</value>
-        <value lang="fr-fr">Informateur </value>
+        <value lang="fr-fr">Informateur</value>
     </translation>
     <translation key="Participant">
         <comment>Label: Participant</comment>
         <value lang="en-us">Participant</value>
-        <value lang="fr-fr">Participant </value>
+        <value lang="fr-fr">Participant</value>
     </translation>
     <translation key="Custodian_Organization">
         <comment>Label: Custodian Organization</comment>
@@ -150,38 +150,38 @@
         <value lang="fr-ch">Organisme de gestion</value>
         <value lang="it-ch">Organismo di gestione</value>
         <value lang="nl-nl">Beherende organisatie</value>
-        <value lang="fr-fr">Organisation chargée de la conservation du document </value>
+        <value lang="fr-fr">Organisation chargée de la conservation du document</value>
     </translation>
     <translation key="performer">
         <comment>Label: Performer</comment>
         <value lang="en-us">Performer</value>
         <value lang="de-ch">Heilberufler</value>
         <value lang="nl-nl">Zorgverlener</value>
-        <value lang="fr-fr">Exécutant </value>
+        <value lang="fr-fr">Exécutant</value>
     </translation>
     <translation key="responsibleParty">
         <comment>Label: responsibleParty</comment>
         <value lang="en-us">Responsible Party</value>
         <value lang="nl-nl">Verantwoordelijke</value>
-        <value lang="fr-fr">Responsable de la prise en charge </value>
+        <value lang="fr-fr">Responsable de la prise en charge</value>
     </translation>
     <translation key="encounterParticipant">
         <comment>Label: encounterParticipant</comment>
         <value lang="en-us">Encounter Participant</value>
         <value lang="nl-nl">Deelnemer contact</value>
-        <value lang="fr-fr">Participant à la prise en charge </value>
+        <value lang="fr-fr">Participant à la prise en charge</value>
     </translation>
     <translation key="location">
         <comment>Label: location</comment>
         <value lang="en-us">Location</value>
         <value lang="nl-nl">Lokatie</value>
-        <value lang="fr-fr">Lieu </value>
+        <value lang="fr-fr">Lieu</value>
     </translation>
     <translation key="subject">
         <comment>Label: subject</comment>
         <value lang="en-us">Subject</value>
         <value lang="nl-nl">Onderwerp</value>
-        <value lang="fr-fr">Sujet </value>
+        <value lang="fr-fr">Sujet</value>
     </translation>
     <!-- End: Header/Body Participations -->
     <!-- Start: Common Sub Classes of Participations -->
@@ -189,7 +189,7 @@
         <comment>Label: OrganizationPartOf</comment>
         <value lang="en-us">Organization Part Of</value>
         <value lang="nl-nl">Organisatie deel van</value>
-        <value lang="fr-fr">Organisation </value>
+        <value lang="fr-fr">Organisation</value>
     </translation>
     <translation key="organization">
         <comment>Label: Organization</comment>
@@ -201,25 +201,25 @@
         <comment>Label: Person</comment>
         <value lang="en-us">Person</value>
         <value lang="nl-nl">Persoon</value>
-        <value lang="fr-fr">Personne </value>
+        <value lang="fr-fr">Personne</value>
     </translation>
     <translation key="authoringDevice">
         <comment>Label: AuthoringDevice</comment>
         <value lang="en-us">Device</value>
         <value lang="nl-nl">Apparaat</value>
-        <value lang="fr-fr">Dispositif </value>
+        <value lang="fr-fr">Dispositif</value>
     </translation>
     <translation key="place">
         <comment>Label: Place</comment>
         <value lang="en-us">Place</value>
         <value lang="nl-nl">Plaats</value>
-        <value lang="fr-fr">Place </value>
+        <value lang="fr-fr">Place</value>
     </translation>
     <translation key="healthCareFacility">
         <comment>Label: HealthCareFacility</comment>
         <value lang="en-us">Health Care Facility</value>
         <value lang="nl-nl">Zorginstelling</value>
-        <value lang="fr-fr">Structure de santé </value>
+        <value lang="fr-fr">Structure de santé</value>
     </translation>
     <!-- End: Common Sub Classes of Participations -->
     <!-- Start: Patient Specific Stuff -->
@@ -228,7 +228,7 @@
         <value lang="en-us">MRN</value>
         <value lang="de-ch">PID</value>
         <value lang="nl-nl">PID</value>
-        <value lang="fr-fr">Id. patient </value>
+        <value lang="fr-fr">Id. patient</value>
     </translation>
     <translation key="patientIdLong">
         <comment>Label: Patient-ID long</comment>
@@ -237,7 +237,7 @@
         <value lang="fr-ch">ID patient</value>
         <value lang="it-ch">ID paziente</value>
         <value lang="nl-nl">Patiëntnummer</value>
-        <value lang="fr-fr">Id. patient </value>
+        <value lang="fr-fr">Id. patient</value>
     </translation>
     <translation key="patientIdsLong">
         <comment>Label: Patient-IDs long</comment>
@@ -246,7 +246,7 @@
         <value lang="fr-ch">IDs patient</value>
         <value lang="it-ch">ID paziente</value>
         <value lang="nl-nl">Patiëntnummers</value>
-        <value lang="fr-fr">Id. patient </value>
+        <value lang="fr-fr">Id. patient</value>
     </translation>
     <translation key="birthPlace">
         <comment>Label: Birthplace long</comment>
@@ -254,7 +254,7 @@
         <value lang="de-ch">Geburtsplatz</value>
         <value lang="fr-ch">Place de naissance</value>
         <value lang="nl-nl">Geboorteplaats</value>
-        <value lang="fr-fr">Lieu de naissance </value>
+        <value lang="fr-fr">Lieu de naissance</value>
     </translation>
     <translation key="birthTimeLong">
         <comment>Label: Birthdate long</comment>
@@ -263,7 +263,7 @@
         <value lang="fr-ch">Date de naissance</value>
         <value lang="it-ch">Data di nascita</value>
         <value lang="nl-nl">Geboortedatum</value>
-        <value lang="fr-fr">Date de naissance </value>
+        <value lang="fr-fr">Date de naissance</value>
     </translation>
     <translation key="birthTimeLongDeceased">
         <comment>Label: Birthdate long and deceased</comment>
@@ -272,7 +272,7 @@
         <value lang="fr-ch">Date de naissance/décédé</value>
         <value lang="it-ch">Data di nascita/defunto</value>
         <value lang="nl-nl">Geboren/overleden</value>
-        <value lang="fr-fr">Date de naissance/décédé </value>
+        <value lang="fr-fr">Date de naissance/décédé</value>
     </translation>
     <translation key="Deceased">
         <comment>Label: Deceased</comment>
@@ -281,7 +281,7 @@
         <value lang="fr-ch">Décédé</value>
         <value lang="it-ch">Defunto</value>
         <value lang="nl-nl">Overleden</value>
-        <value lang="fr-fr">Décédé </value>
+        <value lang="fr-fr">Décédé</value>
     </translation>
     <translation key="date_unknown">
         <comment>Label: date_unknown - used for saying you know patient has died, but unknown when</comment>
@@ -347,7 +347,7 @@
         <value lang="en-us">Gender</value>
         <value lang="de-ch">Geschlecht</value>
         <value lang="nl-nl">Geslacht</value>
-        <value lang="fr-fr">Sexe </value>
+        <value lang="fr-fr">Sexe</value>
     </translation>
     <translation key="maritalStatusCode">
         <comment>Label: MaritalStatusCode</comment>
@@ -365,7 +365,7 @@
         <comment>Label: preferredLanguage</comment>
         <value lang="en-us">preferred</value>
         <value lang="nl-nl">voorkeur</value>
-        <value lang="fr-fr">Langue préférée</value>
+        <value lang="fr-fr">langue préférée</value>
     </translation>
     <translation key="Ethnicity">
         <comment>Label: Ethnicity</comment>
@@ -546,19 +546,19 @@
         <comment>Label: ID</comment>
         <value lang="en-us">ID</value>
         <value lang="nl-nl">Id</value>
-        <value lang="fr-fr">Id </value>
+        <value lang="fr-fr">Id</value>
     </translation>
     <translation key="setId">
         <comment>Label: setId</comment>
         <value lang="en-us">Set‑ID</value>
         <value lang="nl-nl">Set‑Id</value>
-        <value lang="fr-fr">Lot </value>
+        <value lang="fr-fr">Lot</value>
     </translation>
     <translation key="versionNumber">
         <comment>Label: versionNumber</comment>
         <value lang="en-us">Version</value>
         <value lang="nl-nl">Versie</value>
-        <value lang="fr-fr">Version </value>
+        <value lang="fr-fr">Version</value>
     </translation>
     <translation key="code">
         <comment>Label: Code</comment>
@@ -568,7 +568,7 @@
         <comment>Label: Type</comment>
         <value lang="en-us">Type</value>
         <value lang="de-ch">Typ</value>
-        <value lang="fr-fr">Type </value>
+        <value lang="fr-fr">Type</value>
     </translation>
     <translation key="title">
         <comment>Label: Title</comment>
@@ -580,7 +580,7 @@
         <comment>Label: effectiveTime</comment>
         <value lang="en-us">Date/Time</value>
         <value lang="nl-nl">Datum/tijd</value>
-        <value lang="fr-fr">Date/Heure </value>
+        <value lang="fr-fr">Date/Heure</value>
     </translation>
     <translation key="versionCode">
         <comment>Label: versionCode</comment>
@@ -778,7 +778,7 @@
         <comment>Label: address not available</comment>
         <value lang="en-us">address not available</value>
         <value lang="nl-nl">adres niet beschikbaar</value>
-        <value lang="fr-fr">Adresse indisponible</value>
+        <value lang="fr-fr">adresse indisponible</value>
     </translation>
     <translation key="telecom">
         <comment>Label: telecom</comment>
@@ -789,7 +789,7 @@
         <comment>Label: telecom information not available</comment>
         <value lang="en-us">telecom information not available</value>
         <value lang="nl-nl">telecominformatie niet beschikbaar</value>
-        <value lang="fr-fr">Telecom indisponible</value>
+        <value lang="fr-fr">telecom indisponible</value>
     </translation>
     <translation key="name">
         <comment>Label: name</comment>
@@ -922,7 +922,7 @@
         <comment>Label: Authored on</comment>
         <value lang="en-us">Authored On</value>
         <value lang="nl-nl">Gemaakt op</value>
-        <value lang="fr-fr">Créé le </value>
+        <value lang="fr-fr">Créé le</value>
     </translation>
     <translation key="Authored">
         <comment>Label: Authored</comment>
@@ -1587,19 +1587,19 @@
         <comment>Label: ActCode: ActEncounterCode: Ambulatory</comment>
         <value lang="en-us">ambulatory</value>
         <value lang="nl-nl">ambulant</value>
-        <value lang="fr-fr">Ambulatoire</value>
+        <value lang="fr-fr">ambulatoire</value>
     </translation>
     <translation key="2.16.840.1.113883.5.4-EMER">
         <comment>Label: ActCode: ActEncounterCode: Emergency</comment>
         <value lang="en-us">emergency</value>
         <value lang="nl-nl">noodgeval</value>
-        <value lang="fr-fr">Urgence</value>
+        <value lang="fr-fr">urgence</value>
     </translation>
     <translation key="2.16.840.1.113883.5.4-FLD">
         <comment>Label: ActCode: ActEncounterCode: Field</comment>
         <value lang="en-us">field</value>
         <value lang="nl-nl">buiten</value>
-        <value lang="fr-fr">Sur le terrain (hors structure de soins et domicile du patient)</value>
+        <value lang="fr-fr">sur le terrain (hors structure de soins et domicile du patient)</value>
     </translation>
     <translation key="2.16.840.1.113883.5.4-HH">
         <comment>Label: ActCode: ActEncounterCode: Home Health</comment>
@@ -1611,7 +1611,7 @@
         <comment>Label: ActCode: ActEncounterCode: Inpatient</comment>
         <value lang="en-us">inpatient</value>
         <value lang="nl-nl">klinisch</value>
-        <value lang="fr-fr">Hospitalisation</value>
+        <value lang="fr-fr">hospitalisation</value>
     </translation>
     <translation key="2.16.840.1.113883.5.4-ACUTE">
         <comment>Label: ActCode: ActEncounterCode: Acute</comment>
@@ -1623,19 +1623,19 @@
         <comment>Label: ActCode: ActEncounterCode: Inpatient non-acute</comment>
         <value lang="en-us">inpatient non-acute</value>
         <value lang="nl-nl">klinisch niet-acuut</value>
-        <value lang="fr-fr">Hospitalisation non aigue</value>
+        <value lang="fr-fr">hospitalisation non aigue</value>
     </translation>
     <translation key="2.16.840.1.113883.5.4-SS">
         <comment>Label: ActCode: ActEncounterCode: Short stay</comment>
         <value lang="en-us">short stay</value>
         <value lang="nl-nl">dagbehandeling</value>
-        <value lang="fr-fr">Court séjour</value>
+        <value lang="fr-fr">court séjour</value>
     </translation>
     <translation key="2.16.840.1.113883.5.4-VR">
         <comment>Label: ActCode: ActEncounterCode: Virtual</comment>
         <value lang="en-us">virtual</value>
         <value lang="nl-nl">virtueel</value>
-        <value lang="fr-fr">Virtuel</value>
+        <value lang="fr-fr">virtuel</value>
     </translation>
     <translation key="2.16.840.1.113883.5.6-ACT">
         <comment>Label: ActClass act</comment>
@@ -1974,12 +1974,12 @@
         <comment>Label: ActClass reverse trendelenburg</comment>
         <value lang="en-us">reverse trendelenburg</value>
         <value lang="nl-nl">omgekeerde trendelenburg</value>
-        <value lang="fr-fr">Trendelenburg inversé</value>
+        <value lang="fr-fr">trendelenburg inversé</value>
     </translation>
     <translation key="2.16.840.1.113883.5.6-TRD">
         <comment>Label: ActClass trendelenburg</comment>
         <value lang="en-us">trendelenburg</value>
-        <value lang="fr-fr">Trendelenburg</value>
+        <value lang="fr-fr">trendelenburg</value>
     </translation>
     <translation key="2.16.840.1.113883.5.6-PCPR">
         <comment>Label: ActClass care provision</comment>
@@ -2506,7 +2506,7 @@
         <comment>Label: ParticipationFunction caregiver information receiver</comment>
         <value lang="en-us">caregiver information receiver</value>
         <value lang="nl-nl">zorgverlener informatieontvanger</value>
-        <value lang="fr-fr">Destinataire d'informations sur le prestataire de soins</value>
+        <value lang="fr-fr">destinataire d'informations sur le prestataire de soins</value>
     </translation>
     <translation key="2.16.840.1.113883.5.1002-APND">
         <comment>Label: Act Relationship Type APND</comment>
@@ -2646,12 +2646,12 @@
         <comment>Label: ParticipationFunction admitting physician</comment>
         <value lang="en-us">admitting physician</value>
         <value lang="nl-nl">opnamearts</value>
-        <value lang="fr-fr">Responsable de l'admission</value>
+        <value lang="fr-fr">responsable de l'admission</value>
     </translation>
     <translation key="2.16.840.1.113883.5.88-ANEST">
         <comment>Label: ParticipationFunction anesthesist</comment>
         <value lang="en-us">anesthesist</value>
-        <value lang="fr-fr">Anesthésiste</value>
+        <value lang="fr-fr">anesthésiste</value>
     </translation>
     <translation key="2.16.840.1.113883.5.88-ANRS">
         <comment>Label: ParticipationFunction anesthesia nurse</comment>
@@ -2663,13 +2663,13 @@
         <comment>Label: ParticipationFunction attending physician</comment>
         <value lang="en-us">attending physician</value>
         <value lang="nl-nl">behandelend arts</value>
-        <value lang="fr-fr">Référent - Responsable du patient dans la structure de soins</value>
+        <value lang="fr-fr">référent - responsable du patient dans la structure de soins</value>
     </translation>
     <translation key="2.16.840.1.113883.5.88-DISPHYS">
         <comment>Label: ParticipationFunction discharging physician</comment>
         <value lang="en-us">discharging physician</value>
         <value lang="nl-nl">ontslagarts</value>
-        <value lang="fr-fr">Responsable de la sortie</value>
+        <value lang="fr-fr">responsable de la sortie</value>
     </translation>
     <translation key="2.16.840.1.113883.5.88-FASST">
         <comment>Label: ParticipationFunction first assistant surgeon</comment>
@@ -2693,7 +2693,7 @@
         <comment>Label: ParticipationFunction primary care physician</comment>
         <value lang="en-us">primary care physician</value>
         <value lang="nl-nl">eerstelijns arts</value>
-        <value lang="fr-fr">Médecin traitant</value>
+        <value lang="fr-fr">médecin traitant</value>
     </translation>
     <translation key="2.16.840.1.113883.5.88-PRISURG">
         <comment>Label: ParticipationFunction primary surgeon</comment>
@@ -2749,53 +2749,53 @@
         <comment>Label: ParticipationType admitter</comment>
         <value lang="en-us">admitter</value>
         <value lang="nl-nl">opgenomen door</value>
-        <value lang="fr-fr">Responsable de l'admission</value>
+        <value lang="fr-fr">responsable de l'admission</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-ATND">
         <comment>Label: ParticipationType attender</comment>
         <value lang="en-us">attender</value>
         <value lang="nl-nl">behandeld door</value>
-        <value lang="fr-fr">Superviseur</value>
+        <value lang="fr-fr">superviseur</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-CALLBCK">
         <comment>Label: ParticipationType callback contact</comment>
         <value lang="en-us">callback contact</value>
         <value lang="nl-nl">contactpersoon</value>
-        <value lang="fr-fr">Contact à rappeler</value>
+        <value lang="fr-fr">contact à rappeler</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-CON">
         <comment>Label: ParticipationType consultant</comment>
         <value lang="en-us">consultant</value>
-        <value lang="fr-fr">Consultant</value>
+        <value lang="fr-fr">consultant</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-DIS">
         <comment>Label: ParticipationType discharger</comment>
         <value lang="en-us">discharger</value>
         <value lang="nl-nl">ontslagen door</value>
-        <value lang="fr-fr">Responsable de la sortie</value>
+        <value lang="fr-fr">responsable de la sortie</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-ESC">
         <comment>Label: ParticipationType escort</comment>
         <value lang="en-us">escort</value>
         <value lang="nl-nl">begeleider</value>
-        <value lang="fr-fr">Accompagnateur</value>
+        <value lang="fr-fr">accompagnateur</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-REF">
         <comment>Label: ParticipationType referrer</comment>
         <value lang="en-us">referrer</value>
         <value lang="nl-nl">verwijzer</value>
-        <value lang="fr-fr">Référent / Prescripteur</value>
+        <value lang="fr-fr">référent / prescripteur</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-AUT">
         <comment>Label: ParticipationType author (originator)</comment>
         <value lang="en-us">author (originator)</value>
         <value lang="nl-nl">auteur (oorspronkelijk)</value>
-        <value lang="fr-fr">Auteur</value>
+        <value lang="fr-fr">auteur</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-INF">
         <comment>Label: ParticipationType informant</comment>
         <value lang="en-us">informant</value>
-        <value lang="fr-fr">Informateur</value>
+        <value lang="fr-fr">informateur</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-TRANS">
         <comment>Label: ParticipationType Transcriber</comment>
@@ -2807,59 +2807,59 @@
         <comment>Label: ParticipationType data entry person</comment>
         <value lang="en-us">data entry person</value>
         <value lang="nl-nl">ingevoerd door</value>
-        <value lang="fr-fr">Opérateur de saisie</value>
+        <value lang="fr-fr">opérateur de saisie</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-WIT">
         <comment>Label: ParticipationType witness</comment>
         <value lang="en-us">witness</value>
         <value lang="nl-nl">getuige</value>
-        <value lang="fr-fr">Témoin</value>
+        <value lang="fr-fr">témoin</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-CST">
         <comment>Label: ParticipationType custodian</comment>
         <value lang="en-us">custodian</value>
         <value lang="nl-nl">beheerder</value>
-        <value lang="fr-fr">Responsable de l'information</value>
+        <value lang="fr-fr">responsable de l'information</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-DIR">
         <comment>Label: ParticipationType direct target</comment>
         <value lang="en-us">direct target</value>
         <value lang="nl-nl">direct doel</value>
-        <value lang="fr-fr">Participant direct</value>
+        <value lang="fr-fr">participant direct</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-BBY">
         <comment>Label: ParticipationType baby</comment>
         <value lang="en-us">baby</value>
-        <value lang="fr-fr">Nouveau né</value>
+        <value lang="fr-fr">nouveau né</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-CSM">
         <comment>Label: ParticipationType consumable</comment>
         <value lang="en-us">consumable</value>
         <value lang="nl-nl">eet- of drinkbaar</value>
-        <value lang="fr-fr">Consommable</value>
+        <value lang="fr-fr">consommable</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-DEV">
         <comment>Label: ParticipationType device</comment>
         <value lang="en-us">device</value>
         <value lang="nl-nl">apparaat</value>
-        <value lang="fr-fr">Dispositif automatique</value>
+        <value lang="fr-fr">dispositif automatique</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-NRD">
         <comment>Label: ParticipationType non-reuseable device</comment>
         <value lang="en-us">non-reuseable device</value>
         <value lang="nl-nl">niet-herbruikbaar apparaat</value>
-        <value lang="fr-fr">Dispositif non réutilisable</value>
+        <value lang="fr-fr">dispositif non réutilisable</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-RDV">
         <comment>Label: ParticipationType reusable device</comment>
         <value lang="en-us">reusable device</value>
         <value lang="nl-nl">herbruikbaar apparaat</value>
-        <value lang="fr-fr">Dispositif réutilisable</value>
+        <value lang="fr-fr">dispositif réutilisable</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-DON">
         <comment>Label: ParticipationType donor</comment>
         <value lang="en-us">donor</value>
-        <value lang="fr-fr">Donneur</value>
+        <value lang="fr-fr">donneur</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-EXPAGNT">
         <comment>Label: ParticipationType ExposureAgent</comment>
@@ -2884,84 +2884,84 @@
     <translation key="2.16.840.1.113883.5.90-PRD">
         <comment>Label: ParticipationType product</comment>
         <value lang="en-us">product</value>
-        <value lang="fr-fr">Produit</value>
+        <value lang="fr-fr">produit</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-SBJ">
         <comment>Label: ParticipationType subject</comment>
         <value lang="en-us">subject</value>
-        <value lang="fr-fr">Sujet</value>
+        <value lang="fr-fr">sujet</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-SPC">
         <comment>Label: ParticipationType specimen</comment>
         <value lang="en-us">specimen</value>
         <value lang="nl-nl">monster</value>
-        <value lang="fr-fr">Echantillon</value>
+        <value lang="fr-fr">echantillon</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-IND">
         <comment>Label: ParticipationType indirect target</comment>
         <value lang="en-us">indirect target</value>
         <value lang="nl-nl">indirect doel</value>
-        <value lang="fr-fr">Cible indirecte</value>
+        <value lang="fr-fr">cible indirecte</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-BEN">
         <comment>Label: ParticipationType beneficiary</comment>
         <value lang="en-us">beneficiary</value>
         <value lang="nl-nl">begunstigde</value>
-        <value lang="fr-fr">Bénéficiaire</value>
+        <value lang="fr-fr">bénéficiaire</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-CAGNT">
         <comment>Label: ParticipationType causative agent</comment>
         <value lang="en-us">causative agent</value>
         <value lang="nl-nl">veroorzakende agent</value>
-        <value lang="fr-fr">Agent causal</value>
+        <value lang="fr-fr">agent causal</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-COV">
         <comment>Label: ParticipationType coverage target</comment>
         <value lang="en-us">coverage target</value>
         <value lang="nl-nl">verzekerde</value>
-        <value lang="fr-fr">Partie couverte (titulaire ou bénéficiaire)</value>
+        <value lang="fr-fr">partie couverte (titulaire ou bénéficiaire)</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-GUAR">
         <comment>Label: ParticipationType guarantor party</comment>
         <value lang="en-us">guarantor party</value>
         <value lang="nl-nl">garantstaande partij</value>
-        <value lang="fr-fr">Garant</value>
+        <value lang="fr-fr">garant</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-HLD">
         <comment>Label: ParticipationType holder</comment>
         <value lang="en-us">holder</value>
         <value lang="nl-nl">verzekeringshouder</value>
-        <value lang="fr-fr">Souscripteur</value>
+        <value lang="fr-fr">souscripteur</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-RCT">
         <comment>Label: ParticipationType record target</comment>
         <value lang="en-us">record target</value>
         <value lang="nl-nl">patiënt</value>
-        <value lang="fr-fr">Patient</value>
+        <value lang="fr-fr">patient</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-RCV">
         <comment>Label: ParticipationType receiver</comment>
         <value lang="en-us">receiver</value>
         <value lang="nl-nl">ontvanger</value>
-        <value lang="fr-fr">Récepteur</value>
+        <value lang="fr-fr">récepteur</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-IRCP">
         <comment>Label: ParticipationType information recipient</comment>
         <value lang="en-us">information recipient</value>
         <value lang="nl-nl">informatieontvanger</value>
-        <value lang="fr-fr">Destinataire de l'information</value>
+        <value lang="fr-fr">destinataire de l'information</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-NOT">
         <comment>Label: ParticipationType ugent notification contact</comment>
         <value lang="en-us">urgent notification contact</value>
         <value lang="nl-nl">contactpersoon bij nood</value>
-        <value lang="fr-fr">Personne à prévenir en cas d'urgence</value>
+        <value lang="fr-fr">personne à prévenir en cas d'urgence</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-PRCP">
         <comment>Label: ParticipationType primary information recipient</comment>
         <value lang="en-us">primary information recipient</value>
         <value lang="nl-nl">bedoelde informatieontvanger</value>
-        <value lang="fr-fr">Destinataire principal de l'information</value>
+        <value lang="fr-fr">destinataire principal de l'information</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-REFB">
         <comment>Label: ParticipationType Referred By</comment>
@@ -2979,113 +2979,113 @@
         <comment>Label: ParticipationType tracker</comment>
         <value lang="en-us">tracker</value>
         <value lang="nl-nl">kopie-ontvanger</value>
-        <value lang="fr-fr">Personne recevant une copie de l'information</value>
+        <value lang="fr-fr">personne recevant une copie de l'information</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-LOC">
         <comment>Label: ParticipationType location</comment>
         <value lang="en-us">location</value>
         <value lang="nl-nl">lokatie</value>
-        <value lang="fr-fr">Emplacement principal</value>
+        <value lang="fr-fr">emplacement principal</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-DST">
         <comment>Label: ParticipationType destination</comment>
         <value lang="en-us">destination</value>
         <value lang="nl-nl">bestemming</value>
-        <value lang="fr-fr">Destination</value>
+        <value lang="fr-fr">destination</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-ELOC">
         <comment>Label: ParticipationType entry location</comment>
         <value lang="en-us">entry location</value>
         <value lang="nl-nl">invoerlokatie</value>
-        <value lang="fr-fr">Emplacement où les données sont saisies</value>
+        <value lang="fr-fr">emplacement où les données sont saisies</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-ORG">
         <comment>Label: ParticipationType origin</comment>
         <value lang="en-us">origin</value>
         <value lang="nl-nl">oorsprong</value>
-        <value lang="fr-fr">Lieu d'origine</value>
+        <value lang="fr-fr">lieu d'origine</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-RML">
         <comment>Label: ParticipationType remote</comment>
         <value lang="en-us">remote</value>
         <value lang="nl-nl">extern</value>
-        <value lang="fr-fr">Emplacement distant</value>
+        <value lang="fr-fr">emplacement distant</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-VIA">
         <comment>Label: ParticipationType via</comment>
         <value lang="en-us">via</value>
-        <value lang="fr-fr">Emplacement intermédiaire</value>
+        <value lang="fr-fr">emplacement intermédiaire</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-PRF">
         <comment>Label: ParticipationType performer</comment>
         <value lang="en-us">performer</value>
         <value lang="nl-nl">uitvoerende</value>
-        <value lang="fr-fr">Exécutant </value>
+        <value lang="fr-fr">exécutant</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-DIST">
         <comment>Label: ParticipationType distributor</comment>
         <value lang="en-us">distributor</value>
         <value lang="nl-nl">distributeur</value>
-        <value lang="fr-fr">Distributeur </value>
+        <value lang="fr-fr">distributeur</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-PPRF">
         <comment>Label: ParticipationType primary performer</comment>
         <value lang="en-us">primary performer</value>
         <value lang="nl-nl">eerste uitvoerende</value>
-        <value lang="fr-fr">Exécutant principal </value>
+        <value lang="fr-fr">exécutant principal</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-SPRF">
         <comment>Label: ParticipationType secondary performer</comment>
         <value lang="en-us">secondary performer</value>
         <value lang="nl-nl">tweede uitvoerende</value>
-        <value lang="fr-fr">Exécutant secondaire </value>
+        <value lang="fr-fr">exécutant secondaire</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-RESP">
         <comment>Label: ParticipationType responsible party</comment>
         <value lang="en-us">responsible party</value>
         <value lang="nl-nl">verantwoordelijke partij</value>
-        <value lang="fr-fr">Responsable de l'acte </value>
+        <value lang="fr-fr">responsable de l'acte</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-VRF">
         <comment>Label: ParticipationType verifier</comment>
         <value lang="en-us">verifier</value>
         <value lang="nl-nl">toezichthouder</value>
-        <value lang="fr-fr">Vérificateur </value>
+        <value lang="fr-fr">vérificateur</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-AUTHEN">
         <comment>Label: ParticipationType authenticator</comment>
         <value lang="en-us">authenticator</value>
         <value lang="nl-nl">onderetkenaar</value>
-        <value lang="fr-fr">Valideur des résultats </value>
+        <value lang="fr-fr">valideur des résultats</value>
     </translation>
     <translation key="2.16.840.1.113883.5.90-LA">
         <comment>Label: ParticipationType legal authenticator</comment>
         <value lang="en-us">legal authenticator</value>
         <value lang="nl-nl">wettelijke ondertekenaar</value>
-        <value lang="fr-fr">Responsable légal </value>
+        <value lang="fr-fr">responsable légal</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-CHILD">
         <comment>Label: RoleClass child</comment>
         <value lang="en-us">child</value>
         <value lang="nl-nl">kind</value>
-        <value lang="fr-fr">Enfant</value>
+        <value lang="fr-fr">enfant</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-CRED">
         <comment>Label: RoleClass credentialed entity</comment>
         <value lang="en-us">credentialed entity</value>
         <value lang="nl-nl">bevoegde entiteit</value>
-        <value lang="fr-fr">Entité compétente</value>
+        <value lang="fr-fr">entité compétente</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-NURPRAC">
         <comment>Label: RoleClass nurse practitioner</comment>
         <value lang="en-us">nurse practitioner</value>
-        <value lang="fr-fr">Infirmière praticienne</value>
+        <value lang="fr-fr">infirmière praticienne</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-NURS">
         <comment>Label: RoleClass nurse</comment>
         <value lang="en-us">nurse</value>
         <value lang="nl-nl">verpleegkundige</value>
-        <value lang="fr-fr">Infirmière</value>
+        <value lang="fr-fr">infirmière</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-PA">
         <comment>Label: RoleClass physician assistant</comment>
@@ -3096,13 +3096,13 @@
         <comment>Label: RoleClass physician</comment>
         <value lang="en-us">physician</value>
         <value lang="nl-nl">arts</value>
-        <value lang="fr-fr">Médecin</value>
+        <value lang="fr-fr">médecin</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-ROL">
         <comment>Label: RoleClass role</comment>
         <value lang="en-us">role</value>
         <value lang="nl-nl">rol</value>
-        <value lang="fr-fr">Rôle</value>
+        <value lang="fr-fr">rôle</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-AFFL">
         <comment>Label: RoleClass affiliate</comment>
@@ -3112,117 +3112,117 @@
     <translation key="2.16.840.1.113883.5.110-AGNT">
         <comment>Label: RoleClass agent</comment>
         <value lang="en-us">agent</value>
-        <value lang="fr-fr">Agent</value>
+        <value lang="fr-fr">agent</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-ASSIGNED">
         <comment>Label: RoleClass assigned entity</comment>
         <value lang="en-us">assigned entity</value>
         <value lang="nl-nl">benoemde entiteit</value>
-        <value lang="fr-fr">Entité nommée</value>
+        <value lang="fr-fr">entité nommée</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-COMPAR">
         <comment>Label: RoleClass commissioning party</comment>
         <value lang="en-us">commissioning party</value>
-        <value lang="fr-fr">Commissionnaire</value>
+        <value lang="fr-fr">commissionnaire</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-SGNOFF">
         <comment>Label: RoleClass signing authority or officer</comment>
         <value lang="en-us">signing authority or officer</value>
         <value lang="nl-nl">ondertekenende autoriteit of functionaris</value>
-        <value lang="fr-fr">Autorité ou officier signataire</value>
+        <value lang="fr-fr">autorité ou officier signataire</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-CON">
         <comment>Label: RoleClass contact</comment>
         <value lang="en-us">contact</value>
-        <value lang="fr-fr">Contact</value>
+        <value lang="fr-fr">contact</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-ECON">
         <comment>Label: RoleClass emergency contact</comment>
         <value lang="en-us">emergency contact</value>
         <value lang="nl-nl">noodcontact</value>
-        <value lang="fr-fr">Contact en cas d'urgence</value>
+        <value lang="fr-fr">contact en cas d'urgence</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-NOK">
         <comment>Label: RoleClass next of kin</comment>
         <value lang="en-us">next of kin</value>
         <value lang="nl-nl">familie</value>
-        <value lang="fr-fr">Plus proche parent</value>
+        <value lang="fr-fr">plus proche parent</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-GUARD">
         <comment>Label: RoleClass guardian</comment>
         <value lang="en-us">guardian</value>
         <value lang="nl-nl">voogd</value>
-        <value lang="fr-fr">Représentant du patient</value>
+        <value lang="fr-fr">représentant du patient</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-CIT">
         <comment>Label: RoleClass citizen</comment>
         <value lang="en-us">citizen</value>
         <value lang="nl-nl">burger</value>
-        <value lang="fr-fr">Citoyen</value>
+        <value lang="fr-fr">citoyen</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-COVPTY">
         <comment>Label: RoleClass covered party</comment>
         <value lang="en-us">covered party</value>
         <value lang="nl-nl">verzekerde</value>
-        <value lang="fr-fr">Partie couverte</value>
+        <value lang="fr-fr">partie couverte</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-CLAIM">
         <comment>Label: RoleClass claimant</comment>
         <value lang="en-us">claimant</value>
-        <value lang="fr-fr">Demandeur</value>
+        <value lang="fr-fr">demandeur</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-NAMED">
         <comment>Label: RoleClass named insured</comment>
         <value lang="en-us">named insured</value>
         <value lang="nl-nl">benoemde verzekerde</value>
-        <value lang="fr-fr">Assuré désigné</value>
+        <value lang="fr-fr">assuré désigné</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-DEPEN">
         <comment>Label: RoleClass dependent</comment>
         <value lang="en-us">dependent</value>
         <value lang="nl-nl">afhankelijke</value>
-        <value lang="fr-fr">Dépendant</value>
+        <value lang="fr-fr">dépendant</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-INDIV">
         <comment>Label: RoleClass individual</comment>
         <value lang="en-us">individual</value>
         <value lang="nl-nl">individu</value>
-        <value lang="fr-fr">Individuel</value>
+        <value lang="fr-fr">individuel</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-SUBSCR">
         <comment>Label: RoleClass subscriber</comment>
         <value lang="en-us">subscriber</value>
         <value lang="nl-nl">abonnee</value>
-        <value lang="fr-fr">Souscripteur</value>
+        <value lang="fr-fr">souscripteur</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-PROG">
         <comment>Label: RoleClass program eligible</comment>
         <value lang="en-us">program eligible</value>
-        <value lang="fr-fr">Eligible au programme</value>
+        <value lang="fr-fr">eligible au programme</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-CRINV">
         <comment>Label: RoleClass clinical research investigator</comment>
         <value lang="en-us">clinical research investigator</value>
         <value lang="nl-nl">klinisch onderzoeker</value>
-        <value lang="fr-fr">Chercheur en recherche clinique</value>
+        <value lang="fr-fr">chercheur en recherche clinique</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-CRSPNSR">
         <comment>Label: RoleClass clinical research sponsor</comment>
         <value lang="en-us">clinical research sponsor</value>
         <value lang="nl-nl">klinisch onderzoek sponsor</value>
-        <value lang="fr-fr">Sponsor en recherche clinique</value>
+        <value lang="fr-fr">sponsor en recherche clinique</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-EMP">
         <comment>Label: RoleClass employee</comment>
         <value lang="en-us">employee</value>
         <value lang="nl-nl">werknemer</value>
-        <value lang="fr-fr">Employé</value>
+        <value lang="fr-fr">employé</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-MIL">
         <comment>Label: RoleClass military person</comment>
         <value lang="en-us">military person</value>
         <value lang="nl-nl">militair</value>
-        <value lang="fr-fr">Militaire</value>
+        <value lang="fr-fr">militaire</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-INVSBJ">
         <comment>Label: RoleClass Investigation Subject</comment>
@@ -3239,88 +3239,88 @@
     <translation key="2.16.840.1.113883.5.110-RESBJ">
         <comment>Label: RoleClass research subject</comment>
         <value lang="en-us">research subject</value>
-        <value lang="fr-fr">Sujet de recherche</value>
+        <value lang="fr-fr">sujet de recherche</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-LIC">
         <comment>Label: RoleClass licensed entity</comment>
         <value lang="en-us">licensed entity</value>
         <value lang="nl-nl">gelicenseerde entiteit</value>
-        <value lang="fr-fr">Entité agréée</value>
+        <value lang="fr-fr">entité agréée</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-NOT">
         <comment>Label: RoleClass notary public</comment>
         <value lang="en-us">notary public</value>
-        <value lang="fr-fr">Notaire</value>
+        <value lang="fr-fr">notaire</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-PROV">
         <comment>Label: RoleClass healthcare provider</comment>
         <value lang="en-us">healthcare provider</value>
         <value lang="nl-nl">zorgaanbieder</value>
-        <value lang="fr-fr">Profession </value>
+        <value lang="fr-fr">profession</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-PAT">
         <comment>Label: RoleClass patient</comment>
         <value lang="en-us">patient</value>
         <value lang="nl-nl">patiënt</value>
-        <value lang="fr-fr">Patient</value>
+        <value lang="fr-fr">patient</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-PAYEE">
         <comment>Label: RoleClass payee</comment>
         <value lang="en-us">payee</value>
         <value lang="nl-nl">begunstigde</value>
-        <value lang="fr-fr">Bénéficiaire</value>
+        <value lang="fr-fr">bénéficiaire</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-PAYOR">
         <comment>Label: RoleClass invoice payor</comment>
         <value lang="en-us">invoice payor</value>
         <value lang="nl-nl">rekening betaler</value>
-        <value lang="fr-fr">Payeur de facture</value>
+        <value lang="fr-fr">payeur de facture</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-POLHOLD">
         <comment>Label: RoleClass policy holder</comment>
         <value lang="en-us">policy holder</value>
         <value lang="nl-nl">polishouder</value>
-        <value lang="fr-fr">Titulaire de l'assurance</value>
+        <value lang="fr-fr">titulaire de l'assurance</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-QUAL">
         <comment>Label: RoleClass qualified entity</comment>
         <value lang="en-us">qualified entity</value>
         <value lang="nl-nl">gekwalificeerde entiteit</value>
-        <value lang="fr-fr">Entité qualifiée</value>
+        <value lang="fr-fr">entité qualifiée</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-SPNSR">
         <comment>Label: RoleClass coverage sponsor</comment>
         <value lang="en-us">coverage sponsor</value>
         <value lang="nl-nl">verzerkering sponsor</value>
-        <value lang="fr-fr">Promoteur d'assurance</value>
+        <value lang="fr-fr">promoteur d'assurance</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-STD">
         <comment>Label: RoleClass student</comment>
         <value lang="en-us">student</value>
-        <value lang="fr-fr">Etudiant</value>
+        <value lang="fr-fr">etudiant</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-UNDWRT">
         <comment>Label: RoleClass underwriter</comment>
         <value lang="en-us">underwriter</value>
-        <value lang="fr-fr">Souscripteur</value>
+        <value lang="fr-fr">souscripteur</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-CAREGIVER">
         <comment>Label: RoleClass caregiver</comment>
         <value lang="en-us">caregiver</value>
         <value lang="nl-nl">zorgverlener</value>
-        <value lang="fr-fr">Soignant</value>
+        <value lang="fr-fr">soignant</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-PRS">
         <comment>Label: RoleClass personal relationship</comment>
         <value lang="en-us">personal relationship</value>
         <value lang="nl-nl">persoonlijke relatie</value>
-        <value lang="fr-fr">Relation personnelle</value>
+        <value lang="fr-fr">relation personnelle</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-ACCESS">
         <comment>Label: RoleClass access</comment>
         <value lang="en-us">access</value>
         <value lang="nl-nl">toegang</value>
-        <value lang="fr-fr">Accès</value>
+        <value lang="fr-fr">accès</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-ADMM">
         <comment>Label: RoleClass Administerable Material</comment>
@@ -3332,119 +3332,119 @@
         <comment>Label: RoleClass birthplace</comment>
         <value lang="en-us">birthplace</value>
         <value lang="nl-nl">geboorteplaats</value>
-        <value lang="fr-fr">Lieu de naissance</value>
+        <value lang="fr-fr">lieu de naissance</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-DEATHPLC">
         <comment>Label: RoleClass place of death</comment>
         <value lang="en-us">place of death</value>
         <value lang="nl-nl">plaats overlijden</value>
-        <value lang="fr-fr">Lieu du décès</value>
+        <value lang="fr-fr">lieu du décès</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-DST">
         <comment>Label: RoleClass distributed material</comment>
         <value lang="en-us">distributed material</value>
         <value lang="nl-nl">gedistribueerd materiaal</value>
-        <value lang="fr-fr">Matériel distribué</value>
+        <value lang="fr-fr">matériel distribué</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-RET">
         <comment>Label: RoleClass retailed material</comment>
         <value lang="en-us">retailed material</value>
         <value lang="nl-nl">verkocht materiaal</value>
-        <value lang="fr-fr">Matériel vendu</value>
+        <value lang="fr-fr">matériel vendu</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-EXPR">
         <comment>Label: RoleClass exposed entity</comment>
         <value lang="en-us">exposed entity</value>
         <value lang="nl-nl">blootgestelde entiteit</value>
-        <value lang="fr-fr">Entité exposée</value>
+        <value lang="fr-fr">entité exposée</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-HLD">
         <comment>Label: RoleClass held entity</comment>
         <value lang="en-us">held entity</value>
-        <value lang="fr-fr">Entité détenue</value>
+        <value lang="fr-fr">entité détenue</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-HLTHCHRT">
         <comment>Label: RoleClass health chart</comment>
         <value lang="en-us">health chart</value>
-        <value lang="fr-fr">Fiche de santé</value>
+        <value lang="fr-fr">fiche de santé</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-IDENT">
         <comment>Label: RoleClass identified entity</comment>
         <value lang="en-us">identified entity</value>
         <value lang="nl-nl">geïdentificeerde entiteit</value>
-        <value lang="fr-fr">Entité identifiée</value>
+        <value lang="fr-fr">entité identifiée</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-MANU">
         <comment>Label: RoleClass manufactured product</comment>
         <value lang="en-us">manufactured product</value>
         <value lang="nl-nl">geproduceerd product</value>
-        <value lang="fr-fr">Produit manufacturé</value>
+        <value lang="fr-fr">produit manufacturé</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-THER">
         <comment>Label: RoleClass therapeutic agent</comment>
         <value lang="en-us">therapeutic agent</value>
         <value lang="nl-nl">therapeutisch agent</value>
-        <value lang="fr-fr">Agent thérapeutique</value>
+        <value lang="fr-fr">agent thérapeutique</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-MNT">
         <comment>Label: RoleClass maintained entity</comment>
         <value lang="en-us">maintained entity</value>
         <value lang="nl-nl">beheerde entiteit</value>
-        <value lang="fr-fr">Entité maintenue</value>
+        <value lang="fr-fr">entité maintenue</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-OWN">
         <comment>Label: RoleClass owned entity</comment>
         <value lang="en-us">owned entity</value>
         <value lang="nl-nl">bezitte entiteit</value>
-        <value lang="fr-fr">Entité détenue</value>
+        <value lang="fr-fr">entité détenue</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-RGPR">
         <comment>Label: RoleClass regulated product</comment>
         <value lang="en-us">regulated product</value>
         <value lang="nl-nl">gereguleerd product</value>
-        <value lang="fr-fr">Produit réglementé</value>
+        <value lang="fr-fr">produit réglementé</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-SDLOC">
         <comment>Label: RoleClass service delivery location</comment>
         <value lang="en-us">service delivery location</value>
         <value lang="nl-nl">zorgverleningslokatie</value>
-        <value lang="fr-fr">Lieu de prestation de services</value>
+        <value lang="fr-fr">lieu de prestation de services</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-DSDLOC">
         <comment>Label: RoleClass dedicated service delivery location</comment>
         <value lang="en-us">dedicated service delivery location</value>
         <value lang="nl-nl">lokatie bedoeld voor zorgverlening</value>
-        <value lang="fr-fr">Lieu de prestation de services dédié</value>
+        <value lang="fr-fr">lieu de prestation de services dédié</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-ISDLOC">
         <comment>Label: RoleClass incidental service delivery location</comment>
         <value lang="en-us">incidental service delivery location</value>
         <value lang="nl-nl">toevallige zorgverleningslokatie</value>
-        <value lang="fr-fr">Lieu de prestation de services accessoire</value>
+        <value lang="fr-fr">lieu de prestation de services accessoire</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-TERR">
         <comment>Label: RoleClass territory of authority</comment>
         <value lang="en-us">territory of authority</value>
         <value lang="nl-nl">autoriteitsregio</value>
-        <value lang="fr-fr">Territoire d'autorité</value>
+        <value lang="fr-fr">territoire d'autorité</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-USED">
         <comment>Label: RoleClass used entity</comment>
         <value lang="en-us">used entity</value>
         <value lang="nl-nl">gebruikte entiteit</value>
-        <value lang="fr-fr">Entité utilisée</value>
+        <value lang="fr-fr">entité utilisée</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-WRTE">
         <comment>Label: RoleClass warranted product</comment>
         <value lang="en-us">warranted product</value>
         <value lang="nl-nl">product onder garantie</value>
-        <value lang="fr-fr">Produit garanti</value>
+        <value lang="fr-fr">produit garanti</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-EQUIV">
         <comment>Label: RoleClass equivalent entity</comment>
         <value lang="en-us">equivalent entity</value>
         <value lang="nl-nl">equivalente entiteit</value>
-        <value lang="fr-fr">Entité équivalente</value>
+        <value lang="fr-fr">entité équivalente</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-SAME">
         <comment>Label: RoleClass same</comment>
@@ -3577,25 +3577,25 @@
         <comment>Label: RoleClass located entity</comment>
         <value lang="en-us">located entity</value>
         <value lang="nl-nl">gelokaliseerde entiteit</value>
-        <value lang="fr-fr">Entité localisée</value>
+        <value lang="fr-fr">entité localisée</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-STOR">
         <comment>Label: RoleClass stored entity</comment>
         <value lang="en-us">stored entity</value>
         <value lang="nl-nl">opgeslagen entiteit</value>
-        <value lang="fr-fr">Entité stockée</value>
+        <value lang="fr-fr">entité stockée</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-MBR">
         <comment>Label: RoleClass member</comment>
         <value lang="en-us">member</value>
         <value lang="nl-nl">lid</value>
-        <value lang="fr-fr">Membre</value>
+        <value lang="fr-fr">membre</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-PART">
         <comment>Label: RoleClass part</comment>
         <value lang="en-us">part</value>
         <value lang="nl-nl">deel</value>
-        <value lang="fr-fr">Partie</value>
+        <value lang="fr-fr">partie</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-ACTM">
         <comment>Label: RoleClass active moiety</comment>
@@ -3606,18 +3606,18 @@
         <comment>Label: RoleClass specimen</comment>
         <value lang="en-us">specimen</value>
         <value lang="nl-nl">monster</value>
-        <value lang="fr-fr">Echantillon</value>
+        <value lang="fr-fr">echantillon</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-ALQT">
         <comment>Label: RoleClass aliquot</comment>
         <value lang="en-us">aliquot</value>
-        <value lang="fr-fr">Aliquote</value>
+        <value lang="fr-fr">aliquote</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-ISLT">
         <comment>Label: RoleClass isolate</comment>
         <value lang="en-us">isolate</value>
         <value lang="nl-nl">isolaat</value>
-        <value lang="fr-fr">Isolat</value>
+        <value lang="fr-fr">isolat</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-FAMMEMB">
         <comment>Label: RoleCode Family Member</comment>
@@ -3635,55 +3635,55 @@
         <comment>Label: RoleCode adopted child</comment>
         <value lang="en-us">adopted child</value>
         <value lang="nl-nl">geadopteerd kind</value>
-        <value lang="fr-fr">Enfant adopté</value>
+        <value lang="fr-fr">enfant adopté</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-DAUADOPT">
         <comment>Label: RoleCode adopted daughter</comment>
         <value lang="en-us">adopted daughter</value>
         <value lang="nl-nl">geadopteerde dochter</value>
-        <value lang="fr-fr">Fille adoptive</value>
+        <value lang="fr-fr">fille adoptive</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-SONADOPT">
         <comment>Label: RoleCode adopted son</comment>
         <value lang="en-us">adopted son</value>
         <value lang="nl-nl">geadopteerde zoon</value>
-        <value lang="fr-fr">Fils adoptif</value>
+        <value lang="fr-fr">fils adoptif</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-CHLDFOST">
         <comment>Label: RoleCode foster child</comment>
         <value lang="en-us">foster child</value>
         <value lang="nl-nl">pleegkind</value>
-        <value lang="fr-fr">Enfant placé en famille d'accueil</value>
+        <value lang="fr-fr">enfant placé en famille d'accueil</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-DAUFOST">
         <comment>Label: RoleCode foster daughter</comment>
         <value lang="en-us">foster daughter</value>
         <value lang="nl-nl">pleegdochter</value>
-        <value lang="fr-fr">Fille placée en famille d'accueil</value>
+        <value lang="fr-fr">fille placée en famille d'accueil</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-SONFOST">
         <comment>Label: RoleCode foster son</comment>
         <value lang="en-us">foster son</value>
         <value lang="nl-nl">pleegzoon</value>
-        <value lang="fr-fr">Fils placé en famille d'accueil</value>
+        <value lang="fr-fr">fils placé en famille d'accueil</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-CHLDINLAW">
         <comment>Label: RoleCode child in-law</comment>
         <value lang="en-us">child in-law</value>
         <value lang="nl-nl">aangetrouwd kind</value>
-        <value lang="fr-fr">Gendre ou belle-fille</value>
+        <value lang="fr-fr">gendre ou belle-fille</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-DAUINLAW">
         <comment>Label: RoleCode daughter in-law</comment>
         <value lang="en-us">daughter in-law</value>
         <value lang="nl-nl">schoondochter</value>
-        <value lang="fr-fr">Belle-fille</value>
+        <value lang="fr-fr">belle-fille</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-SONINLAW">
         <comment>Label: RoleCode son in-law</comment>
         <value lang="en-us">son in-law</value>
         <value lang="nl-nl">schoonzoon</value>
-        <value lang="fr-fr">Gendre</value>
+        <value lang="fr-fr">gendre</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-DAUC">
         <comment>Label: RoleCode Daughter</comment>
@@ -3695,55 +3695,55 @@
         <comment>Label: RoleCode natural daughterDaughter </comment>
         <value lang="en-us">natural daughter</value>
         <value lang="nl-nl">natuurlijke dochter</value>
-        <value lang="fr-fr">Fille biologique</value>
+        <value lang="fr-fr">fille biologique</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-STPDAU">
         <comment>Label: RoleCode stepdaughter</comment>
         <value lang="en-us">stepdaughter</value>
         <value lang="nl-nl">stiefdochter</value>
-        <value lang="fr-fr">Belle-fille - fille du conjoint ou de la conjointe</value>
+        <value lang="fr-fr">belle-fille - fille du conjoint ou de la conjointe</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-NCHILD">
         <comment>Label: RoleCode natural child</comment>
         <value lang="en-us">natural child</value>
         <value lang="nl-nl">natuurlijk kind</value>
-        <value lang="fr-fr">Enfant biologique</value>
+        <value lang="fr-fr">enfant biologique</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-SON">
         <comment>Label: RoleCode natural sonSon </comment>
         <value lang="en-us">natural son</value>
         <value lang="nl-nl">naturlijke zoon</value>
-        <value lang="fr-fr">Fils biologique</value>
+        <value lang="fr-fr">fils biologique</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-SONC">
         <comment>Label: RoleCode son</comment>
         <value lang="en-us">son</value>
         <value lang="nl-nl">zoon</value>
-        <value lang="fr-fr">Fils</value>
+        <value lang="fr-fr">fils</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-STPSON">
         <comment>Label: RoleCode stepson</comment>
         <value lang="en-us">stepson</value>
         <value lang="nl-nl">stiefzoon</value>
-        <value lang="fr-fr">Beau-fils - fils du conjoint ou de la conjointe</value>
+        <value lang="fr-fr">beau-fils - fils du conjoint ou de la conjointe</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-STPCHLD">
         <comment>Label: RoleCode step child</comment>
         <value lang="en-us">step child</value>
         <value lang="nl-nl">stiefkind</value>
-        <value lang="fr-fr">Enfant du conjoint ou de la conjointe</value>
+        <value lang="fr-fr">enfant du conjoint ou de la conjointe</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-EXT">
         <comment>Label: RoleCode extended family member</comment>
         <value lang="en-us">extended family member</value>
         <value lang="nl-nl">ver familielid</value>
-        <value lang="fr-fr">Autre membre de la famille sans lien génétique direct</value>
+        <value lang="fr-fr">autre membre de la famille sans lien génétique direct</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-AUNT">
         <comment>Label: RoleCode aunt</comment>
         <value lang="en-us">aunt</value>
         <value lang="nl-nl">tante</value>
-        <value lang="fr-fr">Tante</value>
+        <value lang="fr-fr">tante</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-MAUNT">
         <comment>Label: RoleCode MaternalAunt</comment>
@@ -3761,7 +3761,7 @@
         <comment>Label: RoleCode cousin</comment>
         <value lang="en-us">cousin</value>
         <value lang="nl-nl">neef/nicht</value>
-        <value lang="fr-fr">Cousin</value>
+        <value lang="fr-fr">cousin</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-MCOUSN">
         <comment>Label: RoleCode MaternalCousin</comment>
@@ -3779,19 +3779,19 @@
         <comment>Label: RoleCode great grandparent</comment>
         <value lang="en-us">great grandparent</value>
         <value lang="nl-nl">overgrootouder</value>
-        <value lang="fr-fr">Arrière-grand-parent</value>
+        <value lang="fr-fr">arrière-grand-parent</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-GGRFTH">
         <comment>Label: RoleCode great grandfather</comment>
         <value lang="en-us">great grandfather</value>
         <value lang="nl-nl">overgrootvader</value>
-        <value lang="fr-fr">Arrière-grand-père</value>
+        <value lang="fr-fr">arrière-grand-père</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-GGRMTH">
         <comment>Label: RoleCode great grandmother</comment>
         <value lang="en-us">great grandmother</value>
         <value lang="nl-nl">overgrootmoeder</value>
-        <value lang="fr-fr">Arrière-grand-mère</value>
+        <value lang="fr-fr">arrière-grand-mère</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-MGGRFTH">
         <comment>Label: RoleCode MaternalGreatgrandfather</comment>
@@ -3833,19 +3833,19 @@
         <comment>Label: RoleCode grandchild</comment>
         <value lang="en-us">grandchild</value>
         <value lang="nl-nl">kleinkind</value>
-        <value lang="fr-fr">Petit-enfant</value>
+        <value lang="fr-fr">petit-enfant</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-GRNDDAU">
         <comment>Label: RoleCode granddaughter</comment>
         <value lang="en-us">granddaughter</value>
         <value lang="nl-nl">kleindochter</value>
-        <value lang="fr-fr">Petite-fille</value>
+        <value lang="fr-fr">petite-fille</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-GRNDSON">
         <comment>Label: RoleCode grandson</comment>
         <value lang="en-us">grandson</value>
         <value lang="nl-nl">kleinzoon</value>
-        <value lang="fr-fr">Petit-fils</value>
+        <value lang="fr-fr">petit-fils</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-GRPRN">
         <comment>Label: RoleCode Grandparent</comment>
@@ -3904,19 +3904,19 @@
         <comment>Label: RoleCode niece/nephew</comment>
         <value lang="en-us">niece/nephew</value>
         <value lang="nl-nl">nicht/neef</value>
-        <value lang="fr-fr">Nièce / Neveu</value>
+        <value lang="fr-fr">nièce / neveu</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-NEPHEW">
         <comment>Label: RoleCode nephew</comment>
         <value lang="en-us">nephew</value>
         <value lang="nl-nl">neef</value>
-        <value lang="fr-fr">Neveu</value>
+        <value lang="fr-fr">neveu</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-NIECE">
         <comment>Label: RoleCode niece</comment>
         <value lang="en-us">niece</value>
         <value lang="nl-nl">nicht</value>
-        <value lang="fr-fr">Nièce</value>
+        <value lang="fr-fr">nièce</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-UNCLE">
         <comment>Label: RoleCode uncle</comment>
@@ -3957,61 +3957,61 @@
         <comment>Label: RoleCode natural parent</comment>
         <value lang="en-us">natural parent</value>
         <value lang="nl-nl">natuurlijke ouder</value>
-        <value lang="fr-fr">Parent biologique, au sens père ou mère</value>
+        <value lang="fr-fr">parent biologique, au sens père ou mère</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-NFTH">
         <comment>Label: RoleCode natural father</comment>
         <value lang="en-us">natural father</value>
         <value lang="nl-nl">natuurlijke vader</value>
-        <value lang="fr-fr">Père biologique</value>
+        <value lang="fr-fr">père biologique</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-NFTHF">
         <comment>Label: RoleCode natural father of fetus</comment>
         <value lang="en-us">natural father of fetus</value>
         <value lang="nl-nl">natuurlijke vader van foetus</value>
-        <value lang="fr-fr">Père biologique du fœtus</value>
+        <value lang="fr-fr">père biologique du fœtus</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-NMTH">
         <comment>Label: RoleCode natural mother</comment>
         <value lang="en-us">natural mother</value>
         <value lang="nl-nl">natuurlijke moeder</value>
-        <value lang="fr-fr">Mère biologique</value>
+        <value lang="fr-fr">mère biologique</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-PRNINLAW">
         <comment>Label: RoleCode parent in-law</comment>
         <value lang="en-us">parent in-law</value>
         <value lang="nl-nl">schoonouder</value>
-        <value lang="fr-fr">Beau-père ou belle-mère</value>
+        <value lang="fr-fr">beau-père ou belle-mère</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-FTHINLAW">
         <comment>Label: RoleCode father-in-law</comment>
         <value lang="en-us">father-in-law</value>
         <value lang="nl-nl">schoonvader</value>
-        <value lang="fr-fr">Beau-père</value>
+        <value lang="fr-fr">beau-père</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-MTHINLAW">
         <comment>Label: RoleCode mother-in-law</comment>
         <value lang="en-us">mother-in-law</value>
         <value lang="nl-nl">schoonmoeder</value>
-        <value lang="fr-fr">Belle-mère</value>
+        <value lang="fr-fr">belle-mère</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-STPPRN">
         <comment>Label: RoleCode step parent</comment>
         <value lang="en-us">step parent</value>
         <value lang="nl-nl">stiefouder</value>
-        <value lang="fr-fr">Beau-père ou belle-mère - conjoint du père ou de la mère</value>
+        <value lang="fr-fr">beau-père ou belle-mère - conjoint du père ou de la mère</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-STPFTH">
         <comment>Label: RoleCode stepfather</comment>
         <value lang="en-us">stepfather</value>
         <value lang="nl-nl">stiefvader</value>
-        <value lang="fr-fr">Beau-père - époux de la mère</value>
+        <value lang="fr-fr">beau-père - époux de la mère</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-STPMTH">
         <comment>Label: RoleCode stepmother</comment>
         <value lang="en-us">stepmother</value>
         <value lang="nl-nl">stiefmoeder</value>
-        <value lang="fr-fr">Belle-mère - épouse du père</value>
+        <value lang="fr-fr">belle-mère - épouse du père</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-SIB">
         <comment>Label: RoleCode Sibling</comment>
@@ -4029,55 +4029,55 @@
         <comment>Label: RoleCode half-sibling</comment>
         <value lang="en-us">half-sibling</value>
         <value lang="nl-nl">halfbroer/zus</value>
-        <value lang="fr-fr">Demi-frère ou demi-sœur</value>
+        <value lang="fr-fr">demi-frère ou demi-sœur</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-HBRO">
         <comment>Label: RoleCode half-brother</comment>
         <value lang="en-us">half-brother</value>
         <value lang="nl-nl">halfbroer</value>
-        <value lang="fr-fr">Demi-frère</value>
+        <value lang="fr-fr">demi-frère</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-HSIS">
         <comment>Label: RoleCode half-sister</comment>
         <value lang="en-us">half-sister</value>
         <value lang="nl-nl">halfzus</value>
-        <value lang="fr-fr">Demi-sœur</value>
+        <value lang="fr-fr">demi-sœur</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-NSIB">
         <comment>Label: RoleCode natural sibling</comment>
         <value lang="en-us">natural sibling</value>
         <value lang="nl-nl">natuurlijke broer/zus</value>
-        <value lang="fr-fr">Frère ou soeur biologique</value>
+        <value lang="fr-fr">frère ou soeur biologique</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-NBRO">
         <comment>Label: RoleCode natural brother</comment>
         <value lang="en-us">natural brother</value>
         <value lang="nl-nl">natuurlijke broer</value>
-        <value lang="fr-fr">Frère biologique</value>
+        <value lang="fr-fr">frère biologique</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-NSIS">
         <comment>Label: RoleCode natural sister</comment>
         <value lang="en-us">natural sister</value>
         <value lang="nl-nl">natuurlijke zus</value>
-        <value lang="fr-fr">Soeur biologique</value>
+        <value lang="fr-fr">soeur biologique</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-SIBINLAW">
         <comment>Label: RoleCode sibling in-law</comment>
         <value lang="en-us">sibling in-law</value>
         <value lang="nl-nl">schoonbroer/zus</value>
-        <value lang="fr-fr">Beau-frère ou belle-sœur</value>
+        <value lang="fr-fr">beau-frère ou belle-sœur</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-BROINLAW">
         <comment>Label: RoleCode brother-in-law</comment>
         <value lang="en-us">brother-in-law</value>
         <value lang="nl-nl">zwager</value>
-        <value lang="fr-fr">Beau-frère</value>
+        <value lang="fr-fr">beau-frère</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-SISINLAW">
         <comment>Label: RoleCode sister-in-law</comment>
         <value lang="en-us">sister-in-law</value>
         <value lang="nl-nl">schoonzus</value>
-        <value lang="fr-fr">Belle-sœur</value>
+        <value lang="fr-fr">belle-sœur</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-SIS">
         <comment>Label: RoleCode Sister</comment>
@@ -4089,61 +4089,61 @@
         <comment>Label: RoleCode step sibling</comment>
         <value lang="en-us">step sibling</value>
         <value lang="nl-nl">stiefbroer/zus</value>
-        <value lang="fr-fr">Enfant du beau-père ou de la belle-mère</value>
+        <value lang="fr-fr">enfant du beau-père ou de la belle-mère</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-STPBRO">
         <comment>Label: RoleCode stepbrother</comment>
         <value lang="en-us">stepbrother</value>
         <value lang="nl-nl">stiefbroer</value>
-        <value lang="fr-fr">Fils du beau-père ou de la belle-mère</value>
+        <value lang="fr-fr">fils du beau-père ou de la belle-mère</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-STPSIS">
         <comment>Label: RoleCode stepsister</comment>
         <value lang="en-us">stepsister</value>
         <value lang="nl-nl">stiefzus</value>
-        <value lang="fr-fr">Fille du beau-père ou de la belle-mère</value>
+        <value lang="fr-fr">fille du beau-père ou de la belle-mère</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-SIGOTHR">
         <comment>Label: RoleCode significant other</comment>
         <value lang="en-us">significant other</value>
         <value lang="nl-nl">significante derde</value>
-        <value lang="fr-fr">Conjoint ou conjointe</value>
+        <value lang="fr-fr">conjoint ou conjointe</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-DOMPART">
         <comment>Label: RoleCode domestic partner</comment>
         <value lang="en-us">domestic partner</value>
         <value lang="nl-nl">huisgenoot</value>
-        <value lang="fr-fr">Concubin(e) ou partenaire PACS</value>
+        <value lang="fr-fr">concubin(e) ou partenaire PACS</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-SPS">
         <comment>Label: RoleCode spouse</comment>
         <value lang="en-us">spouse</value>
         <value lang="nl-nl">echtgenoot</value>
-        <value lang="fr-fr">Epoux ou épouse</value>
+        <value lang="fr-fr">epoux ou épouse</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-HUSB">
         <comment>Label: RoleCode husband</comment>
         <value lang="en-us">husband</value>
         <value lang="nl-nl">echtgenoot</value>
-        <value lang="fr-fr">Epoux</value>
+        <value lang="fr-fr">epoux</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-WIFE">
         <comment>Label: RoleCode wife</comment>
         <value lang="en-us">wife</value>
         <value lang="nl-nl">echtgenote</value>
-        <value lang="fr-fr">Epouse</value>
+        <value lang="fr-fr">epouse</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-FRND">
         <comment>Label: RoleCode unrelated friend</comment>
         <value lang="en-us">unrelated friend</value>
         <value lang="nl-nl">niet-gerelateerde vriend</value>
-        <value lang="fr-fr">Ami</value>
+        <value lang="fr-fr">ami</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-NBOR">
         <comment>Label: RoleCode neighbor</comment>
         <value lang="en-us">neighbor</value>
         <value lang="nl-nl">buur</value>
-        <value lang="fr-fr">Voisin</value>
+        <value lang="fr-fr">voisin</value>
     </translation>
     <translation key="2.16.840.1.113883.5.111-ROOM">
         <comment>Label: RoleCode Roommate</comment>
@@ -4258,38 +4258,38 @@
         <comment>Label: ServiceEventPerformer Performer</comment>
         <value lang="en-us">Performer</value>
         <value lang="nl-nl">Uitvoerende</value>
-        <value lang="fr-fr">Exécutant </value>
+        <value lang="fr-fr">Exécutant</value>
     </translation>
     <translation key="typeCode-PPRF">
         <comment>Label: ServiceEventPerformer Primary Performer</comment>
         <value lang="en-us">Primary Performer</value>
         <value lang="nl-nl">Eerste uitvoerende</value>
-        <value lang="fr-fr">Exécutant principal </value>
+        <value lang="fr-fr">Exécutant principal</value>
     </translation>
     <translation key="typeCode-RCT">
         <comment>Label: ParticipationType Record Target</comment>
         <value lang="en-us">Patient</value>
         <value lang="it-ch">Paziente</value>
         <value lang="nl-nl">Patiënt</value>
-        <value lang="fr-fr">Patient </value>
+        <value lang="fr-fr">Patient</value>
     </translation>
     <translation key="typeCode-RESP">
         <comment>Label: ParticipationType Responsible party</comment>
         <value lang="en-us">Responsible Party</value>
         <value lang="nl-nl">Verantwoordelijke</value>
-        <value lang="fr-fr">Responsable </value>
+        <value lang="fr-fr">Responsable</value>
     </translation>
     <translation key="typeCode-SPRF">
         <comment>Label: ServiceEventPerformer Supporting Performer</comment>
         <value lang="en-us">Supporting Performer</value>
         <value lang="nl-nl">Ondersteunend uitvoerende</value>
-        <value lang="fr-fr">Exécutant secondaire </value>
+        <value lang="fr-fr">Exécutant secondaire</value>
     </translation>
     <translation key="typeCode-TRC">
         <comment>Label: ParticipationType Tracker</comment>
         <value lang="en-us">Secondary Information Recipient</value>
         <value lang="nl-nl">Kopie-ontvanger</value>
-        <value lang="fr-fr">Destinataire secondaire </value>
+        <value lang="fr-fr">Destinataire secondaire</value>
     </translation>
     <translation key="typeCode-COMP">
         <comment>Label: ActRelationship Component</comment>
@@ -10403,7 +10403,7 @@
         <comment>Managing Organization</comment>
         <value lang="en-us">Managing Organization</value>
         <value lang="nl-nl">Verantwoordelijke organisatie</value>
-        <value lang="fr-fr">Organisation gestionnaire </value>
+        <value lang="fr-fr">Organisation gestionnaire</value>
     </translation>
     <translation key="Category">
         <comment>Category</comment>
@@ -10563,7 +10563,7 @@
         <comment>Organization</comment>
         <value lang="en-us">Organization</value>
         <value lang="nl-nl">Organisatie</value>
-        <value lang="fr-fr">Organisation </value>
+        <value lang="fr-fr">Organisation</value>
     </translation>
     <translation key="Nationality">
         <comment>Nationality</comment>
@@ -10784,7 +10784,7 @@
         <comment>frequency max</comment>
         <value lang="en-us">frequency max</value>
         <value lang="nl-nl">max frequentie</value>
-        <value lang="fr-fr">Fréquence max</value>
+        <value lang="fr-fr">fréquence max</value>
     </translation>
     <translation key="bounds">
         <comment>bounds</comment>
@@ -11011,7 +11011,7 @@
         <comment>As in: Intent of a CarePlan</comment>
         <value lang="en-us">Intent</value>
         <value lang="nl-nl">Intentie</value>
-        <value lang="fr-fr">Intention </value>
+        <value lang="fr-fr">Intention</value>
     </translation>
     <translation key="Entire Report">
         <comment>As in: Entire Report</comment>
