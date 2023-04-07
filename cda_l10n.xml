@@ -1971,15 +1971,15 @@
         <value lang="fr-fr">couché</value>
     </translation>
     <translation key="2.16.840.1.113883.5.6-RTRD">
-        <comment>Label: ActClass reverse trendelenburg</comment>
-        <value lang="en-us">reverse trendelenburg</value>
-        <value lang="nl-nl">omgekeerde trendelenburg</value>
-        <value lang="fr-fr">trendelenburg inversé</value>
+        <comment>Label: ActClass reverse Trendelenburg</comment>
+        <value lang="en-us">reverse Trendelenburg</value>
+        <value lang="nl-nl">omgekeerde Trendelenburg</value>
+        <value lang="fr-fr">Trendelenburg inversé</value>
     </translation>
     <translation key="2.16.840.1.113883.5.6-TRD">
-        <comment>Label: ActClass trendelenburg</comment>
-        <value lang="en-us">trendelenburg</value>
-        <value lang="fr-fr">trendelenburg</value>
+        <comment>Label: ActClass Trendelenburg</comment>
+        <value lang="en-us">Trendelenburg</value>
+        <value lang="fr-fr">Trendelenburg</value>
     </translation>
     <translation key="2.16.840.1.113883.5.6-PCPR">
         <comment>Label: ActClass care provision</comment>
