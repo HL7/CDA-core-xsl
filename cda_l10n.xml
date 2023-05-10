@@ -11440,4 +11440,9 @@
         <value lang="nl-nl">niet gedaan</value>
         <value lang="fr-fr">pas effectué</value>
     </translation>
+    <translation key="section-order-applied-warning">
+        <comment>Label: section-order-applied-warning</comment>
+        <value lang="en-us">Warning: All sections are present, but an explicit order was enforced</value>
+        <value lang="nl-nl">Waarschuwing: Alle secties  worden getoond, maar er is een expliciete volgorde toegepast</value>
+    </translation>
 </translations>
