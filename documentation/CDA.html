@@ -2060,7 +2060,7 @@
                                  
                                  <p><b>Title:</b> CDA R2 StyleSheet</p>
                                  
-                                 <p><b>Version:</b> 4.0.2 beta 11</p>
+                                 <p><b>Version:</b> 4.1.0-alpha2</p>
                                  
                                  <p><b>Maintained by:</b> HL7 <a href="https://confluence.hl7.org/display/SD/Structured+Documents" target="_blank">Structured Documents Work Group</a></p>
                                  
@@ -4539,24 +4539,24 @@
                   </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"in"</span><span class="tAN"> select=</span><span class="tAV">"hl7:relatedSubject/hl7:subject/hl7:administrativeGenderCode"</span><span class="tXSLEl">/&gt;</span><span class="tI">
                 </span><span class="tXSLEl">&lt;/xsl:call-template&gt;</span><span class="tI">
               </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
-              </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"hl7:relatedSubject/hl7:subject/hl7:raceCode"</span><span class="tXSLEl">&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"hl7:relatedSubject/hl7:subject/hl7:raceCode |                                               hl7:relatedSubject/hl7:subject/sdtc:raceCode"</span><span class="tXSLEl">&gt;</span><span class="tI">
                 </span><span class="tXSLEl">&lt;xsl:text</span><span class="tXSLEl">&gt;</span><span class="tT">, </span><span class="tXSLEl">&lt;/xsl:text&gt;</span><span class="tI">
                 </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"getLocalizedString"</span><span class="tXSLEl">&gt;</span><span class="tI">
                   </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"key"</span><span class="tAN"> select=</span><span class="tAV">"'Race'"</span><span class="tXSLEl">/&gt;</span><span class="tI">
                   </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"post"</span><span class="tAN"> select=</span><span class="tAV">"': '"</span><span class="tXSLEl">/&gt;</span><span class="tI">
                 </span><span class="tXSLEl">&lt;/xsl:call-template&gt;</span><span class="tI">
                 </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"show-code-set"</span><span class="tXSLEl">&gt;</span><span class="tI">
-                  </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"in"</span><span class="tAN"> select=</span><span class="tAV">"hl7:relatedSubject/hl7:subject/hl7:raceCode"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+                  </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"in"</span><span class="tAN"> select=</span><span class="tAV">"hl7:relatedSubject/hl7:subject/hl7:raceCode | hl7:relatedSubject/hl7:subject/sdtc:raceCode"</span><span class="tXSLEl">/&gt;</span><span class="tI">
                 </span><span class="tXSLEl">&lt;/xsl:call-template&gt;</span><span class="tI">
               </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
-              </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"hl7:relatedSubject/hl7:subject/hl7:ethnicGroupCode"</span><span class="tXSLEl">&gt;</span><span class="tI">
+              </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"hl7:relatedSubject/hl7:subject/hl7:ethnicGroupCode |                                               hl7:relatedSubject/hl7:subject/sdtc:ethnicGroupCode"</span><span class="tXSLEl">&gt;</span><span class="tI">
                 </span><span class="tXSLEl">&lt;xsl:text</span><span class="tXSLEl">&gt;</span><span class="tT">, </span><span class="tXSLEl">&lt;/xsl:text&gt;</span><span class="tI">
                 </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"getLocalizedString"</span><span class="tXSLEl">&gt;</span><span class="tI">
                   </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"key"</span><span class="tAN"> select=</span><span class="tAV">"'Ethnicity'"</span><span class="tXSLEl">/&gt;</span><span class="tI">
                   </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"post"</span><span class="tAN"> select=</span><span class="tAV">"': '"</span><span class="tXSLEl">/&gt;</span><span class="tI">
                 </span><span class="tXSLEl">&lt;/xsl:call-template&gt;</span><span class="tI">
                 </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"show-code-set"</span><span class="tXSLEl">&gt;</span><span class="tI">
-                  </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"in"</span><span class="tAN"> select=</span><span class="tAV">"hl7:relatedSubject/hl7:subject/hl7:ethnicGroupCode"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+                  </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"in"</span><span class="tAN"> select=</span><span class="tAV">"hl7:relatedSubject/hl7:subject/hl7:ethnicGroupCode | hl7:relatedSubject/hl7:subject/sdtc:ethnicGroupCode"</span><span class="tXSLEl">/&gt;</span><span class="tI">
                 </span><span class="tXSLEl">&lt;/xsl:call-template&gt;</span><span class="tI">
               </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
               </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"hl7:relatedSubject/hl7:telecom"</span><span class="tXSLEl">&gt;</span><span class="tI">
@@ -10005,7 +10005,7 @@
             </span><span class="tXSLEl">&lt;/xsl:call-template&gt;</span><span class="tI">
           </span><span class="tEl">&lt;/td&gt;</span><span class="tI">
         </span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
-        </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"hl7:patient/hl7:raceCode | hl7:patient/hl7:ethnicGroupCode"</span><span class="tXSLEl">&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"hl7:patient/hl7:raceCode | hl7:patient/hl7:ethnicGroupCode |                                   hl7:patient/sdtc:raceCode | hl7:patient/sdtc:ethnicGroupCode"</span><span class="tXSLEl">&gt;</span><span class="tI">
           </span><span class="tEl">&lt;tr</span><span class="tEl">&gt;</span><span class="tI">
             </span><span class="tEl">&lt;td</span><span class="tAN"> class=</span><span class="tAV">"td_label td_label_width"</span><span class="tEl">&gt;</span><span class="tI">
               </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"getLocalizedString"</span><span class="tXSLEl">&gt;</span><span class="tI">
@@ -10014,7 +10014,7 @@
             </span><span class="tEl">&lt;/td&gt;</span><span class="tI">
             </span><span class="tEl">&lt;td</span><span class="tAN"> style=</span><span class="tAV">"width: 30%;"</span><span class="tEl">&gt;</span><span class="tI">
               </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"show-code-set"</span><span class="tXSLEl">&gt;</span><span class="tI">
-                </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"in"</span><span class="tAN"> select=</span><span class="tAV">"hl7:patient/hl7:raceCode"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+                </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"in"</span><span class="tAN"> select=</span><span class="tAV">"hl7:patient/hl7:raceCode | hl7:patient/sdtc:raceCode"</span><span class="tXSLEl">/&gt;</span><span class="tI">
               </span><span class="tXSLEl">&lt;/xsl:call-template&gt;</span><span class="tI">
             </span><span class="tEl">&lt;/td&gt;</span><span class="tI">
             </span><span class="tEl">&lt;td</span><span class="tAN"> class=</span><span class="tAV">"td_label td_label_width"</span><span class="tEl">&gt;</span><span class="tI">
@@ -10024,7 +10024,7 @@
             </span><span class="tEl">&lt;/td&gt;</span><span class="tI">
             </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tI">
               </span><span class="tXSLEl">&lt;xsl:call-template</span><span class="tAN"> name=</span><span class="tAV">"show-code-set"</span><span class="tXSLEl">&gt;</span><span class="tI">
-                </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"in"</span><span class="tAN"> select=</span><span class="tAV">"hl7:patient/hl7:ethnicGroupCode"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+                </span><span class="tXSLEl">&lt;xsl:with-param</span><span class="tAN"> name=</span><span class="tAV">"in"</span><span class="tAN"> select=</span><span class="tAV">"hl7:patient/hl7:ethnicGroupCode | hl7:patient/sdtc:ethnicGroupCode"</span><span class="tXSLEl">/&gt;</span><span class="tI">
               </span><span class="tXSLEl">&lt;/xsl:call-template&gt;</span><span class="tI">
             </span><span class="tEl">&lt;/td&gt;</span><span class="tI">
           </span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
