@@ -382,7 +382,7 @@
     <translation key="Guardian">
         <comment>Label: Guardian (for recordTarget)</comment>
         <value lang="en-us">Guardian</value>
-        <value lang="nl-nl">Voogd</value>
+        <value lang="nl-nl">Wettelijke vertegenwoordiger</value>
         <value lang="fr-fr">Représentant du patient</value>
     </translation>
     <translation key="providerOrganization">
@@ -824,7 +824,7 @@
     <!-- Start: Body Classes -->
     <translation key="component">
         <comment>Label: Contents (i.e. bodyChoice NonXMLBody/StructuredBody or Section)</comment>
-        <value lang="de-ch">Contents</value>
+        <value lang="en-us">Contents</value>
         <value lang="de-ch">Contents</value>
         <value lang="fr-ch">Contents</value>
         <value lang="it-ch">Contents</value>
