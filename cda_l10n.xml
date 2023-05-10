@@ -332,7 +332,7 @@
     <translation key="Guardian">
         <comment>Label: Guardian (for recordTarget)</comment>
         <value lang="en-us">Guardian</value>
-        <value lang="nl-nl">Voogd</value>
+        <value lang="nl-nl">Wettelijke vertegenwoordiger</value>
     </translation>
     <translation key="providerOrganization">
         <comment>Label: providerOrganization</comment>
