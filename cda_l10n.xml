@@ -3151,7 +3151,7 @@
     <translation key="2.16.840.1.113883.5.110-GUARD">
         <comment>Label: RoleClass guardian</comment>
         <value lang="en-us">guardian</value>
-        <value lang="nl-nl">voogd</value>
+        <value lang="nl-nl">wettelijke vertegenwoordiger</value>
         <value lang="fr-fr">représentant du patient</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-CIT">
