@@ -13,7 +13,8 @@
   CDA_R2_examples/CA_EMS/CDA.ReleaseTwo.MembershipBallot01.Dec.2004.xsl
 -->
 <?xml-stylesheet type="text/xsl" href="cda_l10n.xsl"?>
-<translations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="cda_l10n.xsd">
+<translations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="cda_l10n.xsd">
     <languageList>
         <language description="English (American)" lang="en-us"/>
         <language description="Dutch (Netherlands)" lang="nl-nl"/>
@@ -24,9 +25,16 @@
     </languageList>
     <translation key="Display Disclaimer">
         <comment>Label: Display disclaimer</comment>
-        <value lang="en-us">Disclaimer: the purpose of this stylesheet and the results it produces from xml messages is exclusively for testing. They are explicitly NOT suited for use in a medical practise.</value>
-        <value lang="nl-nl">Disclaimer: Deze stylesheet en de resulterende html weergave van xml berichten zijn uitsluitend bedoeld voor testdoeleinden. Zij zijn uitdrukkelijk niet bedoeld voor gebruik in de medische praktijk.</value> 
-        <value lang="fr-fr">Clause de non-responsabilité : L'objectif de cette feuille de style et les résultats qu'elle produit à partir des messages XML sont exclusivement destinés à des fins de test. Ils ne sont explicitement PAS adaptés à une utilisation dans un cabinet médical.</value>
+        <value lang="en-us">Disclaimer: the purpose of this stylesheet and the results it produces
+            from xml messages is exclusively for testing. They are explicitly NOT suited for use in
+            a medical practise.</value>
+        <value lang="nl-nl">Disclaimer: Deze stylesheet en de resulterende html weergave van xml
+            berichten zijn uitsluitend bedoeld voor testdoeleinden. Zij zijn uitdrukkelijk niet
+            bedoeld voor gebruik in de medische praktijk.</value>
+        <value lang="fr-fr">Clause de non-responsabilité : L'objectif de cette feuille de style et
+            les résultats qu'elle produit à partir des messages XML sont exclusivement destinés à
+            des fins de test. Ils ne sont explicitement PAS adaptés à une utilisation dans un
+            cabinet médical.</value>
     </translation>
     <translation key="Table of Contents">
         <comment>Label: Table of Contents</comment>
@@ -131,7 +139,8 @@
         <value lang="fr-fr">Patient</value>
     </translation>
     <translation key="informant">
-        <comment>Label: Informant - An informant (or source of information) is a person that provides relevant information</comment>
+        <comment>Label: Informant - An informant (or source of information) is a person that
+            provides relevant information</comment>
         <value lang="en-us">Informant</value>
         <value lang="de-ch">Informiert</value>
         <value lang="fr-ch">Informé</value>
@@ -284,7 +293,8 @@
         <value lang="fr-fr">Décédé</value>
     </translation>
     <translation key="date_unknown">
-        <comment>Label: date_unknown - used for saying you know patient has died, but unknown when</comment>
+        <comment>Label: date_unknown - used for saying you know patient has died, but unknown
+            when</comment>
         <value lang="en-us">date unknown</value>
         <value lang="de-ch">Datum unbekannt</value>
         <value lang="fr-ch">date inconnue</value>
@@ -318,13 +328,15 @@
         <value lang="fr-fr">ans</value>
     </translation>
     <translation key="At the time of death">
-        <comment>Title on age to tell us to what the age is relative to. As XSL 1.0 doesn't have date functions we need content based based relativity</comment>
+        <comment>Title on age to tell us to what the age is relative to. As XSL 1.0 doesn't have
+            date functions we need content based based relativity</comment>
         <value lang="en-us">At the time of death</value>
         <value lang="nl-nl">Bij overlijden</value>
         <value lang="fr-fr">au décès</value>
     </translation>
     <translation key="At document creation time">
-        <comment>Title on age to tell us to what the age is relative to. As XSL 1.0 doesn't have date functions we need content based based relativity</comment>
+        <comment>Title on age to tell us to what the age is relative to. As XSL 1.0 doesn't have
+            date functions we need content based based relativity</comment>
         <value lang="en-us">At document creation time</value>
         <value lang="nl-nl">Bij aanmaken van het document</value>
         <value lang="fr-fr">à la date de création du document</value>
@@ -563,6 +575,8 @@
     <translation key="code">
         <comment>Label: Code</comment>
         <value lang="en-us">Code</value>
+        <value lang="fr-fr">Code</value>
+        <value lang="nl-nl">Code</value>
     </translation>
     <translation key="type">
         <comment>Label: Type</comment>
@@ -801,6 +815,7 @@
         <comment>Label: statusCode</comment>
         <value lang="en-us">Status</value>
         <value lang="fr-fr">Statut</value>
+        <value lang="nl-nl">Toestand</value>
     </translation>
     <translation key="text">
         <comment>Label: text</comment>
@@ -1469,6 +1484,13 @@
         <value lang="nl-nl">E-mail</value>
         <value lang="fr-fr">Courriel</value>
     </translation>
+    <translation key="mailto">
+        <comment>Label: E-mail</comment>
+        <value lang="en-us">Secure email address</value>
+        <value lang="de-ch">Sichere E-Mail-Adresse</value>
+        <value lang="nl-nl">Veilig e-mailadres</value>
+        <value lang="fr-fr">Adresse de messagerie</value>
+    </translation>
     <translation key="Web">
         <comment>Label: Web (telecom type)</comment>
         <value lang="en-us">Web</value>
@@ -1508,6 +1530,12 @@
         <value lang="en-us">Not available</value>
         <value lang="nl-nl">Niet beschikbaar</value>
         <value lang="fr-fr">Pas disponible</value>
+    </translation>
+    <translation key="translation">
+        <comment>Label: translation</comment>
+        <value lang="en-us">accuracy</value>
+        <value lang="nl-nl">nauwkeurigheid</value>
+        <value lang="fr-fr">précision</value>
     </translation>
     <translation key="First day of period reported">
         <comment>Label: First day of period reported</comment>
@@ -1914,7 +1942,7 @@
     <translation key="2.16.840.1.113883.5.6-SPCOBS">
         <comment>Label: ActClass specimen observationActClassSpecObs </comment>
         <value lang="en-us">specimen observationActClassSpecObs </value>
-        <value lang="fr-fr">classe d'acte d'observation d'échantillon</value>
+        <value lang="fr-fr">classe d'acte d'observation d'échantillon </value>
     </translation>
     <translation key="2.16.840.1.113883.5.6-VERIF">
         <comment>Label: ActClass Verification</comment>
@@ -2516,15 +2544,15 @@
     </translation>
     <translation key="2.16.840.1.113883.5.1002-RPLC">
         <comment>Label: Act Relationship Type RPLC</comment>
-        <value lang="en-us">replaces</value>
-        <value lang="nl-nl">vervangt</value>
-        <value lang="fr-fr">remplacement</value>
+        <value lang="en-us">Document superseded</value>
+        <value lang="nl-nl">Document vervangen</value>
+        <value lang="fr-fr">Document remplacé</value>
     </translation>
     <translation key="2.16.840.1.113883.5.1002-XFRM">
         <comment>Label: Act Relationship Type XFRM</comment>
-        <value lang="en-us">transformation</value>
-        <value lang="nl-nl">transformatie</value>
-        <value lang="fr-fr">transformation</value>
+        <value lang="en-us">Reference document</value>
+        <value lang="nl-nl">Referentie document</value>
+        <value lang="fr-fr">Document de référence</value>
     </translation>
     <translation key="2.16.840.1.113883.5.88-AULR">
         <comment>Label: ParticipationFunction legitimate relationship information receiver</comment>
@@ -3526,10 +3554,12 @@
         <value lang="fr-fr">ingredient actif - la moitée est la base de la concentration</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-ACTIR">
-        <comment>Label: RoleClass active ingredient - reference substance is basis of strength</comment>
+        <comment>Label: RoleClass active ingredient - reference substance is basis of
+            strength</comment>
         <value lang="en-us">active ingredient - reference substance is basis of strength</value>
         <value lang="nl-nl">actief ingrediënt - reference substance is basis of strength</value>
-        <value lang="fr-fr">ingredient actif - la substance de référence est la base de la concentration</value>
+        <value lang="fr-fr">ingredient actif - la substance de référence est la base de la
+            concentration</value>
     </translation>
     <translation key="2.16.840.1.113883.5.110-ADTV">
         <comment>Label: RoleClass additive</comment>
@@ -4224,7 +4254,8 @@
         <value lang="fr-fr">Délivré par</value>
     </translation>
     <translation key="typeCode-INF">
-        <comment>Label: Informant - An informant (or source of information) is a person that provides relevant information</comment>
+        <comment>Label: Informant - An informant (or source of information) is a person that
+            provides relevant information</comment>
         <value lang="en-us">Informant</value>
         <value lang="de-ch">Informiert</value>
         <value lang="fr-ch">Informé</value>
@@ -4418,25 +4449,31 @@
         <value lang="fr-fr">alphabetique</value>
     </translation>
     <translation key="nameUse_IDE">
-        <comment>Label: Ideographic representation of name (e.g., Japanese kanji, Chinese characters)</comment>
+        <comment>Label: Ideographic representation of name (e.g., Japanese kanji, Chinese
+            characters)</comment>
         <value lang="en-us">Ideographic</value>
         <value lang="nl-nl">ideographisch</value>
         <value lang="fr-fr">idéographique</value>
     </translation>
     <translation key="nameUse_SYL">
-        <comment>Label: Syllabic transcription of name (e.g., Japanese kana, Korean hangul)</comment>
+        <comment>Label: Syllabic transcription of name (e.g., Japanese kana, Korean
+            hangul)</comment>
         <value lang="en-us">Syllabic</value>
         <value lang="nl-nl">syllabisch</value>
         <value lang="fr-fr">syllabique</value>
     </translation>
     <translation key="nameUse_ASGN">
-        <comment>Label: A name assigned to a person. Reasons some organizations assign alternate names may include not knowing the person's name, or to maintain anonymity. Some, but not necessarily all, of the name types that people call "alias" may fit into this category.</comment>
+        <comment>Label: A name assigned to a person. Reasons some organizations assign alternate
+            names may include not knowing the person's name, or to maintain anonymity. Some, but not
+            necessarily all, of the name types that people call "alias" may fit into this
+            category.</comment>
         <value lang="en-us">assigned</value>
         <value lang="nl-nl">toegekend</value>
         <value lang="fr-fr">attribué</value>
     </translation>
     <translation key="nameUse_C">
-        <comment>Label: As recorded on a license, record, certificate, etc. (only if different from legal name)</comment>
+        <comment>Label: As recorded on a license, record, certificate, etc. (only if different from
+            legal name)</comment>
         <value lang="en-us">License</value>
         <value lang="nl-nl">licentie</value>
         <value lang="fr-fr">officiel</value>
@@ -4454,7 +4491,9 @@
         <value lang="fr-fr">Nom d'usage</value>
     </translation>
     <translation key="nameUse_OR">
-        <comment>Label: The formal name as registered in an official (government) registry, but which name might not be commonly used. Particularly used in countries with a law system based on Napoleonic law.</comment>
+        <comment>Label: The formal name as registered in an official (government) registry, but
+            which name might not be commonly used. Particularly used in countries with a law system
+            based on Napoleonic law.</comment>
         <value lang="en-us">official registry</value>
         <value lang="nl-nl">officieel</value>
         <value lang="fr-fr">de naissance</value>
@@ -4680,7 +4719,7 @@
         <comment>Label: LOINC DOC code 11495-9</comment>
         <value lang="en-us">Initial assessment note (Physical therapy)</value>
         <value lang="nl-nl">Verslag eerste anamnese (Lichamelijke oefening)</value>
-    </translation>    
+    </translation>
     <translation key="2.16.840.1.113883.6.1-11496-7">
         <comment>Label: LOINC DOC code 11496-7</comment>
         <value lang="en-us">Initial assessment note (Podiatry)</value>
@@ -4762,7 +4801,7 @@
         <value lang="fr-fr">Note d'évaluation (Psychologie)</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-11512-1">
-         <comment>Label: LOINC DOC code 11512-1</comment>
+        <comment>Label: LOINC DOC code 11512-1</comment>
         <value lang="en-us">Subsequent evaluation note (Speech therapy)</value>
         <value lang="nl-nl">Verslag vervolgonderzoek (Spraaktherapie)</value>
         <value lang="fr-fr">Note d'évaluation (Orthophonie)</value>
@@ -5027,7 +5066,7 @@
         <value lang="en-us">Study report (Holter monitor)</value>
         <value lang="nl-nl">Onderzoeksverslag (Holter monitor)</value>
         <value lang="fr-fr">Compte-rendu (moniteur Holter)</value>
-    </translation>    
+    </translation>
     <!-- [ANS] Start: deprecated LOINC Codes -->
     <translation key="2.16.840.1.113883.6.1-18755-9">
         <comment>Label: LOINC DOC code 18755-9</comment>
@@ -5089,7 +5128,7 @@
         <value lang="en-us">Subsequent evaluation note (Nurse practitioner)</value>
         <value lang="nl-nl">Verslag vervolgonderzoek (Nurse practitioner)</value>
         <value lang="fr-fr">Note d'évaluation (Infirmière)</value>
-    </translation>    
+    </translation>
     <!-- [ANS] End: deprecated LOINC Codes -->
     <translation key="2.16.840.1.113883.6.1-18836-7">
         <comment>Label: LOINC DOC code 18836-7</comment>
@@ -5113,7 +5152,8 @@
         <comment>Label: LOINC DOC code 24611-6</comment>
         <value lang="en-us">Confirmatory consultation note ({Provider})</value>
         <value lang="nl-nl">Consultverslag ter bevestiging ({Instelling})</value>
-        <value lang="fr-fr">Compte-rendu de consultation ambulatoire - 2ème avis ({Fournisseur})</value>
+        <value lang="fr-fr">Compte-rendu de consultation ambulatoire - 2ème avis
+            ({Fournisseur})</value>
     </translation>
     <!-- [ANS] Start: deprecated LOINC Codes -->
     <translation key="2.16.840.1.113883.6.1-28032-1">
@@ -5250,7 +5290,7 @@
         <value lang="en-us">Initial evaluation note (Nurse practitioner)</value>
         <value lang="nl-nl">Verslag eerste onderzoek (Nurse practitioner)</value>
         <value lang="fr-fr">Note d'évaluation initiale (Infirmière)</value>
-    </translation>    
+    </translation>
     <!-- [ANS] Star: deprecated LOINC Codes -->
     <translation key="2.16.840.1.113883.6.1-28622-9">
         <comment>Label: LOINC DOC code 28622-9</comment>
@@ -5784,13 +5824,15 @@
     <translation key="2.16.840.1.113883.6.1-34880-5">
         <comment>Label: LOINC DOC code 34880-5</comment>
         <value lang="en-us">Post-operative evaluation and management note (Nurse.surgery)</value>
-        <value lang="nl-nl">Postoperatief onderzoek en voortgangsverslag (Operatieverpleegkundige)</value>
+        <value lang="nl-nl">Postoperatief onderzoek en voortgangsverslag
+            (Operatieverpleegkundige)</value>
         <value lang="fr-fr">Note d'évaluation post-opératoire (Infirmière.chirurgie)</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-34881-3">
         <comment>Label: LOINC DOC code 34881-3</comment>
         <value lang="en-us">Pre-operative evaluation and management note (Nurse.surgery)</value>
-        <value lang="nl-nl">Preoperatief onderzoek en voortgangsverslag (Operatieverpleegkundige)</value>
+        <value lang="nl-nl">Preoperatief onderzoek en voortgangsverslag
+            (Operatieverpleegkundige)</value>
         <value lang="fr-fr">Note d'évaluation pré-opératoire (Infirmière.chirurgie)</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-34861-5">
@@ -5808,7 +5850,8 @@
     <translation key="2.16.840.1.113883.6.1-34863-1">
         <comment>Label: LOINC DOC code 34863-1</comment>
         <value lang="en-us">Post-operative evaluation and management note (General surgery)</value>
-        <value lang="nl-nl">Postoperatief onderzoek en voortgangsverslag (Algemene chirurgie)</value>
+        <value lang="nl-nl">Postoperatief onderzoek en voortgangsverslag (Algemene
+            chirurgie)</value>
         <value lang="fr-fr">Note d'évaluation post-opératoire (Chirurgie générale)</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-34864-9">
@@ -6023,20 +6066,25 @@
     </translation>
     <translation key="2.16.840.1.113883.6.1-34767-4">
         <comment>Label: LOINC DOC code 34767-4</comment>
-        <value lang="en-us">Evaluation and management note (Medical student.general medicine)</value>
-        <value lang="nl-nl">Evaluatie en voortgangsverslag (Medisch student.algemene geneeskunde)</value>
+        <value lang="en-us">Evaluation and management note (Medical student.general
+            medicine)</value>
+        <value lang="nl-nl">Evaluatie en voortgangsverslag (Medisch student.algemene
+            geneeskunde)</value>
         <value lang="fr-fr">Note d'évaluation (Etudiant en médecine.Médecine générale)</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-34768-2">
         <comment>Label: LOINC DOC code 34768-2</comment>
         <value lang="en-us">Evaluation and management note (Nurse.general medicine)</value>
-        <value lang="nl-nl">Evaluatie en voortgangsverslag (Verpleegkundige.algemene geneeskunde)</value>
+        <value lang="nl-nl">Evaluatie en voortgangsverslag (Verpleegkundige.algemene
+            geneeskunde)</value>
         <value lang="fr-fr">Note d'évaluation (Infirmière.Médecine générale)</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-34769-0">
         <comment>Label: LOINC DOC code 34769-0</comment>
-        <value lang="en-us">Evaluation and management note (Attending physician.general medicine)</value>
-        <value lang="nl-nl">Evaluatie en voortgangsverslag (Behandelend arts.algemene geneeskunde)</value>
+        <value lang="en-us">Evaluation and management note (Attending physician.general
+            medicine)</value>
+        <value lang="nl-nl">Evaluatie en voortgangsverslag (Behandelend arts.algemene
+            geneeskunde)</value>
         <value lang="fr-fr">Note d'évaluation (Médecin.Médecine générale)</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-34770-8">
@@ -6059,8 +6107,10 @@
     </translation>
     <translation key="2.16.840.1.113883.6.1-34773-2">
         <comment>Label: LOINC DOC code 34773-2</comment>
-        <value lang="en-us">Evaluation and management note (Attending physician.general surgery)</value>
-        <value lang="nl-nl">Evaluatie en voortgangsverslag (Attending physician.general surgery)</value>
+        <value lang="en-us">Evaluation and management note (Attending physician.general
+            surgery)</value>
+        <value lang="nl-nl">Evaluatie en voortgangsverslag (Attending physician.general
+            surgery)</value>
         <value lang="fr-fr">Note d'évaluation (Médecin.Chirurgie générale)</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-34774-0">
@@ -6311,8 +6361,10 @@
     </translation>
     <translation key="2.16.840.1.113883.6.1-34823-5">
         <comment>Label: LOINC DOC code 34823-5</comment>
-        <value lang="en-us">Evaluation and management note (Physical medicine and rehabilitation)</value>
-        <value lang="nl-nl">Evaluatie en voortgangsverslag (Physical medicine and rehabilitation)</value>
+        <value lang="en-us">Evaluation and management note (Physical medicine and
+            rehabilitation)</value>
+        <value lang="nl-nl">Evaluatie en voortgangsverslag (Physical medicine and
+            rehabilitation)</value>
         <value lang="fr-fr">Note d'évaluation (Médecine physique et réadaptation)</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-34824-3">
@@ -6393,7 +6445,7 @@
         <value lang="en-us">Evaluation and management note (Rehabilitation)</value>
         <value lang="nl-nl">Evaluatie en voortgangsverslag (Rehabilitation)</value>
         <value lang="fr-fr">Note d'évaluation (Réhabilitation)</value>
-    </translation>    
+    </translation>
     <!-- Deprecated LOINC Code: End -->
     <translation key="2.16.840.1.113883.6.1-34837-5">
         <comment>Label: LOINC DOC code 34837-5</comment>
@@ -6625,8 +6677,10 @@
     </translation>
     <translation key="2.16.840.1.113883.6.1-38933-8">
         <comment>Label: LOINC DOC code 38933-8</comment>
-        <value lang="en-us">VA C&amp;P exam.aid and attendance &amp;or housebound ({Provider})</value>
-        <value lang="nl-nl">VA C&amp;P exam.aid and attendance &amp;or housebound ({Instelling})</value>
+        <value lang="en-us">VA C&amp;P exam.aid and attendance &amp;or housebound
+            ({Provider})</value>
+        <value lang="nl-nl">VA C&amp;P exam.aid and attendance &amp;or housebound
+            ({Instelling})</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-38934-6">
         <comment>Label: LOINC DOC code 38934-6</comment>
@@ -6635,8 +6689,10 @@
     </translation>
     <translation key="2.16.840.1.113883.6.1-38935-3">
         <comment>Label: LOINC DOC code 38935-3</comment>
-        <value lang="en-us">VA C&amp;P exam.miscellaneous arteries &amp;or veins ({Provider})</value>
-        <value lang="nl-nl">VA C&amp;P exam.miscellaneous arteries &amp;or veins ({Instelling})</value>
+        <value lang="en-us">VA C&amp;P exam.miscellaneous arteries &amp;or veins
+            ({Provider})</value>
+        <value lang="nl-nl">VA C&amp;P exam.miscellaneous arteries &amp;or veins
+            ({Instelling})</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-38936-1">
         <comment>Label: LOINC DOC code 38936-1</comment>
@@ -6645,8 +6701,10 @@
     </translation>
     <translation key="2.16.840.1.113883.6.1-38937-9">
         <comment>Label: LOINC DOC code 38937-9</comment>
-        <value lang="en-us">VA C&amp;P exam.bones fractures &amp;or bone disease ({Provider})</value>
-        <value lang="nl-nl">VA C&amp;P exam.bones fractures &amp;or bone disease ({Instelling})</value>
+        <value lang="en-us">VA C&amp;P exam.bones fractures &amp;or bone disease
+            ({Provider})</value>
+        <value lang="nl-nl">VA C&amp;P exam.bones fractures &amp;or bone disease
+            ({Instelling})</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-38938-7">
         <comment>Label: LOINC DOC code 38938-7</comment>
@@ -6685,13 +6743,17 @@
     </translation>
     <translation key="2.16.840.1.113883.6.1-38987-4">
         <comment>Label: LOINC DOC code 38987-4</comment>
-        <value lang="en-us">VA C&amp;P exam.stomach &amp;or duodenum &amp;or peritoneal adhesions ({Provider})</value>
-        <value lang="nl-nl">VA C&amp;P exam.stomach &amp;or duodenum &amp;or peritoneal adhesions ({Instelling})</value>
+        <value lang="en-us">VA C&amp;P exam.stomach &amp;or duodenum &amp;or peritoneal adhesions
+            ({Provider})</value>
+        <value lang="nl-nl">VA C&amp;P exam.stomach &amp;or duodenum &amp;or peritoneal adhesions
+            ({Instelling})</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-38988-2">
         <comment>Label: LOINC DOC code 38988-2</comment>
-        <value lang="en-us">VA C&amp;P exam.thyroid &amp;or parathyroid diseases ({Provider})</value>
-        <value lang="nl-nl">VA C&amp;P exam.thyroid &amp;or parathyroid diseases ({Instelling})</value>
+        <value lang="en-us">VA C&amp;P exam.thyroid &amp;or parathyroid diseases
+            ({Provider})</value>
+        <value lang="nl-nl">VA C&amp;P exam.thyroid &amp;or parathyroid diseases
+            ({Instelling})</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-38943-7">
         <comment>Label: LOINC DOC code 38943-7</comment>
@@ -6706,7 +6768,8 @@
     <translation key="2.16.840.1.113883.6.1-38945-2">
         <comment>Label: LOINC DOC code 38945-2</comment>
         <value lang="en-us">VA C&amp;P exam.miscellaneous digestive conditions ({Provider})</value>
-        <value lang="nl-nl">VA C&amp;P exam.miscellaneous digestive conditions ({Instelling})</value>
+        <value lang="nl-nl">VA C&amp;P exam.miscellaneous digestive conditions
+            ({Instelling})</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-38946-0">
         <comment>Label: LOINC DOC code 38946-0</comment>
@@ -6765,13 +6828,16 @@
     </translation>
     <translation key="2.16.840.1.113883.6.1-38957-7">
         <comment>Label: LOINC DOC code 38957-7</comment>
-        <value lang="en-us">VA C&amp;P exam.gynecological conditions &amp;or disorders of the breast ({Provider})</value>
-        <value lang="nl-nl">VA C&amp;P exam.gynecological conditions &amp;or disorders of the breast ({Instelling})</value>
+        <value lang="en-us">VA C&amp;P exam.gynecological conditions &amp;or disorders of the breast
+            ({Provider})</value>
+        <value lang="nl-nl">VA C&amp;P exam.gynecological conditions &amp;or disorders of the breast
+            ({Instelling})</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-38958-5">
         <comment>Label: LOINC DOC code 38958-5</comment>
         <value lang="en-us">VA C&amp;P exam.hand &amp;or thumb &amp;or fingers ({Provider})</value>
-        <value lang="nl-nl">VA C&amp;P exam.hand &amp;or thumb &amp;or fingers ({Instelling})</value>
+        <value lang="nl-nl">VA C&amp;P exam.hand &amp;or thumb &amp;or fingers
+            ({Instelling})</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-38959-3">
         <comment>Label: LOINC DOC code 38959-3</comment>
@@ -6795,13 +6861,17 @@
     </translation>
     <translation key="2.16.840.1.113883.6.1-38963-5">
         <comment>Label: LOINC DOC code 38963-5</comment>
-        <value lang="en-us">VA C&amp;P exam.infectious &amp;or immune &amp;or nutritional disabilities ({Provider})</value>
-        <value lang="nl-nl">VA C&amp;P exam.infectious &amp;or immune &amp;or nutritional disabilities ({Instelling})</value>
+        <value lang="en-us">VA C&amp;P exam.infectious &amp;or immune &amp;or nutritional
+            disabilities ({Provider})</value>
+        <value lang="nl-nl">VA C&amp;P exam.infectious &amp;or immune &amp;or nutritional
+            disabilities ({Instelling})</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-38964-3">
         <comment>Label: LOINC DOC code 38964-3</comment>
-        <value lang="en-us">VA C&amp;P exam.initial evaluation post-traumatic stress disorder ({Provider})</value>
-        <value lang="nl-nl">VA C&amp;P exam.initial evaluation post-traumatic stress disorder ({Instelling})</value>
+        <value lang="en-us">VA C&amp;P exam.initial evaluation post-traumatic stress disorder
+            ({Provider})</value>
+        <value lang="nl-nl">VA C&amp;P exam.initial evaluation post-traumatic stress disorder
+            ({Instelling})</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-38965-0">
         <comment>Label: LOINC DOC code 38965-0</comment>
@@ -6815,8 +6885,10 @@
     </translation>
     <translation key="2.16.840.1.113883.6.1-38967-6">
         <comment>Label: LOINC DOC code 38967-6</comment>
-        <value lang="en-us">VA C&amp;P exam.liver &amp;or gall bladder &amp;or pancreas ({Provider})</value>
-        <value lang="nl-nl">VA C&amp;P exam.liver &amp;or gall bladder &amp;or pancreas ({Instelling})</value>
+        <value lang="en-us">VA C&amp;P exam.liver &amp;or gall bladder &amp;or pancreas
+            ({Provider})</value>
+        <value lang="nl-nl">VA C&amp;P exam.liver &amp;or gall bladder &amp;or pancreas
+            ({Instelling})</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-38968-4">
         <comment>Label: LOINC DOC code 38968-4</comment>
@@ -6840,13 +6912,17 @@
     </translation>
     <translation key="2.16.840.1.113883.6.1-38972-6">
         <comment>Label: LOINC DOC code 38972-6</comment>
-        <value lang="en-us">VA C&amp;P exam.miscellaneous neurological disorders ({Provider})</value>
-        <value lang="nl-nl">VA C&amp;P exam.miscellaneous neurological disorders ({Instelling})</value>
+        <value lang="en-us">VA C&amp;P exam.miscellaneous neurological disorders
+            ({Provider})</value>
+        <value lang="nl-nl">VA C&amp;P exam.miscellaneous neurological disorders
+            ({Instelling})</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-38973-4">
         <comment>Label: LOINC DOC code 38973-4</comment>
-        <value lang="en-us">VA C&amp;P exam.nose &amp;or sinus &amp;or larynx &amp;or pharynx ({Provider})</value>
-        <value lang="nl-nl">VA C&amp;P exam.nose &amp;or sinus &amp;or larynx &amp;or pharynx ({Instelling})</value>
+        <value lang="en-us">VA C&amp;P exam.nose &amp;or sinus &amp;or larynx &amp;or pharynx
+            ({Provider})</value>
+        <value lang="nl-nl">VA C&amp;P exam.nose &amp;or sinus &amp;or larynx &amp;or pharynx
+            ({Instelling})</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-38974-2">
         <comment>Label: LOINC DOC code 38974-2</comment>
@@ -6860,8 +6936,10 @@
     </translation>
     <translation key="2.16.840.1.113883.6.1-38976-7">
         <comment>Label: LOINC DOC code 38976-7</comment>
-        <value lang="en-us">VA C&amp;P exam.pulmonary tuberculosis &amp;or mycobacterial diseases ({Provider})</value>
-        <value lang="nl-nl">VA C&amp;P exam.pulmonary tuberculosis &amp;or mycobacterial diseases ({Instelling})</value>
+        <value lang="en-us">VA C&amp;P exam.pulmonary tuberculosis &amp;or mycobacterial diseases
+            ({Provider})</value>
+        <value lang="nl-nl">VA C&amp;P exam.pulmonary tuberculosis &amp;or mycobacterial diseases
+            ({Instelling})</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-38977-5">
         <comment>Label: LOINC DOC code 38977-5</comment>
@@ -6875,18 +6953,23 @@
     </translation>
     <translation key="2.16.840.1.113883.6.1-38979-1">
         <comment>Label: LOINC DOC code 38979-1</comment>
-        <value lang="en-us">VA C&amp;P exam.obstructive &amp;or restrictive &amp;or interstitial respiratory diseases ({Provider})</value>
-        <value lang="nl-nl">VA C&amp;P exam.obstructive &amp;or restrictive &amp;or interstitial respiratory diseases ({Instelling})</value>
+        <value lang="en-us">VA C&amp;P exam.obstructive &amp;or restrictive &amp;or interstitial
+            respiratory diseases ({Provider})</value>
+        <value lang="nl-nl">VA C&amp;P exam.obstructive &amp;or restrictive &amp;or interstitial
+            respiratory diseases ({Instelling})</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-38980-9">
         <comment>Label: LOINC DOC code 38980-9</comment>
         <value lang="en-us">VA C&amp;P exam.miscellaneous respiratory diseases ({Provider})</value>
-        <value lang="nl-nl">VA C&amp;P exam.miscellaneous respiratory diseases ({Instelling})</value>
+        <value lang="nl-nl">VA C&amp;P exam.miscellaneous respiratory diseases
+            ({Instelling})</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-38981-7">
         <comment>Label: LOINC DOC code 38981-7</comment>
-        <value lang="en-us">VA C&amp;P exam.review evaluation post-traumatic stress disorder ({Provider})</value>
-        <value lang="nl-nl">VA C&amp;P exam.review evaluation post-traumatic stress disorder ({Instelling})</value>
+        <value lang="en-us">VA C&amp;P exam.review evaluation post-traumatic stress disorder
+            ({Provider})</value>
+        <value lang="nl-nl">VA C&amp;P exam.review evaluation post-traumatic stress disorder
+            ({Instelling})</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-38982-5">
         <comment>Label: LOINC DOC code 38982-5</comment>
@@ -6902,9 +6985,9 @@
         <comment>Label: LOINC DOC code 38984-1</comment>
         <value lang="en-us">VA C&amp;P exam.skin diseases other than scars ({Provider})</value>
         <value lang="nl-nl">VA C&amp;P exam.skin diseases other than scars ({Instelling})</value>
-    </translation>    
+    </translation>
     <!-- US VA (Veterans Affairs) documents: End -->
-    
+
     <translation key="2.16.840.1.113883.6.1-46208-5">
         <comment>Label: LOINC DOC code 46208-5</comment>
         <value lang="en-us">Nursing notes</value>
@@ -6947,7 +7030,8 @@
         <comment>Label: LOINC DOC code 46264-8</comment>
         <value lang="en-us">History of medical device use ({Provider})</value>
         <value lang="nl-nl">History of medical device use ({Instelling})</value>
-        <value lang="fr-fr">Antécédents d'utilisation de dispositifs médicaux ({Fournisseurs})</value>
+        <value lang="fr-fr">Antécédents d'utilisation de dispositifs médicaux
+            ({Fournisseurs})</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-47039-3">
         <comment>Label: LOINC DOC code 47039-3</comment>
@@ -7005,7 +7089,8 @@
     </translation>
     <translation key="2.16.840.1.113883.6.1-47048-4">
         <comment>Label: LOINC DOC code 47048-4</comment>
-        <value lang="en-us">Diagnostic interventional study report (Interventional radiology)</value>
+        <value lang="en-us">Diagnostic interventional study report (Interventional
+            radiology)</value>
         <value lang="fr-fr">Compte-rendu (Radiologie interventionnelle)</value>
     </translation>
     <!-- Deprecated LOINC Code: Start -->
@@ -7042,25 +7127,29 @@
         <comment>Label: LOINC DOC code 47521-0</comment>
         <value lang="en-us">Cytology report (Cyto stain)</value>
         <value lang="nl-nl">Cytologieverslag (Cyto stain)</value>
-        <value lang="fr-fr">Compte-rendu cytologique Ponction mammaire (Coloration cytologique)</value>
+        <value lang="fr-fr">Compte-rendu cytologique Ponction mammaire (Coloration
+            cytologique)</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-47522-8">
         <comment>Label: LOINC DOC code 47522-8</comment>
         <value lang="en-us">Cytology report (Cyto stain)</value>
         <value lang="nl-nl">Cytologieverslag (Cyto stain)</value>
-        <value lang="fr-fr">Compte-rendu cytologique Écoulement du mamelon (Coloration cytologique)</value>
+        <value lang="fr-fr">Compte-rendu cytologique Écoulement du mamelon (Coloration
+            cytologique)</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-47523-6">
         <comment>Label: LOINC DOC code 47523-6</comment>
         <value lang="en-us">Cytology report (Cyto stain)</value>
         <value lang="nl-nl">Cytologieverslag (Cyto stain)</value>
-        <value lang="fr-fr">Compte-rendu cytologique Fluide corporel (Coloration cytologique)</value>
+        <value lang="fr-fr">Compte-rendu cytologique Fluide corporel (Coloration
+            cytologique)</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-47524-4">
         <comment>Label: LOINC DOC code 47524-4</comment>
         <value lang="en-us">Cytology report (Cyto stain)</value>
         <value lang="nl-nl">Cytologieverslag (Cyto stain)</value>
-        <value lang="fr-fr">Compte-rendu cytologique Ponction de la thyroïde (Coloration cytologique)</value>
+        <value lang="fr-fr">Compte-rendu cytologique Ponction de la thyroïde (Coloration
+            cytologique)</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-47525-1">
         <comment>Label: LOINC DOC code 47525-1</comment>
@@ -7078,13 +7167,15 @@
         <comment>Label: LOINC DOC code 47527-7</comment>
         <value lang="en-us">Cytology report (Cyto stain.thin prep)</value>
         <value lang="nl-nl">Cytologieverslag (Cyto stain.thin prep)</value>
-        <value lang="fr-fr">Compte-rendu cytologique Frottis cervical ou vaginal (Coloration cytologique)</value>
+        <value lang="fr-fr">Compte-rendu cytologique Frottis cervical ou vaginal (Coloration
+            cytologique)</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-47528-5">
         <comment>Label: LOINC DOC code 47528-5</comment>
         <value lang="en-us">Cytology report (Cyto stain)</value>
         <value lang="nl-nl">Cytologieverslag (Cyto stain)</value>
-        <value lang="fr-fr">Compte-rendu cytologique Frottis cervical ou vaginal (Coloration cytologique)</value>
+        <value lang="fr-fr">Compte-rendu cytologique Frottis cervical ou vaginal (Coloration
+            cytologique)</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-47529-3">
         <comment>Label: LOINC DOC code 47529-3</comment>
@@ -7096,7 +7187,8 @@
         <comment>Label: LOINC DOC code 47530-1</comment>
         <value lang="en-us">Cytology report (Cyto stain)</value>
         <value lang="nl-nl">Cytologieverslag (Cyto stain)</value>
-        <value lang="fr-fr">Compte-rendu cytologique Lavage canalaire mammaire (Coloration cytologique)</value>
+        <value lang="fr-fr">Compte-rendu cytologique Lavage canalaire mammaire (Coloration
+            cytologique)</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-48768-6">
         <comment>Label: LOINC DOC code 48768-6</comment>
@@ -7173,7 +7265,8 @@
     </translation>
     <translation key="2.16.840.1.113883.6.1-52038-7">
         <comment>Label: LOINC DOC code 52038-7</comment>
-        <value lang="en-us">Subscriber Information including retroactive and presumptive eligibility attachment</value>
+        <value lang="en-us">Subscriber Information including retroactive and presumptive eligibility
+            attachment</value>
         <value lang="fr-fr">Informations sur l'abonné pour l'éligibilité</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-52039-5">
@@ -7201,7 +7294,8 @@
         <comment>Label: LOINC DOC code 51897-7</comment>
         <value lang="en-us">Healthcare Associated Infection report ({Provider})</value>
         <value lang="nl-nl">Healthcare Associated Infection report ({Instelling})</value>
-        <value lang="fr-fr">Compte-rendu sur les infections associées aux soins ({Fournisseur})</value>
+        <value lang="fr-fr">Compte-rendu sur les infections associées aux soins
+            ({Fournisseur})</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-51898-5">
         <comment>Label: LOINC DOC code 51898-5</comment>
@@ -7309,7 +7403,8 @@
     <translation key="2.16.840.1.113883.6.1-52042-9">
         <comment>Label: LOINC DOC code 52042-9</comment>
         <value lang="en-us">Continuous positive airway pressure attachment</value>
-        <value lang="fr-fr">Informations pour la prise en charge de la ventilation en pression positive continue (PPC)</value>
+        <value lang="fr-fr">Informations pour la prise en charge de la ventilation en pression
+            positive continue (PPC)</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-52043-7">
         <comment>Label: LOINC DOC code 52043-7</comment>
@@ -7319,7 +7414,8 @@
     <translation key="2.16.840.1.113883.6.1-52044-5">
         <comment>Label: LOINC DOC code 52044-5</comment>
         <value lang="en-us">External infusion pump attachment</value>
-        <value lang="fr-fr">Informations pour la prise en charge de la pompe à perfusion externe</value>
+        <value lang="fr-fr">Informations pour la prise en charge de la pompe à perfusion
+            externe</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-52045-2">
         <comment>Label: LOINC DOC code 52045-2</comment>
@@ -7344,12 +7440,14 @@
     <translation key="2.16.840.1.113883.6.1-52049-4">
         <comment>Label: LOINC DOC code 52049-4</comment>
         <value lang="en-us">Manual wheelchair attachment</value>
-        <value lang="fr-fr">Informations pour la prise en charge d'un fauteuil roulant manuel</value>
+        <value lang="fr-fr">Informations pour la prise en charge d'un fauteuil roulant
+            manuel</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-52050-2">
         <comment>Label: LOINC DOC code 52050-2</comment>
         <value lang="en-us">Motorized wheelchair attachment</value>
-        <value lang="fr-fr">Informations pour la prise en charge d'un fauteuil roulant motorisé</value>
+        <value lang="fr-fr">Informations pour la prise en charge d'un fauteuil roulant
+            motorisé</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-52051-0">
         <comment>Label: LOINC DOC code 52051-0</comment>
@@ -7359,7 +7457,8 @@
     <translation key="2.16.840.1.113883.6.1-52052-8">
         <comment>Label: LOINC DOC code 52052-8</comment>
         <value lang="en-us">Osteogenesis stimulators attachment</value>
-        <value lang="fr-fr">Informations pour la prise en charge d'un stimulateur de croissance osseuse</value>
+        <value lang="fr-fr">Informations pour la prise en charge d'un stimulateur de croissance
+            osseuse</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-52053-6">
         <comment>Label: LOINC DOC code 52053-6</comment>
@@ -7379,12 +7478,14 @@
     <translation key="2.16.840.1.113883.6.1-52056-9">
         <comment>Label: LOINC DOC code 52056-9</comment>
         <value lang="en-us">Repair of durable medical equipment attachment</value>
-        <value lang="fr-fr">Informations pour la prise en charge d'une réparation de matériel médical durable</value>
+        <value lang="fr-fr">Informations pour la prise en charge d'une réparation de matériel
+            médical durable</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-52057-7">
         <comment>Label: LOINC DOC code 52057-7</comment>
         <value lang="en-us">Seat lift mechanism attachment</value>
-        <value lang="fr-fr">Informations pour la prise en charge d'un mécanisme de levage du siège</value>
+        <value lang="fr-fr">Informations pour la prise en charge d'un mécanisme de levage du
+            siège</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-52058-5">
         <comment>Label: LOINC DOC code 52058-5</comment>
@@ -7399,7 +7500,8 @@
     <translation key="2.16.840.1.113883.6.1-52060-1">
         <comment>Label: LOINC DOC code 52060-1</comment>
         <value lang="en-us">Standers + standing frames attachment</value>
-        <value lang="fr-fr">Informations pour la prise en charge d'un dispositif de stabilisation</value>
+        <value lang="fr-fr">Informations pour la prise en charge d'un dispositif de
+            stabilisation</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-52061-9">
         <comment>Label: LOINC DOC code 52061-9</comment>
@@ -7409,7 +7511,8 @@
     <translation key="2.16.840.1.113883.6.1-52062-7">
         <comment>Label: LOINC DOC code 52062-7</comment>
         <value lang="en-us">Transcutaneous electrical neural stimulation attachment</value>
-        <value lang="fr-fr">Informations pour la prise en charge de neurostimulation électrique transcutanée</value>
+        <value lang="fr-fr">Informations pour la prise en charge de neurostimulation électrique
+            transcutanée</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-52063-5">
         <comment>Label: LOINC DOC code 52063-5</comment>
@@ -7439,7 +7542,8 @@
     <translation key="2.16.840.1.113883.6.1-52068-4">
         <comment>Label: LOINC DOC code 52068-4</comment>
         <value lang="en-us">Property and casualty state mandated forms attachment</value>
-        <value lang="fr-fr">Formulaires obligatoires de l'État pour les biens et les accidents</value>
+        <value lang="fr-fr">Formulaires obligatoires de l'État pour les biens et les
+            accidents</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-52069-2">
         <comment>Label: LOINC DOC code 52069-2</comment>
@@ -7483,7 +7587,8 @@
     <translation key="2.16.840.1.113883.6.1-53244-0">
         <comment>Label: LOINC DOC code 53244-0</comment>
         <value lang="en-us">Notice of privacy practices receipt attachment</value>
-        <value lang="fr-fr">Accusé de réception d'information sur la politique de confidentialité</value>
+        <value lang="fr-fr">Accusé de réception d'information sur la politique de
+            confidentialité</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-53245-7">
         <comment>Label: LOINC DOC code 53245-7</comment>
@@ -7587,7 +7692,8 @@
     </translation>
     <translation key="2.16.840.1.113883.6.1-55184-6">
         <comment>Label: LOINC DOC code 55184-6</comment>
-        <value lang="en-us">Quality Reporting Document Architecture calculated summary report</value>
+        <value lang="en-us">Quality Reporting Document Architecture calculated summary
+            report</value>
         <value lang="fr-fr">Résumé des rapports de mesures de la qualité</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-55185-3">
@@ -7646,7 +7752,8 @@
     <translation key="2.16.840.1.113883.6.1-57056-4">
         <comment>Label: LOINC DOC code 57056-4</comment>
         <value lang="en-us">Labor and delivery admission history and physical ({Provider})</value>
-        <value lang="nl-nl">Voorgeschiedenis en lichamelijke conditie bij opname zwangerschap en geboorte ({Instelling})</value>
+        <value lang="nl-nl">Voorgeschiedenis en lichamelijke conditie bij opname zwangerschap en
+            geboorte ({Instelling})</value>
         <value lang="fr-fr">Synthèse d'admission pour l'accouchement ({Fournisseur})</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-57057-2">
@@ -7715,7 +7822,8 @@
         <comment>Label: LOINC DOC code 57054-9</comment>
         <value lang="en-us">Triage and nursing note ({Provider})</value>
         <value lang="nl-nl">Verslag triage en verpleging ({Instelling})</value>
-        <value lang="fr-fr">Note de triage et infirmier du service des urgences ({Fournisseur})</value>
+        <value lang="fr-fr">Note de triage et infirmier du service des urgences
+            ({Fournisseur})</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-57055-6">
         <comment>Label: LOINC DOC code 57055-6</comment>
@@ -7726,7 +7834,8 @@
     <translation key="2.16.840.1.113883.6.1-57129-9">
         <comment>Label: LOINC DOC code 57129-9</comment>
         <value lang="en-us">Full newborn screening summary report for display or printing</value>
-        <value lang="nl-nl">Volledig verslag screening nieuwgeborene voor weergave en afdrukken</value>
+        <value lang="nl-nl">Volledig verslag screening nieuwgeborene voor weergave en
+            afdrukken</value>
         <value lang="fr-fr">Synthèse du dépistage néonatal</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-57133-1">
@@ -8515,8 +8624,10 @@
     <translation key="2.16.840.1.113883.6.1-46240-8">
         <comment>Label: LOINC DOC code 46240-8</comment>
         <value lang="en-us">History of hospitalizations+History of outpatient visits</value>
-        <value lang="nl-nl">Geschiedenis van ziekenhuisopnames+Geschiedenis van poliklinische bezoeken</value>
-        <value lang="fr-fr">Historique des hospitalisations + Historique des consultations ambulatoires</value>
+        <value lang="nl-nl">Geschiedenis van ziekenhuisopnames+Geschiedenis van poliklinische
+            bezoeken</value>
+        <value lang="fr-fr">Historique des hospitalisations + Historique des consultations
+            ambulatoires</value>
     </translation>
     <translation key="2.16.840.1.113883.6.1-46241-6">
         <comment>Label: LOINC DOC code 46241-6</comment>
@@ -9023,23 +9134,23 @@
     <translation key="2.16.840.1.113883.2.4.6.70">
         <comment>Label: OID SBV-Z Identificatiedocumenttypes</comment>
         <value lang="nl-nl">SBV-Z Identificatiedocumenttypes</value>
-    </translation>    
+    </translation>
     <!-- OID NL: End -->
-    
+
     <!-- OID Military Health System (MHS): Start -->
     <translation key="2.16.840.1.113883.3.42">
         <comment>Label: DoD Military Health System (MHS)</comment>
         <value lang="en-us">DoD MHS</value>
-    </translation>    
+    </translation>
     <!-- OID Military Health System (MHS): End -->
-    
+
     <!-- OID HL7 Inc Demo OID: Start -->
     <translation key="2.16.840.1.113883.3.933">
         <comment>Label: HL7 Inc Demo OID</comment>
         <value lang="en-us">HL7 Demo</value>
     </translation>
     <!-- OID HL7 Inc Demo OID: End -->
-    
+
     <!-- OID United States: Start -->
     <translation key="2.16.840.1.113883.4.1">
         <comment>Label: OID US Social Security Number</comment>
@@ -9050,7 +9161,7 @@
         <value lang="en-us">NPI</value>
     </translation>
     <!-- OID United States: End -->
-    
+
     <!-- OID HL7 v3 codeSystems: Start -->
     <translation key="2.16.840.1.113883.5.1">
         <comment>Label: OID AdministrativeGender</comment>
@@ -9197,9 +9308,9 @@
     <translation key="2.16.840.1.113883.5.89">
         <comment>Label: OID ParticipationSignature</comment>
         <value lang="en-us">ParticipationSignature</value>
-    </translation>    
+    </translation>
     <!-- OID HL7 v3 codeSystems: End -->
-    
+
     <!-- OID externalCodeSystems: Start -->
     <translation key="2.16.840.1.113883.6.1">
         <comment>Label: OID LOINC</comment>
@@ -9244,36 +9355,54 @@
     </translation>
     <!-- OID externalCodeSystems: End -->
     <!-- End: OIDs -->
-    
+
     <translation key="iframe-warning-ie9">
         <comment>Label: unsupported browser for iframe</comment>
-        <value lang="en-us">WARNING: This browser does not support sandboxed iframes which makes rendering here potentially unsafe. Please try a different browser.</value>
-        <value lang="nl-nl">WAARSCHUWING: Deze browser ondersteunt geen sandboxed iframes wat weergave op deze plaats onveilig maakt. Probeer een modernere browser.</value>
-        <value lang="fr-fr">AVERTISSEMENT : Ce navigateur ne prend pas en charge les iframes bac à sable, ce qui rend le rendu ici potentiellement dangereux. Veuillez essayer un autre navigateur.</value>
+        <value lang="en-us">WARNING: This browser does not support sandboxed iframes which makes
+            rendering here potentially unsafe. Please try a different browser.</value>
+        <value lang="nl-nl">WAARSCHUWING: Deze browser ondersteunt geen sandboxed iframes wat
+            weergave op deze plaats onveilig maakt. Probeer een modernere browser.</value>
+        <value lang="fr-fr">AVERTISSEMENT : Ce navigateur ne prend pas en charge les iframes bac à
+            sable, ce qui rend le rendu ici potentiellement dangereux. Veuillez essayer un autre
+            navigateur.</value>
     </translation>
     <translation key="iframe-warning-pdf-ie9">
         <comment>Label: unsupported browser for iframe with pdf</comment>
-        <value lang="en-us">WARNING: This browser does not support (sandboxed) iframes with inline pdf which makes rendering here potentially unsafe and/or impossible. Please try a different browser.</value>
-        <value lang="nl-nl">WAARSCHUWING: Deze browser ondersteunt geen (sandboxed) iframes met inline pdf wat weergave op deze plaats onveilig en/of onmogelijk maakt. Probeer een modernere browser.</value>
-        <value lang="fr-fr">AVERTISSEMENT : Ce navigateur ne prend pas en charge les iframes (sandbox) avec pdf en ligne, ce qui rend le rendu ici potentiellement dangereux et/ou impossible. Veuillez essayer un autre navigateur.</value>
+        <value lang="en-us">WARNING: This browser does not support (sandboxed) iframes with inline
+            pdf which makes rendering here potentially unsafe and/or impossible. Please try a
+            different browser.</value>
+        <value lang="nl-nl">WAARSCHUWING: Deze browser ondersteunt geen (sandboxed) iframes met
+            inline pdf wat weergave op deze plaats onveilig en/of onmogelijk maakt. Probeer een
+            modernere browser.</value>
+        <value lang="fr-fr">AVERTISSEMENT : Ce navigateur ne prend pas en charge les iframes
+            (sandbox) avec pdf en ligne, ce qui rend le rendu ici potentiellement dangereux et/ou
+            impossible. Veuillez essayer un autre navigateur.</value>
     </translation>
     <translation key="iframe-warning-sandboxed-pdf">
         <comment>Label: unsupported browser for iframe with pdf (limit-pdf = yes)</comment>
-        <value lang="en-us">WARNING: Due to the security setting of this rendering, it is not possible to show the pdf.</value>
-        <value lang="nl-nl">WAARSCHUWING: Vanwege de beveiligingsinstellingen voor deze weergaven, is het niet mogelijk om de pdf weer te geven.</value>
-        <value lang="fr-fr">ATTENTION : En raison des paramètres de sécurité, il n'est pas possible d'afficher le pdf.</value>
+        <value lang="en-us">WARNING: Due to the security setting of this rendering, it is not
+            possible to show the pdf.</value>
+        <value lang="nl-nl">WAARSCHUWING: Vanwege de beveiligingsinstellingen voor deze weergaven,
+            is het niet mogelijk om de pdf weer te geven.</value>
+        <value lang="fr-fr">ATTENTION : En raison des paramètres de sécurité, il n'est pas possible
+            d'afficher le pdf.</value>
     </translation>
     <translation key="javascript-injection-warning">
         <comment>Label: security warning text</comment>
-        <value lang="en-us">WARNING: Javascript injection attempt detected in source CDA document. Terminating</value>
-        <value lang="nl-nl">WAARSCHUWING: Javascript-injectiepoging gedetecteerd in bron CDA-document. Einde verwerking</value>
-        <value lang="fr-fr">AVERTISSEMENT : Tentative d'injection Javascript détectée dans le document source CDA.</value>
+        <value lang="en-us">WARNING: Javascript injection attempt detected in source CDA document.
+            Terminating</value>
+        <value lang="nl-nl">WAARSCHUWING: Javascript-injectiepoging gedetecteerd in bron
+            CDA-document. Einde verwerking</value>
+        <value lang="fr-fr">AVERTISSEMENT : Tentative d'injection Javascript détectée dans le
+            document source CDA.</value>
     </translation>
     <translation key="malicious-content-warning">
         <comment>Label: security warning text</comment>
         <value lang="en-us">WARNING: Potentially malicious content found in CDA document.</value>
-        <value lang="nl-nl">WAARSCHUWING: potentieel gevaarlijke inhoud gevonden in CDA-document.</value>
-        <value lang="fr-fr">AVERTISSEMENT : contenu potentiellement malveillant trouvé dans le document CDA.</value>
+        <value lang="nl-nl">WAARSCHUWING: potentieel gevaarlijke inhoud gevonden in
+            CDA-document.</value>
+        <value lang="fr-fr">AVERTISSEMENT : contenu potentiellement malveillant trouvé dans le
+            document CDA.</value>
     </translation>
     <translation key="is-in-the-whitelist">
         <comment>Label: security warning text</comment>
@@ -9289,9 +9418,12 @@
     </translation>
     <translation key="non-local-image-found-2">
         <comment>Label: security warning text part2</comment>
-        <value lang="en-us">. Removing. If you wish to preserve non-local images please set the limit-external-images param to 'no'.</value>
-        <value lang="nl-nl">. Wordt niet verwerkt. Als u niet-lokale afbeelding wilt behouden, dan stelt u de parameter limit-external-images in op 'no'.</value>
-        <value lang="fr-fr">. Retrait. Si vous souhaitez conserver des images non locales, définissez le paramètre limit-external-images sur 'no'.</value>
+        <value lang="en-us">. Removing. If you wish to preserve non-local images please set the
+            limit-external-images param to 'no'.</value>
+        <value lang="nl-nl">. Wordt niet verwerkt. Als u niet-lokale afbeelding wilt behouden, dan
+            stelt u de parameter limit-external-images in op 'no'.</value>
+        <value lang="fr-fr">. Retrait. Si vous souhaitez conserver des images non locales,
+            définissez le paramètre limit-external-images sur 'no'.</value>
     </translation>
     <translation key="logicalOR">
         <comment>Label: logicalOR (e.g. query params with multiple value elements)</comment>
@@ -9381,25 +9513,38 @@
         <comment>Error message: Warning: Bundle type does not indicate it is a document.</comment>
         <value lang="en-us">Warning: Bundle type does not indicate it is a document.</value>
         <value lang="nl-nl">Waarschuwing: Bundle type zegt niet dat dit een document is.</value>
-        <value lang="fr-fr">AVERTISSEMENT : Le type de Bundle n'indique pas qu'il s'agit d'un document.</value>
+        <value lang="fr-fr">AVERTISSEMENT : Le type de Bundle n'indique pas qu'il s'agit d'un
+            document.</value>
     </translation>
     <translation key="err-fhir-4">
-        <comment>Error message: Error: The document composition includes a reference to a resource not contained inside the document bundle:</comment>
-        <value lang="en-us">Error: The document composition includes a reference to a resource not contained inside the document bundle: </value>
-        <value lang="nl-nl">Fout: Er is een verwijzing in de document Composition naar een resource die ontbreekt in de Bundle: </value>
-        <value lang="fr-fr">ERREUR : La composition du document inclut une référence à une ressource non contenue dans le Bundle :</value>
+        <comment>Error message: Error: The document composition includes a reference to a resource
+            not contained inside the document bundle:</comment>
+        <value lang="en-us">Error: The document composition includes a reference to a resource not
+            contained inside the document bundle: </value>
+        <value lang="nl-nl">Fout: Er is een verwijzing in de document Composition naar een resource
+            die ontbreekt in de Bundle: </value>
+        <value lang="fr-fr">ERREUR : La composition du document inclut une référence à une ressource
+            non contenue dans le Bundle :</value>
     </translation>
     <translation key="err-fhir-5">
-        <comment>Error message: Error: A referenced resource is not contained and is not fully qualified:</comment>
-        <value lang="en-us">Error: A referenced resource is not contained and is not fully qualified: </value>
-        <value lang="nl-nl">Fout: Er is een verwijzing naar een resource die ontbreekt en waarvan de verwijzing niet volledig is: </value>
-        <value lang="fr-fr">ERREUR : Une ressource référencée n'est pas contenue et n'est pas entièrement qualifiée : </value>
+        <comment>Error message: Error: A referenced resource is not contained and is not fully
+            qualified:</comment>
+        <value lang="en-us">Error: A referenced resource is not contained and is not fully
+            qualified: </value>
+        <value lang="nl-nl">Fout: Er is een verwijzing naar een resource die ontbreekt en waarvan de
+            verwijzing niet volledig is: </value>
+        <value lang="fr-fr">ERREUR : Une ressource référencée n'est pas contenue et n'est pas
+            entièrement qualifiée : </value>
     </translation>
     <translation key="err-fhir-6">
-        <comment>Error message: Warning: Headings exceed 6 levels deep. Remaining headings converted to simple paragraphs</comment>
-        <value lang="en-us">Warning: Headings exceed 6 levels deep. Remaining headings converted to simple paragraphs</value>
-        <value lang="nl-nl">Waarschuwing: Kopniveau's gaan dieper dan 6. De overgebleven kopniveau's worden omgezet naar normale paragrafen</value>
-        <value lang="fr-fr">AVERTISSEMENT : Les titres dépassent 6 niveaux de profondeur. Titres restants convertis en paragraphes simples.</value>
+        <comment>Error message: Warning: Headings exceed 6 levels deep. Remaining headings converted
+            to simple paragraphs</comment>
+        <value lang="en-us">Warning: Headings exceed 6 levels deep. Remaining headings converted to
+            simple paragraphs</value>
+        <value lang="nl-nl">Waarschuwing: Kopniveau's gaan dieper dan 6. De overgebleven kopniveau's
+            worden omgezet naar normale paragrafen</value>
+        <value lang="fr-fr">AVERTISSEMENT : Les titres dépassent 6 niveaux de profondeur. Titres
+            restants convertis en paragraphes simples.</value>
     </translation>
     <translation key="err-fhir-7">
         <comment>Error message: Source document must be a composition</comment>
