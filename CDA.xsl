@@ -4741,17 +4741,21 @@
                                 </xsl:call-template>
                             </td>
                             <td>
+                                <xsl:variable name="count"
+                                    select="count(hl7:patient/hl7:guardian)"/>
                                 <xsl:for-each select="hl7:patient/hl7:guardian">
-                                    <span style="color: black;">
-                                        <xsl:call-template name="getLocalizedString">
-                                            <xsl:with-param name="key" select="'Guardian'"/>
-                                        </xsl:call-template>
-                                        <xsl:text> </xsl:text>
-                                        <xsl:value-of select="position()"/>
-                                        <xsl:text> : </xsl:text>
-                                    </span>
-                                    <br/>
-                                    <br/>
+                                    <xsl:if test="$count > 1">
+                                        <span style="color: black;">
+                                            <xsl:call-template name="getLocalizedString">
+                                                <xsl:with-param name="key" select="'Guardian'"/>
+                                            </xsl:call-template>
+                                            <xsl:text> </xsl:text>
+                                            <xsl:value-of select="position()"/>
+                                            <xsl:text> : </xsl:text>
+                                        </span>
+                                        <br/>
+                                        <br/>
+                                    </xsl:if>
                                     <xsl:call-template name="show-contactInfo">
                                         <xsl:with-param name="contact" select="."/>
                                     </xsl:call-template>
