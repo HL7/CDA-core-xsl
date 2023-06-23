@@ -6141,7 +6141,7 @@
                                     <xsl:value-of select="@value"/>
                                     <xsl:if
                                         test="following-sibling::hl7:part[1][string-length(@value) > 0 or @code]">
-                                        <br/>
+                                        <xsl:text> </xsl:text>
                                     </xsl:if>
                                 </xsl:if>
                             </xsl:if>
@@ -6174,7 +6174,7 @@
                             </xsl:if>
                             <xsl:if
                                 test="following-sibling::hl7:*[1][string-length(.) > 0 or @code]">
-                                <br/>
+                                <xsl:text> </xsl:text>
                             </xsl:if>
                         </xsl:if>
                     </xsl:when>
@@ -6200,7 +6200,7 @@
                             </xsl:if>
                             <xsl:if
                                 test="following-sibling::hl7:part[1][string-length(@value) > 0 or @code]">
-                                <br/>
+                                <xsl:text> </xsl:text>
                             </xsl:if>
                         </xsl:if>
                     </xsl:when>
@@ -6212,7 +6212,7 @@
                         </xsl:call-template>
                         <xsl:value-of select="."/>
                         <xsl:if test="following-sibling::hl7:*[1][string-length(.) > 0 or @code]">
-                            <br/>
+                            <xsl:text> </xsl:text>
                         </xsl:if>
                     </xsl:when>
                     <!-- DTr2 -->
@@ -6224,7 +6224,7 @@
                         <xsl:value-of select="@value"/>
                         <xsl:if
                             test="following-sibling::hl7:part[1][string-length(@value) > 0 or @code]">
-                            <br/>
+                            <xsl:text> </xsl:text>
                         </xsl:if>
                     </xsl:when>
                     <!-- DTr1 ZIP CITY, STATE or CITY, STATE ZIP depending on addr part contents -->
@@ -6267,7 +6267,7 @@
                             </xsl:choose>
                         </xsl:if>
                         <xsl:if test="following-sibling::hl7:*[1][string-length(.) > 0 or @code]">
-                            <br/>
+                            <xsl:text> </xsl:text>
                         </xsl:if>
                     </xsl:when>
                     <!-- DTr2 ZIP CITY, STATE or CITY, STATE ZIP depending on addr part contents -->
@@ -6351,7 +6351,7 @@
                         <xsl:value-of select="."/>
                         <xsl:if
                             test="(string-length(following-sibling::hl7:*[1]) > 0 or following-sibling::hl7:*/@code)">
-                            <br/>
+                            <xsl:text> </xsl:text>
                         </xsl:if>
                     </xsl:when>
                     <!-- DTr2 -->
@@ -6359,7 +6359,19 @@
                         <xsl:value-of select="@value"/>
                         <xsl:if
                             test="(string-length(following-sibling::hl7:*[1]/@value) > 0 or following-sibling::hl7:*/@code)">
-                            <br/>
+                            <xsl:text> </xsl:text>
+                        </xsl:if>
+                        <xsl:if test="string(number(following-sibling::hl7:*[1])) != 'NaN'">
+                            <xsl:if
+                                test="number(following-sibling::hl7:*[1]) = following-sibling::hl7:*[1]">
+                                <br/>
+                            </xsl:if>
+                        </xsl:if>
+                        <xsl:if test="string(number(following-sibling::hl7:*[1])) != 'NaN'">
+                            <xsl:if
+                                test="number(following-sibling::hl7:*[1]) = following-sibling::hl7:*[1]">
+                                <br/>
+                            </xsl:if>
                         </xsl:if>
                     </xsl:when>
                     <xsl:otherwise> </xsl:otherwise>
@@ -6679,6 +6691,15 @@
                             <xsl:call-template name="getLocalizedString">
                                 <xsl:with-param name="key" select="'mailto'"/>
                             </xsl:call-template>
+                            <xsl:if test="@use">
+                                <xsl:text> (</xsl:text>
+                                <xsl:call-template name="tokenize">
+                                    <xsl:with-param name="prefix" select="'addressUse_'"/>
+                                    <xsl:with-param name="string" select="@use"/>
+                                    <xsl:with-param name="delimiters" select="' '"/>
+                                </xsl:call-template>
+                                <xsl:text>) </xsl:text>
+                            </xsl:if>
                         </xsl:if>
                     </xsl:if>
 
