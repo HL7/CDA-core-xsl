@@ -4741,10 +4741,22 @@
                                 </xsl:call-template>
                             </td>
                             <td>
-                                <xsl:call-template name="show-contactInfo">
-                                    <xsl:with-param name="contact" select="hl7:patient/hl7:guardian"
-                                    />
-                                </xsl:call-template>
+                                <xsl:for-each select="hl7:patient/hl7:guardian">
+                                    <span style="color: black;">
+                                        <xsl:call-template name="getLocalizedString">
+                                            <xsl:with-param name="key" select="'Guardian'"/>
+                                        </xsl:call-template>
+                                        <xsl:text> </xsl:text>
+                                        <xsl:value-of select="position()"/>
+                                        <xsl:text> : </xsl:text>
+                                    </span>
+                                    <br/>
+                                    <br/>
+                                    <xsl:call-template name="show-contactInfo">
+                                        <xsl:with-param name="contact" select="."/>
+                                    </xsl:call-template>
+                                    <br/>
+                                </xsl:for-each>
                             </td>
                         </tr>
                     </xsl:if>
@@ -6666,7 +6678,6 @@
                     <xsl:if test="position() > 1">
                         <br/>
                     </xsl:if>
-
                     <xsl:variable name="type" select="substring-before(@value, ':')"/>
                     <xsl:variable name="value" select="substring-after(@value, ':')"/>
                     <xsl:if test="$type">
@@ -6702,7 +6713,6 @@
                             </xsl:if>
                         </xsl:if>
                     </xsl:if>
-
                     <xsl:if test="$type or @use">
                         <xsl:text>: </xsl:text>
                     </xsl:if>
