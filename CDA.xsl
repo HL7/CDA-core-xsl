@@ -974,7 +974,7 @@
         <xsl:if test="string-length($residualCodes) &gt; 0">
             <xsl:call-template name="handleSectionOrder">
                 <xsl:with-param name="thisCode" select="substring-before($residualCodes, ',')"/>
-                <xsl:with-param name="residualCode" select="substring-after($residualCodes, ',')"/>
+                <xsl:with-param name="residualCodes" select="substring-after($residualCodes, ',')"/>
             </xsl:call-template>
         </xsl:if>
     </xsl:template>
@@ -6887,7 +6887,7 @@
         <xsl:if test="string-length($residualCodes) &gt; 0">
             <xsl:call-template name="handleTableOfContentsSectionOrder">
                 <xsl:with-param name="thisCode" select="substring-before($residualCodes, ',')"/>
-                <xsl:with-param name="residualCode" select="substring-after($residualCodes, ',')"/>
+                <xsl:with-param name="residualCodes" select="substring-after($residualCodes, ',')"/>
             </xsl:call-template>
         </xsl:if>
     </xsl:template>
