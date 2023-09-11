@@ -2488,6 +2488,19 @@
             <xsl:text> </xsl:text>
             <xsl:value-of select="$confidentialityText"/>
         </xsl:if>
+        <xsl:if test="*[local-name(.) = 'statusCode']">
+            <xsl:if test="hl7:confidentialityCode[@code[not(. = 'N')]]">
+                <xsl:text>,</xsl:text>
+            </xsl:if>
+            <xsl:text> </xsl:text>
+            <xsl:call-template name="getLocalizedString">
+                <xsl:with-param name="key" select="'statusCode'"/>
+                <xsl:with-param name="post" select="': '"/>
+            </xsl:call-template>
+            <xsl:call-template name="getLocalizedString">
+                <xsl:with-param name="key" select="concat('status-', *[local-name(.) = 'statusCode']/@code)"/>
+            </xsl:call-template>
+        </xsl:if>
         <xsl:text>)</xsl:text>
     </xsl:template>
 
