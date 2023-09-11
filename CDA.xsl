@@ -238,7 +238,10 @@
     <xsl:param name="dosectionnumbering" select="'false'"/>
     
     <xd:doc>
-        <xd:desc>Provides a list of top level section codes, comma separated, matching the section/code/@code attribute. If the list is empty, then default to document order. First in list, means first on screen. Any sections without a match are rendered in document order after the last matching section. If none of the top-level sections match, the order defaults to document order.<br/>Example: 42348-3,46240-8</xd:desc>
+        <xd:desc>
+            <xd:p>Provides a list of top level section codes, comma separated, matching the section/code/@code attribute. If the list is empty, then default to document order. First in list, means first on screen. Any sections without a match are rendered in document order after the last matching section. If none of the top-level sections match, the order defaults to document order.</xd:p>
+            <xd:p><xd:b>Example:</xd:b> 42348-3,46240-8</xd:p>
+        </xd:desc>
     </xd:doc>
     <xsl:param name="section-order"/>
     <xsl:variable name="section-order-var" select="concat($section-order,',')"/>
@@ -931,7 +934,7 @@
     </xd:doc>
     <xsl:template match="hl7:component/hl7:structuredBody">
         <xsl:choose>
-            <xsl:when test="string-length($section-order-var) = 0">
+            <xsl:when test="string-length($section-order) = 0">
                 <xsl:for-each select="hl7:component/hl7:section">
                     <xsl:call-template name="section">
                         <xsl:with-param name="level" select="3"/>
@@ -943,7 +946,7 @@
                     <xsl:with-param name="thisCode" select="substring-before($section-order-var, ',')"/>
                     <xsl:with-param name="residualCodes" select="substring-after($section-order-var, ',')"/>
                 </xsl:call-template>
-                <xsl:for-each select="hl7:component/hl7:section[hl7:code[not(contains($section-order-var, @code))]]">
+                <xsl:for-each select="hl7:component/hl7:section[hl7:code[not(contains(concat(',', $section-order-var), concat(',', @code, ',')))]]">
                     <xsl:call-template name="section">
                         <xsl:with-param name="level" select="3"/>
                     </xsl:call-template>
@@ -971,7 +974,7 @@
         <xsl:if test="string-length($residualCodes) &gt; 0">
             <xsl:call-template name="handleSectionOrder">
                 <xsl:with-param name="thisCode" select="substring-before($residualCodes, ',')"/>
-                <xsl:with-param name="residualCode" select="substring-after($residualCodes, ',')"/>
+                <xsl:with-param name="residualCodes" select="substring-after($residualCodes, ',')"/>
             </xsl:call-template>
         </xsl:if>
     </xsl:template>
@@ -6831,7 +6834,8 @@
                 <xsl:otherwise><xsl:text>nonav</xsl:text></xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
-        <xsl:if test="count(hl7:component/hl7:structuredBody/hl7:component[hl7:section]) &gt; 1">
+        <xsl:variable name="sections" select="hl7:component/hl7:structuredBody/hl7:component/hl7:section" />
+        <xsl:if test="count($sections) &gt; 1">
             <td style="width: 35%; background-color: white;">
                 <!-- produce table of contents -->
                 <ul id="{$tocid}">
@@ -6844,8 +6848,8 @@
                         </div>
                         <ul>
                             <xsl:choose>
-                                <xsl:when test="string-length($section-order-var) = 0">
-                                    <xsl:for-each select="hl7:component/hl7:structuredBody/hl7:component/hl7:section">
+                                <xsl:when test="string-length($section-order) = 0">
+                                    <xsl:for-each select="$sections">
                                         <xsl:call-template name="make-tableofcontents-item"/>
                                     </xsl:for-each>
                                 </xsl:when>
@@ -6854,7 +6858,7 @@
                                         <xsl:with-param name="thisCode" select="substring-before($section-order-var, ',')"/>
                                         <xsl:with-param name="residualCodes" select="substring-after($section-order-var, ',')"/>
                                     </xsl:call-template>
-                                    <xsl:for-each select="hl7:component/hl7:structuredBody/hl7:component/hl7:section[hl7:code[not(contains($section-order-var, @code))]]">
+                                    <xsl:for-each select="$sections[hl7:code[not(contains(concat(',', $section-order-var), concat(',', @code, ',')))]]">
                                         <xsl:call-template name="make-tableofcontents-item"/>
                                     </xsl:for-each>
                                 </xsl:otherwise>
@@ -6881,9 +6885,9 @@
             <xsl:call-template name="make-tableofcontents-item"/>
         </xsl:for-each>
         <xsl:if test="string-length($residualCodes) &gt; 0">
-            <xsl:call-template name="handleSectionOrder">
+            <xsl:call-template name="handleTableOfContentsSectionOrder">
                 <xsl:with-param name="thisCode" select="substring-before($residualCodes, ',')"/>
-                <xsl:with-param name="residualCode" select="substring-after($residualCodes, ',')"/>
+                <xsl:with-param name="residualCodes" select="substring-after($residualCodes, ',')"/>
             </xsl:call-template>
         </xsl:if>
     </xsl:template>
