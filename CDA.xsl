@@ -2488,7 +2488,7 @@
             <xsl:text> </xsl:text>
             <xsl:value-of select="$confidentialityText"/>
         </xsl:if>
-        <xsl:if test="*[local-name(.) = 'statusCode']">
+        <!--<xsl:if test="*[local-name(.) = 'statusCode']">
             <xsl:if test="hl7:confidentialityCode[@code[not(. = 'N')]]">
                 <xsl:text>,</xsl:text>
             </xsl:if>
@@ -2500,7 +2500,7 @@
             <xsl:call-template name="getLocalizedString">
                 <xsl:with-param name="key" select="concat('status-', *[local-name(.) = 'statusCode']/@code)"/>
             </xsl:call-template>
-        </xsl:if>
+        </xsl:if>-->
         <xsl:text>)</xsl:text>
     </xsl:template>
 
@@ -3064,6 +3064,26 @@
                         <xsl:call-template name="show-timestamp">
                             <xsl:with-param name="in" select="hl7:effectiveTime"/>
                         </xsl:call-template>
+                        <xsl:if test="*[local-name(.) = 'statusCode']">
+                            <table class="table_simple">
+                                <tbody>
+                                    <tr>
+                                        <td class="td_label">
+                                            <xsl:call-template name="getLocalizedString">
+                                                <xsl:with-param name="key" select="'statusCode'"/>
+                                            </xsl:call-template>
+                                        </td>
+                                        <td>
+                                            <b>
+                                                <xsl:call-template name="getLocalizedString">
+                                                    <xsl:with-param name="key" select="concat('status-', *[local-name(.) = 'statusCode']/@code)"/>
+                                                </xsl:call-template>
+                                            </b>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </xsl:if>
                     </td>
                 </tr>
             </tbody>
