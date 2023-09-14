@@ -3076,7 +3076,7 @@
                                         <td>
                                             <b>
                                                 <xsl:call-template name="getLocalizedString">
-                                                    <xsl:with-param name="key" select="concat('status-', *[local-name(.) = 'statusCode']/@code)"/>
+                                                    <xsl:with-param name="key" select="concat('statusCode-', *[local-name(.) = 'statusCode']/@code)"/>
                                                 </xsl:call-template>
                                             </b>
                                         </td>
