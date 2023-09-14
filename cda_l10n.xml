@@ -2418,6 +2418,11 @@
         <value lang="nl-nl">Actief</value>
         <value lang="fr-fr">Actif</value>
     </translation>
+    <translation key="statusCode-held">
+        <comment>Label: Status held</comment>
+        <value lang="en-us">Held</value>
+        <value lang="nl-nl">Gepauzeerd</value>
+    </translation>
     <translation key="statusCode-completed">
         <comment>Label: Status completed</comment>
         <value lang="en-us">Completed</value>
