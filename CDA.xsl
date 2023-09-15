@@ -11,7 +11,7 @@
     <xd:doc scope="stylesheet">
         <xd:desc>
             <xd:p><xd:b>Title:</xd:b> CDA R2 StyleSheet</xd:p>
-            <xd:p><xd:b>Version:</xd:b> 4.1.0-alpha1</xd:p>
+            <xd:p><xd:b>Version:</xd:b> 4.1.0-beta.1</xd:p>
             <xd:p><xd:b>Maintained by:</xd:b> HL7 <xd:a href="https://confluence.hl7.org/display/SD/Structured+Documents">Structured Documents Work Group</xd:a></xd:p>
             <xd:p><xd:b>Purpose:</xd:b> Provides general purpose display of CDA release 2.0 and 2.1 (Specification: ANSI/HL7 CDAR2) and CDA release 3 (Specification was pulled after ballot) documents. It may also be a starting point for people interested in extending the display. This stylesheet displays all section content, but does not try to render each and every header attribute. For header attributes it tries to be smart in displaying essentials, which is still a lot.</xd:p>
             <xd:p><xd:b>License:</xd:b> Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at <a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a></xd:p>
@@ -236,6 +236,15 @@
         <xd:desc>Determines if sections will receive numbering according to ClinicalDocument order. Value 'true' activates numbering. Top level sections are 1, 2, 3, 4, sub level sections are 1.1, 1.2, 1.2.1, 1.2.2 etc.</xd:desc>
     </xd:doc>
     <xsl:param name="dosectionnumbering" select="'false'"/>
+    
+    <xd:doc>
+        <xd:desc>
+            <xd:p>Provides a list of top level section codes, comma separated, matching the section/code/@code attribute. If the list is empty, then default to document order. First in list, means first on screen. Any sections without a match are rendered in document order after the last matching section. If none of the top-level sections match, the order defaults to document order.</xd:p>
+            <xd:p><xd:b>Example:</xd:b> 42348-3,46240-8</xd:p>
+        </xd:desc>
+    </xd:doc>
+    <xsl:param name="section-order"/>
+    <xsl:variable name="section-order-var" select="concat($section-order,',')"/>
     
     <xd:doc>
         <xd:desc>
@@ -516,6 +525,11 @@
                         font-weight: bold;
                         vertical-align: baseline;
                         width: 150px;
+                    }
+                    .warning-sign {
+                        border: 1px solid red;
+                        background-color: yellow;
+                        margin: 1em 0.5em;
                     }
                     div.separator {
                         height: 1em;
@@ -912,6 +926,14 @@
                     </xsl:if>
                     <!-- END TOC and Revision toggle -->
                 </div>
+                <xsl:if test="string-length($section-order) &gt; 0">
+                    <div>
+                        <span class="warning-sign">&#9888;</span> 
+                        <xsl:call-template name="getLocalizedString">
+                            <xsl:with-param name="key" select="'section-order-applied-warning'"/>
+                        </xsl:call-template>
+                    </div>
+                </xsl:if>
                 <div id="documentbody">
                     <xsl:apply-templates select="hl7:component/hl7:structuredBody | hl7:component/hl7:nonXMLBody"/>
                 </div>
@@ -949,11 +971,50 @@
         </xd:desc>
     </xd:doc>
     <xsl:template match="hl7:component/hl7:structuredBody">
-        <xsl:for-each select="hl7:component/hl7:section">
+        <xsl:choose>
+            <xsl:when test="string-length($section-order) = 0">
+                <xsl:for-each select="hl7:component/hl7:section">
+                    <xsl:call-template name="section">
+                        <xsl:with-param name="level" select="3"/>
+                    </xsl:call-template>
+                </xsl:for-each>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:call-template name="handleSectionOrder">
+                    <xsl:with-param name="thisCode" select="substring-before($section-order-var, ',')"/>
+                    <xsl:with-param name="residualCodes" select="substring-after($section-order-var, ',')"/>
+                </xsl:call-template>
+                <xsl:for-each select="hl7:component/hl7:section[hl7:code[not(contains(concat(',', $section-order-var), concat(',', @code, ',')))]]">
+                    <xsl:call-template name="section">
+                        <xsl:with-param name="level" select="3"/>
+                    </xsl:call-template>
+                </xsl:for-each>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+    
+    <xd:doc>
+        <xd:desc>
+            <xd:p>Handle section order by looking at <xd:ref name="section-order" type="parameter"/>. Recursive template</xd:p>
+        </xd:desc>
+        <xd:param name="thisCode">Current code to take into account</xd:param>
+        <xd:param name="residualCodes">Remaining part of the string with (comma separated) codes</xd:param>
+    </xd:doc>
+    <xsl:template name="handleSectionOrder">
+        <xsl:param name="thisCode"/>
+        <xsl:param name="residualCodes"/>
+        
+        <xsl:for-each select="hl7:component/hl7:section[hl7:code[@code = $thisCode]]">
             <xsl:call-template name="section">
                 <xsl:with-param name="level" select="3"/>
             </xsl:call-template>
         </xsl:for-each>
+        <xsl:if test="string-length($residualCodes) &gt; 0">
+            <xsl:call-template name="handleSectionOrder">
+                <xsl:with-param name="thisCode" select="substring-before($residualCodes, ',')"/>
+                <xsl:with-param name="residualCodes" select="substring-after($residualCodes, ',')"/>
+            </xsl:call-template>
+        </xsl:if>
     </xsl:template>
 
     <xd:doc>
@@ -2711,6 +2772,19 @@
             <xsl:text> </xsl:text>
             <xsl:value-of select="$confidentialityText"/>
         </xsl:if>
+        <!--<xsl:if test="*[local-name(.) = 'statusCode']">
+            <xsl:if test="hl7:confidentialityCode[@code[not(. = 'N')]]">
+                <xsl:text>,</xsl:text>
+            </xsl:if>
+            <xsl:text> </xsl:text>
+            <xsl:call-template name="getLocalizedString">
+                <xsl:with-param name="key" select="'statusCode'"/>
+                <xsl:with-param name="post" select="': '"/>
+            </xsl:call-template>
+            <xsl:call-template name="getLocalizedString">
+                <xsl:with-param name="key" select="concat('status-', *[local-name(.) = 'statusCode']/@code)"/>
+            </xsl:call-template>
+        </xsl:if>-->
         <xsl:text>)</xsl:text>
     </xsl:template>
 
@@ -3274,6 +3348,26 @@
                         <xsl:call-template name="show-timestamp">
                             <xsl:with-param name="in" select="hl7:effectiveTime"/>
                         </xsl:call-template>
+                        <xsl:if test="*[local-name(.) = 'statusCode']">
+                            <table class="table_simple">
+                                <tbody>
+                                    <tr>
+                                        <td class="td_label">
+                                            <xsl:call-template name="getLocalizedString">
+                                                <xsl:with-param name="key" select="'statusCode'"/>
+                                            </xsl:call-template>
+                                        </td>
+                                        <td>
+                                            <b>
+                                                <xsl:call-template name="getLocalizedString">
+                                                    <xsl:with-param name="key" select="concat('statusCode-', *[local-name(.) = 'statusCode']/@code)"/>
+                                                </xsl:call-template>
+                                            </b>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </xsl:if>
                     </td>
                 </tr>
             </tbody>
@@ -6944,9 +7038,7 @@
     <!-- ====================================================================== -->
     
     <xd:doc>
-        <xd:desc>
-            <xd:p>generate global section toggle</xd:p>
-        </xd:desc>
+        <xd:desc>generate global section toggle</xd:desc>
     </xd:doc>
     <xsl:template name="make-sectiontoggle">
         <xsl:if test="count(hl7:component/hl7:structuredBody/hl7:component[hl7:section]) &gt; 0">
@@ -6967,9 +7059,7 @@
     </xsl:template>
     
     <xd:doc>
-        <xd:desc>
-            <xd:p>generate revision toggle</xd:p>
-        </xd:desc>
+        <xd:desc>generate revision toggle</xd:desc>
     </xd:doc>
     <xsl:template name="make-revisiontoggle">
         <xsl:if test="//hl7:content[@revised]">
@@ -6990,8 +7080,7 @@
     </xsl:template>
     
     <xd:doc>
-        <xd:desc>
-            <xd:p>generate table of contents</xd:p>
+        <xd:desc>generate table of contents
         </xd:desc>
     </xd:doc>
     <xsl:template name="make-tableofcontents">
@@ -7001,7 +7090,8 @@
                 <xsl:otherwise><xsl:text>nonav</xsl:text></xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
-        <xsl:if test="count(hl7:component/hl7:structuredBody/hl7:component[hl7:section]) &gt; 1">
+        <xsl:variable name="sections" select="hl7:component/hl7:structuredBody/hl7:component/hl7:section" />
+        <xsl:if test="count($sections) &gt; 1">
             <td style="width: 35%; background-color: white;">
                 <!-- produce table of contents -->
                 <ul id="{$tocid}">
@@ -7013,85 +7103,127 @@
                             <xsl:text>&#160;&#8711;</xsl:text>
                         </div>
                         <ul>
-                            <xsl:for-each select="hl7:component/hl7:structuredBody/hl7:component/hl7:section">
-                                <li>
-                                    <a>
-                                        <xsl:attribute name="href">
-                                            <xsl:text>#</xsl:text>
-                                            <xsl:choose>
-                                                <xsl:when test="@ID">
-                                                    <xsl:value-of select="@ID"/>
-                                                </xsl:when>
-                                                <xsl:otherwise>
-                                                    <xsl:apply-templates select="." mode="getAnchorName"/>
-                                                </xsl:otherwise>
-                                            </xsl:choose>
-                                        </xsl:attribute>
-                                        <xsl:apply-templates select="." mode="getTitleName"/>
-                                        <xsl:if test="@nullFlavor">
-                                            <xsl:text> (</xsl:text>
-                                            <xsl:call-template name="show-nullFlavor">
-                                                <xsl:with-param name="in" select="@nullFlavor"/>
-                                            </xsl:call-template>
-                                            <xsl:text>)</xsl:text>
-                                        </xsl:if>
-                                        <xsl:if test="$menu-depth > 1 and hl7:component/hl7:section">
-                                            <xsl:text> ▶</xsl:text>
-                                        </xsl:if>
-                                    </a>
-                                    <xsl:if test="$menu-depth > 1 and hl7:component/hl7:section">
-                                        <ul>
-                                            <xsl:for-each select="hl7:component/hl7:section">
-                                                <li style="padding-left: 2em;">
-                                                    <a>
-                                                        <xsl:attribute name="href">
-                                                            <xsl:text>#</xsl:text>
-                                                            <xsl:choose>
-                                                                <xsl:when test="@ID">
-                                                                    <xsl:value-of select="@ID"/>
-                                                                </xsl:when>
-                                                                <xsl:otherwise>
-                                                                    <xsl:apply-templates select="." mode="getAnchorName"/>
-                                                                </xsl:otherwise>
-                                                            </xsl:choose>
-                                                        </xsl:attribute>
-                                                        <xsl:apply-templates select="." mode="getTitleName"/>
-                                                        <xsl:if test="$menu-depth > 2 and hl7:component/hl7:section">
-                                                            <xsl:text> ▶</xsl:text>
-                                                        </xsl:if>
-                                                    </a>
-                                                    <xsl:if test="$menu-depth > 2 and hl7:component/hl7:section">
-                                                        <ul>
-                                                            <xsl:for-each select="hl7:component/hl7:section">
-                                                                <li style="padding-left: 2em;">
-                                                                    <a>
-                                                                        <xsl:attribute name="href">
-                                                                            <xsl:text>#</xsl:text>
-                                                                            <xsl:choose>
-                                                                                <xsl:when test="@ID">
-                                                                                    <xsl:value-of select="@ID"/>
-                                                                                </xsl:when>
-                                                                                <xsl:otherwise>
-                                                                                    <xsl:apply-templates select="." mode="getAnchorName"/>
-                                                                                </xsl:otherwise>
-                                                                            </xsl:choose>
-                                                                        </xsl:attribute>
-                                                                        <xsl:apply-templates select="." mode="getTitleName"/>
-                                                                    </a>
-                                                                </li>
-                                                            </xsl:for-each>
-                                                        </ul>
-                                                    </xsl:if>
-                                                </li>
-                                            </xsl:for-each>
-                                        </ul>
-                                    </xsl:if>
-                                </li>
-                            </xsl:for-each>
+                            <xsl:choose>
+                                <xsl:when test="string-length($section-order) = 0">
+                                    <xsl:for-each select="$sections">
+                                        <xsl:call-template name="make-tableofcontents-item"/>
+                                    </xsl:for-each>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:call-template name="handleTableOfContentsSectionOrder">
+                                        <xsl:with-param name="thisCode" select="substring-before($section-order-var, ',')"/>
+                                        <xsl:with-param name="residualCodes" select="substring-after($section-order-var, ',')"/>
+                                    </xsl:call-template>
+                                    <xsl:for-each select="$sections[hl7:code[not(contains(concat(',', $section-order-var), concat(',', @code, ',')))]]">
+                                        <xsl:call-template name="make-tableofcontents-item"/>
+                                    </xsl:for-each>
+                                </xsl:otherwise>
+                            </xsl:choose>
                         </ul>
                     </li>
                 </ul>
             </td>
         </xsl:if>
+    </xsl:template>
+    
+    <xd:doc>
+        <xd:desc>
+            <xd:p>Handle section order by looking at <xd:ref name="section-order" type="parameter"/>. Recursive template</xd:p>
+        </xd:desc>
+        <xd:param name="thisCode">Current code to take into account</xd:param>
+        <xd:param name="residualCodes">Remaining part of the string with (comma separated) codes</xd:param>
+    </xd:doc>
+    <xsl:template name="handleTableOfContentsSectionOrder">
+        <xsl:param name="thisCode"/>
+        <xsl:param name="residualCodes"/>
+        
+        <xsl:for-each select="hl7:component/hl7:structuredBody/hl7:component/hl7:section[hl7:code[@code = $thisCode]]">
+            <xsl:call-template name="make-tableofcontents-item"/>
+        </xsl:for-each>
+        <xsl:if test="string-length($residualCodes) &gt; 0">
+            <xsl:call-template name="handleTableOfContentsSectionOrder">
+                <xsl:with-param name="thisCode" select="substring-before($residualCodes, ',')"/>
+                <xsl:with-param name="residualCodes" select="substring-after($residualCodes, ',')"/>
+            </xsl:call-template>
+        </xsl:if>
+    </xsl:template>
+    
+    <xd:doc>
+        <xd:desc>Create the contents of a TOC item</xd:desc>
+    </xd:doc>
+    <xsl:template name="make-tableofcontents-item">
+        <li>
+            <a>
+                <xsl:attribute name="href">
+                    <xsl:text>#</xsl:text>
+                    <xsl:choose>
+                        <xsl:when test="@ID">
+                            <xsl:value-of select="@ID"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:apply-templates select="." mode="getAnchorName"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:attribute>
+                <xsl:apply-templates select="." mode="getTitleName"/>
+                <xsl:if test="@nullFlavor">
+                    <xsl:text> (</xsl:text>
+                    <xsl:call-template name="show-nullFlavor">
+                        <xsl:with-param name="in" select="@nullFlavor"/>
+                    </xsl:call-template>
+                    <xsl:text>)</xsl:text>
+                </xsl:if>
+                <xsl:if test="$menu-depth > 1 and hl7:component/hl7:section">
+                    <xsl:text> ▶</xsl:text>
+                </xsl:if>
+            </a>
+            <xsl:if test="$menu-depth > 1 and hl7:component/hl7:section">
+                <ul>
+                    <xsl:for-each select="hl7:component/hl7:section">
+                        <li style="padding-left: 2em;">
+                            <a>
+                                <xsl:attribute name="href">
+                                    <xsl:text>#</xsl:text>
+                                    <xsl:choose>
+                                        <xsl:when test="@ID">
+                                            <xsl:value-of select="@ID"/>
+                                        </xsl:when>
+                                        <xsl:otherwise>
+                                            <xsl:apply-templates select="." mode="getAnchorName"/>
+                                        </xsl:otherwise>
+                                    </xsl:choose>
+                                </xsl:attribute>
+                                <xsl:apply-templates select="." mode="getTitleName"/>
+                                <xsl:if test="$menu-depth > 2 and hl7:component/hl7:section">
+                                    <xsl:text> ▶</xsl:text>
+                                </xsl:if>
+                            </a>
+                            <xsl:if test="$menu-depth > 2 and hl7:component/hl7:section">
+                                <ul>
+                                    <xsl:for-each select="hl7:component/hl7:section">
+                                        <li style="padding-left: 2em;">
+                                            <a>
+                                                <xsl:attribute name="href">
+                                                    <xsl:text>#</xsl:text>
+                                                    <xsl:choose>
+                                                        <xsl:when test="@ID">
+                                                            <xsl:value-of select="@ID"/>
+                                                        </xsl:when>
+                                                        <xsl:otherwise>
+                                                            <xsl:apply-templates select="." mode="getAnchorName"/>
+                                                        </xsl:otherwise>
+                                                    </xsl:choose>
+                                                </xsl:attribute>
+                                                <xsl:apply-templates select="." mode="getTitleName"/>
+                                            </a>
+                                        </li>
+                                    </xsl:for-each>
+                                </ul>
+                            </xsl:if>
+                        </li>
+                    </xsl:for-each>
+                </ul>
+            </xsl:if>
+        </li>
     </xsl:template>
 </xsl:stylesheet>
