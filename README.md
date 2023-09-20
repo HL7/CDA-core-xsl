@@ -160,6 +160,8 @@ The stylesheet supports many ways to parametrize.
 - `skip-ids`
   - Privacy parameter. Accepts a comma separated list of patient ID root values (normally OID's). When a patient ID is encountered with a root value in this list, then the rendering of this ID will be skipped. This is useful to prevent public display of for example the US SSN. Default is to render any ID as it occurs in the document. Note that this setting only affects human rendering and that it does not affect automated processing of the underlying document.
   - Default: none
+- `section-order`
+  - Provides a list of top level section codes, comma separated, matching the section/code/@code attribute. If the list is empty, then default to document order. First in list, means first on screen. Any sections without a match are rendered in document order after the last matching section. If none of the top-level sections match, the order defaults to document order. Example: `42348-3,46240-8`
 - `dosectionnumbering`
   - Determines if sections will receive numbering according to ClinicalDocument order. Value 'true' activates numbering. Top level sections are 1, 2, 3, 4, sub level sections are 1.1, 1.2, 1.2.1, 1.2.2 etc.
   - Default: false
