@@ -2,7 +2,7 @@
 Quick Links: [Manual](#manual) - [Localization](#localization) - [Parameters](#parameters) - [Wiki](https://github.com/HL7/cda-core-xsl/wiki) - [Release Notes](https://github.com/HL7/cda-core-xsl/wiki/Revisions) - **[Security Notes](https://github.com/HL7/cda-core-xsl/wiki/Security-Notes)**
 
 ## Introduction
-The CDA Release 2.0 and 2.1 publications come with an *informative* stylesheet based on [XSLT 1.0](https://www.w3.org/TR/1999/REC-xslt-19991116). The stylesheet is maintained under responsibility of the [Structured Documents Workgroup](https://confluence.hl7.org/display/SD). Publications are under [releases](https://github.com/HL7/cda-core-xsl/releases)
+The CDA Release 2.0 publication comes with an *informative* stylesheet based on [XSLT 1.0](https://www.w3.org/TR/1999/REC-xslt-19991116). The stylesheet is maintained under responsibility of the [Structured Documents Workgroup](https://confluence.hl7.org/display/SD). Publications are under [releases](https://github.com/HL7/cda-core-xsl/releases)
 The intent of the stylesheet is to offer an example of how to render a CDA document. It does this by rendering [XHTML 1.0 Strict](https://www.w3.org/TR/xhtml1/) with the following information:
 - a summary of the header for the most important context, i.e. patient, author, encounter, documentationOf and inFulFillmentOf
 - the section code, title and text (human readable text)
