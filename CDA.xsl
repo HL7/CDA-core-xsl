@@ -4216,6 +4216,30 @@
                             </xsl:call-template>
                         </td>
                     </tr>
+                    <xsl:if test="hl7:patient/hl7:maritalStatusCode | hl7:patient/hl7:religiousAffiliationCode">
+                        <tr>
+                            <td class="td_label td_label_width">
+                                <xsl:call-template name="getLocalizedString">
+                                    <xsl:with-param name="key" select="'maritalStatus'"/>
+                                </xsl:call-template>
+                            </td>
+                            <td style="width: 30%;">
+                                <xsl:call-template name="show-code-set">
+                                    <xsl:with-param name="in" select="hl7:patient/hl7:maritalStatusCode" />
+                                </xsl:call-template>
+                            </td>
+                            <td class="td_label td_label_width">
+                                <xsl:call-template name="getLocalizedString">
+                                    <xsl:with-param name="key" select="'religiousAffiliation'"/>
+                                </xsl:call-template>
+                            </td>
+                            <td>
+                                <xsl:call-template name="show-code-set">
+                                    <xsl:with-param name="in" select="hl7:patient/hl7:religiousAffiliationCode" />
+                                </xsl:call-template>
+                            </td>
+                        </tr>
+                    </xsl:if>
                     <xsl:if test="hl7:patient/hl7:raceCode | hl7:patient/hl7:ethnicGroupCode |
                                   hl7:patient/sdtc:raceCode | hl7:patient/sdtc:ethnicGroupCode">
                         <tr>
@@ -5143,7 +5167,7 @@
         <xsl:if test="$in">
             <xsl:variable name="codeSystem">
                 <xsl:choose>
-                    <xsl:when test="@codeSystem"><xsl:value-of select="$in/@codeSystem"/></xsl:when>
+                    <xsl:when test="$in/@codeSystem"><xsl:value-of select="$in/@codeSystem"/></xsl:when>
                     <xsl:when test="$in/self::hl7:signatureCode[not(@codeSystem)]">2.16.840.1.113883.5.89</xsl:when>
                 </xsl:choose>
             </xsl:variable>
