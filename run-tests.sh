@@ -29,6 +29,18 @@ XSPEC_SH="${LIB_DIR}/xspec/bin/xspec.sh"
 SAXON_CP="${SAXON_JAR}:${XMLRESOLVER_JAR}:${XMLRESOLVER_DATA_JAR}"
 
 # ---------------------------------------------------------------------------
+# Check for Java
+# ---------------------------------------------------------------------------
+if ! command -v java &>/dev/null; then
+    echo "ERROR: Java is required but not found on PATH."
+    echo "  Install Java 11+ from one of:"
+    echo "    Amazon Corretto: https://aws.amazon.com/corretto/"
+    echo "    Eclipse Temurin: https://adoptium.net/"
+    echo "    Oracle JDK:      https://www.oracle.com/java/technologies/downloads/"
+    exit 1
+fi
+
+# ---------------------------------------------------------------------------
 # Auto-install missing dependencies
 # ---------------------------------------------------------------------------
 install_deps() {

@@ -30,6 +30,19 @@ set "XSPEC_BAT=%LIB_DIR%\xspec\bin\xspec.bat"
 set "SAXON_CP=%SAXON_JAR%;%XMLRESOLVER_JAR%;%XMLRESOLVER_DATA_JAR%"
 
 REM ---------------------------------------------------------------------------
+REM Check for Java
+REM ---------------------------------------------------------------------------
+where java >nul 2>&1
+if errorlevel 1 (
+    echo ERROR: Java is required but not found on PATH.
+    echo   Install Java 11+ from one of:
+    echo     Amazon Corretto: https://aws.amazon.com/corretto/
+    echo     Eclipse Temurin: https://adoptium.net/
+    echo     Oracle JDK:      https://www.oracle.com/java/technologies/downloads/
+    exit /b 1
+)
+
+REM ---------------------------------------------------------------------------
 REM Auto-install missing dependencies
 REM ---------------------------------------------------------------------------
 call :install_deps
