@@ -153,30 +153,7 @@ echo Example regression tests
 echo ========================================
 
 for %%x in ("%EXAMPLES_DIR%\*.xml") do (
-    set "BASE=%%~nx"
-    set "EXPECTED=%EXAMPLES_DIR%\%%~nx.html"
-    set "ACTUAL=%RENDERS_DIR%\%%~nx.html"
-
-    if not exist "!EXPECTED!" (
-        echo   SKIP: %%~nxx.xml (no matching .html)
-        set /a "SKIP+=1"
-    ) else (
-        java -cp "%SAXON_CP%" net.sf.saxon.Transform -s:"%%x" -xsl:"%SCRIPT_DIR%\CDA.xsl" -o:"!ACTUAL!" 2>nul
-        if errorlevel 1 (
-            echo   FAIL: %%~nx (transformation error)
-            set /a "FAIL+=1"
-        ) else (
-            fc /b "!EXPECTED!" "!ACTUAL!" >nul 2>&1
-            if errorlevel 1 (
-                echo   FAIL: %%~nx
-                echo         To accept: run-tests.bat --update
-                set /a "FAIL+=1"
-            ) else (
-                echo   PASS: %%~nx
-                set /a "PASS+=1"
-            )
-        )
-    )
+    call :run_one_example "%%x"
 )
 
 echo ========================================
@@ -202,6 +179,39 @@ for %%x in ("%EXAMPLES_DIR%\*.xml") do (
 echo ========================================
 echo Updated %COUNT% file(s)
 echo ========================================
+exit /b 0
+
+REM ---------------------------------------------------------------------------
+REM Process a single example file (called from run_examples loop)
+REM ---------------------------------------------------------------------------
+:run_one_example
+set "EX_XML=%~1"
+set "EX_BASE=%~n1"
+set "EX_EXPECTED=%EXAMPLES_DIR%\%~n1.html"
+set "EX_ACTUAL=%RENDERS_DIR%\%~n1.html"
+
+if not exist "%EX_EXPECTED%" (
+    echo   SKIP: %EX_BASE%.xml (no matching .html^)
+    set /a "SKIP+=1"
+    exit /b 0
+)
+
+java -cp "%SAXON_CP%" net.sf.saxon.Transform -s:"%EX_XML%" -xsl:"%SCRIPT_DIR%\CDA.xsl" -o:"%EX_ACTUAL%" 2>nul
+if errorlevel 1 (
+    echo   FAIL: %EX_BASE% (transformation error^)
+    set /a "FAIL+=1"
+    exit /b 0
+)
+
+fc /b "%EX_EXPECTED%" "%EX_ACTUAL%" >nul 2>&1
+if errorlevel 1 (
+    echo   FAIL: %EX_BASE%
+    echo         To accept: run-tests.bat --update
+    set /a "FAIL+=1"
+) else (
+    echo   PASS: %EX_BASE%
+    set /a "PASS+=1"
+)
 exit /b 0
 
 REM ---------------------------------------------------------------------------
