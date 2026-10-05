@@ -1,0 +1,62 @@
+name: Tests
+
+on:
+  pull_request:
+    branches: [main, master]
+  push:
+    branches: [main, master]
+
+jobs:
+  xspec:
+    name: XSpec unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: corretto
+          java-version: '17'
+
+      - name: Run XSpec tests
+        run: ./run-tests.sh --xspec
+
+  examples:
+    name: Example regression tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: corretto
+          java-version: '17'
+
+      - name: Run example regression tests
+        run: ./run-tests.sh --examples
+
+  doc-reminder:
+    name: Documentation reminder
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check if CDA.xsl changed without documentation update
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          changed=$(git diff --name-only origin/${{ github.base_ref }}...HEAD)
+          if echo "$changed" | grep -q '^CDA\.xsl$'; then
+            if ! echo "$changed" | grep -q '^documentation/'; then
+              gh pr comment ${{ github.event.pull_request.number }} \
+                --body "⚠️ **Documentation reminder**: \`CDA.xsl\` was modified but \`documentation/CDA.html\` was not updated. Please regenerate it from Oxygen XML Editor before merging." \
+                --edit-last 2>/dev/null || \
+              gh pr comment ${{ github.event.pull_request.number }} \
+                --body "⚠️ **Documentation reminder**: \`CDA.xsl\` was modified but \`documentation/CDA.html\` was not updated. Please regenerate it from Oxygen XML Editor before merging."
+            fi
+          fi

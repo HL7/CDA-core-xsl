@@ -1,0 +1,1525 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    XSpec tests for CDA.xsl — Datatype rendering templates
+    
+    Covers the "Datatype based functions" that weren't covered in CDA-show-simple:
+    show-code, show-quantity, show-telecom, show-address, show-ivlts
+    
+    Each when/otherwise branch is tested.
+    
+    For text-only output, use select="text()" on x:expect to compare at the
+    text-node level rather than document-node level.
+-->
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:hl7="urn:hl7-org:v3"
+               xmlns:xhtml="http://www.w3.org/1999/xhtml"
+               stylesheet="../CDA.xsl">
+
+    <x:import href="CDA-shared-params.xspec"/>
+    
+    <!-- ================================================================== -->
+    <!-- show-id template                                                    -->
+    <!-- Output is <span> elements, so we use structural/contains tests.     -->
+    <!-- ================================================================== -->
+    <x:scenario label="show-id template">
+        <x:scenario label="renders root and extension">
+            <x:call template="show-id">
+                <x:param name="in">
+                    <id xmlns="urn:hl7-org:v3" root="2.16.840.1.113883.19.5" extension="12345"/>
+                </x:param>
+            </x:call>
+            <x:expect label="output contains the extension">
+                <xhtml:span>12345 (2.16.840.1.113883.19.5)</xhtml:span>
+            </x:expect>
+        </x:scenario>
+        
+        <x:scenario label="renders root only when no extension">
+            <x:call template="show-id">
+                <x:param name="in">
+                    <id xmlns="urn:hl7-org:v3" root="2.16.840.1.113883.19.5"/>
+                </x:param>
+            </x:call>
+            <x:expect label="output contains the root OID">
+                <xhtml:span>2.16.840.1.113883.19.5</xhtml:span>
+            </x:expect>
+        </x:scenario>
+        
+        <!-- No, it doesn't 
+            https://github.com/HL7/CDA-core-xsl/issues/30
+        <x:scenario label="renders extension only when no root">
+            <x:call template="show-id">
+                <x:param name="in">
+                    <id xmlns="urn:hl7-org:v3" extension="non-oid.id;etc"/>
+                </x:param>
+            </x:call>
+            <x:expect label="output contains the root OID">
+                <xhtml:span>non-oid.id;etc</xhtml:span>
+            </x:expect>
+        </x:scenario> -->
+        
+        <x:scenario label="renders nullFlavor when present">
+            <x:call template="show-id">
+                <x:param name="in">
+                    <id xmlns="urn:hl7-org:v3" nullFlavor="UNK"/>
+                </x:param>
+            </x:call>
+            <x:expect label="output contains parenthesized nullFlavor">
+                <xhtml:span>(unknown)</xhtml:span>
+            </x:expect>
+        </x:scenario>
+        
+        <x:scenario label="renders assigningAuthorityName as title attribute">
+            <x:call template="show-id">
+                <x:param name="in">
+                    <id xmlns="urn:hl7-org:v3" root="2.16.840.1.113883.19.5" extension="12345" assigningAuthorityName="Good Health Clinic"/>
+                </x:param>
+            </x:call>
+            <x:expect label="output span has title attribute">
+                <xhtml:span title="Good Health Clinic">12345 (2.16.840.1.113883.19.5)</xhtml:span>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+    <x:scenario label="show-id-set template">
+        <x:scenario label="renders single item with no separator">
+            <x:call template="show-id-set">
+                <x:param name="in">
+                    <hl7:id root="1.2.3"/>
+                </x:param>
+            </x:call>
+            <x:expect label="output contains no comma">
+                <xhtml:span>1.2.3</xhtml:span>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="renders DTr1 list of ids with default separator">
+            <x:call template="show-id-set">
+                <x:param name="in">
+                    <hl7:id root="1.2.3"/>
+                    <hl7:id root="1.2.4"/>
+                </x:param>
+            </x:call>
+            <x:expect label="output contains spans separated by ', '">
+                <xhtml:span>1.2.3</xhtml:span>, <xhtml:span>1.2.4</xhtml:span>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="renders DTr1 list of ids with custom separator">
+            <x:call template="show-id-set">
+                <x:param name="in">
+                    <hl7:id root="1.2.3"/>
+                    <hl7:id root="1.2.4"/>
+                </x:param>
+                <x:param name="sep" select="' sep '"></x:param>
+            </x:call>
+            <x:expect label="output contains spans separated by ' sep '">
+                <xhtml:span>1.2.3</xhtml:span> sep <xhtml:span>1.2.4</xhtml:span>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="renders DTr1 list of ids with br separator">
+            <x:call template="show-id-set">
+                <x:param name="in">
+                    <hl7:id root="1.2.3"/>
+                    <hl7:id root="1.2.4"/>
+                </x:param>
+                <x:param name="sep" select="'br'"></x:param>
+            </x:call>
+            <x:expect label="output contains spans separated by &lt;br/>">
+                <xhtml:span>1.2.3</xhtml:span><xhtml:br/><xhtml:span>1.2.4</xhtml:span>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="renders DTr2 list of ids with default separator">
+            <x:call template="show-id-set">
+                <x:param name="in">
+                    <hl7:id>
+                       <hl7:item root="1.2.3"/>
+                       <hl7:item root="1.2.4"/>
+                    </hl7:id>
+                </x:param>
+            </x:call>
+            <x:expect label="output contains spans separated by ', '">
+                <xhtml:span>1.2.3</xhtml:span>, <xhtml:span>1.2.4</xhtml:span>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="renders DTr2 list of ids with custom separator">
+            <x:call template="show-id-set">
+                <x:param name="in">
+                    <hl7:id>
+                       <hl7:item root="1.2.3"/>
+                       <hl7:item root="1.2.4"/>
+                    </hl7:id>
+                </x:param>
+                <x:param name="sep" select="' sep '"></x:param>
+            </x:call>
+            <x:expect label="output contains spans separated by ' sep '">
+                <xhtml:span>1.2.3</xhtml:span> sep <xhtml:span>1.2.4</xhtml:span>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="renders DTr2 list of ids with br separator">
+            <x:call template="show-id-set">
+                <x:param name="in">
+                    <hl7:id>
+                       <hl7:item root="1.2.3"/>
+                       <hl7:item root="1.2.4"/>
+                    </hl7:id>
+                </x:param>
+                <x:param name="sep" select="'br'"></x:param>
+            </x:call>
+            <x:expect label="output contains spans separated by &lt;br/>">
+                <xhtml:span>1.2.3</xhtml:span><xhtml:br/><xhtml:span>1.2.4</xhtml:span>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+    
+    <!-- ================================================================== -->
+    <!-- show-integer template                                               -->
+    <!-- ================================================================== -->
+    <x:scenario label="show-integer template">
+        <x:scenario label="renders value attribute">
+            <x:call template="show-integer">
+                <x:param name="in">
+                    <value xmlns="urn:hl7-org:v3" value="42"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders 42" select="text()">42 </x:expect>
+        </x:scenario>
+        
+        <x:scenario label="renders nullFlavor in parentheses">
+            <x:call template="show-integer">
+                <x:param name="in">
+                    <value xmlns="urn:hl7-org:v3" nullFlavor="UNK"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders (unknown)" select="text()">(unknown)</x:expect>
+        </x:scenario>
+        
+        <x:scenario label="renders value and nullFlavor together">
+            <x:call template="show-integer">
+                <x:param name="in">
+                    <value xmlns="urn:hl7-org:v3" value="42" nullFlavor="OTH"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders 42 (other)" select="text()">42 (other)</x:expect>
+        </x:scenario>
+        
+        <x:scenario label="handles empty input">
+            <x:call template="show-integer">
+                <x:param name="in" select="()"/>
+            </x:call>
+            <x:expect label="produces no output" select="()"/>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- show-integer-set template                                           -->
+    <!-- ================================================================== -->
+    <x:scenario label="show-integer-set template">
+        <x:scenario label="renders single item with no separator">
+            <x:call template="show-integer-set">
+                <x:param name="in">
+                    <hl7:value value="42"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders single value" select="text()">42 </x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders DTr1 list with default separator">
+            <x:call template="show-integer-set">
+                <x:param name="in">
+                    <hl7:value value="42"/>
+                    <hl7:value value="67"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders values separated by comma" select="text()">42 , 67 </x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders DTr1 list with br separator">
+            <x:call template="show-integer-set">
+                <x:param name="in">
+                    <hl7:value value="42"/>
+                    <hl7:value value="67"/>
+                </x:param>
+                <x:param name="sep" select="'br'"/>
+            </x:call>
+            <x:expect label="renders values separated by br">42 <xhtml:br/>67 </x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders DTr2 items with default separator">
+            <x:call template="show-integer-set">
+                <x:param name="in">
+                    <hl7:value>
+                        <hl7:item value="42"/>
+                        <hl7:item value="67"/>
+                    </hl7:value>
+                </x:param>
+            </x:call>
+            <x:expect label="renders items separated by comma" select="text()">42 , 67 </x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders DTr2 items with br separator">
+            <x:call template="show-integer-set">
+                <x:param name="in">
+                    <hl7:value>
+                        <hl7:item value="42"/>
+                        <hl7:item value="67"/>
+                    </hl7:value>
+                </x:param>
+                <x:param name="sep" select="'br'"/>
+            </x:call>
+            <x:expect label="renders items separated by br">42 <xhtml:br/>67 </x:expect>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- show-code                                                           -->
+    <!-- ================================================================== -->
+    <x:scenario label="show-code">
+        <!--
+            Note: show-code has a quirk where it tests @codeSystem on the context node
+            instead of $in. Scenarios with @codeSystem duplicate the element as both
+            x:context and x:param. The parent dummy context covers scenarios without it.
+            ISSUE: https://github.com/HL7/CDA-core-xsl/issues/27
+        -->
+        <x:context>
+            <hl7:code/>
+        </x:context>
+
+        <x:scenario label="code+codeSystem with localized match renders localized text">
+            <x:context>
+                <code xmlns="urn:hl7-org:v3" code="F" codeSystem="2.16.840.1.113883.5.1"/>
+            </x:context>
+            <x:call template="show-code">
+                <x:param name="in">
+                    <code xmlns="urn:hl7-org:v3" code="F" codeSystem="2.16.840.1.113883.5.1"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders Female" select="text()">Female</x:expect>
+        </x:scenario>
+
+        <x:scenario label="code+codeSystem not in l10n falls back to displayName">
+            <x:context>
+                <code xmlns="urn:hl7-org:v3" code="XYZ" codeSystem="1.2.3.4" displayName="Custom Code"/>
+            </x:context>
+            <x:call template="show-code">
+                <x:param name="in">
+                    <code xmlns="urn:hl7-org:v3" code="XYZ" codeSystem="1.2.3.4" displayName="Custom Code"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders Custom Code" select="text()">Custom Code</x:expect>
+        </x:scenario>
+
+        <x:scenario label="code+codeSystem not in l10n and no displayName shows code with codeSystem">
+            <x:context>
+                <code xmlns="urn:hl7-org:v3" code="XYZ" codeSystem="1.2.3.4"/>
+            </x:context>
+            <x:call template="show-code">
+                <x:param name="in">
+                    <code xmlns="urn:hl7-org:v3" code="XYZ" codeSystem="1.2.3.4"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders XYZ (1.2.3.4)" select="text()">XYZ (1.2.3.4)</x:expect>
+        </x:scenario>
+
+        <x:scenario label="DTr2 displayName child element">
+            <x:context>
+                <code xmlns="urn:hl7-org:v3" code="XYZ" codeSystem="1.2.3.4">
+                    <displayName value="DTr2 Display"/>
+                </code>
+            </x:context>
+            <x:call template="show-code">
+                <x:param name="in">
+                    <code xmlns="urn:hl7-org:v3" code="XYZ" codeSystem="1.2.3.4">
+                        <displayName value="DTr2 Display"/>
+                    </code>
+                </x:param>
+            </x:call>
+            <x:expect label="renders DTr2 Display" select="text()">DTr2 Display</x:expect>
+        </x:scenario>
+
+        <x:scenario label="displayName only renders display text">
+            <x:call template="show-code">
+                <x:param name="in">
+                    <code xmlns="urn:hl7-org:v3" displayName="Just Display"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders Just Display" select="text()">Just Display</x:expect>
+        </x:scenario>
+
+        <x:scenario label="code only without codeSystem renders raw code">
+            <x:call template="show-code">
+                <x:param name="in">
+                    <code xmlns="urn:hl7-org:v3" code="XYZ"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders XYZ" select="text()">XYZ</x:expect>
+        </x:scenario>
+
+        <x:scenario label="nullFlavor renders localized null flavor">
+            <x:call template="show-code">
+                <x:param name="in">
+                    <code xmlns="urn:hl7-org:v3" nullFlavor="UNK"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders unknown" select="text()">unknown</x:expect>
+        </x:scenario>
+
+        <x:scenario label="originalText is appended with dash separator">
+            <x:context>
+                <code xmlns="urn:hl7-org:v3" code="F" codeSystem="2.16.840.1.113883.5.1">
+                    <originalText>Female gender</originalText>
+                </code>
+            </x:context>
+            <x:call template="show-code">
+                <x:param name="in">
+                    <code xmlns="urn:hl7-org:v3" code="F" codeSystem="2.16.840.1.113883.5.1">
+                        <originalText>Female gender</originalText>
+                    </code>
+                </x:param>
+            </x:call>
+            <x:expect label="renders Female - Female gender" select="text()">Female - Female gender</x:expect>
+        </x:scenario>
+
+        <x:scenario label="translation renders in indented div">
+            <x:context>
+                <code xmlns="urn:hl7-org:v3" code="F" codeSystem="2.16.840.1.113883.5.1">
+                    <translation code="248152002" codeSystem="2.16.840.1.113883.6.96" displayName="Female (finding)"/>
+                </code>
+            </x:context>
+            <x:call template="show-code">
+                <x:param name="in">
+                    <code xmlns="urn:hl7-org:v3" code="F" codeSystem="2.16.840.1.113883.5.1">
+                        <translation code="248152002" codeSystem="2.16.840.1.113883.6.96" displayName="Female (finding)"/>
+                    </code>
+                </x:param>
+            </x:call>
+            <x:expect label="code text is Female" test="text() = 'Female'"/>
+            <x:expect label="translation in indented div">Female<xhtml:div style="margin-left: 2em;">translation: Female (finding)</xhtml:div></x:expect>
+        </x:scenario>
+
+        <x:scenario label="signatureCode without codeSystem defaults to 2.16.840.1.113883.5.89">
+            <x:call template="show-code">
+                <x:param name="in">
+                    <signatureCode xmlns="urn:hl7-org:v3" code="S"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders signed" select="text()">signed</x:expect>
+        </x:scenario>
+        
+        <x:scenario label="defaults codeSystem for signatureCode element (bad code)">
+            <x:context><test/></x:context>
+            <x:call template="show-code">
+                <x:param name="in">
+                    <hl7:signatureCode code="bad" />
+                </x:param>
+            </x:call>
+            <x:expect label="renders bad (ParticipantSignature)" select="text()">bad (ParticipationSignature)</x:expect>
+        </x:scenario>
+
+        <x:scenario label="empty input produces no output">
+            <x:call template="show-code">
+                <x:param name="in" select="()"/>
+            </x:call>
+            <x:expect label="no output" select="()"/>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- show-code-set template                                              -->
+    <!-- ================================================================== -->
+    <x:scenario label="show-code-set template">
+        <x:scenario label="renders single code with no separator">
+            <x:call template="show-code-set">
+                <x:param name="in">
+                    <hl7:code displayName="Headache"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders single displayName" select="text()">Headache</x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders DTr1 list with default separator">
+            <x:call template="show-code-set">
+                <x:param name="in">
+                    <hl7:code displayName="Headache"/>
+                    <hl7:code displayName="Nausea"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders codes separated by comma" select="text()">Headache, Nausea</x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders DTr1 list with br separator">
+            <x:call template="show-code-set">
+                <x:param name="in">
+                    <hl7:code displayName="Headache"/>
+                    <hl7:code displayName="Nausea"/>
+                </x:param>
+                <x:param name="sep" select="'br'"/>
+            </x:call>
+            <x:expect label="renders codes separated by br">Headache<xhtml:br/>Nausea</x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders DTr2 items with default separator">
+            <x:call template="show-code-set">
+                <x:param name="in">
+                    <hl7:code>
+                        <hl7:item displayName="Headache"/>
+                        <hl7:item displayName="Nausea"/>
+                    </hl7:code>
+                </x:param>
+            </x:call>
+            <x:expect label="renders items separated by comma" select="text()">Headache, Nausea</x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders DTr2 items with br separator">
+            <x:call template="show-code-set">
+                <x:param name="in">
+                    <hl7:code>
+                        <hl7:item displayName="Headache"/>
+                        <hl7:item displayName="Nausea"/>
+                    </hl7:code>
+                </x:param>
+                <x:param name="sep" select="'br'"/>
+            </x:call>
+            <x:expect label="renders items separated by br">Headache<xhtml:br/>Nausea</x:expect>
+        </x:scenario>
+    </x:scenario>
+    
+    <!-- ================================================================== -->
+    <!-- show-name template                                                  -->
+    <!-- Output contains whitespace from XML formatting between name parts,  -->
+    <!-- so we use contains() rather than exact text match.                   -->
+    <!-- ================================================================== -->
+    <x:scenario label="show-name template">
+        <x:scenario label="renders a given name only">
+            <x:call template="show-name">
+                <x:param name="in">
+                    <name xmlns="urn:hl7-org:v3">
+                        <given>Anon</given>
+                    </name>
+                </x:param>
+            </x:call>
+            <x:expect label="outputs given name"
+                select="text()">Anon</x:expect>
+        </x:scenario>
+        
+        <x:scenario label="renders a simple given + family name">
+            <x:call template="show-name">
+                <x:param name="in">
+                    <name xmlns="urn:hl7-org:v3">
+                        <given>John</given>
+                        <family>Doe</family>
+                    </name>
+                </x:param>
+            </x:call>
+            <x:expect label="outputs given name followed by uppercased family name"
+                select="text()">John  DOE</x:expect>
+        </x:scenario>
+        
+        <x:scenario label="renders name with prefix">
+            <x:call template="show-name">
+                <x:param name="in">
+                    <name xmlns="urn:hl7-org:v3">
+                        <prefix>Dr.</prefix>
+                        <given>Jane</given>
+                        <family>Smith</family>
+                    </name>
+                </x:param>
+            </x:call>
+            <x:expect label="outputs prefix, given, and uppercased family"
+                select="text()">Dr. Jane  SMITH</x:expect>
+        </x:scenario>
+        
+        <x:scenario label="renders multiple given names">
+            <x:call template="show-name">
+                <x:param name="in">
+                    <name xmlns="urn:hl7-org:v3">
+                        <given>John</given>
+                        <given>Michael</given>
+                        <family>Doe</family>
+                    </name>
+                </x:param>
+            </x:call>
+            <x:expect label="outputs both given names and uppercased family"
+                select="text()">John  Michael  DOE</x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders name with single @use">
+            <x:call template="show-name">
+                <x:param name="in">
+                    <name xmlns="urn:hl7-org:v3" use="L"><given>John</given><family>Doe</family></name>
+                </x:param>
+            </x:call>
+            <x:expect label="outputs Legal: prefix" select="text()">Legal: John  DOE</x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders name with multiple @use values">
+            <x:call template="show-name">
+                <x:param name="in">
+                    <name xmlns="urn:hl7-org:v3" use="L OR"><given>Jane</given><family>Smith</family></name>
+                </x:param>
+            </x:call>
+            <x:expect label="outputs both use labels" select="text()">Legal official registry: Jane  SMITH</x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders name with @use and @nullFlavor">
+            <x:call template="show-name">
+                <x:param name="in">
+                    <name xmlns="urn:hl7-org:v3" use="L" nullFlavor="MSK"><given>Secret</given><family>Agent</family></name>
+                </x:param>
+            </x:call>
+            <!-- nullFlavor renders "masked" but name parts still render (not suppressed) -->
+            <x:expect label="outputs Legal: masked then name parts" select="text()">Legal:  maskedSecret  AGENT</x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders prefix with VV qualifier (voorvoegsel, uppercased)">
+            <x:call template="show-name">
+                <x:param name="in">
+                    <name xmlns="urn:hl7-org:v3"><prefix qualifier="VV">van</prefix><given>Jan</given><family>Berg</family></name>
+                </x:param>
+            </x:call>
+            <x:expect label="VV prefix uppercased with space" select="text()">VAN  Jan  BERG</x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders name with suffix">
+            <x:call template="show-name">
+                <x:param name="in">
+                    <name xmlns="urn:hl7-org:v3"><given>Bob</given><family>Jones</family><suffix>Jr.</suffix></name>
+                </x:param>
+            </x:call>
+            <x:expect label="suffix rendered after family" select="text()">Bob  JONES Jr.</x:expect>
+        </x:scenario>
+
+        <!-- DTr2 name parts use <part type="..." value="..."/> instead of named elements.
+             BUG: No implicit spacing between DTr2 parts — the spacing logic checks for
+             self::hl7:given and self::hl7:family, not self::hl7:part[@type='GIV'/'FAM']. -->
+        <x:scenario label="renders DTr2 part elements (no implicit spacing - known bug)">
+            <x:call template="show-name">
+                <x:param name="in">
+                    <name xmlns="urn:hl7-org:v3"><part type="PFX" value="Dr."/><part type="GIV" value="Anna"/><part type="FAM" value="Mueller"/></name>
+                </x:param>
+            </x:call>
+            <x:expect label="DTr2 parts concatenated without spaces" select="text()">Dr.AnnaMUELLER</x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders DTr2 VV prefix (uppercased, explicit space only)">
+            <x:call template="show-name">
+                <x:param name="in">
+                    <name xmlns="urn:hl7-org:v3"><part type="PFX" qualifier="VV" value="von"/><part type="GIV" value="Hans"/><part type="FAM" value="Schmidt"/></name>
+                </x:param>
+            </x:call>
+            <x:expect label="VON has trailing space but no other spacing" select="text()">VON HansSCHMIDT</x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders DTr2 part with no @type">
+            <x:call template="show-name">
+                <x:param name="in">
+                    <name xmlns="urn:hl7-org:v3"><part value="Whole Name"/></name>
+                </x:param>
+            </x:call>
+            <x:expect label="outputs @value from untyped part" select="text()">Whole Name</x:expect>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- show-name-set template                                              -->
+    <!-- ================================================================== -->
+    <x:scenario label="show-name-set template">
+        <x:scenario label="renders single name">
+            <x:call template="show-name-set">
+                <x:param name="in">
+                    <hl7:name><hl7:given>Waldo</hl7:given></hl7:name>
+                </x:param>
+            </x:call>
+            <x:expect label="renders single name" select="text()">Waldo</x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders DTr1 list with default separator">
+            <x:call template="show-name-set">
+                <x:param name="in">
+                    <hl7:name><hl7:given>Waldo</hl7:given></hl7:name>
+                    <hl7:name><hl7:given>Carmen</hl7:given></hl7:name>
+                </x:param>
+            </x:call>
+            <x:expect label="renders names separated by comma" select="text()">Waldo, Carmen</x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders DTr1 list with br separator">
+            <x:call template="show-name-set">
+                <x:param name="in">
+                    <hl7:name><hl7:given>Waldo</hl7:given></hl7:name>
+                    <hl7:name><hl7:given>Carmen</hl7:given></hl7:name>
+                </x:param>
+                <x:param name="sep" select="'br'"/>
+            </x:call>
+            <x:expect label="renders names separated by br">Waldo<xhtml:br/>Carmen</x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders DTr2 items with default separator">
+            <x:call template="show-name-set">
+                <x:param name="in">
+                    <hl7:name>
+                        <hl7:item><hl7:given>Waldo</hl7:given></hl7:item>
+                        <hl7:item><hl7:given>Carmen</hl7:given></hl7:item>
+                    </hl7:name>
+                </x:param>
+            </x:call>
+            <x:expect label="renders items separated by comma" select="text()">Waldo, Carmen</x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders DTr2 items with br separator">
+            <x:call template="show-name-set">
+                <x:param name="in">
+                    <hl7:name>
+                        <hl7:item><hl7:given>Waldo</hl7:given></hl7:item>
+                        <hl7:item><hl7:given>Carmen</hl7:given></hl7:item>
+                    </hl7:name>
+                </x:param>
+                <x:param name="sep" select="'br'"/>
+            </x:call>
+            <x:expect label="renders items separated by br">Waldo<xhtml:br/>Carmen</x:expect>
+        </x:scenario>
+    </x:scenario>
+    
+    <!-- ================================================================== -->
+    <!-- show-address                                                        -->
+    <!-- TODO - lots more to test here... -->
+    <!-- ================================================================== -->
+    <x:scenario label="show-address">
+        
+        <x:scenario label="US-style address with streetAddressLine, city, state, zip">
+            <x:call template="show-address">
+                <x:param name="in">
+                    <addr xmlns="urn:hl7-org:v3" use="WP">
+                        <streetAddressLine>100 Main St</streetAddressLine>
+                        <city>Anytown</city>
+                        <state>NY</state>
+                        <postalCode>10001</postalCode>
+                    </addr>
+                </x:param>
+            </x:call>
+            <x:expect label="renders formatted address with br separators"
+                >Workplace: 100 Main St<xhtml:br/>Anytown, NY 10001<xhtml:br/></x:expect>
+        </x:scenario>
+        
+        <x:scenario label="address with only one part">
+            <x:call template="show-address">
+                <x:param name="in">
+                    <addr xmlns="urn:hl7-org:v3" use="WP">
+                        <city>Anytown</city>
+                    </addr>
+                </x:param>
+            </x:call>
+            <x:expect label="renders formatted address without trailing br"
+                >Workplace: Anytown</x:expect>
+        </x:scenario>
+        
+        <x:scenario label="nullFlavor renders localized null flavor">
+            <x:call template="show-address">
+                <x:param name="in">
+                    <hl7:addr nullFlavor="UNK"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders unknown" select="text()">unknown</x:expect>
+        </x:scenario>
+        
+        <x:scenario label="address with use and nullFlavor renders both">
+            <x:call template="show-address">
+                <x:param name="in">
+                    <hl7:addr use="WP" nullFlavor="UNK"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders Workplace: unknown" select="text()">Workplace:  unknown</x:expect>
+        </x:scenario>
+        
+        <x:scenario label="empty input produces no output">
+            <x:call template="show-address">
+                <x:param name="in" select="()"/>
+            </x:call>
+            <x:expect label="no output" select="()"/>
+        </x:scenario>
+
+        <x:scenario label="streetName + houseNumber (European style)">
+            <x:call template="show-address">
+                <x:param name="in">
+                    <addr xmlns="urn:hl7-org:v3"><streetName>Keizersgracht</streetName><houseNumber>100</houseNumber><city>Amsterdam</city><postalCode>1015AA</postalCode></addr>
+                </x:param>
+            </x:call>
+            <!-- postalCode after city → city ZIP (US style placement even with European parts) -->
+            <x:expect label="streetName nbsp houseNumber, city zip"
+                >Keizersgracht&#160;100<xhtml:br/>Amsterdam 1015AA<xhtml:br/></x:expect>
+        </x:scenario>
+
+        <x:scenario label="streetName + houseNumberNumeric + buildingNumberSuffix">
+            <x:call template="show-address">
+                <x:param name="in">
+                    <addr xmlns="urn:hl7-org:v3"><streetName>Laan</streetName><houseNumberNumeric>42</houseNumberNumeric><buildingNumberSuffix>bis</buildingNumberSuffix><city>Utrecht</city></addr>
+                </x:param>
+            </x:call>
+            <x:expect label="street nbsp number nbsp suffix, city"
+                >Laan&#160;42&#160;bis<xhtml:br/>Utrecht</x:expect>
+        </x:scenario>
+
+        <x:scenario label="streetName + buildingNumberSuffix (no houseNumber)">
+            <x:call template="show-address">
+                <x:param name="in">
+                    <addr xmlns="urn:hl7-org:v3"><streetName>Dorpsweg</streetName><buildingNumberSuffix>II</buildingNumberSuffix><city>Haarlem</city></addr>
+                </x:param>
+            </x:call>
+            <x:expect label="streetName nbsp suffix"
+                >Dorpsweg&#160;II<xhtml:br/>Haarlem</x:expect>
+        </x:scenario>
+
+        <x:scenario label="streetName + additionalLocator + buildingNumberSuffix2 (no houseNumber2)">
+            <x:call template="show-address">
+                <x:param name="in">
+                    <addr xmlns="urn:hl7-org:v3"><streetName>Hoofdstraat</streetName><additionalLocator>Etage 3</additionalLocator><buildingNumberSuffix>links</buildingNumberSuffix><city>Leiden</city></addr>
+                </x:param>
+            </x:call>
+            <!-- additionalLocator + buildingNumberSuffix2 renders once from the streetName
+                 branch's inner chain, then again from the standalone additionalLocator branch -->
+            <x:expect label="streetName chain then duplicate from standalone additionalLocator"
+                >Hoofdstraat&#160;Etage 3&#160;links<xhtml:br/>Etage 3&#160;links<xhtml:br/>Leiden</x:expect>
+        </x:scenario>
+
+        <x:scenario label="postBox">
+            <x:call template="show-address">
+                <x:param name="in">
+                    <addr xmlns="urn:hl7-org:v3"><postBox>1234</postBox><city>Nowhere</city></addr>
+                </x:param>
+            </x:call>
+            <x:expect label="renders Postbox label + number"
+                >Postbox 1234<xhtml:br/>Nowhere</x:expect>
+        </x:scenario>
+
+        <x:scenario label="zip before city (European style)">
+            <x:call template="show-address">
+                <x:param name="in">
+                    <addr xmlns="urn:hl7-org:v3"><postalCode>75008</postalCode><city>Paris</city><country>France</country></addr>
+                </x:param>
+            </x:call>
+            <x:expect label="renders zip city then country"
+                >75008 Paris<xhtml:br/>France</x:expect>
+        </x:scenario>
+
+        <x:scenario label="state only (no city) with country">
+            <x:call template="show-address">
+                <x:param name="in">
+                    <addr xmlns="urn:hl7-org:v3"><state>TX</state><country>US</country></addr>
+                </x:param>
+            </x:call>
+            <x:expect label="renders state then country"
+                >TX<xhtml:br/>US</x:expect>
+        </x:scenario>
+
+        <x:scenario label="multiple @use values">
+            <x:call template="show-address">
+                <x:param name="in">
+                    <addr xmlns="urn:hl7-org:v3" use="WP PHYS"><streetAddressLine>999 Office Blvd</streetAddressLine><city>Chicago</city><state>IL</state></addr>
+                </x:param>
+            </x:call>
+            <x:expect label="renders both use labels"
+                >Workplace Physical: 999 Office Blvd<xhtml:br/>Chicago, IL<xhtml:br/></x:expect>
+        </x:scenario>
+
+        <x:scenario label="useablePeriod">
+            <x:call template="show-address">
+                <x:param name="in">
+                    <addr xmlns="urn:hl7-org:v3"><city>Temporal</city><useablePeriod><low value="20240101"/><high value="20261231"/></useablePeriod></addr>
+                </x:param>
+            </x:call>
+            <x:expect label="renders city then period div"
+                >Temporal<xhtml:div>Period from&#160;January  1, 2024 to&#160;December  31, 2026</xhtml:div></x:expect>
+        </x:scenario>
+
+        <x:scenario label="country after streetAddressLine + city (generic text fallthrough)">
+            <x:call template="show-address">
+                <x:param name="in">
+                    <addr xmlns="urn:hl7-org:v3"><streetAddressLine>1 Rue X</streetAddressLine><city>Lyon</city><country>France</country></addr>
+                </x:param>
+            </x:call>
+            <x:expect label="renders street, city, country with br separators"
+                >1 Rue X<xhtml:br/>Lyon<xhtml:br/>France</x:expect>
+        </x:scenario>
+
+        <x:scenario label="DTr2 SAL (streetAddressLine equivalent) with city, state, zip">
+            <x:call template="show-address">
+                <x:param name="in">
+                    <addr xmlns="urn:hl7-org:v3"><part type="SAL" value="200 DTr2 Street"/><part type="CTY" value="NewCity"/><part type="STA" value="CA"/><part type="ZIP" value="90210"/></addr>
+                </x:param>
+            </x:call>
+            <!-- DTr2 SAL falls through to the generic @value branch -->
+            <x:expect label="renders DTr2 address"
+                >200 DTr2 Street<xhtml:br/>NewCity, CA <xhtml:br/></x:expect>
+        </x:scenario>
+
+        <x:scenario label="DTr2 POB (postbox)">
+            <x:call template="show-address">
+                <x:param name="in">
+                    <addr xmlns="urn:hl7-org:v3"><part type="POB" value="5678"/><part type="CTY" value="BoxCity"/></addr>
+                </x:param>
+            </x:call>
+            <x:expect label="renders Postbox label + value"
+                >Postbox 5678<xhtml:br/>BoxCity</x:expect>
+        </x:scenario>
+
+        <x:scenario label="streetName + houseNumber + buildingNumberSuffix + additionalLocator + houseNumber2 + buildingNumberSuffix2">
+            <x:call template="show-address">
+                <x:param name="in">
+                    <addr xmlns="urn:hl7-org:v3"><streetName>Keizersgracht</streetName><houseNumber>100</houseNumber><additionalLocator>Apt B</additionalLocator><houseNumber>5</houseNumber><buildingNumberSuffix>a</buildingNumberSuffix><city>Amsterdam</city></addr>
+                </x:param>
+            </x:call>
+            <x:expect label="all parts joined with nbsp, second-level houseNumber2 + suffix2"
+                >Keizersgracht&#160;100&#160;Apt B&#160;5&#160;a<xhtml:br/>Amsterdam</x:expect>
+        </x:scenario>
+
+        <x:scenario label="standalone additionalLocator + houseNumberNumeric">
+            <x:call template="show-address">
+                <x:param name="in">
+                    <addr xmlns="urn:hl7-org:v3"><additionalLocator>Building C</additionalLocator><houseNumberNumeric>42</houseNumberNumeric><city>Utrecht</city></addr>
+                </x:param>
+            </x:call>
+            <x:expect label="additionalLocator nbsp houseNumber"
+                >Building C&#160;42<xhtml:br/>Utrecht</x:expect>
+        </x:scenario>
+
+        <x:scenario label="standalone additionalLocator + buildingNumberSuffix">
+            <x:call template="show-address">
+                <x:param name="in">
+                    <addr xmlns="urn:hl7-org:v3"><additionalLocator>Wing D</additionalLocator><buildingNumberSuffix>bis</buildingNumberSuffix><city>Delft</city></addr>
+                </x:param>
+            </x:call>
+            <x:expect label="additionalLocator nbsp suffix"
+                >Wing D&#160;bis<xhtml:br/>Delft</x:expect>
+        </x:scenario>
+
+        <x:scenario label="standalone additionalLocator + houseNumber (not houseNumberNumeric)">
+            <x:call template="show-address">
+                <x:param name="in">
+                    <addr xmlns="urn:hl7-org:v3"><additionalLocator>Floor 2</additionalLocator><houseNumber>15</houseNumber><city>Groningen</city></addr>
+                </x:param>
+            </x:call>
+            <x:expect label="additionalLocator nbsp houseNumber"
+                >Floor 2&#160;15<xhtml:br/>Groningen</x:expect>
+        </x:scenario>
+
+        <x:scenario label="standalone houseNumber (no streetName or additionalLocator)">
+            <x:call template="show-address">
+                <x:param name="in">
+                    <addr xmlns="urn:hl7-org:v3"><houseNumber>99</houseNumber><city>Solo</city></addr>
+                </x:param>
+            </x:call>
+            <x:expect label="houseNumber then city"
+                >99<xhtml:br/>Solo</x:expect>
+        </x:scenario>
+
+        <x:scenario label="postalCode with @code before city">
+            <x:call template="show-address">
+                <x:param name="in">
+                    <addr xmlns="urn:hl7-org:v3"><postalCode code="Z100"/><city>CodeCity</city></addr>
+                </x:param>
+            </x:call>
+            <x:expect label="renders code value before city"
+                >Z100 CodeCity</x:expect>
+        </x:scenario>
+
+        <x:scenario label="postalCode with @code after city">
+            <x:call template="show-address">
+                <x:param name="in">
+                    <addr xmlns="urn:hl7-org:v3"><city>CodeCity2</city><postalCode code="Z200"/></addr>
+                </x:param>
+            </x:call>
+            <x:expect label="renders city then code value"
+                >CodeCity2 Z200<xhtml:br/></x:expect>
+        </x:scenario>
+
+        <x:scenario label="state without city, preceded by streetAddressLine">
+            <x:call template="show-address">
+                <x:param name="in">
+                    <addr xmlns="urn:hl7-org:v3"><streetAddressLine>1 Road</streetAddressLine><state>CA</state><country>US</country></addr>
+                </x:param>
+            </x:call>
+            <x:expect label="br before state when preceded by content"
+                >1 Road<xhtml:br/><xhtml:br/>CA<xhtml:br/>US</x:expect>
+        </x:scenario>
+
+        <x:scenario label="DTr2 standalone ADL + BNR">
+            <x:call template="show-address">
+                <x:param name="in">
+                    <addr xmlns="urn:hl7-org:v3"><part type="ADL" value="Block E"/><part type="BNR" value="88"/><part type="CTY" value="Leiden"/></addr>
+                </x:param>
+            </x:call>
+            <!-- BUG: BNR renders twice — once from ADL's following-sibling pickup and
+                 once from its own BNR match (not suppressed because preceding-sibling
+                 check looks for hl7:part[@type='STR'|'ADL'] not hl7:*[1][@type='ADL']) -->
+            <x:expect label="ADL nbsp BNR then BNR again (double render bug)"
+                >Block E&#160;88<xhtml:br/>88<xhtml:br/>Leiden</x:expect>
+        </x:scenario>
+
+        <!-- DTr2 parts can use text content instead of @value. When they do, the
+             STR branch's internal houseNumber/buildingNumberSuffix/additionalLocator
+             chain works correctly (lines 5520-5555). With @value only, those
+             string-length() checks fail since they check text content. -->
+        <x:scenario label="DTr2 STR + BNR + BNS with text content (lines 5520-5531)">
+            <x:call template="show-address">
+                <x:param name="in">
+                    <addr xmlns="urn:hl7-org:v3"><part type="STR">Straat</part><part type="BNR">10</part><part type="BNS">b</part><part type="CTY">Rotterdam</part></addr>
+                </x:param>
+            </x:call>
+            <x:expect label="streetName nbsp houseNumber nbsp suffix"
+                >Straat&#160;10&#160;b<xhtml:br/></x:expect>
+        </x:scenario>
+
+        <!-- With @value (self-closing parts), the STR branch's string-length checks
+             fail since text content is empty. The BNR/BNN values render from the
+             standalone BNR/BNN/BNS branch further down instead. -->
+        <x:scenario label="DTr2 STR + BNR + ADL + BNN + BNS with @value (chain bypassed)">
+            <x:call template="show-address">
+                <x:param name="in">
+                    <addr xmlns="urn:hl7-org:v3"><part type="STR" value="Straat"/><part type="BNR" value="10"/><part type="ADL" value="Unit X"/><part type="BNN" value="3"/><part type="BNS" value="c"/><part type="CTY" value="Rotterdam"/></addr>
+                </x:param>
+            </x:call>
+            <x:expect label="only standalone BNR and BNN render"
+                >10<xhtml:br/>3<xhtml:br/>Rotterdam</x:expect>
+        </x:scenario>
+
+        <!-- BUG: DTr2 STR + BNR (streetName lost - known bug, see above) -->
+        <x:scenario label="DTr2 STR + BNR (streetName lost - known bug)">
+            <x:call template="show-address">
+                <x:param name="in">
+                    <addr xmlns="urn:hl7-org:v3"><part type="STR" value="Gracht"/><part type="BNR" value="77"/><part type="CTY" value="Amsterdam"/></addr>
+                </x:param>
+            </x:call>
+            <x:expect label="only house number and city render (streetName missing)"
+                >77<xhtml:br/>Amsterdam</x:expect>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- show-address-set template                                           -->
+    <!-- ================================================================== -->
+    <x:scenario label="show-address-set template">
+        <x:scenario label="renders single address">
+            <x:call template="show-address-set">
+                <x:param name="in">
+                    <hl7:addr><hl7:city>Springfield</hl7:city></hl7:addr>
+                </x:param>
+            </x:call>
+            <x:expect label="renders single city" select="text()">Springfield</x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders DTr1 list with default separator">
+            <x:call template="show-address-set">
+                <x:param name="in">
+                    <hl7:addr><hl7:city>Springfield</hl7:city></hl7:addr>
+                    <hl7:addr><hl7:city>Shelbyville</hl7:city></hl7:addr>
+                </x:param>
+            </x:call>
+            <x:expect label="renders addresses separated by comma" select="text()">Springfield, Shelbyville</x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders DTr1 list with br separator">
+            <x:call template="show-address-set">
+                <x:param name="in">
+                    <hl7:addr><hl7:city>Springfield</hl7:city></hl7:addr>
+                    <hl7:addr><hl7:city>Shelbyville</hl7:city></hl7:addr>
+                </x:param>
+                <x:param name="sep" select="'br'"/>
+            </x:call>
+            <x:expect label="renders addresses separated by br">Springfield<xhtml:br/>Shelbyville</x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders DTr2 items with default separator">
+            <x:call template="show-address-set">
+                <x:param name="in">
+                    <hl7:addr>
+                        <hl7:item><hl7:city>Springfield</hl7:city></hl7:item>
+                        <hl7:item><hl7:city>Shelbyville</hl7:city></hl7:item>
+                    </hl7:addr>
+                </x:param>
+            </x:call>
+            <x:expect label="renders items separated by comma" select="text()">Springfield, Shelbyville</x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders DTr2 items with br separator">
+            <x:call template="show-address-set">
+                <x:param name="in">
+                    <hl7:addr>
+                        <hl7:item><hl7:city>Springfield</hl7:city></hl7:item>
+                        <hl7:item><hl7:city>Shelbyville</hl7:city></hl7:item>
+                    </hl7:addr>
+                </x:param>
+                <x:param name="sep" select="'br'"/>
+            </x:call>
+            <x:expect label="renders items separated by br">Springfield<xhtml:br/>Shelbyville</x:expect>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- show-quantity                                                        -->
+    <!-- ================================================================== -->
+    <x:scenario label="show-quantity">
+
+        <x:scenario label="value with unit renders value and unit">
+            <x:call template="show-quantity">
+                <x:param name="in">
+                    <value xmlns="urn:hl7-org:v3" value="120" unit="mm[Hg]"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders 120 mm[Hg]" select="text()">120 mm[Hg] </x:expect>
+        </x:scenario>
+
+        <x:scenario label="value 1 with no unit renders singular Unit">
+            <x:call template="show-quantity">
+                <x:param name="in">
+                    <value xmlns="urn:hl7-org:v3" value="1"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders 1 Unit" select="text()">1 Unit </x:expect>
+        </x:scenario>
+
+        <x:scenario label="value greater than 1 with no unit renders plural Units">
+            <x:call template="show-quantity">
+                <x:param name="in">
+                    <value xmlns="urn:hl7-org:v3" value="3"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders 3 Units" select="text()">3 Units </x:expect>
+        </x:scenario>
+
+        <x:scenario label="nullFlavor renders in parentheses">
+            <x:call template="show-quantity">
+                <x:param name="in">
+                    <value xmlns="urn:hl7-org:v3" nullFlavor="UNK"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders (unknown)" select="text()">(unknown)</x:expect>
+        </x:scenario>
+
+        <x:scenario label="value and nullFlavor renders both">
+            <x:call template="show-quantity">
+                <x:param name="in">
+                    <value xmlns="urn:hl7-org:v3" value="120" unit="mm[Hg]" nullFlavor="OTH"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders 120 mm[Hg] (other)" select="text()">120 mm[Hg] (other)</x:expect>
+        </x:scenario>
+        
+        <!-- NOTE - ISSUE: https://github.com/HL7/CDA-core-xsl/issues/29 -->
+        <x:scenario label="value and translation">
+            <x:call template="show-quantity">
+                <x:param name="in">
+                    <hl7:value value="120" unit="mm[Hg]">
+                        <hl7:translation value="12" code="cm[Hg]" display="Centimeters of mercury"/>
+                    </hl7:value>
+                </x:param>
+            </x:call>
+            <x:expect label="renders translation but misses value">120 mm[Hg] <xhtml:div style="margin-left: 2em;">translation cm[Hg]</xhtml:div></x:expect>
+        </x:scenario>
+
+        <x:scenario label="empty input produces no output">
+            <x:call template="show-quantity">
+                <x:param name="in" select="()"/>
+            </x:call>
+            <x:expect label="no output" select="()"/>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- show-quantity-set template                                           -->
+    <!-- ================================================================== -->
+    <x:scenario label="show-quantity-set template">
+        <!-- Note: show-quantity always appends a trailing space after value+unit,
+             making comma-separated lists look like "42 Units , 67 Units " -->
+        <x:scenario label="renders single value">
+            <x:call template="show-quantity-set">
+                <x:param name="in">
+                    <hl7:value value="42"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders single value" select="text()">42 Units </x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders DTr1 list with default separator">
+            <x:call template="show-quantity-set">
+                <x:param name="in">
+                    <hl7:value value="42"/>
+                    <hl7:value value="67"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders values separated by comma" select="text()">42 Units , 67 Units </x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders DTr1 list with br separator">
+            <x:call template="show-quantity-set">
+                <x:param name="in">
+                    <hl7:value value="42"/>
+                    <hl7:value value="67"/>
+                </x:param>
+                <x:param name="sep" select="'br'"/>
+            </x:call>
+            <x:expect label="renders values separated by br">42 Units <xhtml:br/>67 Units </x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders DTr2 items with default separator">
+            <x:call template="show-quantity-set">
+                <x:param name="in">
+                    <hl7:value>
+                        <hl7:item value="42"/>
+                        <hl7:item value="67"/>
+                    </hl7:value>
+                </x:param>
+            </x:call>
+            <x:expect label="renders items separated by comma" select="text()">42 Units , 67 Units </x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders DTr2 items with br separator">
+            <x:call template="show-quantity-set">
+                <x:param name="in">
+                    <hl7:value>
+                        <hl7:item value="42"/>
+                        <hl7:item value="67"/>
+                    </hl7:value>
+                </x:param>
+                <x:param name="sep" select="'br'"/>
+            </x:call>
+            <x:expect label="renders items separated by br">42 Units <xhtml:br/>67 Units </x:expect>
+        </x:scenario>
+    </x:scenario>
+    
+    <!-- ================================================================== -->
+    <!-- show-ivlts (interval of timestamps)                                 -->
+    <!-- ================================================================== -->
+    <x:scenario label="show-ivlts">
+        
+        <x:scenario label="single value renders with at prefix">
+            <x:call template="show-ivlts">
+                <x:param name="in">
+                    <time xmlns="urn:hl7-org:v3" value="20230615"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders at June 15, 2023" select="text()">at&#160;June  15, 2023</x:expect>
+        </x:scenario>
+        
+        <x:scenario label="low only renders with from prefix">
+            <x:call template="show-ivlts">
+                <x:param name="in">
+                    <time xmlns="urn:hl7-org:v3"><low value="20230101"/></time>
+                </x:param>
+            </x:call>
+            <x:expect label="renders from January 1, 2023" select="text()">from&#160;January  1, 2023</x:expect>
+        </x:scenario>
+        
+        <x:scenario label="low and high on different days renders from/to range">
+            <x:call template="show-ivlts">
+                <x:param name="in">
+                    <time xmlns="urn:hl7-org:v3"><low value="20230101"/><high value="20231231"/></time>
+                </x:param>
+            </x:call>
+            <x:expect label="renders from January to December" select="text()">from&#160;January  1, 2023 to&#160;December  31, 2023</x:expect>
+        </x:scenario>
+        
+        <x:scenario label="high only renders with to prefix">
+            <x:call template="show-ivlts">
+                <x:param name="in">
+                    <time xmlns="urn:hl7-org:v3"><high value="20231231"/></time>
+                </x:param>
+            </x:call>
+            <x:expect label="renders to December 31, 2023" select="text()">to&#160;December  31, 2023</x:expect>
+        </x:scenario>
+        
+        <x:scenario label="same day with times renders date plus time range">
+            <x:call template="show-ivlts">
+                <x:param name="in">
+                    <time xmlns="urn:hl7-org:v3"><low value="20230615090000"/><high value="20230615170000"/></time>
+                </x:param>
+            </x:call>
+            <x:expect label="renders June 15, 2023 09AM - 5PM" select="text()">June  15, 2023 09AM - 5PM</x:expect>
+        </x:scenario>
+        
+        <x:scenario label="empty input produces no output">
+            <x:call template="show-ivlts">
+                <x:param name="in" select="()"/>
+            </x:call>
+            <x:expect label="no output" select="()"/>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- show-telecom                                                        -->
+    <!-- ================================================================== -->
+    <x:scenario label="show-telecom">
+
+        <x:scenario label="tel with workplace use">
+            <x:call template="show-telecom">
+                <x:param name="in">
+                    <telecom xmlns="urn:hl7-org:v3" value="tel:555-1234" use="WP"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders Tel Workplace: 555-1234" select="text()">Tel Workplace: 555-1234</x:expect>
+        </x:scenario>
+
+        <x:scenario label="mailto renders Mail prefix">
+            <x:call template="show-telecom">
+                <x:param name="in">
+                    <telecom xmlns="urn:hl7-org:v3" value="mailto:doc@hospital.org"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders Mail: doc@hospital.org" select="text()">Mail: doc@hospital.org</x:expect>
+        </x:scenario>
+
+        <x:scenario label="fax renders Fax prefix">
+            <x:call template="show-telecom">
+                <x:param name="in">
+                    <telecom xmlns="urn:hl7-org:v3" value="fax:555-9999" use="WP"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders Fax Workplace: 555-9999" select="text()">Fax Workplace: 555-9999</x:expect>
+        </x:scenario>
+
+        <x:scenario label="value without scheme renders raw value">
+            <x:call template="show-telecom">
+                <x:param name="in">
+                    <telecom xmlns="urn:hl7-org:v3" value="555-0000"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders 555-0000" select="text()">555-0000</x:expect>
+        </x:scenario>
+        
+        <x:scenario label="show-telecom actually supports lists - oops">
+            <x:call template="show-telecom">
+                <x:param name="in">
+                    <telecom xmlns="urn:hl7-org:v3" value="555-0000"/>
+                    <telecom xmlns="urn:hl7-org:v3" value="555-0001"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders 555-0000">555-0000<xhtml:br/>555-0001</x:expect>
+        </x:scenario>
+
+        <x:scenario label="no input renders fallback message">
+            <x:call template="show-telecom">
+                <x:param name="in" select="()"/>
+            </x:call>
+            <x:expect label="renders telecom information not available" select="text()">telecom information not available</x:expect>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- show-telecom-set template                                           -->
+    <!-- ================================================================== -->
+    <x:scenario label="show-telecom-set template">
+        <x:scenario label="renders single telecom">
+            <x:call template="show-telecom-set">
+                <x:param name="in">
+                    <hl7:telecom value="tel:555-1234"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders single telecom" select="text()">Tel: 555-1234</x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders DTr1 list with default separator">
+            <x:call template="show-telecom-set">
+                <x:param name="in">
+                    <hl7:telecom value="tel:555-1234"/>
+                    <hl7:telecom value="tel:867-5309"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders telecoms separated by comma" select="text()">Tel: 555-1234, Tel: 867-5309</x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders DTr1 list with br separator">
+            <x:call template="show-telecom-set">
+                <x:param name="in">
+                    <hl7:telecom value="tel:555-1234"/>
+                    <hl7:telecom value="tel:867-5309"/>
+                </x:param>
+                <x:param name="sep" select="'br'"/>
+            </x:call>
+            <x:expect label="renders telecoms separated by br">Tel: 555-1234<xhtml:br/>Tel: 867-5309</x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders DTr2 items with default separator">
+            <x:call template="show-telecom-set">
+                <x:param name="in">
+                    <hl7:telecom>
+                        <hl7:item value="tel:555-1234"/>
+                        <hl7:item value="tel:867-5309"/>
+                    </hl7:telecom>
+                </x:param>
+            </x:call>
+            <x:expect label="renders items separated by comma" select="text()">Tel: 555-1234, Tel: 867-5309</x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders DTr2 items with br separator">
+            <x:call template="show-telecom-set">
+                <x:param name="in">
+                    <hl7:telecom>
+                        <hl7:item value="tel:555-1234"/>
+                        <hl7:item value="tel:867-5309"/>
+                    </hl7:telecom>
+                </x:param>
+                <x:param name="sep" select="'br'"/>
+            </x:call>
+            <x:expect label="renders items separated by br">Tel: 555-1234<xhtml:br/>Tel: 867-5309</x:expect>
+        </x:scenario>
+    </x:scenario>
+    
+    <!-- ================================================================== -->
+    <!-- show-timestamp template                                             -->
+    <!-- ================================================================== -->
+    <x:scenario label="show-timestamp template">
+        <x:scenario label="renders a timestamp element">
+            <x:call template="show-timestamp">
+                <x:param name="in">
+                    <effectiveTime xmlns="urn:hl7-org:v3" value="20230615"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders June 15, 2023" select="text()">June  15, 2023</x:expect>
+        </x:scenario>
+        
+        <x:scenario label="renders date-only part">
+            <x:call template="show-timestamp">
+                <x:param name="in">
+                    <effectiveTime xmlns="urn:hl7-org:v3" value="20231225143000"/>
+                </x:param>
+                <x:param name="part">date</x:param>
+            </x:call>
+            <x:expect label="renders December 25, 2023" select="text()">December  25, 2023</x:expect>
+        </x:scenario>
+    </x:scenario>
+    
+    <!-- ================================================================== -->
+    <!-- show-text template                                                  -->
+    <!-- ================================================================== -->
+    <x:scenario label="show-text template">
+        <x:scenario label="renders DTr1 text content">
+            <x:call template="show-text">
+                <x:param name="in">
+                    <text xmlns="urn:hl7-org:v3">Hello World</text>
+                </x:param>
+            </x:call>
+            <!-- copy-of of translate() produces an xs:string, not a text node -->
+            <x:expect label="renders Hello World" select="'Hello World'"/>
+        </x:scenario>
+        
+        <x:scenario label="renders DTr2 value attribute">
+            <x:call template="show-text">
+                <x:param name="in">
+                    <text xmlns="urn:hl7-org:v3" value="Hello DTr2"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders Hello DTr2" select="'Hello DTr2'"/>
+        </x:scenario>
+        
+        <x:scenario label="renders nullFlavor">
+            <x:call template="show-text">
+                <x:param name="in">
+                    <text xmlns="urn:hl7-org:v3" nullFlavor="NI"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders no information" select="text()">no information</x:expect>
+        </x:scenario>
+        
+        <x:scenario label="handles empty input">
+            <x:call template="show-text">
+                <x:param name="in" select="()"/>
+            </x:call>
+            <x:expect label="produces no output" select="()"/>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- show-text-set template                                              -->
+    <!-- ================================================================== -->
+    <x:scenario label="show-text-set template">
+        <x:scenario label="renders single text">
+            <x:call template="show-text-set">
+                <x:param name="in">
+                    <hl7:text>Hello</hl7:text>
+                </x:param>
+            </x:call>
+            <x:expect label="renders single text" select="'Hello'"/>
+        </x:scenario>
+
+        <!-- show-text uses copy-of translate() which produces xs:string,
+             so multi-item results are sequences of strings, not text nodes.
+             Use $x:result and string-join for comparison. -->
+        <x:scenario label="renders DTr1 list with default separator">
+            <x:call template="show-text-set">
+                <x:param name="in">
+                    <hl7:text>Hello</hl7:text>
+                    <hl7:text>World</hl7:text>
+                </x:param>
+            </x:call>
+            <x:expect label="renders texts separated by comma" test="string-join($x:result, '') = 'Hello, World'"/>
+        </x:scenario>
+
+        <x:scenario label="renders DTr1 list with br separator">
+            <x:call template="show-text-set">
+                <x:param name="in">
+                    <hl7:text>Hello</hl7:text>
+                    <hl7:text>World</hl7:text>
+                </x:param>
+                <x:param name="sep" select="'br'"/>
+            </x:call>
+            <x:expect label="first item is Hello" test="$x:result[1] = 'Hello'"/>
+            <x:expect label="second item is a br element" test="$x:result[2]"><xhtml:br/></x:expect>
+            <x:expect label="third item is World" test="$x:result[3] = 'World'"/>
+        </x:scenario>
+
+        <x:scenario label="renders DTr2 items with default separator">
+            <x:call template="show-text-set">
+                <x:param name="in">
+                    <hl7:text>
+                        <hl7:item>Hello</hl7:item>
+                        <hl7:item>World</hl7:item>
+                    </hl7:text>
+                </x:param>
+            </x:call>
+            <x:expect label="renders items separated by comma" test="string-join($x:result, '') = 'Hello, World'"/>
+        </x:scenario>
+
+        <x:scenario label="renders DTr2 items with br separator">
+            <x:call template="show-text-set">
+                <x:param name="in">
+                    <hl7:text>
+                        <hl7:item>Hello</hl7:item>
+                        <hl7:item>World</hl7:item>
+                    </hl7:text>
+                </x:param>
+                <x:param name="sep" select="'br'"/>
+            </x:call>
+            <x:expect label="first item is Hello" test="$x:result[1] = 'Hello'"/>
+            <x:expect label="second item is a br element" test="$x:result[2]"><xhtml:br/></x:expect>            
+            <x:expect label="third item is World" test="$x:result[3] = 'World'"/>
+        </x:scenario>
+    </x:scenario>
+    
+    <!-- ================================================================== -->
+    <!-- show-boolean template                                               -->
+    <!-- ================================================================== -->
+    <x:scenario label="show-boolean template">
+        <x:scenario label="renders true value">
+            <x:call template="show-boolean">
+                <x:param name="in">
+                    <value xmlns="urn:hl7-org:v3" value="true"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders yes" select="text()">yes</x:expect>
+        </x:scenario>
+        
+        <x:scenario label="renders false value">
+            <x:call template="show-boolean">
+                <x:param name="in">
+                    <value xmlns="urn:hl7-org:v3" value="false"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders no" select="text()">no</x:expect>
+        </x:scenario>
+        
+        <x:scenario label="renders nullFlavor when no value">
+            <x:call template="show-boolean">
+                <x:param name="in">
+                    <value xmlns="urn:hl7-org:v3" nullFlavor="NI"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders no information" select="text()">no information</x:expect>
+        </x:scenario>
+    </x:scenario>
+
+</x:description>

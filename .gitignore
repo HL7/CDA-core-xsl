@@ -1,0 +1,15 @@
+# Oxygen project (for now)
+*.xpr
+
+# XSpec dependencies
+lib/
+
+# XSpec output
+test/xspec/
+test/results/
+
+# Example regression test output
+test/example-renders/
+
+# Oxygen likes to store html files in the same directory as xspec files; don't accidentally commit them
+test/*.html

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    XSpec tests for CDA.xsl — Dutch (nl) locale formatting
+    
+    Verifies that formatDateTime and formatMonth produce correct Dutch output
+    when textLang is set to nl-NL. This exercises getLocalizedString branch 1
+    (exact lang match on nl-nl).
+    
+    getLocalizedString fallback chain (lines 6755-6779):
+      1. Exact match on textLang (e.g. nl-nl)       — tested by this file + en-US tests
+      2. 2-char prefix match (e.g. nl in nl-nl)     — needs textLang='nl' (separate file)
+      3. Exact match on textlangDefault              — needs textLang with no translations
+      4. 2-char prefix of textlangDefault            — needs textLang with no translations
+      5. Hardcoded en-us fallback                    — BUG: outputs $translation/text() 
+                                                       (whitespace) instead of
+                                                       $translation/value[@lang='en-us']/text()
+      6. Raw key fallback                            — unreachable for keys with en-us value
+                                                       (branch 5 catches first, outputs garbage)
+-->
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:hl7="urn:hl7-org:v3"
+               xmlns:xhtml="http://www.w3.org/1999/xhtml"
+               stylesheet="../CDA.xsl">
+
+    <!-- Dutch locale -->
+    <x:param name="textLang" select="'nl-NL'"/>
+
+    <!-- ================================================================== -->
+    <!-- formatDateTime — Dutch date order: day month year                   -->
+    <!-- ================================================================== -->
+    <x:scenario label="formatDateTime with nl-NL locale">
+        <x:scenario label="formats a full date in Dutch day-month-year order">
+            <x:call template="formatDateTime">
+                <x:param name="date">20230615</x:param>
+            </x:call>
+            <!-- Dutch: "15 juni 2023" (day lowercase-month year) -->
+            <x:expect label="day comes before month"
+                      test="starts-with(normalize-space(string(.)), '15')"/>
+            <x:expect label="month is lowercase"
+                      test="contains(string(.), 'juni')"/>
+            <x:expect label="year is present"
+                      test="contains(string(.), '2023')"/>
+        </x:scenario>
+
+        <x:scenario label="formats January date in Dutch">
+            <x:call template="formatDateTime">
+                <x:param name="date">20230105</x:param>
+            </x:call>
+            <x:expect label="month is lowercase januari"
+                      test="contains(string(.), 'januari')"/>
+            <x:expect label="day comes first"
+                      test="starts-with(normalize-space(string(.)), '5')"/>
+        </x:scenario>
+
+        <x:scenario label="formats December date in Dutch">
+            <x:call template="formatDateTime">
+                <x:param name="date">20231225</x:param>
+            </x:call>
+            <x:expect label="month is lowercase december"
+                      test="contains(string(.), 'december')"/>
+        </x:scenario>
+
+        <x:scenario label="time uses 24-hour format (not AM/PM)">
+            <x:call template="formatDateTime">
+                <x:param name="date">20231225143000</x:param>
+            </x:call>
+            <x:expect label="does not contain AM or PM"
+                      test="not(contains(string(.), 'AM')) and not(contains(string(.), 'PM'))"/>
+            <x:expect label="shows 14 (24-hour format)"
+                      test="contains(string(.), '14')"/>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- formatMonth — Dutch localized month names                           -->
+    <!-- ================================================================== -->
+    <x:scenario label="formatMonth with nl-NL locale">
+        <x:scenario label="returns Dutch month name for January">
+            <x:call template="formatMonth">
+                <x:param name="date">20230115</x:param>
+            </x:call>
+            <x:expect label="contains januari"
+                      test="contains(string(.), 'januari') or contains(string(.), 'Januari')"/>
+        </x:scenario>
+
+        <x:scenario label="returns Dutch month name for June">
+            <x:call template="formatMonth">
+                <x:param name="date">20230615</x:param>
+            </x:call>
+            <x:expect label="contains juni"
+                      test="contains(string(.), 'juni') or contains(string(.), 'Juni')"/>
+        </x:scenario>
+    </x:scenario>
+
+</x:description>
