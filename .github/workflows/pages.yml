@@ -1,0 +1,65 @@
+name: Deploy Pages
+
+on:
+  push:
+    branches: ['**']
+  delete:
+    branches: ['**']
+
+# Allow only one concurrent deployment per ref
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Build site
+        run: |
+          mkdir -p _site
+          cp index.html _site/
+          cp -r documentation _site/
+          cp -r examples _site/
+
+      - name: Deploy main site
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_site
+          keep_files: true
+
+      - name: Deploy branch preview
+        if: github.ref != 'refs/heads/main' && github.ref != 'refs/heads/master'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_site
+          destination_dir: branches/${{ github.ref_name }}
+          keep_files: true
+
+  cleanup:
+    if: github.event_name == 'delete'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: gh-pages
+
+      - name: Remove branch preview
+        run: |
+          BRANCH_NAME="${{ github.event.ref }}"
+          if [ -d "branches/${BRANCH_NAME}" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git rm -rf "branches/${BRANCH_NAME}"
+            git commit -m "Clean up preview for deleted branch ${BRANCH_NAME}"
+            git push
+          fi
