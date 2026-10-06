@@ -1,0 +1,937 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    XSpec tests for CDA.xsl — Narrative block attribute handling
+    
+    Tests the handleSectionTextAttributes mode template via the element
+    templates that invoke it (content → span, table, tr, th, td).
+    
+    These tests verify that CDA narrative attributes are correctly mapped
+    to their HTML equivalents.
+-->
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:hl7="urn:hl7-org:v3"
+               xmlns:xhtml="http://www.w3.org/1999/xhtml"
+               stylesheet="../CDA.xsl">
+
+    <x:import href="CDA-shared-params.xspec"/>
+
+    <!-- ================================================================== -->
+    <!-- ID attribute → id                                                   -->
+    <!-- ================================================================== -->
+    <x:scenario label="ID attribute">
+        <x:scenario label="maps CDA ID to HTML id on content/span">
+            <x:context>
+                <hl7:content ID="allergies-1">Penicillin</hl7:content>
+            </x:context>
+            <x:expect label="produces span with id attribute">
+                <xhtml:span id="allergies-1">Penicillin</xhtml:span>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- styleCode attribute → class                                         -->
+    <!-- ================================================================== -->
+    <x:scenario label="styleCode attribute">
+        <x:scenario label="maps styleCode to class on content/span">
+            <x:context>
+                <hl7:content styleCode="Bold">Important</hl7:content>
+            </x:context>
+            <x:expect label="produces span with class from styleCode">
+                <xhtml:span class="Bold">Important</xhtml:span>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="preserves multiple styleCode values">
+            <x:context>
+                <hl7:content styleCode="Bold Italics">Emphasized</hl7:content>
+            </x:context>
+            <x:expect label="produces span with both classes">
+                <xhtml:span class="Bold Italics">Emphasized</xhtml:span>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- revised attribute → class + title                                   -->
+    <!-- ================================================================== -->
+    <x:scenario label="revised attribute">
+        <x:scenario label="maps revised=insert to revision class and title">
+            <x:context>
+                <hl7:content revised="insert">New text</hl7:content>
+            </x:context>
+            <x:expect label="produces span with revision class and title">
+                <xhtml:span class="revision_insert_final" title="insert">New text</xhtml:span>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="maps revised=delete to revision class and title">
+            <x:context>
+                <hl7:content revised="delete">Removed text</hl7:content>
+            </x:context>
+            <x:expect label="produces span with revision class and title">
+                <xhtml:span class="revision_delete_final" title="delete">Removed text</xhtml:span>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="combines revised with existing title">
+            <!-- NOTE: When both @revised and @title are present, the @title attribute
+                 handler in the for-each loop overwrites the combined title that the
+                 @revised block set earlier. This means @revised is lost from the title.
+                 The @revised block produces concat(@revised,' ',@title) = "insert Per Dr. Smith"
+                 but then the @title handler overwrites it with just "Per Dr. Smith".
+                 This may be a bug — the @title case should arguably skip when @revised is present,
+                 similar to how @class, @revised, and @styleCode are marked "Already handled". -->
+            <x:context>
+                <hl7:content revised="insert" title="Per Dr. Smith">Updated text</hl7:content>
+            </x:context>
+            <x:expect label="title is present (but revised prefix is lost due to overwrite)"
+                      test="//xhtml:span/@title = 'Per Dr. Smith'"/>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- language attribute → lang                                           -->
+    <!-- ================================================================== -->
+    <x:scenario label="language attribute">
+        <x:scenario label="maps CDA language to HTML lang">
+            <x:context>
+                <hl7:content language="fr-FR">Bonjour</hl7:content>
+            </x:context>
+            <x:expect label="produces span with lang attribute">
+                <xhtml:span lang="fr-FR">Bonjour</xhtml:span>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- Combined attributes on content/span                                 -->
+    <!-- ================================================================== -->
+    <x:scenario label="combined attributes on content">
+        <x:scenario label="handles ID + styleCode + language together">
+            <x:context>
+                <hl7:content ID="note-1" styleCode="Bold" language="en-US">Note</hl7:content>
+            </x:context>
+            <x:expect label="produces span with all mapped attributes"
+                      test="//xhtml:span/@id = 'note-1'
+                        and //xhtml:span/@class = 'Bold'
+                        and //xhtml:span/@lang = 'en-US'"/>
+        </x:scenario>
+
+        <x:scenario label="handles styleCode + revised together">
+            <x:context>
+                <hl7:content styleCode="Bold" revised="insert">Updated bold</hl7:content>
+            </x:context>
+            <x:expect label="class combines revision and styleCode"
+                      test="contains(//xhtml:span/@class, 'revision_insert_final')
+                        and contains(//xhtml:span/@class, 'Bold')"/>
+        </x:scenario>
+
+        <x:scenario label="plain content with no attributes">
+            <x:context>
+                <hl7:content>Plain text</hl7:content>
+            </x:context>
+            <x:expect label="produces span with no extra attributes">
+                <xhtml:span>Plain text</xhtml:span>
+            </x:expect>
+        </x:scenario>
+
+        <!-- @class is not valid CDA R2 but the XSL supports it (DTr2 / nonstandard usage).
+             It gets appended to the class list alongside @styleCode. -->
+        <x:scenario label="handles @class appended to styleCode">
+            <x:context>
+                <hl7:content styleCode="Bold" class="custom-highlight">Styled</hl7:content>
+            </x:context>
+            <x:expect label="class combines styleCode and @class"
+                      test="contains(//xhtml:span/@class, 'Bold')
+                        and contains(//xhtml:span/@class, 'custom-highlight')"/>
+        </x:scenario>
+
+        <x:scenario label="handles @class alone without styleCode">
+            <x:context>
+                <hl7:content class="app-specific">Tagged</hl7:content>
+            </x:context>
+            <x:expect label="class is set from @class only"
+                      test="//xhtml:span/@class = 'app-specific'"/>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- All pass-through attributes (handleSectionTextAttributes CDA.xsl)  -->
+    <!-- Tests every attribute branch in handleSectionTextAttributes:       -->
+    <!--   content/span: ID, IDREF, language, styleCode, class, revised     -->
+    <!--   table: border, frame, rules, cellpadding, cellspacing, summary,  -->
+    <!--          width                                                     -->
+    <!--   col: span, width, align, char, charoff                           -->
+    <!--   tr: align, valign                                                -->
+    <!--   th/td: abbr, scope, headers, axis, colspan, rowspan, align,      -->
+    <!--          valign, char, charoff                                     -->
+    <!--   linkHtml: href, title, name, rel, rev                            -->
+    <!-- ================================================================== -->
+    <x:scenario label="all pass-through attributes">
+        <x:scenario label="table element with all table-level attributes">
+            <x:context>
+                <hl7:table border="1" frame="box" rules="all" cellpadding="3" cellspacing="0" summary="Test table" width="100%">
+                    <hl7:colgroup>
+                        <hl7:col span="2" width="50%" align="center" char="." charoff="2"/>
+                    </hl7:colgroup>
+                    <hl7:thead>
+                        <hl7:tr align="left" valign="top">
+                            <hl7:th abbr="H1" scope="col" axis="data" headers="grp1">Header</hl7:th>
+                        </hl7:tr>
+                    </hl7:thead>
+                    <hl7:tbody>
+                        <hl7:tr>
+                            <hl7:td colspan="1" rowspan="1" align="right" valign="middle" char="." charoff="1" abbr="C1" scope="row" axis="info" headers="grp1">Cell</hl7:td>
+                        </hl7:tr>
+                    </hl7:tbody>
+                </hl7:table>
+            </x:context>
+            <!-- table-level -->
+            <x:expect label="table: border"      test="//xhtml:table/@border = '1'"/>
+            <x:expect label="table: frame"        test="//xhtml:table/@frame = 'box'"/>
+            <x:expect label="table: rules"        test="//xhtml:table/@rules = 'all'"/>
+            <x:expect label="table: cellpadding"  test="//xhtml:table/@cellpadding = '3'"/>
+            <x:expect label="table: cellspacing"  test="//xhtml:table/@cellspacing = '0'"/>
+            <x:expect label="table: summary"      test="//xhtml:table/@summary = 'Test table'"/>
+            <x:expect label="table: width"        test="//xhtml:table/@width = '100%'"/>
+            <!-- col -->
+            <x:expect label="col: span"           test="//xhtml:col/@span = '2'"/>
+            <x:expect label="col: width"          test="//xhtml:col/@width = '50%'"/>
+            <x:expect label="col: align"          test="//xhtml:col/@align = 'center'"/>
+            <x:expect label="col: char"           test="//xhtml:col/@char = '.'"/>
+            <x:expect label="col: charoff"        test="//xhtml:col/@charoff = '2'"/>
+            <!-- tr -->
+            <x:expect label="tr: align"           test="//xhtml:thead/xhtml:tr/@align = 'left'"/>
+            <x:expect label="tr: valign"          test="//xhtml:thead/xhtml:tr/@valign = 'top'"/>
+            <!-- th -->
+            <x:expect label="th: abbr"            test="//xhtml:th/@abbr = 'H1'"/>
+            <x:expect label="th: scope"           test="//xhtml:th/@scope = 'col'"/>
+            <x:expect label="th: axis"            test="//xhtml:th/@axis = 'data'"/>
+            <x:expect label="th: headers"         test="//xhtml:th/@headers = 'grp1'"/>
+            <!-- td -->
+            <x:expect label="td: colspan"         test="//xhtml:td/@colspan = '1'"/>
+            <x:expect label="td: rowspan"         test="//xhtml:td/@rowspan = '1'"/>
+            <x:expect label="td: align"           test="//xhtml:td/@align = 'right'"/>
+            <x:expect label="td: valign"          test="//xhtml:td/@valign = 'middle'"/>
+            <x:expect label="td: char"            test="//xhtml:td/@char = '.'"/>
+            <x:expect label="td: charoff"         test="//xhtml:td/@charoff = '1'"/>
+            <x:expect label="td: abbr"            test="//xhtml:td/@abbr = 'C1'"/>
+            <x:expect label="td: scope"           test="//xhtml:td/@scope = 'row'"/>
+            <x:expect label="td: axis"            test="//xhtml:td/@axis = 'info'"/>
+            <x:expect label="td: headers"         test="//xhtml:td/@headers = 'grp1'"/>
+        </x:scenario>
+
+        <x:scenario label="linkHtml with all link attributes">
+            <x:context>
+                <linkHtml xmlns="urn:hl7-org:v3" href="#ref-1" title="Reference 1" name="link-1" rel="noopener" rev="author">Link text</linkHtml>
+            </x:context>
+            <x:expect label="produces anchor with all link attributes">
+                <a xmlns="http://www.w3.org/1999/xhtml" class="linkHtml" title="Reference 1" rev="author" rel="noopener" name="link-1" href="#ref-1">Link text</a>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="content/span with ID, IDREF, language, styleCode, class">
+            <x:context>
+                <hl7:content ID="c1" IDREF="other" language="fr-FR" styleCode="Bold" class="custom">All attrs</hl7:content>
+            </x:context>
+            <x:expect label="produces span with all mapped attributes">
+                <xhtml:span class="Bold custom" lang="fr-FR" idref="other" id="c1">All attrs</xhtml:span>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- Default class on table, tr, th                                      -->
+    <!-- The class param defaults to narr_table, narr_tr, narr_th           -->
+    <!-- ================================================================== -->
+    <x:scenario label="default class on table elements">
+        <x:context>
+            <hl7:table>
+                <hl7:thead>
+                    <hl7:tr><hl7:th>Header</hl7:th></hl7:tr>
+                </hl7:thead>
+                <hl7:tbody>
+                    <hl7:tr><hl7:td>Cell</hl7:td></hl7:tr>
+                </hl7:tbody>
+            </hl7:table>
+        </x:context>
+        <x:expect label="outer table has narr_table class"
+            test="//xhtml:table/@class = 'narr_table'"/>
+        <x:expect label="tr has narr_tr class"
+            test="//xhtml:tr/@class = 'narr_tr'"/>
+        <x:expect label="th has narr_th class"
+            test="//xhtml:th/@class = 'narr_th'"/>
+        <x:expect label="td has no class attribute"
+            test="not(//xhtml:td/@class)"/>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- styleCode combines with default class on table elements              -->
+    <!-- ================================================================== -->
+    <x:scenario label="styleCode on table elements">
+        <x:scenario label="table combines narr_table with styleCode">
+            <x:context>
+                <hl7:table styleCode="xGridTable">
+                    <hl7:tbody>
+                        <hl7:tr><hl7:td>Cell</hl7:td></hl7:tr>
+                    </hl7:tbody>
+                </hl7:table>
+            </x:context>
+            <x:expect label="class contains both narr_table and styleCode"
+                      test="contains(//xhtml:table/@class, 'narr_table')
+                        and contains(//xhtml:table/@class, 'xGridTable')"/>
+        </x:scenario>
+
+        <x:scenario label="tr combines narr_tr with styleCode">
+            <x:context>
+                <hl7:table>
+                    <hl7:tbody>
+                        <hl7:tr styleCode="xRowGroup"><hl7:td>Cell</hl7:td></hl7:tr>
+                    </hl7:tbody>
+                </hl7:table>
+            </x:context>
+            <x:expect label="class contains both narr_tr and styleCode"
+                      test="contains(//xhtml:tr/@class, 'narr_tr')
+                        and contains(//xhtml:tr/@class, 'xRowGroup')"/>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- Table default cellspacing/cellpadding                               -->
+    <!-- ================================================================== -->
+    <x:scenario label="table default cellspacing and cellpadding">
+        <x:scenario label="adds default cellspacing=1 and cellpadding=1 when not specified">
+            <x:context>
+                <hl7:table>
+                    <hl7:tbody>
+                        <hl7:tr><hl7:td>Cell</hl7:td></hl7:tr>
+                    </hl7:tbody>
+                </hl7:table>
+            </x:context>
+            <x:expect label="table has cellspacing=1"
+                      test="//xhtml:table/@cellspacing = '1'"/>
+            <x:expect label="table has cellpadding=1"
+                      test="//xhtml:table/@cellpadding = '1'"/>
+        </x:scenario>
+
+        <x:scenario label="preserves explicit cellspacing and cellpadding">
+            <x:context>
+                <hl7:table cellspacing="0" cellpadding="5">
+                    <hl7:tbody>
+                        <hl7:tr><hl7:td>Cell</hl7:td></hl7:tr>
+                    </hl7:tbody>
+                </hl7:table>
+            </x:context>
+            <x:expect label="table has cellspacing=0"
+                      test="//xhtml:table/@cellspacing = '0'"/>
+            <x:expect label="table has cellpadding=5"
+                      test="//xhtml:table/@cellpadding = '5'"/>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- Table-specific attributes pass through                              -->
+    <!-- ================================================================== -->
+    <x:scenario label="table-specific attributes">
+        <x:scenario label="border attribute passes through">
+            <x:context>
+                <hl7:table border="1">
+                    <hl7:tbody>
+                        <hl7:tr><hl7:td>Cell</hl7:td></hl7:tr>
+                    </hl7:tbody>
+                </hl7:table>
+            </x:context>
+            <x:expect label="table has border=1"
+                      test="//xhtml:table/@border = '1'"/>
+        </x:scenario>
+
+        <x:scenario label="width attribute passes through on table">
+            <x:context>
+                <hl7:table width="100%">
+                    <hl7:tbody>
+                        <hl7:tr><hl7:td>Cell</hl7:td></hl7:tr>
+                    </hl7:tbody>
+                </hl7:table>
+            </x:context>
+            <x:expect label="table has width=100%"
+                      test="//xhtml:table/@width = '100%'"/>
+        </x:scenario>
+
+        <x:scenario label="colspan and rowspan pass through on td">
+            <x:context>
+                <hl7:table>
+                    <hl7:tbody>
+                        <hl7:tr><hl7:td colspan="2" rowspan="3">Merged</hl7:td></hl7:tr>
+                    </hl7:tbody>
+                </hl7:table>
+            </x:context>
+            <x:expect label="td has colspan=2"
+                      test="//xhtml:td/@colspan = '2'"/>
+            <x:expect label="td has rowspan=3"
+                      test="//xhtml:td/@rowspan = '3'"/>
+        </x:scenario>
+
+        <x:scenario label="align and valign pass through">
+            <x:context>
+                <hl7:table>
+                    <hl7:tbody>
+                        <hl7:tr><hl7:td align="center" valign="top">Centered</hl7:td></hl7:tr>
+                    </hl7:tbody>
+                </hl7:table>
+            </x:context>
+            <x:expect label="td has align=center"
+                      test="//xhtml:td/@align = 'center'"/>
+            <x:expect label="td has valign=top"
+                      test="//xhtml:td/@valign = 'top'"/>
+        </x:scenario>
+
+        <x:scenario label="scope and headers pass through on th">
+            <x:context>
+                <hl7:table>
+                    <hl7:thead>
+                        <hl7:tr><hl7:th scope="col" headers="h1">Header</hl7:th></hl7:tr>
+                    </hl7:thead>
+                    <hl7:tbody>
+                        <hl7:tr><hl7:td>Cell</hl7:td></hl7:tr>
+                    </hl7:tbody>
+                </hl7:table>
+            </x:context>
+            <x:expect label="th has scope=col"
+                      test="//xhtml:th/@scope = 'col'"/>
+            <x:expect label="th has headers=h1"
+                      test="//xhtml:th/@headers = 'h1'"/>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- IDREF attribute                                                     -->
+    <!-- ================================================================== -->
+    <x:scenario label="IDREF attribute">
+        <x:scenario label="maps CDA IDREF to HTML idref">
+            <x:context>
+                <hl7:content IDREF="ref-1">Reference</hl7:content>
+            </x:context>
+            <x:expect label="produces span with idref attribute"
+                      test="//xhtml:span/@idref = 'ref-1'"/>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- Attribute filtering / security                                      -->
+    <!-- Illegal attributes should be silently dropped from the output.      -->
+    <!-- The cda_narrativeblock.xml allowlist governs table-family elements.  -->
+    <!-- See NarrativeBlock.xsd for the canonical attribute definitions.      -->
+    <!-- ================================================================== -->
+    <x:scenario label="attribute filtering on table elements">
+
+        <!-- Random/invented attributes should never appear in output -->
+        <x:scenario label="drops random attribute (onclick) on td">
+            <x:context>
+                <hl7:table>
+                    <hl7:tbody>
+                        <hl7:tr><hl7:td onclick="alert(1)">Cell</hl7:td></hl7:tr>
+                    </hl7:tbody>
+                </hl7:table>
+            </x:context>
+            <x:expect label="onclick is not in the output"
+                      test="not(//xhtml:td/@onclick)"/>
+        </x:scenario>
+
+        <x:scenario label="drops random attribute (style) on tr">
+            <x:context>
+                <hl7:table>
+                    <hl7:tbody>
+                        <hl7:tr style="color:red"><hl7:td>Cell</hl7:td></hl7:tr>
+                    </hl7:tbody>
+                </hl7:table>
+            </x:context>
+            <x:expect label="style is not in the output"
+                      test="not(//xhtml:tr/@style)"/>
+        </x:scenario>
+
+        <x:scenario label="drops random attribute (data-custom) on table">
+            <x:context>
+                <hl7:table data-custom="foo">
+                    <hl7:tbody>
+                        <hl7:tr><hl7:td>Cell</hl7:td></hl7:tr>
+                    </hl7:tbody>
+                </hl7:table>
+            </x:context>
+            <x:expect label="data-custom is not in the output"
+                      test="not(//xhtml:table/@data-custom)"/>
+        </x:scenario>
+
+        <!-- Cross-element: td attributes on a table (td allows colspan, table does not) -->
+        <x:scenario label="drops colspan on table (only valid on td/th per XSD)">
+            <x:context>
+                <hl7:table colspan="2">
+                    <hl7:tbody>
+                        <hl7:tr><hl7:td>Cell</hl7:td></hl7:tr>
+                    </hl7:tbody>
+                </hl7:table>
+            </x:context>
+            <x:expect label="colspan is not on the table element"
+                      test="not(//xhtml:table/@colspan)"/>
+        </x:scenario>
+
+        <!-- Cross-element: table attributes on a td (table allows border, td does not) -->
+        <x:scenario label="drops border on td (only valid on table per XSD)">
+            <x:context>
+                <hl7:table>
+                    <hl7:tbody>
+                        <hl7:tr><hl7:td border="1">Cell</hl7:td></hl7:tr>
+                    </hl7:tbody>
+                </hl7:table>
+            </x:context>
+            <x:expect label="border is not on the td element"
+                      test="not(//xhtml:td/@border)"/>
+        </x:scenario>
+
+        <!-- Cross-element: table allows summary, tr does not -->
+        <x:scenario label="drops summary on tr (only valid on table per XSD)">
+            <x:context>
+                <hl7:table>
+                    <hl7:tbody>
+                        <hl7:tr summary="test"><hl7:td>Cell</hl7:td></hl7:tr>
+                    </hl7:tbody>
+                </hl7:table>
+            </x:context>
+            <x:expect label="summary is not on the tr element"
+                      test="not(//xhtml:tr/@summary)"/>
+        </x:scenario>
+
+        <!-- Cross-element: th allows scope, tr does not -->
+        <x:scenario label="drops scope on tr (only valid on th/td per XSD)">
+            <x:context>
+                <hl7:table>
+                    <hl7:tbody>
+                        <hl7:tr scope="row"><hl7:td>Cell</hl7:td></hl7:tr>
+                    </hl7:tbody>
+                </hl7:table>
+            </x:context>
+            <x:expect label="scope is not on the tr element"
+                      test="not(//xhtml:tr/@scope)"/>
+        </x:scenario>
+
+        <!-- Verify allowed attributes still work alongside dropped ones -->
+        <x:scenario label="keeps valid attributes while dropping invalid ones on td">
+            <x:context>
+                <hl7:table>
+                    <hl7:tbody>
+                        <hl7:tr>
+                            <hl7:td ID="cell-1" align="center" onclick="evil()" border="1">Cell</hl7:td>
+                        </hl7:tr>
+                    </hl7:tbody>
+                </hl7:table>
+            </x:context>
+            <x:expect label="id is preserved"
+                      test="//xhtml:td/@id = 'cell-1'"/>
+            <x:expect label="align is preserved"
+                      test="//xhtml:td/@align = 'center'"/>
+            <x:expect label="onclick is dropped"
+                      test="not(//xhtml:td/@onclick)"/>
+            <x:expect label="border is dropped"
+                      test="not(//xhtml:td/@border)"/>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- JavaScript injection — terminate="yes"                              -->
+    <!-- The stylesheet terminates on javascript: in attribute values.        -->
+    <!-- ================================================================== -->
+    <x:scenario label="javascript injection protection (styleCode)" catch="yes">
+        <x:context>
+            <hl7:content styleCode="javascript:alert(1)">Malicious</hl7:content>
+        </x:context>
+        <x:expect label="transformation terminates with an error"
+                  test="$x:result instance of map(*)"/>
+    </x:scenario>
+
+    <x:scenario label="javascript injection protection (linkHtml href)" catch="yes">
+        <x:context>
+            <linkHtml xmlns="urn:hl7-org:v3" href="javascript:alert('xss')">Click me</linkHtml>
+        </x:context>
+        <x:expect label="transformation terminates with an error"
+                  test="$x:result instance of map(*)"/>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- Element mapping: table family                                       -->
+    <!-- All handled by the combined template at match="hl7:table | ...".    -->
+    <!-- Each CDA element maps to same-named HTML element via local-name().  -->
+    <!-- ================================================================== -->
+    <x:scenario label="table element mapping">
+        <x:scenario label="table produces HTML table">
+            <x:context>
+                <table xmlns="urn:hl7-org:v3">
+                    <colgroup><col/></colgroup>
+                    <thead><tr><th>H</th></tr></thead>
+                    <tbody><tr><th>Bh</th></tr></tbody>
+                    <tbody><tr><td>X</td></tr></tbody>
+                    <tfoot><tr><td>F</td></tr></tfoot>
+                </table>
+            </x:context>
+            <x:expect label="produces all table elements">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="narr_table" cellspacing="1" cellpadding="1">
+                    <colgroup><col/></colgroup>
+                    <thead><tr class="narr_tr"><th class="narr_th">H</th></tr></thead>
+                    <tbody><tr class="narr_tr"><th class="narr_th">Bh</th></tr></tbody>
+                    <tbody><tr class="narr_tr"><td>X</td></tr></tbody>
+                    <tfoot><tr class="narr_tr"><td>F</td></tr></tfoot>
+                </table>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- Element mapping: paragraph, content, pre, br                        -->
+    <!-- ================================================================== -->
+    <x:scenario label="paragraph element mapping">
+        <x:scenario label="paragraph produces HTML p">
+            <x:context>
+                <hl7:paragraph>Some text</hl7:paragraph>
+            </x:context>
+            <x:expect label="produces p element">
+                <xhtml:p>Some text</xhtml:p>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="paragraph with ID maps to p with id">
+            <x:context>
+                <hl7:paragraph ID="para-1">Identified paragraph</hl7:paragraph>
+            </x:context>
+            <x:expect label="produces p with id attribute">
+                <xhtml:p id="para-1">Identified paragraph</xhtml:p>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="paragraph with styleCode maps to p with class">
+            <x:context>
+                <hl7:paragraph styleCode="Bold">Bold paragraph</hl7:paragraph>
+            </x:context>
+            <x:expect label="produces p with class attribute">
+                <xhtml:p class="Bold">Bold paragraph</xhtml:p>
+            </x:expect>
+        </x:scenario>
+        
+        <x:scenario label="children of paragraph can also have id and styleCode">
+            <x:context>
+                <hl7:paragraph styleCode="Bold">
+                    <hl7:content styleCode="xCustom" ID="c1">Custom bold content</hl7:content>
+                </hl7:paragraph>
+            </x:context>
+            <x:expect label="produces p with class attribute">
+                <xhtml:p class="Bold">
+                    <xhtml:span class="xCustom" id="c1">Custom bold content</xhtml:span>
+                </xhtml:p>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="content element mapping">
+        <x:scenario label="content produces HTML span">
+            <x:context>
+                <hl7:content>Inline text</hl7:content>
+            </x:context>
+            <x:expect label="produces span element">
+                <xhtml:span>Inline text</xhtml:span>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="nested content produces nested spans">
+            <x:context>
+                <hl7:content>Outer <hl7:content styleCode="Bold">inner</hl7:content> text</hl7:content>
+            </x:context>
+            <x:expect label="outer span contains inner span">
+                <xhtml:span>Outer <xhtml:span class="Bold">inner</xhtml:span> text</xhtml:span>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="pre element mapping">
+        <x:scenario label="pre produces HTML pre">
+            <x:context>
+                <hl7:pre>Preformatted text</hl7:pre>
+            </x:context>
+            <x:expect label="produces pre element">
+                <xhtml:pre>Preformatted text</xhtml:pre>
+            </x:expect>
+        </x:scenario>
+
+        <!-- NOTE: These following seems like a bug and will be raised as such -->
+        <x:scenario label="pre does not process attributes (no handleSectionTextAttributes)">
+            <x:context>
+                <hl7:pre ID="pre-1" styleCode="Bold">Formatted</hl7:pre>
+            </x:context>
+            <x:expect label="ID is not mapped to id"
+                      test="not(//xhtml:pre/@id)"/>
+            <x:expect label="styleCode is not mapped to class"
+                      test="not(//xhtml:pre/@class)"/>
+        </x:scenario>
+        
+        <x:scenario label="children of pre do get attributes">
+            <x:context>
+                <hl7:pre><hl7:content ID="c1" styleCode="Bold">Bolded pre content</hl7:content></hl7:pre>
+            </x:context>
+            <x:expect label="plain children">
+                <xhtml:pre><xhtml:span class="Bold" id="c1">Bolded pre content</xhtml:span></xhtml:pre>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="br element mapping">
+        <x:scenario label="br produces HTML br">
+            <x:context>
+                <hl7:br/>
+            </x:context>
+            <x:expect label="produces br element"
+                      test="local-name(/element()) = 'br'"/>
+        </x:scenario>
+
+        <x:scenario label="br does not process attributes (no handleSectionTextAttributes)">
+            <x:context>
+                <hl7:br ID="br-1"/>
+            </x:context>
+            <x:expect label="ID is not mapped"
+                      test="not(//xhtml:br/@id)"/>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="sup element mapping">
+        <x:scenario label="sup produces HTML sup with attributes">
+            <x:context>
+                <hl7:sup ID="sup-1" styleCode="Bold">2</hl7:sup>
+            </x:context>
+            <x:expect label="produces sup with id and class">
+                <xhtml:sup id="sup-1" class="Bold">2</xhtml:sup>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="sub element mapping">
+        <x:scenario label="sub produces HTML sub with attributes">
+            <x:context>
+                <hl7:sub ID="sub-1" styleCode="Bold">n</hl7:sub>
+            </x:context>
+            <x:expect label="produces sub with id and class">
+                <xhtml:sub id="sub-1" class="Bold">n</xhtml:sub>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- Element mapping: linkHtml                                           -->
+    <!-- linkHtml → <a> with class="linkHtml" as base class.                 -->
+    <!-- Supports href, title, name, rel, rev from NarrativeBlock.xsd.       -->
+    <!-- ================================================================== -->
+    <x:scenario label="linkHtml element mapping">
+        <x:scenario label="linkHtml with fragment href produces anchor with linkHtml class">
+            <x:context>
+                <linkHtml xmlns="urn:hl7-org:v3" href="#ref-1" title="See reference" name="link-1">Click here</linkHtml>
+            </x:context>
+            <x:expect label="produces anchor with linkHtml class and passthrough attributes">
+                <a xmlns="http://www.w3.org/1999/xhtml" class="linkHtml" href="#ref-1" name="link-1" title="See reference">Click here</a>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="linkHtml with external URL has href stripped by sanitizer">
+            <!-- The colon in http: triggers $simple-sanitizer-match, so href is dropped
+                 and a malicious content warning is prepended to the title attribute.
+                 This is intentional for CDA rendered inside EHR software. -->
+            <x:context>
+                <linkHtml xmlns="urn:hl7-org:v3" href="http://example.com" title="Example">External link</linkHtml>
+            </x:context>
+            <x:expect label="href is not in the output"
+                      test="not(//xhtml:a/@href)"/>
+            <x:expect label="produces anchor with warning in title and no href">
+                <a xmlns="http://www.w3.org/1999/xhtml" class="linkHtml" title="Example WARNING: Potentially malicious content found in CDA document.: http://example.com">External link</a>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- Element mapping: caption                                            -->
+    <!-- caption inside table → <caption>, elsewhere → <div class="caption"> -->
+    <!-- ================================================================== -->
+    <x:scenario label="caption element mapping">
+        <x:scenario label="caption inside table produces HTML caption">
+            <x:context>
+                <hl7:table>
+                    <hl7:caption>Table Title</hl7:caption>
+                    <hl7:tbody><hl7:tr><hl7:td>X</hl7:td></hl7:tr></hl7:tbody>
+                </hl7:table>
+            </x:context>
+            <x:expect label="table contains caption element">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="narr_table" cellspacing="1" cellpadding="1">
+                    <caption>Table Title</caption>
+                    <tbody><tr class="narr_tr"><td>X</td></tr></tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="caption outside table produces div with caption class">
+            <x:context>
+                <hl7:paragraph>
+                    <hl7:caption>Paragraph Title</hl7:caption>
+                </hl7:paragraph>
+            </x:context>
+            <x:expect label="caption rendered as div with caption class">
+                <xhtml:p>
+                    <xhtml:div class="caption">Paragraph Title</xhtml:div>
+                </xhtml:p>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- Element mapping: list                                               -->
+    <!-- listType='ordered' → <ol>, otherwise → <ul>. Items always → <li>.   -->
+    <!-- Caption renders as bold div above the list.                          -->
+    <!-- ================================================================== -->
+    <x:scenario label="list element mapping">
+        <x:scenario label="ordered list with caption produces ol with li items">
+            <x:context>
+                <list xmlns="urn:hl7-org:v3" listType="ordered" ID="list-1" styleCode="Bold">
+                    <caption>Ordered Items</caption>
+                    <item ID="item-1">First</item>
+                    <item styleCode="Italics">Second</item>
+                    <item>Third</item>
+                </list>
+            </x:context>
+            <x:expect label="produces caption div and ol with three li elements">
+                <div xmlns="http://www.w3.org/1999/xhtml" style="font-weight:bold; ">
+                    <div class="caption">Ordered Items</div>
+                </div>
+                <ol xmlns="http://www.w3.org/1999/xhtml" class="Bold" id="list-1">
+                    <li id="item-1">First</li>
+                    <li class="Italics">Second</li>
+                    <li>Third</li>
+                </ol>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="unordered list produces ul with li items">
+            <x:context>
+                <list xmlns="urn:hl7-org:v3" listType="unordered" ID="list-2" styleCode="Bold">
+                    <item ID="uitem-1">Alpha</item>
+                    <item styleCode="Italics">Beta</item>
+                    <item>Gamma</item>
+                </list>
+            </x:context>
+            <x:expect label="produces ul with three li elements">
+                <ul xmlns="http://www.w3.org/1999/xhtml" class="Bold" id="list-2">
+                    <li id="uitem-1">Alpha</li>
+                    <li class="Italics">Beta</li>
+                    <li>Gamma</li>
+                </ul>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="list with no listType defaults to ul">
+            <x:context>
+                <list xmlns="urn:hl7-org:v3" ID="list-3" styleCode="Bold">
+                    <item ID="ditem-1">One</item>
+                    <item styleCode="Italics">Two</item>
+                    <item>Three</item>
+                </list>
+            </x:context>
+            <x:expect label="produces ul with three li elements">
+                <ul xmlns="http://www.w3.org/1999/xhtml" class="Bold" id="list-3">
+                    <li id="ditem-1">One</li>
+                    <li class="Italics">Two</li>
+                    <li>Three</li>
+                </ul>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- Element mapping: footnote and footnoteRef                           -->
+    <!-- footnote renders as div.narr_footnote with [n]. prefix.             -->
+    <!-- footnoteRef renders as superscript [n] linking to the footnote,     -->
+    <!-- with the first 50 chars of the footnote text as a tooltip.          -->
+    <!-- Both use position() over //hl7:footnote for numbering.              -->
+    <!-- ================================================================== -->
+    <x:scenario label="footnote and footnoteRef element mapping">
+        <x:scenario label="footnotes numbered by document order, footnoteRef links back with tooltip">
+            <x:context>
+                <paragraph xmlns="urn:hl7-org:v3">
+                    See first<footnoteRef IDREF="fn-1"/>
+                    and second<footnoteRef IDREF="fn-2"/>
+                    <footnote ID="fn-1">Short note.</footnote>
+                    <footnote ID="fn-2">This footnote is intentionally longer than fifty characters so that the tooltip text gets truncated.</footnote>
+                </paragraph>
+            </x:context>
+            <x:expect label="produces paragraph with refs and footnote divs">
+                <p xmlns="http://www.w3.org/1999/xhtml">
+                    See first<sup>[<a href="#fn-1" title="Short note.">1</a>]</sup>
+                    and second<sup>[<a href="#fn-2" title="This footnote is intentionally longer than fifty c...">2</a>]</sup>
+                    <div class="narr_footnote" id="fn-1">[1]. Short note.</div>
+                    <div class="narr_footnote" id="fn-2">[2]. This footnote is intentionally longer than fifty characters so that the tooltip text gets truncated.</div>
+                </p>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- Element mapping: CDAr3 catch-all elements                           -->
+    <!-- a, dd, dl, img, ins, span, p, ol, ul, li — all map to same-named   -->
+    <!-- HTML elements with handleSectionTextAttributes. Unlikely to appear   -->
+    <!-- in real CDA R2 documents, but tested for completeness.               -->
+    <!-- ================================================================== -->
+    <x:scenario label="CDAr3 catch-all element mapping">
+        <x:scenario label="all CDAr3 elements produce correct HTML with attributes">
+            <x:context>
+                <dl xmlns="urn:hl7-org:v3" ID="dl-1" styleCode="Bold">
+                    <dd ID="dd-1" styleCode="Italics">Definition</dd>
+                </dl>
+            </x:context>
+            <x:expect label="dl and dd map to HTML with id and class">
+                <dl xmlns="http://www.w3.org/1999/xhtml" class="Bold" id="dl-1">
+                    <dd class="Italics" id="dd-1">Definition</dd>
+                </dl>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="ol, ul, and li produce correct HTML">
+            <x:context>
+                <ol xmlns="urn:hl7-org:v3" ID="ol-1" styleCode="Bold">
+                    <li ID="li-1" styleCode="Italics">Ordered item</li>
+                </ol>
+            </x:context>
+            <x:expect label="ol and li map to HTML with id and class">
+                <ol xmlns="http://www.w3.org/1999/xhtml" class="Bold" id="ol-1">
+                    <li class="Italics" id="li-1">Ordered item</li>
+                </ol>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="p, span, ins, a produce correct HTML">
+            <x:context>
+                <p xmlns="urn:hl7-org:v3" ID="p-1" styleCode="Bold">
+                    <span ID="span-1" styleCode="Italics">Styled</span>
+                    <ins ID="ins-1" styleCode="Underline">Inserted</ins>
+                    <a ID="a-1" styleCode="Bold">Link text</a>
+                </p>
+            </x:context>
+            <x:expect label="p, span, ins, a all map to HTML with id and class">
+                <p xmlns="http://www.w3.org/1999/xhtml" class="Bold" id="p-1">
+                    <span class="Italics" id="span-1">Styled</span>
+                    <ins class="Underline" id="ins-1">Inserted</ins>
+                    <a class="Bold" id="a-1">Link text</a>
+                </p>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="img produces self-closing HTML element">
+            <x:context>
+                <img xmlns="urn:hl7-org:v3" ID="img-1" styleCode="Bold"/>
+            </x:context>
+            <x:expect label="img maps to HTML with id and class">
+                <img xmlns="http://www.w3.org/1999/xhtml" class="Bold" id="img-1"/>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+
+</x:description>

@@ -1,5 +1,5 @@
 # CDA R2 Stylesheet
-Quick Links: [Manual](#manual) - [Localization](#localization) - [Parameters](#parameters) - [Wiki](https://github.com/HL7/cda-core-xsl/wiki) - [Release Notes](https://github.com/HL7/cda-core-xsl/wiki/Revisions) - **[Security Notes](https://github.com/HL7/cda-core-xsl/wiki/Security-Notes)**
+Quick Links: [Examples/Documentation](https://hl7.github.io/CDA-core-xsl/) - [Usage](#manual) - [Localization](#localization) - [Parameters](#parameters) - [Wiki](https://github.com/HL7/cda-core-xsl/wiki) - [Release Notes](https://github.com/HL7/cda-core-xsl/wiki/Revisions) - **[Security Notes](https://github.com/HL7/cda-core-xsl/wiki/Security-Notes)**
 
 ## Introduction
 The CDA Release 2.0 publication comes with an *informative* stylesheet based on [XSLT 1.0](https://www.w3.org/TR/1999/REC-xslt-19991116). The stylesheet is maintained under responsibility of the [Structured Documents Workgroup](https://confluence.hl7.org/display/SD). Publications are under [releases](https://github.com/HL7/cda-core-xsl/releases)
@@ -8,6 +8,9 @@ The intent of the stylesheet is to offer an example of how to render a CDA docum
 - the section code, title and text (human readable text)
 - the full header information
 No CDA level 3, i.e. entry level information, is rendered.
+
+Examples of rendered CDA documents as well as more in-depth documentation of the stylesheet may be found at [https://hl7.github.io/CDA-core-xsl](https://hl7.github.io/CDA-core-xsl).
+
 ## License
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at 
 [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
@@ -20,7 +23,7 @@ The CDA R2 Stylesheet package contains at minimum two files that you need access
 - CDA.xsl - main logic
 - cda_l10n.xml - location file containing translations for terms (as of 4.0.0)
 - cda_narrativeblock.xml - lookup file for checking if certain combinations of elements/attributes are legal in the narrative block (as of 4.0.2 beta 10)
-## Manual
+## Usage
 There are multiple ways to apply the stylesheet. If you have files on disk or on a webserver for a web browser to consume, you need a hint for the web browser how to render to document. This hint is called a processing instruction and needs to be inserted before the ClinicalDocument element:
 
 ```xml
@@ -38,13 +41,15 @@ Although the stylesheet supports many parameters, these are not configurable fro
 Running the stylesheet programmatically could be done in any environment that supports XSLT 1.0. The [major implementations of XSLT](https://en.wikipedia.org/wiki/XSLT) are Saxon, libxslt and Xalan. Example command line call for Saxon where the parameter for rendering the header is set to false could be:
 
 ```bash
-java -jar ../lib/saxon-9/saxon9.jar -s:cda-example.xml -xsl:CDA.xsl -o:cda-example.html dohtmlheader=false mask-ids=2.16.840.1.113883.4.1
+java -jar lib/saxon-he-12.5.jar -s:cda-example.xml -xsl:CDA.xsl -o:cda-example.html dohtmlheader=false mask-ids=2.16.840.1.113883.4.1
 ```
 
 What this says:
-- Run *java*, with the *saxon9.jar* file, to transform input file *cda-example.xml*, using stylesheet *CDA.xsl*, to output file *cda-example.html*, without rendering the header info, and mask any patient ID with root 2.16.840.1.113883.4.1 (US SSN)
+- Run *java*, with the *saxon-he-12.5.jar* file (available in `lib/` after running `./run-tests.sh`), to transform input file *cda-example.xml*, using stylesheet *CDA.xsl*, to output file *cda-example.html*, without rendering the header info, and mask any patient ID with root 2.16.840.1.113883.4.1 (US SSN)
 ## Localization
-One of the core features of the updates to the stylesheet is localization or [l10n](https://acronyms.thefreedictionary.com/l10n). The original stylesheet has traditionally been US English, but the CDA is used all over the world and that means that applicability for other languages makes sense. The language is relevant in finding labels for things like "Patient ID" or "Date of birth", but also for structural attributes like classCode/typeCode/moodCode and NullFlavors. The language strings have been externalized into a separate xml file called cda-l10n.xml. The process works as follows:
+One of the core features of the updates to the stylesheet is localization or [l10n](https://acronyms.thefreedictionary.com/l10n). The original stylesheet has traditionally been US English, but the CDA is used all over the world and that means that applicability for other languages makes sense. The language is relevant in finding labels for things like "Patient ID" or "Date of birth", but also for structural attributes like classCode/typeCode/moodCode and NullFlavors. The language strings have been externalized into a separate xml file called cda-l10n.xml. The current list of translated strings can be found in the [documentation](https://hl7.github.io/CDA-core-xsl).
+
+The process works as follows:
 - Determine language based on ClinicalDocument/languageCode/@code, unless override is done through parameter textLang -- expected format is 2 char language code from ISO639, followed by a hyphen and a 2 char country code from ISO3166, e.g. en-US. All will be lower-cased before use.
 - For any label check if there is a translation element in cda-l10n.xml
   - check if requested language is available
@@ -165,5 +170,73 @@ The stylesheet supports many ways to parametrize.
 - `dosectionnumbering`
   - Determines if sections will receive numbering according to ClinicalDocument order. Value 'true' activates numbering. Top level sections are 1, 2, 3, 4, sub level sections are 1.1, 1.2, 1.2.1, 1.2.2 etc.
   - Default: false
+## Testing
+The project uses [XSpec](https://github.com/xspec/xspec) (v4.1.2) for unit testing XSLT templates, running on [Saxon HE](https://github.com/Saxonica/Saxon-HE) 12.5.
+
+### Prerequisites
+- Java 11+ (tested with Corretto 17)
+- `git` and `curl` for initial setup
+
+### Running Tests
+```bash
+# Run all tests (validation + unit tests + example regression tests)
+./run-tests.sh
+
+# Run only the XSpec unit tests
+./run-tests.sh --xspec
+
+# Run only the validation checks (XSLT compile + schema validation)
+./run-tests.sh --validate
+
+# Run a specific test file
+./run-tests.sh test/CDA-formatting.xspec
+
+# Run only the example regression tests
+./run-tests.sh --examples
+
+# Regenerate golden HTML files after an intentional change
+./run-tests.sh --update
+```
+
+`run-tests.sh` works on macOS, Linux, and Git Bash on Windows. For native Windows command prompt, use `run-tests.bat` which supports the same flags.
+
+On the first run, the script automatically downloads Saxon HE, XML Resolver, and XSpec into the `lib/` directory (excluded from version control via `.gitignore`). Subsequent runs skip the download.
+
+### Writing Tests
+Test files live in `test/` and use the `.xspec` extension. Key patterns for this stylesheet:
+
+- **Override the `textLang` parameter** at the `x:description` level so localization-dependent templates work without a source document:
+  ```xml
+  <x:param name="textLang" select="'en-US'"/>
+  ```
+- **String comparisons** use `test="string(.) = 'expected'"` because template text output is wrapped in a document node by XSpec
+- **Empty output** is tested with `select="()"` (empty sequence), not `select="''"` (empty string)
+- **Templates producing HTML** use exact inline HTML in `<x:expect>` for readability — reviewers should see complete input/output without chasing abstractions. Use `test="$x:result//xhtml:element"` with inline content when targeting a specific part of the output.
+
+See `test/CDA-formatting.xspec` and `test/CDA-show-simple.xspec` for 67 example scenarios covering formatting utilities, datatype rendering, and vocabulary lookup templates.
+
+### Project Structure
+```
+CDA.xsl                # Main stylesheet
+cda_l10n.xml           # Localization strings
+cda_narrativeblock.xml # Attribute allowlist for narrative table elements
+test/
+  CDA-*.xspec          # XSpec test files
+  CDA-coverage.xspec   # Master import file for Oxygen coverage (not run by run-tests.sh)
+  CDA-shared-params.xspec # Shared parameter declarations imported by all test files
+  xspec/               # Generated output (gitignored)
+  example-renders/     # Generated example output (gitignored)
+examples/
+  *.xml                # Example CDA documents
+  *.html               # Golden HTML renders for regression testing
+documentation/         # Public stylesheet documentation
+lib/                   # Dependencies (gitignored, auto-downloaded by run-tests.sh)
+  xspec/               # XSpec framework
+  saxon-he-12.5.jar    # Saxon HE XSLT processor
+  xmlresolver-*.jar    # XML Resolver (Saxon dependency)
+run-tests.sh           # Test runner (--xspec, --examples, --update)
+run-tests.bat          # Test runner for Windows (same flags)
+```
+
 ## Acknowledgements
 The stylesheet is the cumulative work of several developers; the most significant prior milestones were the foundation work from Lantana Group, HL7 Germany and Finland (Tyylitiedosto) and HL7 US (Calvin Beebe), and the presentation approach from Tony Schaller, medshare GmbH provided at IHIC 2009.

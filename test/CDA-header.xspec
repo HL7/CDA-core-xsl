@@ -1,0 +1,2195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    XSpec tests for CDA.xsl — Header-level templates
+    
+-->
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:hl7="urn:hl7-org:v3"
+               xmlns:sdtc="urn:hl7-org:sdtc"
+               xmlns:xhtml="http://www.w3.org/1999/xhtml"
+               stylesheet="../CDA.xsl">
+
+    <x:import href="CDA-shared-params.xspec"/>
+    <!-- currentDate is needed for age calculation; normally resolved from 
+         /hl7:ClinicalDocument/hl7:effectiveTime/@value but absent with x:call template -->
+    <x:param name="currentDate" select="'20260901'"/>
+    <!-- Just adds some CSS to header -->
+    <x:param name="externalCss" select="'externalTest.css'"/>
+    
+    <!-- ================================================================== -->
+    <!-- Basic Checks                                                       -->
+    <!-- ================================================================== -->
+    <x:scenario label="header general structure">
+        <x:context>
+            <ClinicalDocument xmlns="urn:hl7-org:v3">
+                <component>
+                    <structuredBody>
+                        <component>
+                            <section><text><content revised="delete"/></text></section>
+                        </component>
+                    </structuredBody>
+                </component>
+            </ClinicalDocument>
+        </x:context>
+        <x:scenario label="hard-coded elements">
+            <x:expect label="one html exists" test="count(//xhtml:html) = 1" />
+            <x:expect label="one head exists" test="count(//xhtml:head) = 1" />
+            <x:expect label="one body exists" test="count(//xhtml:body) = 1" />
+            <!-- This is silly, but testing existing structure -->
+            <x:expect label="at least one style exists" test="count(//xhtml:style) >= 1" />
+            <x:expect label="one documentheader exists" test="count(//xhtml:div[@id='documentheader']) = 1"/>
+            <x:expect label="buttontable exists" test="count(//xhtml:div[@id='buttontable']) = 1"/>
+            <x:expect label="one documentbody exists"   test="count(//xhtml:div[@id='documentbody']) = 1"/>
+            <x:expect label="one documentfooter exists" test="count(//xhtml:div[@id='documentfooter']) = 1"/>
+            <x:expect label="footer contains at least 3 separators" test="count(//xhtml:div[@id='documentfooter']/xhtml:div[@class='separator']) >= 3"/>
+        </x:scenario>
+        
+        <x:scenario label="simple params">
+            <x:expect label="externalCss exists" test="exists(//xhtml:link[@href='externalTest.css'])"/>
+        </x:scenario>
+        
+        <!-- <x:expect label="test"></x:expect> -->
+    </x:scenario>
+        
+    <!-- ================================================================== -->
+    <!-- show-title template                                                -->
+    <!-- ================================================================== -->
+    <x:scenario label="document title">
+        <x:scenario label="standard title">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <title>Standard Title</title>
+                    <effectiveTime value="20260901143208"/> <!-- -0500 just displays -0500 - suboptimal -->
+                </ClinicalDocument>
+            </x:context>
+            <x:expect label="html title shows standard title" test="//xhtml:title/text()">Standard Title (September 1, 2026, 2:32:08PM)</x:expect>
+            <x:expect label="doc title shows standard title" test="//xhtml:div[@id='documentheader']/xhtml:h1/text()">Standard Title (September 1, 2026, 2:32:08PM)</x:expect>
+        </x:scenario>
+        <x:scenario label="DTr2 title">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <title value="DTr2 Title"/>
+                    <effectiveTime value="20260901143208"/> <!-- -0500 just displays -0500 - suboptimal -->
+                </ClinicalDocument>
+            </x:context>
+            <x:expect label="html title shows DTr2 title" test="//xhtml:title/text()">DTr2 Title (September 1, 2026, 2:32:08PM)</x:expect>
+            <x:expect label="doc title shows DTr2 title" test="//xhtml:div[@id='documentheader']/xhtml:h1/text()">DTr2 Title (September 1, 2026, 2:32:08PM)</x:expect>
+        </x:scenario>
+        <x:scenario label="fallback to code if title is empty">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <code displayName="CCD"/>
+                    <title></title>
+                    <effectiveTime value="20260901143208"/> <!-- -0500 just displays -0500 - suboptimal -->
+                </ClinicalDocument>
+            </x:context>
+            <x:expect label="html title shows code" test="//xhtml:title/text()">CCD (September 1, 2026, 2:32:08PM)</x:expect>
+            <x:expect label="doc title shows code" test="//xhtml:div[@id='documentheader']/xhtml:h1/text()">CCD (September 1, 2026, 2:32:08PM)</x:expect>
+        </x:scenario>
+        <x:scenario label="fallback to code (DTr2) if title is empty">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <code><displayName value="DTr2 Code" /></code>
+                    <title></title>
+                    <effectiveTime value="20260901143208"/> <!-- -0500 just displays -0500 - suboptimal -->
+                </ClinicalDocument>
+            </x:context>
+            <x:expect label="html title shows DTr2 code" test="//xhtml:title/text()">DTr2 Code (September 1, 2026, 2:32:08PM)</x:expect>
+            <x:expect label="doc title shows DTr2 code" test="//xhtml:div[@id='documentheader']/xhtml:h1/text()">DTr2 Code (September 1, 2026, 2:32:08PM)</x:expect>
+        </x:scenario>
+        <x:scenario label="Clinical Document if no title or code displayName">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <code cod="34133-9"/> <!-- Seems like we could look this up; but most docs already have a title, so not really worth it? -->
+                    <title></title>
+                    <effectiveTime value="20260901143208"/> <!-- -0500 just displays -0500 - suboptimal -->
+                </ClinicalDocument>
+            </x:context>
+            <x:expect label="html title shows 'Clinical Document'" test="//xhtml:title/text()">Clinical Document (September 1, 2026, 2:32:08PM)</x:expect>
+            <x:expect label="doc title shows 'Clinical Document'" test="//xhtml:div[@id='documentheader']/xhtml:h1/text()">Clinical Document (September 1, 2026, 2:32:08PM)</x:expect>
+        </x:scenario>
+        
+        <x:scenario label="title with non-N confidentiality code">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <title>Standard Title</title>
+                    <effectiveTime value="20260901143208"/> <!-- -0500 just displays -0500 - suboptimal -->
+                    <confidentialityCode code="V" codeSystem="2.16.840.1.113883.5.25"/>
+                </ClinicalDocument>
+            </x:context>
+            <x:expect label="html title shows ...too much" test="//xhtml:title/text()">Standard Title (September 1, 2026, 2:32:08PM  Very restricted)</x:expect>
+            <x:expect label="doc title shows title with confidentiality image" test="//xhtml:div[@id='documentheader']/xhtml:h1/text()">Standard Title (September 1, 2026, 2:32:08PM  Very restricted)</x:expect>
+        </x:scenario>
+        
+        <x:scenario label="title with non-standard confidentiality code">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <title>Standard Title</title>
+                    <effectiveTime value="20260901143208"/> <!-- -0500 just displays -0500 - suboptimal -->
+                    <confidentialityCode code="secret" codeSystem="2.3.4"/>
+                </ClinicalDocument>
+            </x:context>
+            <x:expect label="html title shows ...too much" test="//xhtml:title/text()">Standard Title (September 1, 2026, 2:32:08PM  secret (2.3.4))</x:expect>
+            <x:expect label="doc title shows title with confidentiality image" test="//xhtml:div[@id='documentheader']/xhtml:h1/text()">Standard Title (September 1, 2026, 2:32:08PM  secret (2.3.4))</x:expect>
+        </x:scenario>
+        <!--
+        <x:expect label="test"></x:expect> -->
+    </x:scenario>
+    
+    
+    <!-- Header -->
+    <!-- ================================================================== -->
+    <!-- show-header template                                                -->
+    <!-- ================================================================== -->
+    <x:scenario label="show-header">
+        <x:scenario label="renders full header with all major sections">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <effectiveTime value="20260901"/>
+                    <recordTarget>
+                        <patientRole>
+                            <id root="2.16.840.1.113883.19.5" extension="P-001"/>
+                            <patient>
+                                <name><given>Jane</given><family>Doe</family></name>
+                                <birthTime value="19900115"/>
+                                <administrativeGenderCode code="F" codeSystem="2.16.840.1.113883.5.1" displayName="Female"/>
+                                <guardian>
+                                    <code code="GRPRN" displayName="Grandparent"/>
+                                    <guardianPerson>
+                                        <name><given>Bob</given><family>Guardian</family></name>
+                                    </guardianPerson>
+                                </guardian>
+                            </patient>
+                        </patientRole>
+                    </recordTarget>
+                    <authorization>
+                        <consent>
+                            <id root="2.16.840.1.113883.19.5" extension="CONSENT-1"/>
+                            <code displayName="Consent Given"/>
+                            <statusCode code="completed"/>
+                        </consent>
+                    </authorization>
+                    <componentOf>
+                        <encompassingEncounter>
+                            <id root="2.16.840.1.113883.19.5" extension="ENC-1"/>
+                            <code displayName="Office Visit"/>
+                            <effectiveTime value="20260901"/>
+                            <location>
+                                <healthCareFacility>
+                                    <code displayName="General Medicine Clinic"/>
+                                </healthCareFacility>
+                            </location>
+                        </encompassingEncounter>
+                    </componentOf>
+                    <documentationOf>
+                        <serviceEvent classCode="PCPR">
+                            <code displayName="Primary Care"/>
+                            <effectiveTime><low value="20260101"/><high value="20260901"/></effectiveTime>
+                            <performer typeCode="PRF">
+                                <assignedEntity>
+                                    <assignedPerson><name><given>Alice</given><family>Doctor</family></name></assignedPerson>
+                                </assignedEntity>
+                            </performer>
+                            <performer typeCode="SPRF">
+                                <assignedEntity>
+                                    <assignedPerson><name><given>Charlie</given><family>Nurse</family></name></assignedPerson>
+                                </assignedEntity>
+                            </performer>
+                        </serviceEvent>
+                    </documentationOf>
+                    <inFulfillmentOf>
+                        <order>
+                            <id root="2.16.840.1.113883.19.5" extension="ORD-1"/>
+                            <code displayName="Lab Order"/>
+                            <priorityCode displayName="Routine"/>
+                        </order>
+                    </inFulfillmentOf>
+                    <author>
+                        <time value="20260901"/>
+                        <assignedAuthor>
+                            <assignedPerson>
+                                <name><given>Alice</given><family>Doctor</family></name>
+                                <desc>Board Certified</desc>
+                                <birthTime value="19800601"/>
+                            </assignedPerson>
+                            <representedOrganization>
+                                <name>Good Health Clinic</name>
+                            </representedOrganization>
+                        </assignedAuthor>
+                    </author>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="show-header"/>
+            <x:expect label="produces complete header table">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label">Patient</td>
+                            <td>
+                                <span class="span_value">Jane  DOE</span>
+                                <span style="float: right; margin-left: 1em;">
+                                    <span>
+                                        <span class="span_label">Date of Birth: </span>
+                                        <span class="span_value">January  15, 1990<span title="At document creation time"> (36yr)</span></span>
+                                    </span>
+                                    <span class="span_label">Gender: </span>
+                                    <span class="span_value">Female</span>
+                                </span>
+                                <span style="float: right;" class="print_visible">
+                                    <span class="span_label">Patient-ID:&#160;</span>
+                                    <span class="span_value"><span>P-001 (2.16.840.1.113883.19.5)</span></span>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td_label">Guardian</td>
+                            <td>
+                                <span class="span_value">Bob  GUARDIAN - Grandparent</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td_label">Consent</td>
+                            <td>
+                                <span class="span_label">ID: </span>
+                                <span class="span_value"><span>CONSENT-1 (2.16.840.1.113883.19.5)</span></span>, <span class="span_label">Code: </span>
+                                <span class="span_value">Consent Given</span>, <span class="span_label">Status: </span>
+                                <span class="span_value">completed</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td_label">Encounter</td>
+                            <td>
+                                <span class="span_label">ID: </span>
+                                <span class="span_value"><span>ENC-1 (2.16.840.1.113883.19.5)</span></span>, <span class="span_label">Type: </span>
+                                <span class="span_value">Office Visit</span>, <span class="span_label">Date/Time: </span>
+                                <span class="span_value">at&#160;September  1, 2026</span>
+                                <div>
+                                    <span class="span_label">Location: </span>
+                                    <span class="span_value">General Medicine Clinic</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td_label">Documentation&#160;Of</td>
+                            <td>Care provision, <span class="span_value">Primary Care</span>, <span class="span_label">Date/Time: </span>
+                                <span class="span_value">from&#160;January  1, 2026 to&#160;September  1, 2026</span>, <span class="span_label">Performer: </span>
+                                <span class="span_value">Alice  DOCTOR</span>, <span class="span_label">Supporting Performer: </span>
+                                <span class="span_value">Charlie  NURSE</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td_label">In Fulfillment Of</td>
+                            <td>
+                                <span class="span_label">Order </span>
+                                <span class="span_label">ID: </span>
+                                <span class="span_value"><span>ORD-1 (2.16.840.1.113883.19.5)</span></span>, <span class="span_label">Code: </span>
+                                <span class="span_value">Lab Order</span>, <span class="span_label">Priority: </span>
+                                <span class="span_value">Routine</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td_label">Author</td>
+                            <td>
+                                <span class="span_value">Alice  DOCTOR<div>Board Certified</div> Date of Birth June  1, 1980</span>, <span class="span_label">Organization: </span>
+                                <span class="span_value">Good Health Clinic</span>, <span class="span_label">Authored On: </span>
+                                <span class="span_value">September  1, 2026</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+
+        <!-- Targeted tests for branches not covered above -->
+        <x:scenario label="patient with deceased time shows death info">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <effectiveTime value="20260901"/>
+                    <recordTarget>
+                        <patientRole>
+                            <patient>
+                                <name><given>Pat</given><family>Deceased</family></name>
+                                <birthTime value="19500101"/>
+                                <deceasedInd value="true"/>
+                                <deceasedTime value="20200615"/>
+                            </patient>
+                        </patientRole>
+                    </recordTarget>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="show-header"/>
+            <x:expect label="shows deceased label" test="contains(string(.), 'Birthdate/Deceased')"/>
+            <x:expect label="shows death date" test="contains(string(.), 'June') and contains(string(.), '2020')"/>
+            <x:expect label="shows dagger symbol" test="contains(string(.), '&#8224;')"/>
+        </x:scenario>
+
+        <x:scenario label="patient with deceasedInd nullFlavor">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <effectiveTime value="20260901"/>
+                    <recordTarget>
+                        <patientRole>
+                            <patient>
+                                <name><given>Pat</given><family>Unknown</family></name>
+                                <birthTime value="19500101"/>
+                                <deceasedInd nullFlavor="UNK"/>
+                            </patient>
+                        </patientRole>
+                    </recordTarget>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="show-header"/>
+            <x:expect label="shows deceased label" test="contains(string(.), 'Birthdate/Deceased')"/>
+            <x:expect label="shows unknown nullFlavor" test="contains(string(.), 'unknown')"/>
+        </x:scenario>
+
+        <x:scenario label="patient with deceasedInd true but no deceasedTime">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <effectiveTime value="20260901"/>
+                    <recordTarget>
+                        <patientRole>
+                            <patient>
+                                <name><given>Pat</given><family>DateUnknown</family></name>
+                                <birthTime value="19500101"/>
+                                <deceasedInd value="true"/>
+                            </patient>
+                        </patientRole>
+                    </recordTarget>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="show-header"/>
+            <x:expect label="shows date unknown" test="contains(string(.), 'date unknown')"/>
+        </x:scenario>
+
+        <x:scenario label="author as device shows software name">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <author>
+                        <assignedAuthor>
+                            <assignedAuthoringDevice>
+                                <softwareName>EHR System v5</softwareName>
+                            </assignedAuthoringDevice>
+                        </assignedAuthor>
+                    </author>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="show-header"/>
+            <x:expect label="shows software name" test="contains(string(.), 'EHR System v5')"/>
+        </x:scenario>
+
+        <x:scenario label="documentationOf with ACT classCode omits class display">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <documentationOf>
+                        <serviceEvent classCode="ACT">
+                            <code displayName="General Exam"/>
+                        </serviceEvent>
+                    </documentationOf>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="show-header"/>
+            <x:expect label="shows code without class label" test="contains(string(//xhtml:tr[xhtml:td = 'Documentation&#160;Of']), 'General Exam') and not(contains(string(//xhtml:tr[xhtml:td = 'Documentation&#160;Of']), 'act'))"/>
+        </x:scenario>
+
+        <x:scenario label="multipleBirth indicator shows in header">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <effectiveTime value="20260901"/>
+                    <recordTarget>
+                        <patientRole>
+                            <patient>
+                                <name><given>Twin</given><family>Baby</family></name>
+                                <birthTime value="20260101"/>
+                                <multipleBirthInd value="true"/>
+                            </patient>
+                        </patientRole>
+                    </recordTarget>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="show-header"/>
+            <x:expect label="shows multiple birth indicator" test="contains(string(.), 'Multiple Birth')"/>
+        </x:scenario>
+
+        <x:scenario label="author as DTr2 assignedDevice shows software name">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <author>
+                        <assignedAuthor>
+                            <assignedDevice>
+                                <softwareName value="DTr2 Device Software"/>
+                            </assignedDevice>
+                        </assignedAuthor>
+                    </author>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="show-header"/>
+            <x:expect label="shows DTr2 software name" test="contains(string(.), 'DTr2 Device Software')"/>
+        </x:scenario>
+        
+        <x:scenario label="author org with id but no name looks up name remotely">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <author>
+                        <assignedAuthor>
+                            <assignedPerson><name><given>Doc</given></name></assignedPerson>
+                            <representedOrganization>
+                                <id root="9.8.7.6" extension="ORG-UNKNOWN"/>
+                            </representedOrganization>
+                        </assignedAuthor>
+                    </author>
+                    <!-- Won't be rendered, but will be used as name if id matches -->
+                    <fakeElement>
+                        <id root="9.8.7.6" extension="ORG-UNKNOWN"/>
+                        <name>Remote Name</name>
+                    </fakeElement>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="show-header"/>
+            <x:expect label="shows org id as fallback" test="exists(//xhtml:span[text() = 'Remote Name'])"/>
+        </x:scenario>
+        
+        <x:scenario label="author org with id but no name looks up name remotely">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <author>
+                        <assignedAuthor>
+                            <assignedPerson><name><given>Doc</given></name></assignedPerson>
+                            <representedOrganization>
+                                <id root="9.8.7.6" />
+                            </representedOrganization>
+                        </assignedAuthor>
+                    </author>
+                    <!-- Won't be rendered, but will be used as name if id matches -->
+                    <fakeElement>
+                        <id root="9.8.7.6" />
+                        <name>Root-only is risky</name>
+                    </fakeElement>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="show-header"/>
+            <x:expect label="shows org id as fallback" test="exists(//xhtml:span[text() = 'Root-only is risky'])"/>
+        </x:scenario>
+
+        <x:scenario label="author org with id but no name falls back to show-id-set">
+            <!-- Org has an id but no name, and no matching entity elsewhere in doc,
+                 so $organizationName is empty and the otherwise branch renders show-id-set -->
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <author>
+                        <assignedAuthor>
+                            <assignedPerson><name><given>Doc</given></name></assignedPerson>
+                            <representedOrganization>
+                                <id root="9.8.7.6" extension="ORG-UNKNOWN"/>
+                            </representedOrganization>
+                        </assignedAuthor>
+                    </author>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="show-header"/>
+            <x:expect label="shows org id as fallback" test="exists(//xhtml:span[text() = 'ORG-UNKNOWN (9.8.7.6)'])"/>
+        </x:scenario>
+
+        <x:scenario label="author org with empty name falls back to show-id-set">
+            <!-- Org has a name element but it's empty, so $organizationName is empty string -->
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <author>
+                        <assignedAuthor>
+                            <assignedPerson><name><given>Doc</given></name></assignedPerson>
+                            <representedOrganization>
+                                <id root="9.8.7.6" extension="ORG-EMPTY"/>
+                                <name/>
+                            </representedOrganization>
+                        </assignedAuthor>
+                    </author>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="show-header"/>
+            <x:expect label="shows org id as fallback" test="exists(//xhtml:span[text() = 'ORG-EMPTY (9.8.7.6)'])"/>
+        </x:scenario>
+    </x:scenario>
+    
+    <!-- ================================================================== -->
+    <!-- make-tableofcontents / revisiontoggle / sectiontoggle              -->
+    <!-- ================================================================== -->
+    <x:scenario label="table of contents">
+        <x:context>
+            <ClinicalDocument xmlns="urn:hl7-org:v3">
+                <component>
+                    <structuredBody>
+                        <component><section><title>A</title></section></component>
+                        <component>
+                            <section>
+                                <title>B</title>
+                                <component>
+                                    <section ID="nonGenID">
+                                        <title>B-sub</title>
+                                        <component>
+                                            <section><title>B-double-sub</title></section>
+                                            <section ID="nonGenIDsub" nullFlavor="NA"><title>Missing NA</title></section>
+                                        </component>
+                                    </section>
+                                    <section nullFlavor="UNK"><title>B-sub-2 Missing UNK</title></section>
+                                </component>
+                            </section>
+                        </component>
+                        <component><section nullFlavor="NI" ID="sea"><title>C</title></section></component>
+                    </structuredBody>
+                </component>
+            </ClinicalDocument>
+        </x:context>
+        
+        <x:expect label="generates a TOC" test="//xhtml:div[@id='buttontable']">
+            <div xmlns="http://www.w3.org/1999/xhtml" id="buttontable">
+                <table border="0" cellpadding="0" cellspacing="0">
+                    <tbody>
+                        <tr>
+                            <td style="width: 35%; background-color: white;">
+                                <ul id="nav">
+                                    <li style="list-style: none;">
+                                        <div class="span_button">Table of Contents&#160;&#8711;</div>
+                                        <ul>
+                                            <li><a href="#section_1">A</a></li>
+                                            <li>
+                                                <a href="#section_2">B ▶</a>
+                                                <ul>
+                                                    <li style="padding-left: 2em;">
+                                                        <a href="#nonGenID">B-sub ▶</a>
+                                                        <ul>
+                                                            <li style="padding-left: 2em;">
+                                                                <a href="#section_2.1.1">B-double-sub</a>
+                                                            </li>
+                                                            <li style="padding-left: 2em;">
+                                                                <a href="#nonGenIDsub">Missing NA</a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <li style="padding-left: 2em;">
+                                                        <a href="#section_2.1">B-sub-2 Missing UNK</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="#sea">C (no information)</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td style="background-color: white;">
+                                <div id="sectionsToggleExpand"
+                                    style="display: none;"
+                                    class="span_button"
+                                    onclick="expandAllSections();">Expand All</div>
+                                <div id="sectionsToggleCollapse"
+                                    class="span_button"
+                                    onclick="collapseAllSections();">Collapse All</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </x:expect>
+        <x:expect label="revision toggle does not show up if there are is no revised content"
+            test="empty(//xhtml:td[@id='revisionToggleOn'])"/>
+        <x:scenario label="document with revision">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <component>
+                        <structuredBody>
+                            <component>
+                                <section><title>Non-revised</title></section>
+                                <section>
+                                    <title>Revised</title>
+                                    <text><content revised="delete" /></text>
+                                </section>
+                            </component>
+                        </structuredBody>
+                    </component>
+                </ClinicalDocument>
+            </x:context>
+            <x:expect label="generates a revision toggle" test="(//xhtml:div[@id='buttontable']//xhtml:td)[2]">
+                <td xmlns="http://www.w3.org/1999/xhtml"
+                    style="background-color: white;">
+                    <div id="revisionToggleOn"
+                        class="span_button"
+                        onclick="showReviewMarks();">Show Revisions</div>
+                    <div id="revisionToggleOff"
+                        style="display: none;"
+                        class="span_button"
+                        onclick="hideReviewMarks();">Hide Revisions</div>
+                </td>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+    
+    <!-- ================================================================== -->
+    <!-- documentfooter sections                                            -->
+    <!-- ================================================================== -->
+
+    <!-- ================================================================== -->
+    <!-- documentGeneral template                                           -->
+    <!-- ================================================================== -->
+    <x:scenario label="documentGeneral (footer) template">
+        <x:scenario label="renders document id, version, setId, effectiveTime, and statusCode">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <id root="2.16.840.1.113883.19.5" extension="DOC-001"/>
+                    <effectiveTime value="20260901120000"/>
+                    <versionNumber value="2"/>
+                    <setId root="2.16.840.1.113883.19.5" extension="SET-001"/>
+                    <statusCode code="completed"/>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="documentGeneral"/>
+            <x:expect label="produces header_table with document details">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Document</td>
+                            <td style="width: 30%;">
+                                <table class="table_simple">
+                                    <tbody>
+                                        <tr>
+                                            <td class="td_label">ID</td>
+                                            <td><span>DOC-001 (2.16.840.1.113883.19.5)</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="td_label">Version</td>
+                                            <td>2</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="td_label">Set&#8209;ID</td>
+                                            <td><span>SET-001 (2.16.840.1.113883.19.5)</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td class="td_label td_label_width">Created On</td>
+                            <td>September  1, 2026, 12AM<table class="table_simple">
+                                    <tbody>
+                                        <tr>
+                                            <td class="td_label">Status</td>
+                                            <td><b>Completed</b></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+    
+    <!-- ================================================================== -->
+    <!-- relatedDocument template                                           -->
+    <!-- ================================================================== -->
+    <x:scenario label="relatedDocument template">
+        <x:scenario label="renders multiple related documents with inversionInd variants">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <!-- inversionInd absent (default) with full parentDocument -->
+                    <relatedDocument typeCode="RPLC">
+                        <parentDocument>
+                            <id root="2.16.840.1.113883.19.5" extension="PREV-001"/>
+                            <versionNumber value="1"/>
+                            <setId root="2.16.840.1.113883.19.5" extension="SET-001"/>
+                        </parentDocument>
+                    </relatedDocument>
+                    <!-- inversionInd=true -->
+                    <relatedDocument typeCode="APND" inversionInd="true">
+                        <parentDocument>
+                            <id root="2.16.840.1.113883.19.5" extension="CHILD-001"/>
+                        </parentDocument>
+                    </relatedDocument>
+                    <!-- inversionInd=false (explicit) -->
+                    <relatedDocument typeCode="XFRM" inversionInd="false">
+                        <parentDocument>
+                            <id root="2.16.840.1.113883.19.5" extension="SRC-001"/>
+                        </parentDocument>
+                    </relatedDocument>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="relatedDocument"/>
+            <x:expect label="produces three header tables for each relatedDocument">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">This document relates to document (replaces)</td>
+                            <td style="width: 80%;">
+                                <table class="table_simple">
+                                    <tbody>
+                                        <tr>
+                                            <td class="td_label">ID</td>
+                                            <td><span>PREV-001 (2.16.840.1.113883.19.5)</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="td_label">Version</td>
+                                            <td>1</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="td_label">Set&#8209;ID</td>
+                                            <td><span>SET-001 (2.16.840.1.113883.19.5)</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Document relating to this document (appendage)</td>
+                            <td style="width: 80%;">
+                                <table class="table_simple">
+                                    <tbody>
+                                        <tr>
+                                            <td class="td_label">ID</td>
+                                            <td><span>CHILD-001 (2.16.840.1.113883.19.5)</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">This document relates to document (transformation)</td>
+                            <td style="width: 80%;">
+                                <table class="table_simple">
+                                    <tbody>
+                                        <tr>
+                                            <td class="td_label">ID</td>
+                                            <td><span>SRC-001 (2.16.840.1.113883.19.5)</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+    
+    <!-- ================================================================== -->
+    <!-- custodian                                                           -->
+    <!-- ================================================================== -->
+    <x:scenario label="custodian">
+        <x:scenario label="renders named custodian with contact details">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <custodian>
+                        <assignedCustodian>
+                            <representedCustodianOrganization>
+                                <name>Good Health Clinic</name>
+                                <telecom value="tel:555-1234" use="WP"/>
+                                <addr>
+                                    <streetAddressLine>100 Main St</streetAddressLine>
+                                    <city>Anytown</city>
+                                </addr>
+                            </representedCustodianOrganization>
+                        </assignedCustodian>
+                    </custodian>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="custodian"/>
+            <x:expect label="produces header_table with org name and contact info">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Custodian</td>
+                            <td style="width: 30%;">Good Health Clinic</td>
+                            <td class="td_label td_label_width">Contact Details</td>
+                            <td>100 Main St<br/>Anytown<br/>Tel Workplace: 555-1234</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+        
+        <x:scenario label="renders id-only custodian with contact details">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <custodian>
+                        <assignedCustodian>
+                            <representedCustodianOrganization>
+                                <id root="2.16.840.1.113883.19.5" extension="ORG-1"/>
+                                <telecom value="tel:555-1234" use="WP"/>
+                                <addr>
+                                    <streetAddressLine>100 Main St</streetAddressLine>
+                                    <city>Anytown</city>
+                                </addr>
+                            </representedCustodianOrganization>
+                        </assignedCustodian>
+                    </custodian>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="custodian"/>
+            <x:expect label="produces header_table with org id and contact info">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Custodian</td>
+                            <td style="width: 30%;"><span>ORG-1 (2.16.840.1.113883.19.5)</span></td>
+                            <td class="td_label td_label_width">Contact Details</td>
+                            <td>100 Main St<br/>Anytown<br/>Tel Workplace: 555-1234</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- recordTarget template                                              -->
+    <!-- ================================================================== -->
+    <x:scenario label="recordTarget template">
+        <x:scenario label="renders full patient with all demographics, guardian, and provider org">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:sdtc="urn:hl7-org:sdtc">
+                    <effectiveTime value="20260901"/>
+                    <recordTarget>
+                        <patientRole>
+                            <id root="2.16.840.1.113883.19.5" extension="P-001"/>
+                            <addr><city>Anytown</city></addr>
+                            <telecom value="tel:555-1234"/>
+                            <patient>
+                                <name>
+                                    <given>Jane</given> <family>Doe</family>
+                                </name>
+                                <administrativeGenderCode code="F" displayName="Female"/>
+                                <birthTime value="19900115"/>
+                                <raceCode code="2106-3" displayName="White"/>
+                                <sdtc:raceCode code="2076-8" displayName="Native Hawaiian"/>
+                                <ethnicGroupCode code="2186-5" displayName="Not Hispanic"/>
+                                <sdtc:ethnicGroupCode code="2186-5" displayName="Not Hispanic or Latino"/>
+                                <languageCommunication>
+                                    <languageCode code="en"/>
+                                    <modeCode displayName="Expressed spoken"/>
+                                    <proficiencyLevelCode displayName="Good"/>
+                                    <preferenceInd value="true"/>
+                                </languageCommunication>
+                                <languageCommunication>
+                                    <languageCode code="es"/>
+                                </languageCommunication>
+                                <guardian>
+                                    <code code="GRPRN" displayName="Grandparent"/>
+                                    <addr><city>Guardianville</city></addr>
+                                    <telecom value="tel:555-9999"/>
+                                    <guardianPerson>
+                                        <name>
+                                            <given>Bob</given> <family>Guardian</family>
+                                        </name>
+                                    </guardianPerson>
+                                </guardian>
+                            </patient>
+                            <providerOrganization>
+                                <name>Good Health Clinic</name>
+                                <telecom value="tel:555-0000"/>
+                            </providerOrganization>
+                        </patientRole>
+                    </recordTarget>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="recordTarget"/>
+            <x:expect label="produces complete patient table with all rows">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Patient</td>
+                            <td style="width: 30%;">Jane  DOE</td>
+                            <td class="td_label td_label_width">Contact Details</td>
+                            <td style="width: 30%;">Anytown<br/>Tel: 555-1234</td>
+                        </tr>
+                        <tr>
+                            <td class="td_label td_label_width">Date of Birth</td>
+                            <td style="width: 30%;">January  15, 1990 (36yr)</td>
+                            <td class="td_label td_label_width">Gender</td>
+                            <td>Female</td>
+                        </tr>
+                        <tr>
+                            <td class="td_label td_label_width">Race</td>
+                            <td style="width: 30%;">White, Native Hawaiian</td>
+                            <td class="td_label td_label_width">Ethnicity</td>
+                            <td>Not Hispanic, Not Hispanic or Latino</td>
+                        </tr>
+                        <tr>
+                            <td class="td_label td_label_width">Patient-IDs</td>
+                            <td><span>P-001 (2.16.840.1.113883.19.5)</span></td>
+                            <td class="td_label td_label_width">Language Communication</td>
+                            <td colspan="3">
+                                <div>en, Expressed spoken, Good, preferred: yes</div>
+                                <div>es</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td_label td_label_width">Guardian</td>
+                            <td style="width: 30%;">Bob  GUARDIAN - Grandparent</td>
+                            <td class="td_label td_label_width">Contact Details</td>
+                            <td>Guardianville<br/>Tel: 555-9999</td>
+                        </tr>
+                        <tr>
+                            <td class="td_label td_label_width">Provider Organization</td>
+                            <td style="width: 30%;">
+                                <div>Good Health Clinic</div>
+                            </td>
+                            <td class="td_label td_label_width">Contact Details (Organization)</td>
+                            <td style="width: 30%;">Tel: 555-0000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders deceased patient">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <effectiveTime value="20260901"/>
+                    <recordTarget>
+                        <patientRole>
+                            <id root="2.16.840.1.113883.19.5" extension="P-002"/>
+                            <patient>
+                                <name><given>Pat</given> <family>Deceased</family></name>
+                                <birthTime value="19500101"/>
+                                <deceasedInd value="true"/>
+                                <deceasedTime value="20200615"/>
+                            </patient>
+                        </patientRole>
+                    </recordTarget>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="recordTarget"/>
+            <x:expect label="produces table with deceased label and death date">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Patient</td>
+                            <td style="width: 30%;">Pat  DECEASED</td>
+                            <td class="td_label td_label_width">Contact Details</td>
+                            <td style="width: 30%;"/>
+                        </tr>
+                        <tr>
+                            <td class="td_label td_label_width">Birthdate/Deceased</td>
+                            <td style="width: 30%;">January  1, 1950 - June  15, 2020 (70yr)</td>
+                            <td class="td_label td_label_width">Gender</td>
+                            <td/>
+                        </tr>
+                        <tr>
+                            <td class="td_label td_label_width">Patient-IDs</td>
+                            <td colspan="3"><span>P-002 (2.16.840.1.113883.19.5)</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+        
+        <x:scenario label="deceasedInd with nullFlavor (no deceasedTime)">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <effectiveTime value="20260901"/>
+                    <recordTarget><patientRole><id root="1.2.3" extension="P1"/>
+                            <patient>
+                                <name><given>Dec</given><family>NullInd</family></name>
+                                <birthTime value="19800601"/>
+                                <deceasedInd nullFlavor="UNK"/>
+                            </patient>
+                    </patientRole></recordTarget>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="recordTarget"/>
+            <!-- deceasedInd/@nullFlavor → show-nullFlavor renders "unknown", no age shown -->
+            <x:expect label="shows birth date - unknown (nullFlavor)"
+                test="($x:result//xhtml:tr)[2]">
+                <tr xmlns="http://www.w3.org/1999/xhtml">
+                    <td class="td_label td_label_width">Birthdate/Deceased</td>
+                    <td style="width: 30%;">June  1, 1980 - unknown</td>
+                    <td class="td_label td_label_width">Gender</td>
+                    <td/>
+                </tr>
+            </x:expect>
+        </x:scenario>
+        
+        <x:scenario label="deceasedTime with nullFlavor (no deceasedInd)">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <effectiveTime value="20260901"/>
+                    <recordTarget><patientRole><id root="1.2.3" extension="P2"/>
+                            <patient>
+                                <name><given>Dec</given><family>NullTime</family></name>
+                                <birthTime value="19800601"/>
+                                <deceasedTime nullFlavor="UNK"/>
+                            </patient>
+                    </patientRole></recordTarget>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="recordTarget"/>
+            <!-- deceasedTime without @value, no deceasedInd → otherwise: †date unknown -->
+            <x:expect label="shows birth date with dagger and date unknown"
+                test="($x:result//xhtml:tr)[2]">
+                <tr xmlns="http://www.w3.org/1999/xhtml">
+                    <td class="td_label td_label_width">Birthdate/Deceased</td>
+                    <td style="width: 30%;">June  1, 1980 - &#8224;date unknown</td>
+                    <td class="td_label td_label_width">Gender</td>
+                    <td/>
+                </tr>
+            </x:expect>
+        </x:scenario>
+        
+        <x:scenario label="multipleBirthInd true (no order number)">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <effectiveTime value="20260901"/>
+                    <recordTarget><patientRole><id root="1.2.3" extension="P4"/>
+                            <patient>
+                                <name><given>Twin</given><family>One</family></name>
+                                <birthTime value="20000315"/>
+                                <multipleBirthInd value="true"/>
+                            </patient>
+                    </patientRole></recordTarget>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="recordTarget"/>
+            <x:expect label="shows DOB with Multiple Birth in italics"
+                test="($x:result//xhtml:tr)[2]">
+                <tr xmlns="http://www.w3.org/1999/xhtml">
+                    <td class="td_label td_label_width">Date of Birth</td>
+                    <td style="width: 30%;">March  15, 2000 (26yr)<i> Multiple Birth</i></td>
+                    <td class="td_label td_label_width">Gender</td>
+                    <td/>
+                </tr>
+            </x:expect>
+        </x:scenario>
+        
+        <x:scenario label="multipleBirthOrderNumber (no multipleBirthInd)">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <effectiveTime value="20260901"/>
+                    <recordTarget><patientRole><id root="1.2.3" extension="P5"/>
+                            <patient>
+                                <name><given>Twin</given><family>Two</family></name>
+                                <birthTime value="20000315"/>
+                                <multipleBirthOrderNumber value="2"/>
+                            </patient>
+                    </patientRole></recordTarget>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="recordTarget"/>
+            <x:expect label="shows DOB with Multiple Birth in italics"
+                test="($x:result//xhtml:tr)[2]">
+                <tr xmlns="http://www.w3.org/1999/xhtml">
+                    <td class="td_label td_label_width">Date of Birth</td>
+                    <td style="width: 30%;">March  15, 2000 (26yr)<i> Multiple Birth</i></td>
+                    <td class="td_label td_label_width">Gender</td>
+                    <td/>
+                </tr>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders providerOrganization with id">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <effectiveTime value="20260901"/>
+                    <recordTarget>
+                        <patientRole>
+                            <id root="2.16.840.1.113883.19.5" extension="P-003"/>
+                            <patient>
+                                <name><given>Min</given> <family>Patient</family></name>
+                            </patient>
+                            <providerOrganization>
+                                <id root="2.16.840.1.113883.19.5" extension="ORG-1"/>
+                                <name>Regional Medical Center</name>
+                                <telecom value="tel:555-8888"/>
+                            </providerOrganization>
+                        </patientRole>
+                    </recordTarget>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="recordTarget"/>
+            <x:expect label="providerOrganization row has name, id table, and contact"
+                      test="$x:result//xhtml:tr[xhtml:td = 'Provider Organization']">
+                <tr xmlns="http://www.w3.org/1999/xhtml">
+                    <td class="td_label td_label_width">Provider Organization</td>
+                    <td style="width: 30%;">
+                        <div>Regional Medical Center</div>
+                        <table class="table_simple">
+                            <tbody>
+                                <tr>
+                                    <td class="td_label">ID</td>
+                                    <td><span>ORG-1 (2.16.840.1.113883.19.5)</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td class="td_label td_label_width">Contact Details (Organization)</td>
+                    <td style="width: 30%;">Tel: 555-8888</td>
+                </tr>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- authorization template                                             -->
+    <!-- ================================================================== -->
+    <x:scenario label="authorization template">
+        <x:scenario label="renders authorization with code and statusCode fallback">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <!-- First: has code (takes the when branch) -->
+                    <authorization>
+                        <consent>
+                            <code displayName="Consent for Treatment"/>
+                        </consent>
+                    </authorization>
+                    <!-- Second: no code, only statusCode (takes the otherwise branch) -->
+                    <authorization>
+                        <consent>
+                            <statusCode code="completed"/>
+                        </consent>
+                    </authorization>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="authorization"/>
+            <x:expect label="produces two consent tables">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Consent</td>
+                            <td style="width: 80%;">Consent for Treatment<br/></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Consent</td>
+                            <td style="width: 80%;">completed<br/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- documentationOf template                                           -->
+    <!-- ================================================================== -->
+    <x:scenario label="documentationOf template">
+        <x:scenario label="renders multiple documentationOf elements with performer contact variants">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <!-- Full: non-ACT classCode, code, time, two performers (one with telecom, one without) -->
+                    <documentationOf>
+                        <serviceEvent classCode="PCPR">
+                            <code displayName="Primary Care"/>
+                            <effectiveTime><low value="20260101"/><high value="20260901"/></effectiveTime>
+                            <performer typeCode="PRF">
+                                <functionCode code="PCP" displayName="Primary Care Provider"/>
+                                <assignedEntity>
+                                    <telecom value="tel:555-1234"/>
+                                    <assignedPerson><name><given>Alice</given> <family>Doctor</family></name></assignedPerson>
+                                </assignedEntity>
+                            </performer>
+                            <performer typeCode="SPRF">
+                                <assignedEntity>
+                                    <assignedPerson><name><given>Charlie</given> <family>Nurse</family></name></assignedPerson>
+                                </assignedEntity>
+                            </performer>
+                        </serviceEvent>
+                    </documentationOf>
+                    <!-- ACT classCode, no performers, single effectiveTime -->
+                    <documentationOf>
+                        <serviceEvent classCode="ACT">
+                            <code displayName="General Exam"/>
+                            <effectiveTime value="20260901"/>
+                        </serviceEvent>
+                    </documentationOf>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="documentationOf"/>
+            <x:expect label="produces two tables with performer contact details variants">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Documentation&#160;Of - care provision</td>
+                            <td style="width: 80%;" colspan="3">Primary Carefrom&#160;January  1, 2026 to&#160;September  1, 2026</td>
+                        </tr>
+                        <tr>
+                            <td class="td_label td_label_width">Performer - Primary Care Provider</td>
+                            <td style="width: 30%;">Alice  DOCTOR</td>
+                            <td class="td_label td_label_width">Contact Details</td>
+                            <td>Tel: 555-1234</td>
+                        </tr>
+                        <tr>
+                            <td class="td_label td_label_width">Secondary performer - </td>
+                            <td colspan="3">Charlie  NURSE</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Documentation&#160;Of</td>
+                            <td style="width: 80%;" colspan="3">General Examat&#160;September  1, 2026</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+    
+    <!-- ================================================================== -->
+    <!-- inFulfillmentOf template                                           -->
+    <!-- ================================================================== -->
+    <x:scenario label="inFulfillmentOf template">
+        <x:scenario label="renders multiple inFulfillmentOf elements">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <!-- Full: id, code, priorityCode -->
+                    <inFulfillmentOf>
+                        <order>
+                            <id root="2.16.840.1.113883.19.5" extension="ORD-1"/>
+                            <code displayName="Lab Order"/>
+                            <priorityCode displayName="Routine"/>
+                        </order>
+                    </inFulfillmentOf>
+                    <!-- Minimal: id only -->
+                    <inFulfillmentOf>
+                        <order>
+                            <id root="2.16.840.1.113883.19.5" extension="ORD-2"/>
+                        </order>
+                    </inFulfillmentOf>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="inFulfillmentOf"/>
+            <x:expect label="produces two tables for each order">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">In Fulfillment Of</td>
+                            <td style="width: 80%;">Order: <span>ORD-1 (2.16.840.1.113883.19.5)</span>&#160;Lab Order&#160;Routine</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">In Fulfillment Of</td>
+                            <td style="width: 80%;">Order: <span>ORD-2 (2.16.840.1.113883.19.5)</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- componentOf template                                               -->
+    <!-- ================================================================== -->
+    <x:scenario label="componentOf template">
+        <x:scenario label="renders comprehensive encounter with all fields">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:sdtc="urn:hl7-org:sdtc">
+                    <componentOf>
+                        <encompassingEncounter>
+                            <id root="2.16.840.1.113883.19.5" extension="ENC-001"/>
+                            <code displayName="Inpatient"/>
+                            <effectiveTime><low value="20260101"/><high value="20260115"/></effectiveTime>
+                            <dischargeDispositionCode displayName="Home"/>
+                            <sdtc:admissionReferralSourceCode displayName="Emergency Room"/>
+                            <location>
+                                <healthCareFacility>
+                                    <location>
+                                        <name>West Wing ICU</name>
+                                        <addr><city>Anytown</city></addr>
+                                    </location>
+                                    <serviceProviderOrganization>
+                                        <name>General Hospital</name>
+                                    </serviceProviderOrganization>
+                                </healthCareFacility>
+                            </location>
+                            <responsibleParty>
+                                <assignedEntity>
+                                    <telecom value="tel:555-1111"/>
+                                    <assignedPerson><name><given>Alice</given> <family>Responsible</family></name></assignedPerson>
+                                </assignedEntity>
+                            </responsibleParty>
+                            <encounterParticipant typeCode="ATND">
+                                <time><low value="20260101"/><high value="20260108"/></time>
+                                <assignedEntity>
+                                    <telecom value="tel:555-2222"/>
+                                    <assignedPerson><name><given>Bob</given> <family>Attending</family></name></assignedPerson>
+                                </assignedEntity>
+                            </encounterParticipant>
+                        </encompassingEncounter>
+                    </componentOf>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="componentOf"/>
+            <!-- BUG: serviceProviderOrganization/name outputs "&#160;of&#160;" but not the org name.
+                 The for-each iterates over the name element, then show-name-set uses an absolute path
+                 hl7:location/hl7:healthCareFacility/hl7:serviceProviderOrganization/hl7:name relative
+                 to the name context, which doesn't match. Should use select="." instead. -->
+            <x:expect label="produces full encounter table">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Encounter</td>
+                            <td style="width: 30%;">
+                                <table class="table_simple">
+                                    <tbody>
+                                        <tr>
+                                            <td class="td_label">ID</td>
+                                            <td><span>ENC-001 (2.16.840.1.113883.19.5)</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="td_label">Type</td>
+                                            <td>Inpatient</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td class="td_label td_label_width">Encounter Date</td>
+                            <td>from&#160;January  1, 2026 to&#160;January  15, 2026</td>
+                        </tr>
+                        <tr>
+                            <td class="td_label td_label_width">Admission Referral Source</td>
+                            <td style="width: 30%;">Emergency Room</td>
+                            <td class="td_label td_label_width">Discharge Disposition</td>
+                            <td style="width: 30%;">Home</td>
+                        </tr>
+                        <tr>
+                            <td class="td_label td_label_width">Encounter Location</td>
+                            <td colspan="3">West Wing ICU (Anytown)&#160;of&#160;</td>
+                        </tr>
+                        <tr>
+                            <td class="td_label td_label_width">Responsible Party</td>
+                            <td style="width: 30%;">Alice  RESPONSIBLE</td>
+                            <td class="td_label td_label_width">Contact Details</td>
+                            <td>Tel: 555-1111</td>
+                        </tr>
+                        <tr>
+                            <td class="td_label td_label_width">attender (from&#160;January  1, 2026 to&#160;January  8, 2026)</td>
+                            <td style="width: 30%;">Bob  ATTENDING</td>
+                            <td class="td_label td_label_width">Contact Details</td>
+                            <td>Tel: 555-2222</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders dischargeDisposition without admissionReferralSourceCode">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <componentOf>
+                        <encompassingEncounter>
+                            <id root="1.2.3" extension="ENC-002"/>
+                            <effectiveTime value="20260901"/>
+                            <dischargeDispositionCode displayName="Home"/>
+                        </encompassingEncounter>
+                    </componentOf>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="componentOf"/>
+            <!-- Without admissionReferralSourceCode, discharge gets colspan="3" -->
+            <x:expect label="discharge disposition spans full width"
+                      test="$x:result//xhtml:tr[xhtml:td = 'Discharge Disposition']">
+                <tr xmlns="http://www.w3.org/1999/xhtml">
+                    <td class="td_label td_label_width">Discharge Disposition</td>
+                    <td colspan="3">Home</td>
+                </tr>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders location with code, no name">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <componentOf>
+                        <encompassingEncounter>
+                            <id root="1.2.3" extension="ENC-003"/>
+                            <location>
+                                <healthCareFacility>
+                                    <code displayName="Emergency Department"/>
+                                </healthCareFacility>
+                            </location>
+                        </encompassingEncounter>
+                    </componentOf>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="componentOf"/>
+            <x:expect label="location row shows code displayName"
+                      test="$x:result//xhtml:tr[xhtml:td = 'Encounter Location']">
+                <tr xmlns="http://www.w3.org/1999/xhtml">
+                    <td class="td_label td_label_width">Encounter Location</td>
+                    <td colspan="3">Emergency Department</td>
+                </tr>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders location with id, no name or code">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <componentOf>
+                        <encompassingEncounter>
+                            <id root="1.2.3" extension="ENC-004"/>
+                            <location>
+                                <healthCareFacility>
+                                    <id root="2.16.840.1.113883.19.5" extension="LOC-1"/>
+                                </healthCareFacility>
+                            </location>
+                        </encompassingEncounter>
+                    </componentOf>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="componentOf"/>
+            <x:expect label="location row shows ID label and id"
+                      test="$x:result//xhtml:tr[xhtml:td = 'Encounter Location']">
+                <tr xmlns="http://www.w3.org/1999/xhtml">
+                    <td class="td_label td_label_width">Encounter Location</td>
+                    <td colspan="3">ID:<span>LOC-1 (2.16.840.1.113883.19.5)</span></td>
+                </tr>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders responsibleParty without addr or telecom">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <componentOf>
+                        <encompassingEncounter>
+                            <id root="1.2.3" extension="ENC-005"/>
+                            <responsibleParty>
+                                <assignedEntity>
+                                    <assignedPerson><name><given>Solo</given> <family>Doctor</family></name></assignedPerson>
+                                </assignedEntity>
+                            </responsibleParty>
+                        </encompassingEncounter>
+                    </componentOf>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="componentOf"/>
+            <!-- Without addr/telecom, name td gets colspan="3" and no Contact Details cells -->
+            <x:expect label="responsible party row has colspan 3 and no contact details"
+                      test="$x:result//xhtml:tr[xhtml:td = 'Responsible Party']">
+                <tr xmlns="http://www.w3.org/1999/xhtml">
+                    <td class="td_label td_label_width">Responsible Party</td>
+                    <td colspan="3">Solo  DOCTOR</td>
+                </tr>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders encounterParticipant without addr or telecom">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <componentOf>
+                        <encompassingEncounter>
+                            <id root="1.2.3" extension="ENC-006"/>
+                            <encounterParticipant typeCode="CON">
+                                <assignedEntity>
+                                    <assignedPerson><name><given>Jane</given> <family>Consultant</family></name></assignedPerson>
+                                </assignedEntity>
+                            </encounterParticipant>
+                        </encompassingEncounter>
+                    </componentOf>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="componentOf"/>
+            <!-- Without addr/telecom, name td gets colspan="3" and no Contact Details cells -->
+            <x:expect label="participant row has colspan 3 and no contact details"
+                      test="$x:result//xhtml:tr[xhtml:td = 'consultant']">
+                <tr xmlns="http://www.w3.org/1999/xhtml">
+                    <td class="td_label td_label_width">consultant</td>
+                    <td colspan="3">Jane  CONSULTANT</td>
+                </tr>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+    
+    <!--
+        These templates operate on the ClinicalDocument context node and render
+        participant information as table.header_table structures (contrast with
+        the section-level templates in CDA-section.xspec which render as div/ul/li).
+    -->
+    
+    <!-- ================================================================== -->
+    <!-- author  (footer)                                                   -->
+    <!-- ================================================================== -->
+    <x:scenario label="author">
+        <x:scenario label="renders person author with org and code">
+            <x:context>
+                <!-- Keep authors in-sync with CDA-section section-author block -->
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <author>
+                        <assignedAuthor>
+                            <id root="2.16.840.1.113883.19.5" extension="A-12345"/>
+                            <telecom value="mailto:jane@organization.com" use="WP"/>
+                            <addr>
+                                <streetAddressLine>123 Main St.</streetAddressLine>
+                                <city>Anywhere</city>
+                            </addr>
+                            <assignedPerson>
+                                <name><given>Jane</given><family>Smith</family></name>
+                                <desc>Jane's desc tag</desc>
+                                <!-- Not actually allowed, but XSL renders it... -->
+                                <birthTime value="20230102"/>
+                            </assignedPerson>
+                            <code code="207Q00000X" codeSystem="2.16.840.1.113883.6.101" displayName="Family Medicine"/>
+                            <representedOrganization>
+                                <id root="2.3.4" extension="org1"/>
+                                <name>Good Health Clinic</name>
+                                <addr>
+                                    <streetAddressLine>100 Medical Circle</streetAddressLine>
+                                    <city>Healing Springs</city>
+                                </addr>
+                                <!-- Doesn't render (yet) for section-author -->
+                                <telecom value="tel:800-111-1111" use="WP"/>
+                            </representedOrganization>
+                        </assignedAuthor>
+                    </author>
+                    <!-- Device with software name -->
+                    <author>
+                        <assignedAuthor>
+                            <assignedAuthoringDevice>
+                                <softwareName>Clinical Documentation System v3.2</softwareName>
+                            </assignedAuthoringDevice>
+                            <representedOrganization>
+                                <id root="2.16.840.1.113883.19.5" extension="O-123"/>
+                            </representedOrganization>
+                        </assignedAuthor>
+                    </author>
+                    <!-- CDAr3 <assignedDevice> -->
+                    <author>
+                        <assignedAuthor>
+                            <assignedDevice>
+                                <softwareName value="Unreleased But Supported" />
+                            </assignedDevice>
+                        </assignedAuthor>
+                    </author>
+                    <!-- ID-only author (XSL pulls org name from representedOrg with matching name - weird, but test it)-->
+                    <author>
+                        <assignedAuthor>
+                            <id root="2.16.840.1.113883.19.5" extension="A-12345"/>
+                            <representedOrganization>
+                                <id root="2.3.4" extension="org1"/>
+                            </representedOrganization>
+                        </assignedAuthor>
+                    </author>
+                    <!-- ID-only author
+                        NOTE: this one is even weirder and probably incorrect. If the org id has no extension,
+                        it'll match on another ID's root even if THAT id has an extension.
+                    -->
+                    <author>
+                        <assignedAuthor>
+                            <id root="2.16.840.1.113883.19.5" extension="A-12345"/>
+                            <representedOrganization>
+                                <id root="2.3.4"/>
+                            </representedOrganization>
+                        </assignedAuthor>
+                    </author>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="author"/>
+            <x:expect label="produces header_table with author details">
+                <table xmlns="http://www.w3.org/1999/xhtml"
+                    class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width" rowspan="2">Author</td>
+                            <td style="width: 30%;" rowspan="2">Jane  SMITH<div>Jane's desc tag</div> Date of Birth January  2, 2023 - Code: Family Medicine, Organization: Good Health Clinic</td>
+                            <td class="td_label td_label_width">Contact Details</td>
+                            <td>123 Main St.<br />Anywhere<br />Mail Workplace: jane@organization.com</td>
+                            
+                        </tr>
+                        <tr>
+                            <td class="td_label td_label_width">Contact Details (Organization)</td>
+                            <td>100 Medical Circle<br />Healing Springs<br />Tel Workplace: 800-111-1111</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table xmlns="http://www.w3.org/1999/xhtml"
+                    class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Author</td>
+                            <td colspan="3">Clinical Documentation System v3.2, Organization: <span>O-123 (2.16.840.1.113883.19.5)</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table xmlns="http://www.w3.org/1999/xhtml"
+                    class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Author</td>
+                            <td colspan="3">Unreleased But Supported</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table xmlns="http://www.w3.org/1999/xhtml"
+                    class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Author</td>
+                            <td colspan="3">, Organization: Good Health Clinic</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table xmlns="http://www.w3.org/1999/xhtml"
+                    class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Author</td>
+                            <td colspan="3">, Organization: Good Health Clinic</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+        
+        <x:scenario label="produces no output when no authors present">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3"/>
+            </x:context>
+            <x:call template="author"/>
+            <x:expect label="empty output" select="()"/>
+        </x:scenario>
+    </x:scenario>
+    
+    <!-- ================================================================== -->
+    <!-- participant  (footer)                                              -->
+    <!-- ================================================================== -->
+    <x:scenario label="participant">
+        <x:scenario label="renders multiple participants covering all branches">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <!-- 1. typeCode+classCode label, functionCode, person with desc+birthTime+addr+telecom
+                         BUG: desc and birthTime silently ignored — show-associatedEntity checks
+                         hl7:assignedPerson/hl7:desc and hl7:assignedPerson/hl7:birthTime but the
+                         element is hl7:associatedPerson (wrong element name). -->
+                    <participant typeCode="IND">
+                        <functionCode code="FUN" displayName="Fun"/>
+                        <associatedEntity classCode="NOK">
+                            <id root="1.2.3" extension="NOK-1"/>
+                            <code code="test" codeSystem="1.2.3" />
+                            <addr><streetAddressLine>123 Assoc Ave.</streetAddressLine></addr>
+                            <telecom value="tel:800-1231-7654"/>
+                            <associatedPerson>
+                                <name><given>Ellen</given><family>Kin</family></name>
+                                <desc>Ellen description</desc>
+                                <birthTime value="19700301"/>
+                            </associatedPerson>
+                        </associatedEntity>
+                    </participant>
+                    <!-- 2. No addr/telecom (no Contact Details), time, code,
+                         scopingOrg with name + standardIndustryClassCode + id -->
+                    <participant typeCode="HLD">
+                        <time><low value="20260101"/><high value="20260901"/></time>
+                        <associatedEntity classCode="POLHOLD">
+                            <code displayName="Health Insurance"/>
+                            <associatedPerson>
+                                <name><given>Sam</given><family>Holder</family></name>
+                            </associatedPerson>
+                            <scopingOrganization>
+                                <id root="2.16.840.1.113883.19.5" extension="ORG-INS"/>
+                                <name>Acme Insurance</name>
+                                <standardIndustryClassCode code="524114" displayName="Health Insurance Carriers"/>
+                            </scopingOrganization>
+                        </associatedEntity>
+                    </participant>
+                    <!-- 3. ID-only (no person), scopingOrg with ONLY standardIndustryClassCode + id -->
+                    <participant typeCode="IND">
+                        <associatedEntity classCode="GUAR">
+                            <id root="2.16.840.1.113883.19.5" extension="G-001"/>
+                            <scopingOrganization>
+                                <id root="9.8.7" extension="SCOPE-1"/>
+                                <standardIndustryClassCode code="621111" displayName="Offices of Physicians"/>
+                            </scopingOrganization>
+                        </associatedEntity>
+                    </participant>
+                    <!-- 4. No typeCode/classCode → fallback "participant" label -->
+                    <participant>
+                        <associatedEntity>
+                            <associatedPerson>
+                                <name><given>Jane</given><family>Unknown</family></name>
+                            </associatedPerson>
+                        </associatedEntity>
+                    </participant>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="participant"/>
+            <x:expect label="produces four tables covering all participant branches">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Indirect target - next of kin test</td>
+                            <td style="width: 30%;">Fun, Ellen  KIN, test, ID: <span>NOK-1 (1.2.3)</span></td>
+                            <td class="td_label td_label_width">Contact Details</td>
+                            <td>123 Assoc Ave.<br/>Tel: 800-1231-7654</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Holder - policy holder</td>
+                            <td>Sam  HOLDER, Health Insurance<br/>Organization: Acme InsuranceHealth Insurance Carriers Code:, ID: <span>ORG-INS (2.16.840.1.113883.19.5)</span>from&#160;January  1, 2026 to&#160;September  1, 2026</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Indirect target - 2.16.840.1.113883.5.110-GUAR</td>
+                            <td>ID: <span>G-001 (2.16.840.1.113883.19.5)</span><br/>Organization: Offices of Physicians Code:, ID: <span>SCOPE-1 (9.8.7)</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">participant</td>
+                            <td>Jane  UNKNOWN</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+        
+        <x:scenario label="produces no output when no participants present">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3"/>
+            </x:context>
+            <x:call template="participant"/>
+            <x:expect label="empty output" select="()"/>
+        </x:scenario>
+    </x:scenario>
+    
+    <!-- ================================================================== -->
+    <!-- dataEnterer    (footer)                                            -->
+    <!-- ================================================================== -->
+    <x:scenario label="dataEnterer">
+        <x:scenario label="renders data enterer without contact info">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <dataEnterer>
+                        <assignedEntity>
+                            <assignedPerson>
+                                <name><given>Tom</given><family>Typist</family></name>
+                            </assignedPerson>
+                        </assignedEntity>
+                    </dataEnterer>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="dataEnterer"/>
+            <x:expect label="produces header_table with data enterer details">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Data Enterer</td>
+                            <td>Tom  TYPIST</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+        
+        <x:scenario label="renders data enterer with contact info">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <dataEnterer>
+                        <assignedEntity>
+                            <telecom value="mailto:jane@organization.com" use="WP"/>
+                            <addr>
+                                <streetAddressLine>123 Main St.</streetAddressLine>
+                                <city>Anywhere</city>
+                            </addr>
+                            <assignedPerson>
+                                <name><given>Tom</given><family>Typist</family></name>
+                            </assignedPerson>
+                        </assignedEntity>
+                    </dataEnterer>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="dataEnterer"/>
+            <x:expect label="produces header_table with data enterer details">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Data Enterer</td>
+                            <td style="width: 30%;">Tom  TYPIST</td>
+                            <td class="td_label td_label_width">Contact Details</td>
+                            <td>123 Main St.<br />Anywhere<br />Mail Workplace: jane@organization.com</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+        
+        <x:scenario label="produces no output when no dataEnterer present">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3"/>
+            </x:context>
+            <x:call template="dataEnterer"/>
+            <x:expect label="empty output" select="()"/>
+        </x:scenario>
+    </x:scenario>
+    
+    <!-- ================================================================== -->
+    <!-- informant (document-level)                                          -->
+    <!-- ================================================================== -->
+    <x:scenario label="informant (document-level)">
+        <x:scenario label="renders assignedEntity and relatedEntity informants">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <informant>
+                        <!-- Copy of section-author, even though all pieces are not (currently) rendered -->
+                        <assignedEntity>
+                            <telecom value="mailto:jane@organization.com" use="WP"/>
+                            <assignedPerson>
+                                <name><given>Jane</given><family>Smith</family></name>
+                                <desc>Jane's desc tag</desc>
+                                <!-- Not actually allowed, but XSL renders it... -->
+                                <birthTime value="20230102"/>
+                            </assignedPerson>
+                            <!-- Not displayed for informant -->
+                            <code code="207Q00000X" codeSystem="2.16.840.1.113883.6.101" displayName="Family Medicine"/>
+                            <representedOrganization>
+                                <name>Good Health Clinic</name>
+                                <telecom value="tel:800-111-1111" use="WP"/>
+                            </representedOrganization>
+                        </assignedEntity>
+                    </informant>
+                    <!-- ID-only assignedEntity -->
+                    <informant>
+                        <assignedEntity>
+                            <id root="2.16.840.1.113883.19.5" extension="I-12345"/>
+                        </assignedEntity>
+                    </informant>
+                    <!-- Related informant with code -->
+                    <informant>
+                        <relatedEntity classCode="PRS">
+                            <code code="MTH" codeSystem="2.16.840.1.113883.5.111" displayName="Mother"/>
+                            <telecom value="tel:555-123-4567" use="HP"/>
+                            <relatedPerson>
+                                <name><given>Mary</given><family>Jones</family></name>
+                                <desc>Mary's description</desc>
+                                <!-- Not actually allowed, but XSL renders it... -->
+                                <birthTime value="20240404"/>
+                            </relatedPerson>
+                        </relatedEntity>
+                    </informant>
+                    <!-- Related informant with no code - falls back to classCode -->
+                    <informant>
+                        <relatedEntity classCode="CAREGIVER">
+                            <relatedPerson>
+                                <name><given>Karen</given><family>Giver</family></name>
+                            </relatedPerson>
+                        </relatedEntity>
+                    </informant>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="informant"/>
+            <x:expect label="produces header_table with informant details">
+                <table xmlns="http://www.w3.org/1999/xhtml"
+                    class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Informant</td>
+                            <td style="width: 30%;">Jane  SMITH<div>Jane's desc tag</div> Date of Birth January  2, 2023 of Good Health Clinic</td>
+                            <td class="td_label td_label_width">Contact Details</td>
+                            <td>Mail Workplace: jane@organization.com</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table xmlns="http://www.w3.org/1999/xhtml"
+                    class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Informant</td>
+                            <td>
+                                <span>I-12345 (2.16.840.1.113883.19.5)</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table xmlns="http://www.w3.org/1999/xhtml"
+                    class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Informant</td>
+                            <td style="width: 30%;">Mary  JONES<div>Mary's description</div> Date of Birth April  4, 2024</td>
+                            <td class="td_label td_label_width">Contact Details</td>
+                            <td>Tel Home Primary: 555-123-4567</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table xmlns="http://www.w3.org/1999/xhtml"
+                    class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Informant</td>
+                            <td>Karen  GIVER</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+        
+        <x:scenario label="produces no output when no informants present">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3"/>
+            </x:context>
+            <x:call template="informant"/>
+            <x:expect label="empty output" select="()"/>
+        </x:scenario>
+    </x:scenario>
+    
+    <!-- ================================================================== -->
+    <!-- informationRecipient    (footer)                                   -->
+    <!-- ================================================================== -->
+    <x:scenario label="informationRecipient">
+        <x:scenario label="renders recipient with name and organization">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <informationRecipient>
+                        <intendedRecipient>
+                            <addr>
+                                <streetAddressLine>123 Info St.</streetAddressLine>
+                            </addr>
+                            <telecom value="tel:800-111-1234" />
+                            <informationRecipient>
+                                <name><given>Dr</given><given>Pat</given><family>Specialist</family></name>
+                            </informationRecipient>
+                            <receivedOrganization>
+                                <name>Specialty Clinic</name>
+                                <id root="2.16.840.1.113883.19.5" extension="ORG-1"/>
+                            </receivedOrganization>
+                        </intendedRecipient>
+                    </informationRecipient>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="informationRecipient"/>
+            <x:expect label="produces header_table with recipient and org row">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Information Recipient</td>
+                            <td style="width: 30%;">Dr  Pat  SPECIALIST</td>
+                            <td class="td_label td_label_width">Contact Details</td>
+                            <td>123 Info St.<br />Tel: 800-111-1234</td>
+                        </tr>
+                        <tr>
+                            <td class="td_label td_label_width">Organization</td>
+                            <td style="width: 30%;">
+                                <div>Specialty Clinic</div>
+                                <table class="table_simple">
+                                    <tbody>
+                                        <tr>
+                                            <td class="td_label">ID</td>
+                                            <td><span>ORG-1 (2.16.840.1.113883.19.5)</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td class="td_label td_label_width">Contact Details (Organization)</td>
+                            <td style="width: 30%;"/>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+        
+        <x:scenario label="renders recipient with id only (no name)">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <informationRecipient>
+                        <intendedRecipient>
+                            <id root="2.16.840.1.113883.19.5" extension="RECIP-99"/>
+                        </intendedRecipient>
+                    </informationRecipient>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="informationRecipient"/>
+            <x:expect label="produces header_table with id and trailing br">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Information Recipient</td>
+                            <td colspan="3"><span>RECIP-99 (2.16.840.1.113883.19.5)</span><br/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+        
+        <x:scenario label="renders recipient with id only (no name)">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <informationRecipient>
+                        <intendedRecipient>
+                            <id root="2.16.840.1.113883.19.5" extension="RECIP-99"/>
+                        </intendedRecipient>
+                    </informationRecipient>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="informationRecipient"/>
+            <x:expect label="produces header_table with id and trailing br">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Information Recipient</td>
+                            <td colspan="3"><span>RECIP-99 (2.16.840.1.113883.19.5)</span><br/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+        
+        <x:scenario label="produces no output when no recipients present">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3"/>
+            </x:context>
+            <x:call template="informationRecipient"/>
+            <x:expect label="empty output" select="()"/>
+        </x:scenario>
+    </x:scenario>
+    
+    <!-- ================================================================== -->
+    <!-- authenticator and legalAuthenticator (via show-authenticator)        -->
+    <!-- ================================================================== -->
+    <x:scenario label="authenticator">
+        <x:scenario label="renders authenticator with signature and timestamp">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <authenticator>
+                        <time value="20230615120000"/>
+                        <signatureCode code="S"/>
+                        <assignedEntity>
+                            <assignedPerson>
+                                <name><given>John</given><family>Reviewer</family></name>
+                            </assignedPerson>
+                        </assignedEntity>
+                    </authenticator>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="authenticator"/>
+            <x:expect label="produces header_table with authenticator, signature, and time">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Authenticator</td>
+                            <td>John  REVIEWER signed&#160;at&#160;June  15, 2023, 12AM</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+        
+        <x:scenario label="renders authenticator with only a representedOrg name">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <authenticator>
+                        <time value="20230615120000"/>
+                        <signatureCode code="S"/>
+                        <assignedEntity>
+                            <representedOrganization>
+                                <name>Signing Org</name>
+                            </representedOrganization>
+                        </assignedEntity>
+                    </authenticator>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="authenticator"/>
+            <x:expect label="produces header_table with authenticator, signature, and time">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Authenticator</td>
+                            <td>Signing Org signed&#160;at&#160;June  15, 2023, 12AM</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+        
+        <!-- TODO - add test with sdtc:signatureText but it doesn't have to be a full-match
+             (the image is a bit obnoxious) -->
+        
+        <x:scenario label="produces no output when no authenticators present">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3"/>
+            </x:context>
+            <x:call template="authenticator"/>
+            <x:expect label="empty output" select="()"/>
+        </x:scenario>
+    </x:scenario>
+    
+    <x:scenario label="legalAuthenticator">
+        <x:scenario label="renders legalAuthenticator with signature and timestamp and code and contact details">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <legalAuthenticator>
+                        <time value="20230615140000"/>
+                        <signatureCode code="S"/>
+                        <assignedEntity>
+                            <code code="207QA0505X" displayName="Adult Medicine Physician"
+                                codeSystem="2.16.840.1.113883.6.101"
+                                codeSystemName="Healthcare Provider Taxonomy (HIPAA)"/>
+                            <addr use="WP">
+                                <streetAddressLine>1004 Healthcare Drive </streetAddressLine>
+                                <city>Portland</city>
+                            </addr>
+                            <telecom use="WP" value="tel:+1(555)555-1004"/>
+                            <assignedPerson>
+                                <name><given>Sarah</given><family>Legal</family></name>
+                            </assignedPerson>
+                        </assignedEntity>
+                    </legalAuthenticator>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="legalAuthenticator"/>
+            <x:expect label="produces header_table with legal authenticator, signature, and time">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Legal Authenticator</td>
+                            <td style="width: 30%;">Sarah  LEGAL signed&#160;at&#160;June  15, 2023, 2PM</td>
+                            <td class="td_label td_label_width">Contact Details</td>
+                            <td>Workplace: 1004 Healthcare Drive <br />Portland<br />Tel Workplace: +1(555)555-1004</td>
+                            
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- confidentiality template (DEAD CODE — never called)                -->
+    <!-- Appears to have been intended for the document footer but was      -->
+    <!-- never wired in. Also has a bug: no <tr> wrapping the <td>s.        -->
+    <!-- ================================================================== -->
+    <x:scenario label="confidentiality template (dead code)">
+        <x:scenario label="renders confidentialityCode as a table">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <confidentialityCode code="R" displayName="Restricted" codeSystem="2.16.840.1.113883.5.25"/>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="confidentiality"/>
+            <!-- BUG: missing <tr> around the <td> elements — invalid HTML -->
+            <x:expect label="produces table with label and code (no tr wrapper)">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <td class="td_label">Confidentiality</td>
+                        <td style="width: 80%;">Restricted</td>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+
+</x:description>

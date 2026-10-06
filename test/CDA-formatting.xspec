@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    XSpec tests for CDA.xsl — Formatting and utility templates
+    
+    Covers: caseUp, caseDown, firstCharCaseUp, raiseFontSize, formatDateTime
+-->
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:hl7="urn:hl7-org:v3"
+               xmlns:xhtml="http://www.w3.org/1999/xhtml"
+               stylesheet="../CDA.xsl">
+
+    <!-- Override global parameters that depend on a source document -->
+    <x:import href="CDA-shared-params.xspec"/>
+
+    <!-- ================================================================== -->
+    <!-- caseUp template                                                     -->
+    <!-- ================================================================== -->
+    <x:scenario label="caseUp template">
+        <x:scenario label="converts lowercase to uppercase">
+            <x:call template="caseUp">
+                <x:param name="data">hello world</x:param>
+            </x:call>
+            <x:expect label="returns all uppercase" test="string(.) = 'HELLO WORLD'"/>
+        </x:scenario>
+
+        <x:scenario label="leaves uppercase unchanged">
+            <x:call template="caseUp">
+                <x:param name="data">ALREADY UPPER</x:param>
+            </x:call>
+            <x:expect label="returns same string" test="string(.) = 'ALREADY UPPER'"/>
+        </x:scenario>
+
+        <x:scenario label="converts mixed case">
+            <x:call template="caseUp">
+                <x:param name="data">Mixed Case Text</x:param>
+            </x:call>
+            <x:expect label="returns all uppercase" test="string(.) = 'MIXED CASE TEXT'"/>
+        </x:scenario>
+
+        <x:scenario label="handles empty input">
+            <x:call template="caseUp">
+                <x:param name="data"/>
+            </x:call>
+            <x:expect label="returns empty" select="()"/>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- caseDown template                                                   -->
+    <!-- ================================================================== -->
+    <x:scenario label="caseDown template">
+        <x:scenario label="converts uppercase to lowercase">
+            <x:call template="caseDown">
+                <x:param name="data">HELLO WORLD</x:param>
+            </x:call>
+            <x:expect label="returns all lowercase" test="string(.) = 'hello world'"/>
+        </x:scenario>
+
+        <x:scenario label="leaves lowercase unchanged">
+            <x:call template="caseDown">
+                <x:param name="data">already lower</x:param>
+            </x:call>
+            <x:expect label="returns same string" test="string(.) = 'already lower'"/>
+        </x:scenario>
+
+        <x:scenario label="handles empty input">
+            <x:call template="caseDown">
+                <x:param name="data"/>
+            </x:call>
+            <x:expect label="returns empty" select="()"/>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- firstCharCaseUp template                                            -->
+    <!-- ================================================================== -->
+    <x:scenario label="firstCharCaseUp template">
+        <x:scenario label="capitalizes first character of lowercase string">
+            <x:call template="firstCharCaseUp">
+                <x:param name="data">hello</x:param>
+            </x:call>
+            <x:expect label="returns Hello" test="string(.) = 'Hello'"/>
+        </x:scenario>
+
+        <x:scenario label="keeps rest of string unchanged">
+            <x:call template="firstCharCaseUp">
+                <x:param name="data">hELLO wORLD</x:param>
+            </x:call>
+            <x:expect label="only first char uppercased" test="string(.) = 'HELLO wORLD'"/>
+        </x:scenario>
+
+        <x:scenario label="handles single character">
+            <x:call template="firstCharCaseUp">
+                <x:param name="data">a</x:param>
+            </x:call>
+            <x:expect label="returns A" test="string(.) = 'A'"/>
+        </x:scenario>
+
+        <x:scenario label="handles empty input">
+            <x:call template="firstCharCaseUp">
+                <x:param name="data"/>
+            </x:call>
+            <x:expect label="returns empty" select="()"/>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- raiseFontSize template                                              -->
+    <!-- ================================================================== -->
+    <x:scenario label="raiseFontSize template">
+        <x:scenario label="adds to default font size (9pt + 3)">
+            <x:call template="raiseFontSize">
+                <x:param name="with" select="3"/>
+            </x:call>
+            <x:expect label="returns 12pt" test="string(.) = '12pt'"/>
+        </x:scenario>
+
+        <x:scenario label="adds 2 to default font size">
+            <x:call template="raiseFontSize">
+                <x:param name="with" select="2"/>
+            </x:call>
+            <x:expect label="returns 11pt" test="string(.) = '11pt'"/>
+        </x:scenario>
+
+        <x:scenario label="adds 1 to default font size">
+            <x:call template="raiseFontSize">
+                <x:param name="with" select="1"/>
+            </x:call>
+            <x:expect label="returns 10pt" test="string(.) = '10pt'"/>
+        </x:scenario>
+
+        <x:scenario label="subtracts from default font size">
+            <x:call template="raiseFontSize">
+                <x:param name="with" select="-1"/>
+            </x:call>
+            <x:expect label="returns 8pt" test="string(.) = '8pt'"/>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- formatDateTime template                                             -->
+    <!-- ================================================================== -->
+    <x:scenario label="formatDateTime template">
+        <x:scenario label="formats a full date (YYYYMMDD) in en-US">
+            <x:call template="formatDateTime">
+                <x:param name="date">20230615</x:param>
+            </x:call>
+            <x:expect label="returns formatted date"
+                      test="contains(string(.), 'June') and contains(string(.), '15') and contains(string(.), '2023')"/>
+        </x:scenario>
+
+        <x:scenario label="formats year and month only (YYYYMM)">
+            <x:call template="formatDateTime">
+                <x:param name="date">202306</x:param>
+            </x:call>
+            <x:expect label="returns month and year"
+                      test="contains(string(.), 'June') and contains(string(.), '2023')"/>
+        </x:scenario>
+
+        <x:scenario label="formats date with leading zero day">
+            <x:call template="formatDateTime">
+                <x:param name="date">20230105</x:param>
+            </x:call>
+            <x:expect label="strips leading zero from day"
+                      test="contains(string(.), 'January') and contains(string(.), '5') and contains(string(.), '2023')"/>
+        </x:scenario>
+
+        <x:scenario label="formats date-only part from full timestamp">
+            <x:call template="formatDateTime">
+                <x:param name="date">20231225120000</x:param>
+                <x:param name="part">date</x:param>
+            </x:call>
+            <x:expect label="returns date without time"
+                      test="contains(string(.), 'December') and contains(string(.), '25') and contains(string(.), '2023')"/>
+        </x:scenario>
+
+        <x:scenario label="formats time-only part from full timestamp">
+            <x:call template="formatDateTime">
+                <x:param name="date">20231225143000</x:param>
+                <x:param name="part">time</x:param>
+            </x:call>
+            <x:expect label="returns time without date"
+                      test="not(contains(string(.), 'December'))"/>
+        </x:scenario>
+
+        <x:scenario label="formats full timestamp with positive timezone">
+            <x:call template="formatDateTime">
+                <x:param name="date">20231225143000+0500</x:param>
+            </x:call>
+            <x:expect label="renders date, time, and +offset"
+                      test="string(.) = 'December  25, 2023, 2:30PM +0500'"/>
+        </x:scenario>
+
+        <x:scenario label="formats full timestamp with negative timezone">
+            <x:call template="formatDateTime">
+                <x:param name="date">20231225143000-0800</x:param>
+            </x:call>
+            <x:expect label="renders date, time, and -offset"
+                      test="string(.) = 'December  25, 2023, 2:30PM -0800'"/>
+        </x:scenario>
+
+        <x:scenario label="time-only part preserves timezone">
+            <x:call template="formatDateTime">
+                <x:param name="date">20231225143000+0500</x:param>
+                <x:param name="part">time</x:param>
+            </x:call>
+            <x:expect label="renders time with offset, no date"
+                      test="string(.) = '2:30PM +0500'"/>
+        </x:scenario>
+
+        <x:scenario label="date-only part omits time and timezone">
+            <x:call template="formatDateTime">
+                <x:param name="date">20231225143000-0800</x:param>
+                <x:param name="part">date</x:param>
+            </x:call>
+            <x:expect label="renders date without time or offset"
+                      test="string(.) = 'December  25, 2023'"/>
+        </x:scenario>
+
+        <!-- Erroneous ISO 8601 timestamps (with dashes/colons) are not detected or
+             rejected. The template uses fixed substring() offsets assuming YYYYMMDD,
+             so dashes shift all fields and the dash in the date triggers the negative
+             timezone branch. Garbage in, garbage out. -->
+        <x:scenario label="ISO 8601 date produces garbage (no validation)">
+            <x:call template="formatDateTime">
+                <x:param name="date">2023-06-15</x:param>
+            </x:call>
+            <x:expect label="garbled output: month=-0, day=6-, spurious timezone"
+                      test="string(.) = '-0 6-, 2023, 3PM -06-15'"/>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- formatMonth template                                                -->
+    <!-- ================================================================== -->
+    <x:scenario label="formatMonth template">
+        <x:scenario label="returns January for month 01">
+            <x:call template="formatMonth"><x:param name="date">20230115</x:param></x:call>
+            <x:expect label="January" test="string(.) = 'January '"/>
+        </x:scenario>
+        <x:scenario label="returns February for month 02">
+            <x:call template="formatMonth"><x:param name="date">20230215</x:param></x:call>
+            <x:expect label="February" test="string(.) = 'February '"/>
+        </x:scenario>
+        <x:scenario label="returns March for month 03">
+            <x:call template="formatMonth"><x:param name="date">20230315</x:param></x:call>
+            <x:expect label="March" test="string(.) = 'March '"/>
+        </x:scenario>
+        <x:scenario label="returns April for month 04">
+            <x:call template="formatMonth"><x:param name="date">20230415</x:param></x:call>
+            <x:expect label="April" test="string(.) = 'April '"/>
+        </x:scenario>
+        <x:scenario label="returns May for month 05">
+            <x:call template="formatMonth"><x:param name="date">20230515</x:param></x:call>
+            <x:expect label="May" test="string(.) = 'May '"/>
+        </x:scenario>
+        <x:scenario label="returns June for month 06">
+            <x:call template="formatMonth"><x:param name="date">20230615</x:param></x:call>
+            <x:expect label="June" test="string(.) = 'June '"/>
+        </x:scenario>
+        <x:scenario label="returns July for month 07">
+            <x:call template="formatMonth"><x:param name="date">20230715</x:param></x:call>
+            <x:expect label="July" test="string(.) = 'July '"/>
+        </x:scenario>
+        <x:scenario label="returns August for month 08">
+            <x:call template="formatMonth"><x:param name="date">20230815</x:param></x:call>
+            <x:expect label="August" test="string(.) = 'August '"/>
+        </x:scenario>
+        <x:scenario label="returns September for month 09">
+            <x:call template="formatMonth"><x:param name="date">20230915</x:param></x:call>
+            <x:expect label="September" test="string(.) = 'September '"/>
+        </x:scenario>
+        <x:scenario label="returns October for month 10">
+            <x:call template="formatMonth"><x:param name="date">20231015</x:param></x:call>
+            <x:expect label="October" test="string(.) = 'October '"/>
+        </x:scenario>
+        <x:scenario label="returns November for month 11">
+            <x:call template="formatMonth"><x:param name="date">20231115</x:param></x:call>
+            <x:expect label="November" test="string(.) = 'November '"/>
+        </x:scenario>
+        <x:scenario label="returns December for month 12">
+            <x:call template="formatMonth"><x:param name="date">20231215</x:param></x:call>
+            <x:expect label="December" test="string(.) = 'December '"/>
+        </x:scenario>
+        <x:scenario label="returns raw value for invalid month 13">
+            <x:call template="formatMonth"><x:param name="date">20231315</x:param></x:call>
+            <x:expect label="returns 13" test="string(.) = '13'"/>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- getAge template                                                     -->
+    <!-- ================================================================== -->
+    <x:scenario label="getAge template">
+        <x:scenario label="calculates age when birthday has passed this year">
+            <x:call template="getAge">
+                <x:param name="date">19900115</x:param>
+                <x:param name="comparedate">20230615</x:param>
+            </x:call>
+            <x:expect label="returns 33" test="string(.) = '33'"/>
+        </x:scenario>
+
+        <x:scenario label="calculates age when birthday has not yet passed">
+            <x:call template="getAge">
+                <x:param name="date">19901215</x:param>
+                <x:param name="comparedate">20230615</x:param>
+            </x:call>
+            <x:expect label="returns 32" test="string(.) = '32'"/>
+        </x:scenario>
+
+        <x:scenario label="calculates age on exact birthday">
+            <x:call template="getAge">
+                <x:param name="date">19900615</x:param>
+                <x:param name="comparedate">20230615</x:param>
+            </x:call>
+            <x:expect label="returns 33" test="string(.) = '33'"/>
+        </x:scenario>
+
+        <x:scenario label="calculates age same month day not yet reached">
+            <x:call template="getAge">
+                <x:param name="date">19900620</x:param>
+                <x:param name="comparedate">20230615</x:param>
+            </x:call>
+            <x:expect label="returns 32" test="string(.) = '32'"/>
+        </x:scenario>
+
+        <x:scenario label="calculates age for newborn same year">
+            <x:call template="getAge">
+                <x:param name="date">20230101</x:param>
+                <x:param name="comparedate">20230615</x:param>
+            </x:call>
+            <x:expect label="returns 0" test="string(.) = '0'"/>
+        </x:scenario>
+
+        <x:scenario label="strips leading zero from comparedate day">
+            <x:call template="getAge">
+                <x:param name="date">19900101</x:param>
+                <x:param name="comparedate">20230105</x:param>
+            </x:call>
+            <x:expect label="returns 33" test="string(.) = '33'"/>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- tokenize / _tokenize-characters / _tokenize-delimiters              -->
+    <!-- ================================================================== -->
+    <x:scenario label="tokenize template">
+        <x:scenario label="splits on delimiter and localizes with prefix">
+            <x:call template="tokenize">
+                <x:param name="string" select="'L OR'"/>
+                <x:param name="delimiters" select="' '"/>
+                <x:param name="prefix" select="'nameUse_'"/>
+            </x:call>
+            <x:expect label="renders Legal official registry" select="text()">Legal official registry</x:expect>
+        </x:scenario>
+
+        <x:scenario label="splits on delimiter without localization">
+            <x:call template="tokenize">
+                <x:param name="string" select="'a,b,c'"/>
+                <x:param name="delimiters" select="','"/>
+                <x:param name="localize" select="false()"/>
+            </x:call>
+            <x:expect label="renders a b c (space-separated)" select="text()">a b c</x:expect>
+        </x:scenario>
+
+        <x:scenario label="single token (delimiter not found) localizes whole string">
+            <x:call template="tokenize">
+                <x:param name="string" select="'SOLO'"/>
+                <x:param name="delimiters" select="' '"/>
+                <x:param name="prefix" select="'nameUse_'"/>
+            </x:call>
+            <!-- No l10n entry for nameUse_SOLO so the raw key is returned -->
+            <x:expect label="renders raw key" select="text()">nameUse_SOLO</x:expect>
+        </x:scenario>
+
+        <x:scenario label="empty string produces no output">
+            <x:call template="tokenize">
+                <x:param name="string" select="''"/>
+            </x:call>
+            <x:expect label="no output" select="()"/>
+        </x:scenario>
+
+        <!-- Empty delimiters routes to _tokenize-characters (lines 6630-6634) -->
+        <x:scenario label="empty delimiters splits each character and localizes with prefix">
+            <x:call template="tokenize">
+                <x:param name="string" select="'LP'"/>
+                <x:param name="delimiters" select="''"/>
+                <x:param name="prefix" select="'nameUse_'"/>
+            </x:call>
+            <x:expect label="renders Legalpseudonym (no separator)" select="text()">Legalpseudonym</x:expect>
+        </x:scenario>
+
+        <x:scenario label="empty delimiters without localization is a no-op">
+            <x:call template="tokenize">
+                <x:param name="string" select="'ABC'"/>
+                <x:param name="delimiters" select="''"/>
+                <x:param name="localize" select="false()"/>
+            </x:call>
+            <!-- Each character is output individually via recursion, producing the same string -->
+            <x:expect label="renders ABC unchanged" select="text()">ABC</x:expect>
+        </x:scenario>
+    </x:scenario>
+
+</x:description>

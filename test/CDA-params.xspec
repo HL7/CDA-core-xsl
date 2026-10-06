@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    XSpec tests for CDA.xsl — Parameter-driven behavior
+    
+    Tests the effect of document parameters on template output:
+    - mask-ids: masks patient ID extensions for privacy
+    - font-size-main: base font size affects raiseFontSize calculations
+-->
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:hl7="urn:hl7-org:v3"
+               xmlns:xhtml="http://www.w3.org/1999/xhtml"
+               stylesheet="../CDA.xsl">
+
+    <x:import href="CDA-shared-params.xspec"/>
+    
+    <!-- Set mask-ids to the US SSN OID -->
+    <x:param name="mask-ids" select="'2.16.840.1.113883.4.1'"/>
+    
+    <!-- Override font-size-main to test non-default base -->
+    <x:param name="font-size-main" select="'12px'"/>
+
+    <!-- Override section-order to test reordering -->
+    <x:param name="section-order" select="'CODE-B,CODE-A'"/>
+    
+    <!-- Use section-number -->
+    <x:param name="dosectionnumbering" select="'true'"/>
+
+    <!-- ================================================================== -->
+    <!-- mask-ids parameter — show-id should mask matching root OIDs         -->
+    <!-- ================================================================== -->
+    <x:scenario label="show-id with mask-ids parameter">
+        <x:scenario label="masks extension when root matches mask-ids">
+            <x:call template="show-id">
+                <x:param name="in">
+                    <id xmlns="urn:hl7-org:v3" root="2.16.840.1.113883.4.1" extension="123-45-6789"/>
+                </x:param>
+            </x:call>
+            <x:expect label="extension is replaced with xxx-xxx-xxx"
+                      test="contains(string(.), 'xxx-xxx-xxx')"/>
+            <x:expect label="real extension is not visible"
+                      test="not(contains(string(.), '123-45-6789'))"/>
+        </x:scenario>
+
+        <x:scenario label="does not mask extension when root does not match">
+            <x:call template="show-id">
+                <x:param name="in">
+                    <id xmlns="urn:hl7-org:v3" root="2.16.840.1.113883.19.5" extension="12345"/>
+                </x:param>
+            </x:call>
+            <x:expect label="real extension is visible"
+                      test="contains(string(.), '12345')"/>
+            <x:expect label="mask is not present"
+                      test="not(contains(string(.), 'xxx-xxx-xxx'))"/>
+        </x:scenario>
+
+        <x:scenario label="renders root-only ID normally even when root matches mask-ids">
+            <x:call template="show-id">
+                <x:param name="in">
+                    <id xmlns="urn:hl7-org:v3" root="2.16.840.1.113883.4.1"/>
+                </x:param>
+            </x:call>
+            <x:expect label="root OID is shown (no extension to mask)"
+                      test="contains(string(.), '2.16.840.1.113883.4.1')"/>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- font-size-main parameter — raiseFontSize with non-default base      -->
+    <!-- ================================================================== -->
+    <x:scenario label="raiseFontSize with font-size-main=12px">
+        <x:scenario label="adds 3 to 12px base">
+            <x:call template="raiseFontSize">
+                <x:param name="with" select="3"/>
+            </x:call>
+            <x:expect label="returns 15px" test="string(.) = '15px'"/>
+        </x:scenario>
+
+        <x:scenario label="adds 1 to 12px base">
+            <x:call template="raiseFontSize">
+                <x:param name="with" select="1"/>
+            </x:call>
+            <x:expect label="returns 13px" test="string(.) = '13px'"/>
+        </x:scenario>
+
+        <x:scenario label="subtracts 1 from 12px base">
+            <x:call template="raiseFontSize">
+                <x:param name="with" select="-1"/>
+            </x:call>
+            <x:expect label="returns 11px" test="string(.) = '11px'"/>
+        </x:scenario>
+
+        <x:scenario label="preserves the px unit (not pt)">
+            <x:call template="raiseFontSize">
+                <x:param name="with" select="0"/>
+            </x:call>
+            <x:expect label="returns 12px" test="string(.) = '12px'"/>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- section-order parameter — reorders sections by code                 -->
+    <!-- ================================================================== -->
+    <x:scenario label="section-order reorders sections">
+        <x:scenario label="renders sections in specified order, unmatched sections last">
+            <x:context select="//hl7:component/hl7:structuredBody">
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <component>
+                        <structuredBody>
+                            <component>
+                                <section>
+                                    <code code="CODE-A"/>
+                                    <title>Section A</title>
+                                    <text>Content A</text>
+                                </section>
+                            </component>
+                            <component>
+                                <section>
+                                    <code code="CODE-B"/>
+                                    <title>Section B</title>
+                                    <text>Content B</text>
+                                </section>
+                            </component>
+                            <component>
+                                <section>
+                                    <code code="CODE-C"/>
+                                    <title>Section C</title>
+                                    <text>Content C</text>
+                                </section>
+                            </component>
+                        </structuredBody>
+                    </component>
+                </ClinicalDocument>
+            </x:context>
+            <!-- section-order=CODE-B,CODE-A → B first, A second, C last (unmatched) -->
+            <x:expect label="Section B appears first"
+                      test="(//xhtml:h3)[1] = '2 Section B'"/>
+            <x:expect label="Section A appears second"
+                      test="(//xhtml:h3)[2] = '1 Section A'"/>
+            <x:expect label="Section C (unmatched) appears last"
+                      test="(//xhtml:h3)[3] = '3 Section C'"/>
+        </x:scenario>
+    </x:scenario>
+
+</x:description>

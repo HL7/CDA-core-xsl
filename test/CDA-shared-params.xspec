@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Shared parameter overrides for all CDA XSpec tests -->
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:hl7="urn:hl7-org:v3"
+               xmlns:xhtml="http://www.w3.org/1999/xhtml"
+               stylesheet="../CDA.xsl">
+
+    <!-- Override global parameters that depend on a source document -->
+    <x:param name="textLang" select="'en-US'"/>
+
+</x:description>

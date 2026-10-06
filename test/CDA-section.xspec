@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    XSpec tests for CDA.xsl — Section-level templates
+    
+    These templates operate on the section context node and render
+    participant information as div/ul/li structures (contrast with
+    the document-level templates in CDA-header.xspec which
+    render as header_table structures).
+-->
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:hl7="urn:hl7-org:v3"
+               xmlns:xhtml="http://www.w3.org/1999/xhtml"
+               stylesheet="../CDA.xsl">
+
+    <x:import href="CDA-shared-params.xspec"/>
+    
+    <!-- ================================================================== -->
+    <!-- section basics                                                     -->
+    <!-- ================================================================== -->
+    <x:scenario label="section metadata">
+        <x:context select="hl7:component/hl7:structuredBody">
+            <component xmlns="urn:hl7-org:v3">
+                <structuredBody>
+                    <component>
+                        <section>
+                            <title>First</title>
+                            <author></author>
+                        </section>
+                    </component>
+                    <component>
+                        <section>
+                            <code code="Section 2" />
+                            <informant></informant>
+                        </section>
+                    </component>
+                    <component>
+                        <section ID="s3">
+                            <id root="1.3.3"/>
+                            <subject></subject>
+                            <component>
+                                <section>
+                                    <title>Sub-section</title>
+                                    <component>
+                                        <section>
+                                            <title>Sub-sub-section</title>
+                                        </section>
+                                    </component>
+                                </section>
+                            </component>
+                        </section>
+                    </component>
+                    <component>
+                        <section>
+                            <!-- No identification - just becomes "Section" -->
+                            <text>Hello World</text>
+                        </section>
+                    </component>
+                </structuredBody>
+            </component>
+        </x:context>
+        <x:scenario label="section title">
+            <x:expect label="Section 1 id generated and title from title" test="$x:result[1]//xhtml:h3" ><xhtml:h3 id="section_1">First</xhtml:h3></x:expect>
+            <x:expect label="Section 2 id generated and title from code" test="$x:result[2]//xhtml:h3"  ><xhtml:h3 id="section_2" title="Section 2">Section 2</xhtml:h3></x:expect>
+            <x:expect label="Section 3 id provided and title from id" test="($x:result[3]//xhtml:h3)[1]"><xhtml:h3 id="s3"><xhtml:span>1.3.3</xhtml:span></xhtml:h3></x:expect>
+            <x:expect label="Seciton 4 id and title generated" test="$x:result[4]//xhtml:h3"            ><xhtml:h3 id="section_4">Section</xhtml:h3></x:expect>
+            <x:expect label="Sub-section id comes from 3" test="//xhtml:h3[text()='Sub-section']/@id = 'section_3.1'"/>
+            <x:expect label="Sub-subsection id comes from 3" test="//xhtml:h3[text()='Sub-sub-section']/@id = 'section_3.1.1'"/>
+            
+            <!-- No sections get a "link to top" because the XSL counts component/structuredBody/component/section UNDER
+                 the current section rather than in the document entirely. -->
+            <x:expect label="No links-to-top" test="count(//xhtml:a[href='#_toc']) = 0" />
+        </x:scenario>
+        <x:scenario label="section participants">
+            <x:expect label="Section 1 has an author"    test="contains(string($x:result[1]), 'Section Author:')" />
+            <x:expect label="Section 2 has no author"    test="not(contains(string($x:result[2]), 'Section Author:'))" />
+            <x:expect label="Section 3 has no author"    test="not(contains(string($x:result[3]), 'Section Author:'))" />
+            <x:expect label="Section 1 has no informant" test="not(contains(string($x:result[1]), 'Section Informant:'))" />
+            <x:expect label="Section 2 has an informant" test="contains(string($x:result[2]), 'Section Informant:')" />
+            <x:expect label="Section 3 has no informant" test="not(contains(string($x:result[3]), 'Section Informant:'))" />
+            <x:expect label="Section 1 has no subject"   test="not(contains(string($x:result[1]), 'Section Subject:'))" />
+            <x:expect label="Section 2 has no subject"   test="not(contains(string($x:result[2]), 'Section Subject:'))" />
+            <x:expect label="Section 3 has a  subject"   test="contains(string($x:result[3]), 'Section Subject:')" />
+        </x:scenario>
+        <x:scenario label="section text">
+            <x:expect label="Section 1 text is single non-breaking space" test="string($x:result[1]//xhtml:div[@class='section-body']) = '&#160;'" />
+            <x:expect label="Section 4 text is 'Hello World'" test="string($x:result[4]//xhtml:div[@class='section-body']) = 'Hello World'" />
+        </x:scenario>
+        <x:scenario label="sub-sections">
+            <x:expect label="Regular section has indent 0em" test="$x:result[1]/@style = 'margin-left: 0em;'"/>
+            <x:expect label="Sub section     has indent 2em" test="//xhtml:h3[text()='Sub-section']/ancestor::xhtml:div[@class='section']/@style = 'margin-left: 2em;'"/>
+            <x:expect label="Sub-sub section has indent 4em" test="//xhtml:h3[text()='Sub-sub-section']/ancestor::xhtml:div[@class='section']/@style = 'margin-left: 4em;'"/>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- section-author                                                      -->
+    <!-- ================================================================== -->
+    <x:scenario label="section-author">
+        <x:scenario label="renders person, device, and id-only authors in a ul">
+            <x:context>
+                <!-- Keep in-sync with CDA-header author block -->
+                <section xmlns="urn:hl7-org:v3">
+                    <author>
+                        <assignedAuthor>
+                            <telecom value="mailto:jane@organization.com" use="WP"/>
+                            <addr>
+                                <streetAddressLine>123 Main St.</streetAddressLine>
+                                <city>Anywhere</city>
+                            </addr>
+                            <assignedPerson>
+                                <name><given>Jane</given><family>Smith</family></name>
+                                <desc>Jane's desc tag</desc>
+                                <!-- Not actually allowed, but XSL renders it... -->
+                                <birthTime value="20230102"/>
+                            </assignedPerson>
+                            <code code="207Q00000X" codeSystem="2.16.840.1.113883.6.101" displayName="Family Medicine"/>
+                            <representedOrganization>
+                                <name>Good Health Clinic</name>
+                                <!-- Doesn't render (yet) for author -->
+                                <telecom value="tel:800-111-1111" use="WP"/>
+                            </representedOrganization>
+                        </assignedAuthor>
+                    </author>
+                    <!-- Device with software name -->
+                    <author>
+                        <assignedAuthor>
+                            <assignedAuthoringDevice>
+                                <softwareName>Clinical Documentation System v3.2</softwareName>
+                            </assignedAuthoringDevice>
+                            <representedOrganization>
+                                <id root="2.16.840.1.113883.19.5" extension="O-123"/>
+                            </representedOrganization>
+                        </assignedAuthor>
+                    </author>
+                    <!-- CDAr3 <assignedDevice> -->
+                    <author>
+                        <assignedAuthor>
+                            <assignedDevice>
+                                <softwareName value="Unreleased But Supported" />
+                            </assignedDevice>
+                        </assignedAuthor>
+                    </author>
+                    <!-- ID-only author (XSL pulls org name from representedOrg with matching name - weird, but test it)-->
+                    <author>
+                        <assignedAuthor>
+                            <id root="2.16.840.1.113883.19.5" extension="A-12345"/>
+                            <representedOrganization>
+                                <id root="2.3.4" extension="org1"/>
+                            </representedOrganization>
+                        </assignedAuthor>
+                    </author>
+                </section>
+            </x:context>
+            <x:call template="section-author"/>
+            <x:expect label="produces labeled div with author details in ul/li">
+                <div xmlns="http://www.w3.org/1999/xhtml">
+                    <b>Section Author: </b>
+                    <div>
+                        <ul>
+                            <li>Jane  SMITH<div>Jane's desc tag</div> Date of Birth January  2, 2023 - Code: Family Medicine, Organization: Good Health Clinic<br />Mail Workplace: jane@organization.com</li>
+                            <li>Clinical Documentation System v3.2, Organization: <span>O-123 (2.16.840.1.113883.19.5)</span></li>
+                            <li>Unreleased But Supported</li>
+                            <li>ID: <span>A-12345 (2.16.840.1.113883.19.5)</span>, Organization: <span>org1 (2.3.4)</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="produces no output when no authors present">
+            <x:context>
+                <section xmlns="urn:hl7-org:v3"/>
+            </x:context>
+            <x:call template="section-author"/>
+            <x:expect label="empty output" select="()"/>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- section-informant                                                   -->
+    <!-- ================================================================== -->
+    <x:scenario label="section-informant">
+        <x:scenario label="renders assignedEntity and relatedEntity informants with person and org">
+            <x:context>
+                <section xmlns="urn:hl7-org:v3">
+                    <informant>
+                        <!-- Copy of section-author, even though all pieces are not (currently) rendered -->
+                        <assignedEntity>
+                            <telecom value="mailto:jane@organization.com" use="WP"/>
+                            <assignedPerson>
+                                <name><given>Jane</given><family>Smith</family></name>
+                                <desc>Jane's desc tag</desc>
+                                <!-- Not actually allowed, but XSL renders it... -->
+                                <birthTime value="20230102"/>
+                            </assignedPerson>
+                            <!-- Not displayed for informant -->
+                            <code code="207Q00000X" codeSystem="2.16.840.1.113883.6.101" displayName="Family Medicine"/>
+                            <representedOrganization>
+                                <name>Good Health Clinic</name>
+                                <telecom value="tel:800-111-1111" use="WP"/>
+                            </representedOrganization>
+                        </assignedEntity>
+                    </informant>
+                    <!-- ID-only assignedEntity -->
+                    <informant>
+                        <assignedEntity>
+                            <id root="2.16.840.1.113883.19.5" extension="I-12345"/>
+                        </assignedEntity>
+                    </informant>
+                    <!-- Related informant with code -->
+                    <informant>
+                        <relatedEntity classCode="PRS">
+                            <code code="MTH" codeSystem="2.16.840.1.113883.5.111" displayName="Mother"/>
+                            <telecom value="tel:555-123-4567" use="HP"/>
+                            <relatedPerson>
+                                <name><given>Mary</given><family>Jones</family></name>
+                                <desc>Mary's description</desc>
+                                <!-- Not actually allowed, but XSL renders it... -->
+                                <birthTime value="20240404"/>
+                            </relatedPerson>
+                        </relatedEntity>
+                    </informant>
+                    <!-- Related informant with no code - falls back to classCode -->
+                    <informant>
+                        <relatedEntity classCode="CAREGIVER">
+                            <relatedPerson>
+                                <name><given>Karen</given><family>Giver</family></name>
+                            </relatedPerson>
+                        </relatedEntity>
+                    </informant>
+                </section>
+            </x:context>
+            <x:call template="section-informant"/>
+            <x:expect label="produces labeled div with informant in ul/li">
+                <div xmlns="http://www.w3.org/1999/xhtml">
+                    <b>Section Informant: </b>
+                    <div>
+                        <ul>
+                            <li>Jane  SMITH<div>Jane's desc tag</div> Date of Birth January  2, 2023, Organization: Good Health Clinic, Tel Workplace: 800-111-1111<br />Mail Workplace: jane@organization.com</li>
+                            <li>ID: <span>I-12345 (2.16.840.1.113883.19.5)</span></li>
+                            <li>(Mother) Mary  JONES<div>Mary's description</div> Date of Birth April  4, 2024<br />Tel Home Primary: 555-123-4567</li>
+                            <li>(caregiver) Karen  GIVER</li>
+                        </ul>
+                    </div>
+                </div>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="produces no output when no informants present">
+            <x:context>
+                <section xmlns="urn:hl7-org:v3"/>
+            </x:context>
+            <x:call template="section-informant"/>
+            <x:expect label="empty output" select="()"/>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- section-subject                                                     -->
+    <!-- ================================================================== -->
+    <x:scenario label="section-subject">
+        <x:scenario label="renders subject with name, code, and demographics">
+            <x:context>
+                <section xmlns="urn:hl7-org:v3">
+                    <subject>
+                        <relatedSubject>
+                            <code code="MTH" codeSystem="2.16.840.1.113883.5.111" displayName="Mother"/>
+                            <telecom value="tel:555-2222" />
+                            <subject>
+                                <name><given>Alice</given><family>Patient</family></name>
+                                <administrativeGenderCode code="F" codeSystem="2.16.840.1.113883.5.1" displayName="Female"/>
+                                <birthTime value="20240404"/>
+                                <raceCode code="2076-8" codeSystem="2.16.840.1.113883.6.238" displayName="Native Hawaiian or Other Pacific Islander"/>
+                                <ethnicGroupCode code="2186-5" codeSystem="2.16.840.1.113883.6.238" displayName="Not Hispanic or Latino"/>
+                            </subject>
+                        </relatedSubject>
+                    </subject>
+                </section>
+            </x:context>
+            <x:call template="section-subject"/>
+            <x:expect label="produces labeled div with subject details">
+                <div xmlns="http://www.w3.org/1999/xhtml">
+                    <b>Section Subject: </b>
+                    <div>
+                        <ul>
+                            <li>Alice  PATIENT - Code: Mother, April  4, 2024, Gender: Female, Race: Native Hawaiian or Other Pacific Islander, Ethnicity: Not Hispanic or Latino<div>Tel: 555-2222</div></li>
+                        </ul>
+                    </div>
+                </div>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="produces no output when no subjects present">
+            <x:context>
+                <section xmlns="urn:hl7-org:v3"/>
+            </x:context>
+            <x:call template="section-subject"/>
+            <x:expect label="empty output" select="()"/>
+        </x:scenario>
+    </x:scenario>
+
+</x:description>

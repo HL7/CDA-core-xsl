@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    XSpec tests for CDA.xsl — Simple show-* and vocabulary lookup templates
+    
+    Covers: show-name, show-id, show-boolean, show-nullFlavor, show-integer,
+            show-text, show-timestamp, show-actClassCode, show-actRelationship,
+            show-participationType, translateTelecomUriScheme
+    
+    For text-only output, use select="text()" on x:expect to compare at the
+    text-node level rather than document-node level.
+-->
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:hl7="urn:hl7-org:v3"
+               xmlns:xhtml="http://www.w3.org/1999/xhtml"
+               stylesheet="../CDA.xsl">
+
+    <x:import href="CDA-shared-params.xspec"/>
+
+    <!-- ================================================================== -->
+    <!-- show-nullFlavor template                                            -->
+    <!-- ================================================================== -->
+    <x:scenario label="show-nullFlavor template">
+        <x:scenario label="renders NI (no information)">
+            <x:call template="show-nullFlavor">
+                <x:param name="in">NI</x:param>
+            </x:call>
+            <x:expect label="renders no information" select="text()">no information</x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders UNK (unknown)">
+            <x:call template="show-nullFlavor">
+                <x:param name="in">UNK</x:param>
+            </x:call>
+            <x:expect label="renders unknown" select="text()">unknown</x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders MSK (masked)">
+            <x:call template="show-nullFlavor">
+                <x:param name="in">MSK</x:param>∂
+            </x:call>
+            <x:expect label="renders masked" select="text()">masked</x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders NA (not applicable)">
+            <x:call template="show-nullFlavor">
+                <x:param name="in">NA</x:param>
+            </x:call>
+            <x:expect label="renders not applicable" select="text()">not applicable</x:expect>
+        </x:scenario>
+
+        <x:scenario label="handles empty input">
+            <x:call template="show-nullFlavor">
+                <x:param name="in"/>
+            </x:call>
+            <x:expect label="produces no output" select="()"/>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- show-actClassCode template                                          -->
+    <!-- ================================================================== -->
+    <x:scenario label="show-actClassCode template">
+        <x:scenario label="localizes ACT class code">
+            <x:call template="show-actClassCode">
+                <x:param name="clsCode">ACT</x:param>
+            </x:call>
+            <x:expect label="renders act" select="text()">act</x:expect>
+        </x:scenario>
+
+        <x:scenario label="localizes PCPR class code">
+            <x:call template="show-actClassCode">
+                <x:param name="clsCode">PCPR</x:param>
+            </x:call>
+            <x:expect label="renders care provision" select="text()">care provision</x:expect>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- show-actRelationship template                                       -->
+    <!-- ================================================================== -->
+    <x:scenario label="show-actRelationship template">
+        <x:scenario label="localizes COMP relationship">
+            <x:call template="show-actRelationship">
+                <x:param name="ptype">COMP</x:param>
+            </x:call>
+            <!-- Not in cda_l10n.xml, so returns the raw key -->
+            <x:expect label="renders raw key" select="text()">2.16.840.1.113883.5.1002-COMP</x:expect>
+        </x:scenario>
+
+        <x:scenario label="localizes RSON relationship">
+            <x:call template="show-actRelationship">
+                <x:param name="ptype">RSON</x:param>
+            </x:call>
+            <x:expect label="renders raw key" select="text()">2.16.840.1.113883.5.1002-RSON</x:expect>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- show-participationType template                                     -->
+    <!-- ================================================================== -->
+    <x:scenario label="show-participationType template">
+        <x:scenario label="localizes AUT (author) participation">
+            <x:call template="show-participationType">
+                <x:param name="ptype">AUT</x:param>
+            </x:call>
+            <x:expect label="renders author (originator)" select="text()">author (originator)</x:expect>
+        </x:scenario>
+
+        <x:scenario label="localizes INF (informant) participation">
+            <x:call template="show-participationType">
+                <x:param name="ptype">INF</x:param>
+            </x:call>
+            <x:expect label="renders informant" select="text()">informant</x:expect>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- show-participationTypeOrCode template                               -->
+    <!-- Combines typeCode, classCode, and code with " - " separator logic  -->
+    <!-- ================================================================== -->
+    <x:scenario label="show-participationTypeOrCode template">
+        <x:scenario label="typeCode only">
+            <x:call template="show-participationTypeOrCode">
+                <x:param name="typeCode">ATND</x:param>
+            </x:call>
+            <x:expect label="renders attender" select="text()">attender</x:expect>
+        </x:scenario>
+
+        <x:scenario label="classCode only">
+            <x:call template="show-participationTypeOrCode">
+                <x:param name="classCode">NOK</x:param>
+            </x:call>
+            <x:expect label="renders next of kin" select="text()">next of kin</x:expect>
+        </x:scenario>
+
+        <x:scenario label="code only">
+            <x:context>
+                <code xmlns="urn:hl7-org:v3" code="MTH" displayName="Mother"/>
+            </x:context>
+            <x:call template="show-participationTypeOrCode">
+                <x:param name="code">
+                    <code xmlns="urn:hl7-org:v3" code="MTH" displayName="Mother"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders code displayName" test="contains(string(.), 'Mother')"/>
+        </x:scenario>
+
+        <x:scenario label="typeCode + classCode shows separator">
+            <x:call template="show-participationTypeOrCode">
+                <x:param name="typeCode">IND</x:param>
+                <x:param name="classCode">NOK</x:param>
+            </x:call>
+            <x:expect label="renders indirect target - next of kin" select="text()">indirect target - next of kin</x:expect>
+        </x:scenario>
+
+        <x:scenario label="typeCode + classCode + code shows all three">
+            <x:context>
+                <code xmlns="urn:hl7-org:v3" code="MTH" displayName="Mother"/>
+            </x:context>
+            <x:call template="show-participationTypeOrCode">
+                <x:param name="typeCode">IND</x:param>
+                <x:param name="classCode">PRS</x:param>
+                <x:param name="code">
+                    <code xmlns="urn:hl7-org:v3" code="MTH" displayName="Mother"/>
+                </x:param>
+            </x:call>
+            <x:expect label="renders type - class then code"
+                      test="string(.) = 'indirect target - personal relationship Mother'"/>
+        </x:scenario>
+
+        <x:scenario label="classCode only, no separator">
+            <x:call template="show-participationTypeOrCode">
+                <x:param name="classCode">GUAR</x:param>
+            </x:call>
+            <!-- No l10n entry for GUAR → falls back to raw key -->
+            <x:expect label="renders raw key without separator" select="text()">2.16.840.1.113883.5.110-GUAR</x:expect>
+        </x:scenario>
+
+        <x:scenario label="no params produces empty output">
+            <x:call template="show-participationTypeOrCode"/>
+            <x:expect label="empty output" select="()"/>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- translateTelecomUriScheme template                                   -->
+    <!-- ================================================================== -->
+    <x:scenario label="translateTelecomUriScheme template">
+        <x:scenario label="translates tel scheme">
+            <x:call template="translateTelecomUriScheme">
+                <x:param name="code">tel</x:param>
+            </x:call>
+            <x:expect label="renders Tel" select="text()">Tel</x:expect>
+        </x:scenario>
+
+        <x:scenario label="translates fax scheme">
+            <x:call template="translateTelecomUriScheme">
+                <x:param name="code">fax</x:param>
+            </x:call>
+            <x:expect label="renders Fax" select="text()">Fax</x:expect>
+        </x:scenario>
+
+        <x:scenario label="translates http scheme">
+            <x:call template="translateTelecomUriScheme">
+                <x:param name="code">http</x:param>
+            </x:call>
+            <x:expect label="renders Web" select="text()">Web</x:expect>
+        </x:scenario>
+
+        <x:scenario label="translates https scheme">
+            <x:call template="translateTelecomUriScheme">
+                <x:param name="code">https</x:param>
+            </x:call>
+            <x:expect label="renders Web" select="text()">Web</x:expect>
+        </x:scenario>
+
+        <x:scenario label="translates mailto scheme">
+            <x:call template="translateTelecomUriScheme">
+                <x:param name="code">mailto</x:param>
+            </x:call>
+            <x:expect label="renders Mail" select="text()">Mail</x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders unknown scheme with fallback">
+            <x:call template="translateTelecomUriScheme">
+                <x:param name="code">sms</x:param>
+            </x:call>
+            <x:expect label="renders fallback" select="text()">{$code='sms'?}</x:expect>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- show-signatureText template                                         -->
+    <!-- Renders a hardcoded signature icon (base64 PNG) with a title       -->
+    <!-- containing "Signature is present" text + optional thumbnail.        -->
+    <!-- ================================================================== -->
+    <x:scenario label="show-signatureText template">
+        <x:scenario label="renders signature icon for signatureText with content">
+            <x:call template="show-signatureText">
+                <x:param name="in">
+                    <signatureText xmlns="urn:hl7-org:v3">signed</signatureText>
+                </x:param>
+            </x:call>
+            <x:expect label="produces img with signature title"
+                      test="//xhtml:img[starts-with(@src, 'data:image/png;base64,')]
+                        and //xhtml:img[@alt = '']
+                        and starts-with(//xhtml:img/@title, 'Signature is present')"/>
+        </x:scenario>
+
+        <x:scenario label="includes thumbnail text in title">
+            <x:call template="show-signatureText">
+                <x:param name="in">
+                    <signatureText xmlns="urn:hl7-org:v3">signed<thumbnail>thumb-data</thumbnail></signatureText>
+                </x:param>
+            </x:call>
+            <x:expect label="title ends with thumbnail content"
+                      test="contains(//xhtml:img/@title, 'thumb-data')"/>
+        </x:scenario>
+
+        <x:scenario label="empty signatureText produces no output">
+            <x:call template="show-signatureText">
+                <x:param name="in">
+                    <signatureText xmlns="urn:hl7-org:v3"/>
+                </x:param>
+            </x:call>
+            <x:expect label="no output" select="()"/>
+        </x:scenario>
+
+        <x:scenario label="no signatureText produces no output">
+            <x:call template="show-signatureText">
+                <x:param name="in" select="()"/>
+            </x:call>
+            <x:expect label="no output" select="()"/>
+        </x:scenario>
+    </x:scenario>
+
+</x:description>

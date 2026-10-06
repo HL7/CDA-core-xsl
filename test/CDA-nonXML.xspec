@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    XSpec tests for CDA.xsl — nonXMLBody / observationMedia matching template
+
+    Covers: plain text, inline base64 images, referenced images, iframes (HTML/PDF),
+            security checks (javascript injection, malicious content, sanitizer),
+            limit-pdf parameter, observationMedia vs nonXMLBody paths, renderAltText
+
+    Stylesheet parameters used by this template:
+      - limit-pdf (default: 'yes') — controls PDF iframe sandboxing
+      - simple-sanitizer-match / simple-sanitizer-replace — internal variables for URL sanitization
+-->
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:hl7="urn:hl7-org:v3"
+               xmlns:xhtml="http://www.w3.org/1999/xhtml"
+               stylesheet="../CDA.xsl">
+
+    <x:import href="CDA-shared-params.xspec"/>
+
+    <!-- ================================================================== -->
+    <!-- Comprehensive: observationMedia with inline base64 image and id    -->
+    <!-- Covers: observationMedia path, inline image branch, renderAltText  -->
+    <!-- ================================================================== -->
+    <x:scenario label="nonXMLBody / observationMedia template">
+        <x:scenario label="observationMedia with inline base64 image and id">
+            <x:context select="//hl7:observationMedia">
+                <entry xmlns="urn:hl7-org:v3">
+                    <observationMedia ID="img1">
+                        <id root="1.2.3" extension="IMG-1"/>
+                        <value mediaType="image/png" representation="B64">iVBOR</value>
+                    </observationMedia>
+                </entry>
+            </x:context>
+            <x:expect label="produces img with data URI and alt text from id">
+                <img xmlns="http://www.w3.org/1999/xhtml"
+                     alt="ID = 1.2.3 IMG-1"
+                     title="ID = 1.2.3 IMG-1"
+                     src="data:image/png;base64,iVBOR"/>
+            </x:expect>
+        </x:scenario>
+
+        <!-- ================================================================== -->
+        <!-- Plain text                                                         -->
+        <!-- ================================================================== -->
+        <x:scenario label="nonXMLBody plain text (no mediaType)">
+            <x:context select="//hl7:nonXMLBody">
+                <component xmlns="urn:hl7-org:v3">
+                    <nonXMLBody>
+                        <text>This is plain text content.</text>
+                    </nonXMLBody>
+                </component>
+            </x:context>
+            <x:expect label="renders as pre element">
+                <pre xmlns="http://www.w3.org/1999/xhtml" title="">This is plain text content.</pre>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="nonXMLBody plain text (explicit text/plain)">
+            <x:context select="//hl7:nonXMLBody">
+                <component xmlns="urn:hl7-org:v3">
+                    <nonXMLBody>
+                        <text mediaType="text/plain">Explicit plain text.</text>
+                    </nonXMLBody>
+                </component>
+            </x:context>
+            <x:expect label="renders as pre element">
+                <pre xmlns="http://www.w3.org/1999/xhtml" title="">Explicit plain text.</pre>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="nonXMLBody with id populates title in pre">
+            <x:context select="//hl7:nonXMLBody">
+                <component xmlns="urn:hl7-org:v3">
+                    <nonXMLBody>
+                        <id root="1.2.3" extension="DOC-1"/>
+                        <text>Some text content.</text>
+                    </nonXMLBody>
+                </component>
+            </x:context>
+            <x:expect label="pre title contains formatted id">
+                <pre xmlns="http://www.w3.org/1999/xhtml" title="ID = 1.2.3 DOC-1">Some text content.</pre>
+            </x:expect>
+        </x:scenario>
+
+        <!-- ================================================================== -->
+        <!-- Unknown mediaType (otherwise branch)                               -->
+        <!-- ================================================================== -->
+        <x:scenario label="nonXMLBody with unknown mediaType">
+            <x:context select="//hl7:nonXMLBody">
+                <component xmlns="urn:hl7-org:v3">
+                    <nonXMLBody>
+                        <text mediaType="application/octet-stream">binary stuff</text>
+                    </nonXMLBody>
+                </component>
+            </x:context>
+            <x:expect label="renders Cannot display message">
+                <pre xmlns="http://www.w3.org/1999/xhtml" title="">Cannot display the text</pre>
+            </x:expect>
+        </x:scenario>
+
+        <!-- ================================================================== -->
+        <!-- Referenced image                                                   -->
+        <!-- ================================================================== -->
+        <x:scenario label="nonXMLBody with referenced image">
+            <x:context select="//hl7:nonXMLBody">
+                <component xmlns="urn:hl7-org:v3">
+                    <nonXMLBody>
+                        <text mediaType="image/png">
+                            <reference value="photo.png"/>
+                        </text>
+                    </nonXMLBody>
+                </component>
+            </x:context>
+            <x:expect label="renders img element with src from reference">
+                <img xmlns="http://www.w3.org/1999/xhtml" alt="" title="" src="photo.png"/>
+            </x:expect>
+        </x:scenario>
+
+        <!-- ================================================================== -->
+        <!-- Inline base64 image (nonXMLBody path)                              -->
+        <!-- ================================================================== -->
+        <x:scenario label="nonXMLBody with inline base64 image">
+            <x:context select="//hl7:nonXMLBody">
+                <component xmlns="urn:hl7-org:v3">
+                    <nonXMLBody>
+                        <text mediaType="image/gif" representation="B64">R0lGODlh</text>
+                    </nonXMLBody>
+                </component>
+            </x:context>
+            <x:expect label="renders img with data URI">
+                <img xmlns="http://www.w3.org/1999/xhtml" alt="" title="" src="data:image/gif;base64,R0lGODlh"/>
+            </x:expect>
+        </x:scenario>
+
+        <!-- ================================================================== -->
+        <!-- Reference to HTML (iframe with sandbox)                            -->
+        <!-- The output includes IE conditional comments around the iframe.     -->
+        <!-- We match only the iframe element itself.                           -->
+        <!-- ================================================================== -->
+        <x:scenario label="nonXMLBody with referenced HTML (iframe)">
+            <x:context select="//hl7:nonXMLBody">
+                <component xmlns="urn:hl7-org:v3">
+                    <nonXMLBody ID="nb1">
+                        <text mediaType="text/html">
+                            <reference value="report.html"/>
+                        </text>
+                    </nonXMLBody>
+                </component>
+            </x:context>
+            <!-- iframe gets sandbox="" for non-PDF, uses @ID for name/id.
+                 Output also has IE conditional comments as siblings which XSpec ignores in comparison. -->
+            <x:expect label="renders sandboxed iframe">
+                <!--[if lte IE 9]>
+                            WARNING: This browser does not support sandboxed iframes which makes rendering here potentially unsafe. Please try a different browser.
+                        <![endif]--><!--[if gt IE 9]>-->
+                <iframe xmlns="http://www.w3.org/1999/xhtml"
+                    name="nb1"
+                    id="nb1"
+                    width="100%"
+                    height="600"
+                    title=""
+                    sandbox=""
+                    src="report.html"><x:text> </x:text></iframe>
+                <!--<![endif]-->
+            </x:expect>
+        </x:scenario>
+
+        <!-- ================================================================== -->
+        <!-- Reference to PDF with limit-pdf=yes (default)                      -->
+        <!-- Output includes IE conditional comments around the warning div.    -->
+        <!-- ================================================================== -->
+        <x:scenario label="nonXMLBody with referenced PDF (limit-pdf=yes)">
+            <x:context select="//hl7:nonXMLBody">
+                <component xmlns="urn:hl7-org:v3">
+                    <nonXMLBody>
+                        <text mediaType="application/pdf">
+                            <reference value="report.pdf"/>
+                        </text>
+                    </nonXMLBody>
+                </component>
+            </x:context>
+            <!-- With limit-pdf=yes (default), PDF reference renders a warning instead of iframe.
+                 Result also includes IE conditional comments which XSpec ignores in comparison. -->
+            <x:expect label="renders sandboxed PDF warning div">
+                <!--[if lte IE 9]>
+                            WARNING: This browser does not support sandboxed iframes which makes rendering here potentially unsafe. Please try a different browser.
+                        <![endif]--><!--[if gt IE 9]>-->
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                    style="font-style: italic;">WARNING: Due to the security setting of this rendering, it is not possible to show the pdf.</div>
+                <!--<![endif]-->
+            </x:expect>
+        </x:scenario>
+
+        <!-- ================================================================== -->
+        <!-- Inline B64 PDF with limit-pdf=yes                                  -->
+        <!-- Output includes IE comments + download text + warning div.         -->
+        <!-- ================================================================== -->
+        <x:scenario label="nonXMLBody with inline B64 PDF (limit-pdf=yes)">
+            <x:context select="//hl7:nonXMLBody">
+                <component xmlns="urn:hl7-org:v3">
+                    <nonXMLBody>
+                        <text mediaType="application/pdf" representation="B64">JVBERi0=</text>
+                    </nonXMLBody>
+                </component>
+            </x:context>
+            <!-- Inline B64 PDF with limit-pdf=yes: IE comments + download text + warning div.
+                 XSpec ignores comments in comparison. -->
+            <x:expect label="renders sandboxed PDF warning with download text">
+                <!--[if lte IE 9]>
+                    WARNING: This browser does not support (sandboxed) iframes with inline pdf which makes rendering here potentially unsafe and/or impossible. Please try a different browser.
+                <![endif]--><!--[if gt IE 9]>--> If the contents are not displayed here, it may be offered as a download.<div xmlns="http://www.w3.org/1999/xhtml"
+                    style="font-style: italic;">WARNING: Due to the security setting of this rendering, it is not possible to show the pdf.</div>
+                <!--<![endif]-->
+            </x:expect>
+        </x:scenario>
+
+        <!-- NOTE: limit-pdf=no scenarios (reference PDF without sandbox, inline B64 PDF iframe)
+             are tested in CDA-params.xspec where the stylesheet parameter can be overridden
+             at the x:description level. -->
+
+        <!-- ================================================================== -->
+        <!-- Reference to non-PDF non-image (RTF → sandboxed iframe)            -->
+        <!-- ================================================================== -->
+        <x:scenario label="nonXMLBody with referenced RTF (sandboxed iframe)">
+            <x:context select="//hl7:nonXMLBody">
+                <component xmlns="urn:hl7-org:v3">
+                    <nonXMLBody ID="rtf1">
+                        <text mediaType="application/rtf">
+                            <reference value="document.rtf"/>
+                        </text>
+                    </nonXMLBody>
+                </component>
+            </x:context>
+            <!-- Non-PDF reference always gets sandbox="" -->
+            <x:expect label="renders sandboxed iframe for RTF">
+                <!--[if lte IE 9]>
+                            WARNING: This browser does not support sandboxed iframes which makes rendering here potentially unsafe. Please try a different browser.
+                        <![endif]--><!--[if gt IE 9]>-->
+                <iframe xmlns="http://www.w3.org/1999/xhtml"
+                    name="rtf1" id="rtf1" width="100%" height="600" title=""
+                    sandbox="" src="document.rtf"><x:text> </x:text></iframe>
+                <!--<![endif]-->
+            </x:expect>
+        </x:scenario>
+
+        <!-- ================================================================== -->
+        <!-- Inline B64 non-image non-PDF (text/html → sandboxed iframe)        -->
+        <!-- ================================================================== -->
+        <x:scenario label="nonXMLBody with inline B64 HTML (sandboxed iframe)">
+            <x:context select="//hl7:nonXMLBody">
+                <component xmlns="urn:hl7-org:v3">
+                    <nonXMLBody ID="b64h">
+                        <text mediaType="text/html" representation="B64">PGh0bWw+</text>
+                    </nonXMLBody>
+                </component>
+            </x:context>
+            <!-- Inline B64 non-PDF gets IE comments + download text + sandboxed iframe -->
+            <x:expect label="renders sandboxed iframe with data URI">
+                <!--[if lte IE 9]>
+                    WARNING: This browser does not support (sandboxed) iframes with inline pdf which makes rendering here potentially unsafe and/or impossible. Please try a different browser.
+                <![endif]--><!--[if gt IE 9]>--><x:text> If the contents are not displayed here, it may be offered as a download.</x:text>
+                <iframe xmlns="http://www.w3.org/1999/xhtml"
+                    name="b64h" id="b64h" width="100%" height="600" title=""
+                    sandbox="" src="data:text/html;base64,PGh0bWw+"><x:text> </x:text></iframe>
+                <!--<![endif]-->
+            </x:expect>
+        </x:scenario>
+
+        <!-- ================================================================== -->
+        <!-- No @ID on nonXMLBody → generate-id fallback for iframe name/id     -->
+        <!-- ================================================================== -->
+        <x:scenario label="nonXMLBody without @ID uses generated id">
+            <x:context select="//hl7:nonXMLBody">
+                <component xmlns="urn:hl7-org:v3">
+                    <nonXMLBody>
+                        <text mediaType="text/html">
+                            <reference value="report.html"/>
+                        </text>
+                    </nonXMLBody>
+                </component>
+            </x:context>
+            <!-- Without @ID, renderID = generate-id() + '_nonXMLBody'. The generated id
+                 is non-deterministic, so we verify it contains '_nonXMLBody'. -->
+            <x:expect label="iframe name/id end with _nonXMLBody"
+                      test="contains(string((//xhtml:iframe)[1]/@name), '_nonXMLBody')"/>
+        </x:scenario>
+
+        <!-- ================================================================== -->
+        <!-- Security: javascript in reference (starts-with, normalize-space)   -->
+        <!-- ================================================================== -->
+        <x:scenario label="javascript: URI in reference (leading whitespace)">
+            <x:context select="//hl7:nonXMLBody">
+                <component xmlns="urn:hl7-org:v3">
+                    <nonXMLBody>
+                        <text>
+                            <reference value="  javascript:alert(1)"/>
+                        </text>
+                    </nonXMLBody>
+                </component>
+            </x:context>
+            <!-- First when: starts-with(normalize-space) catches leading-space javascript.
+                 securityRiskURLLabel is the l10n key (no en-US translation exists). -->
+            <x:expect label="renders security risk label with offending URL">
+                <pre xmlns="http://www.w3.org/1999/xhtml" title="">securityRiskURLLabel<b><i>  javascript:alert(1)</i></b></pre>
+            </x:expect>
+        </x:scenario>
+
+        <!-- ================================================================== -->
+        <!-- Security: javascript in URL (mixed case, not leading)              -->
+        <!-- ================================================================== -->
+        <x:scenario label="javascript in URL (mixed case, embedded)">
+            <x:context select="//hl7:nonXMLBody">
+                <component xmlns="urn:hl7-org:v3">
+                    <nonXMLBody>
+                        <text mediaType="text/html">
+                            <reference value="http://x/jAvAsCrIpT:y"/>
+                        </text>
+                    </nonXMLBody>
+                </component>
+            </x:context>
+            <x:expect label="renders javascript injection warning">
+                <p xmlns="http://www.w3.org/1999/xhtml">WARNING: Javascript injection attempt detected in source CDA document. Terminating</p>
+            </x:expect>
+        </x:scenario>
+
+        <!-- ================================================================== -->
+        <!-- Security: malicious content (sanitizer match)                      -->
+        <!-- ================================================================== -->
+        <x:scenario label="malicious content in reference URL">
+            <x:context select="//hl7:nonXMLBody">
+                <component xmlns="urn:hl7-org:v3">
+                    <nonXMLBody>
+                        <text mediaType="text/html">
+                            <reference value='report.html"onload="alert(1)'/>
+                        </text>
+                    </nonXMLBody>
+                </component>
+            </x:context>
+            <x:expect label="renders malicious content warning">
+                <p xmlns="http://www.w3.org/1999/xhtml">WARNING: Potentially malicious content found in CDA document.</p>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- renderMultiMedia matching template                                 -->
+    <!-- Wraps referenced observationMedia in a div with optional caption.  -->
+    <!-- ================================================================== -->
+    <x:scenario label="renderMultiMedia template">
+        <x:scenario label="renders referenced observationMedia with caption">
+            <x:context select="//hl7:renderMultiMedia">
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <component><structuredBody><component><section>
+                        <text>
+                            <renderMultiMedia referencedObject="img1">
+                                <caption>Figure 1: X-Ray Result</caption>
+                            </renderMultiMedia>
+                        </text>
+                        <entry>
+                            <observationMedia ID="img1">
+                                <id root="1.2.3" extension="IMG-1"/>
+                                <value mediaType="image/png" representation="B64">iVBOR</value>
+                            </observationMedia>
+                        </entry>
+                    </section></component></structuredBody></component>
+                </ClinicalDocument>
+            </x:context>
+            <x:expect label="produces div with caption and img">
+                <div xmlns="http://www.w3.org/1999/xhtml">
+                    <div class="caption">Figure 1: X-Ray Result</div>
+                    <img alt="ID = 1.2.3 IMG-1"
+                         title="ID = 1.2.3 IMG-1"
+                         src="data:image/png;base64,iVBOR"/>
+                </div>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders regionOfInterest with nested observationMedia">
+            <x:context select="//hl7:renderMultiMedia">
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <component><structuredBody><component><section>
+                        <text>
+                            <renderMultiMedia referencedObject="roi1">
+                                <caption>Region of Interest</caption>
+                            </renderMultiMedia>
+                        </text>
+                        <entry>
+                            <regionOfInterest ID="roi1">
+                                <code code="CIRCLE"/>
+                                <value value="100"/><value value="100"/><value value="50"/>
+                                <entryRelationship>
+                                    <observationMedia ID="roiimg1">
+                                        <id root="1.2.3" extension="ROI-IMG-1"/>
+                                        <value mediaType="image/jpeg" representation="B64">AQID</value>
+                                    </observationMedia>
+                                </entryRelationship>
+                            </regionOfInterest>
+                        </entry>
+                    </section></component></structuredBody></component>
+                </ClinicalDocument>
+            </x:context>
+            <x:expect label="produces div with caption and img from nested observationMedia">
+                <div xmlns="http://www.w3.org/1999/xhtml">
+                    <div class="caption">Region of Interest</div>
+                    <img alt="ID = 1.2.3 ROI-IMG-1"
+                         title="ID = 1.2.3 ROI-IMG-1"
+                         src="data:image/jpeg;base64,AQID"/>
+                </div>
+            </x:expect>
+        </x:scenario>
+
+        <!-- BUG: Multiple space-separated IDREFS in @referencedObject don't work.
+             The commented-out tokenize call (line ~2095) was supposed to split the IDREFS
+             but is disabled. The string "img1 img2" is compared directly to each @ID,
+             so nothing matches and the div is empty. -->
+        <x:scenario label="multiple IDREFS in referencedObject produces empty div (known bug)">
+            <x:context select="//hl7:renderMultiMedia">
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <component><structuredBody><component><section>
+                        <text>
+                            <renderMultiMedia referencedObject="img1 img2"/>
+                        </text>
+                        <entry>
+                            <observationMedia ID="img1">
+                                <value mediaType="image/png" representation="B64">AAAA</value>
+                            </observationMedia>
+                        </entry>
+                        <entry>
+                            <observationMedia ID="img2">
+                                <value mediaType="image/gif" representation="B64">BBBB</value>
+                            </observationMedia>
+                        </entry>
+                    </section></component></structuredBody></component>
+                </ClinicalDocument>
+            </x:context>
+            <x:expect label="produces empty div (tokenize is disabled)">
+                <div xmlns="http://www.w3.org/1999/xhtml"/>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="regionOfInterest with multiple nested observationMedia">
+            <x:context select="//hl7:renderMultiMedia">
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <component><structuredBody><component><section>
+                        <text>
+                            <renderMultiMedia referencedObject="roi2">
+                                <caption>Multi-image ROI</caption>
+                            </renderMultiMedia>
+                        </text>
+                        <entry>
+                            <regionOfInterest ID="roi2">
+                                <code code="POLY"/>
+                                <entryRelationship>
+                                    <observationMedia ID="roiimg2a">
+                                        <value mediaType="image/png" representation="B64">CCCC</value>
+                                    </observationMedia>
+                                </entryRelationship>
+                                <entryRelationship>
+                                    <observationMedia ID="roiimg2b">
+                                        <id root="9.8.7" extension="SCAN-2"/>
+                                        <value mediaType="image/jpeg" representation="B64">DDDD</value>
+                                    </observationMedia>
+                                </entryRelationship>
+                            </regionOfInterest>
+                        </entry>
+                    </section></component></structuredBody></component>
+                </ClinicalDocument>
+            </x:context>
+            <x:expect label="produces div with caption and both imgs">
+                <div xmlns="http://www.w3.org/1999/xhtml">
+                    <div class="caption">Multi-image ROI</div>
+                    <img alt="" title="" src="data:image/png;base64,CCCC"/>
+                    <img alt="ID = 9.8.7 SCAN-2"
+                         title="ID = 9.8.7 SCAN-2"
+                         src="data:image/jpeg;base64,DDDD"/>
+                </div>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+
+</x:description>
