@@ -2,10 +2,11 @@
 # Run XSpec unit tests and example regression tests for CDA.xsl
 #
 # Usage:
-#   ./run-tests.sh              # Run all unit tests + example regression tests
+#   ./run-tests.sh              # Run all validation + unit tests + regression tests
 #   ./run-tests.sh test/X.xspec # Run only the specified XSpec file(s)
 #   ./run-tests.sh --xspec      # Run only the XSpec unit tests
 #   ./run-tests.sh --examples   # Run only the example regression tests
+#   ./run-tests.sh --validate   # Run only the validation checks
 #   ./run-tests.sh --update     # Regenerate the golden HTML files in examples/
 #
 # Dependencies are automatically downloaded on first run.
@@ -212,6 +213,51 @@ update_examples() {
 }
 
 # ---------------------------------------------------------------------------
+# Validate stylesheet and schema
+# ---------------------------------------------------------------------------
+run_validate() {
+    local pass=0
+    local fail=0
+
+    echo "========================================"
+    echo "Validation checks"
+    echo "========================================"
+
+    # Compile-check CDA.xsl by invoking a nonexistent template
+    # Saxon will compile the stylesheet and fail at runtime — compile errors exit differently
+    local xsl_output
+    xsl_output=$(java -cp "$SAXON_CP" net.sf.saxon.Transform \
+        -xsl:"${SCRIPT_DIR}/CDA.xsl" -it:__validation_check__ 2>&1)
+    if echo "$xsl_output" | grep -q "XTDE0040"; then
+        echo "  PASS: CDA.xsl compiles"
+        ((pass++))
+    else
+        echo "  FAIL: CDA.xsl does not compile"
+        echo "$xsl_output"
+        ((fail++))
+    fi
+
+    # Validate cda_l10n.xml against cda_l10n.xsd
+    javac -d "${SCRIPT_DIR}/test" "${SCRIPT_DIR}/test/Validate.java" 2>/dev/null
+    if java -cp "${SCRIPT_DIR}/test" Validate \
+        "${SCRIPT_DIR}/cda_l10n.xsd" "${SCRIPT_DIR}/cda_l10n.xml" 2>/dev/null; then
+        ((pass++))
+    else
+        echo "  FAIL: cda_l10n.xml does not validate against cda_l10n.xsd"
+        java -cp "${SCRIPT_DIR}/test" Validate \
+            "${SCRIPT_DIR}/cda_l10n.xsd" "${SCRIPT_DIR}/cda_l10n.xml"
+        ((fail++))
+    fi
+
+    echo "========================================"
+    echo "Validation: ${pass} passed, ${fail} failed"
+    echo "========================================"
+    echo
+
+    return "$fail"
+}
+
+# ---------------------------------------------------------------------------
 # Collect all runnable XSpec files (excludes coverage and shared-params)
 # ---------------------------------------------------------------------------
 collect_xspec_files() {
@@ -229,6 +275,7 @@ collect_xspec_files() {
 # ---------------------------------------------------------------------------
 install_deps
 
+VALIDATE_FAILURES=0
 XSPEC_FAILURES=0
 EXAMPLE_FAILURES=0
 
@@ -246,13 +293,18 @@ case "${1:-}" in
         run_xspec "${xspec_files[@]}" || XSPEC_FAILURES=$?
         exit "$XSPEC_FAILURES"
         ;;
+    --validate)
+        run_validate || VALIDATE_FAILURES=$?
+        exit "$VALIDATE_FAILURES"
+        ;;
     "")
-        # Run everything: XSpec + examples
+        # Run everything: validation + XSpec + examples
+        run_validate || VALIDATE_FAILURES=$?
         collect_xspec_files
         run_xspec "${xspec_files[@]}" || XSPEC_FAILURES=$?
         run_examples || EXAMPLE_FAILURES=$?
 
-        TOTAL_FAILURES=$((XSPEC_FAILURES + EXAMPLE_FAILURES))
+        TOTAL_FAILURES=$((VALIDATE_FAILURES + XSPEC_FAILURES + EXAMPLE_FAILURES))
         if [[ $TOTAL_FAILURES -gt 0 ]]; then
             exit 1
         fi

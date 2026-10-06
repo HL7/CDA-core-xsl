@@ -174,11 +174,14 @@ The project uses [XSpec](https://github.com/xspec/xspec) (v4.1.2) for unit testi
 
 ### Running Tests
 ```bash
-# Run all tests (unit tests + example regression tests)
+# Run all tests (validation + unit tests + example regression tests)
 ./run-tests.sh
 
 # Run only the XSpec unit tests
 ./run-tests.sh --xspec
+
+# Run only the validation checks (XSLT compile + schema validation)
+./run-tests.sh --validate
 
 # Run a specific test file
 ./run-tests.sh test/CDA-formatting.xspec

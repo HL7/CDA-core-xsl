@@ -7,6 +7,21 @@ on:
     branches: [main, master]
 
 jobs:
+  validate:
+    name: Validation checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: corretto
+          java-version: '17'
+
+      - name: Run validation checks
+        run: ./run-tests.sh --validate
+
   xspec:
     name: XSpec unit tests
     runs-on: ubuntu-latest

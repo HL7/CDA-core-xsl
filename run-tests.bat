@@ -3,10 +3,11 @@ setlocal enabledelayedexpansion
 REM Run XSpec unit tests and example regression tests for CDA.xsl
 REM
 REM Usage:
-REM   run-tests.bat              Run all unit tests + example regression tests
+REM   run-tests.bat              Run all validation + unit tests + regression tests
 REM   run-tests.bat test\X.xspec Run only the specified XSpec file(s)
 REM   run-tests.bat --xspec      Run only the XSpec unit tests
 REM   run-tests.bat --examples   Run only the example regression tests
+REM   run-tests.bat --validate   Run only the validation checks
 REM   run-tests.bat --update     Regenerate the golden HTML files in examples\
 REM
 REM Dependencies are automatically downloaded on first run.
@@ -54,17 +55,20 @@ if "%~1"=="" goto :run_all
 if "%~1"=="--update" goto :update_examples
 if "%~1"=="--examples" goto :run_examples_only
 if "%~1"=="--xspec" goto :run_xspec_only
+if "%~1"=="--validate" goto :run_validate_only
 goto :run_specific
 
 REM ---------------------------------------------------------------------------
 REM Run everything
 REM ---------------------------------------------------------------------------
 :run_all
+call :run_validate
+set "VALIDATE_FAILURES=%ERRORLEVEL%"
 call :run_xspec_all
 set "XSPEC_FAILURES=%ERRORLEVEL%"
 call :run_examples
 set "EXAMPLE_FAILURES=%ERRORLEVEL%"
-set /a "TOTAL=%XSPEC_FAILURES%+%EXAMPLE_FAILURES%"
+set /a "TOTAL=%VALIDATE_FAILURES%+%XSPEC_FAILURES%+%EXAMPLE_FAILURES%"
 if %TOTAL% gtr 0 exit /b 1
 exit /b 0
 
@@ -74,6 +78,10 @@ exit /b %ERRORLEVEL%
 
 :run_examples_only
 call :run_examples
+exit /b %ERRORLEVEL%
+
+:run_validate_only
+call :run_validate
 exit /b %ERRORLEVEL%
 
 REM ---------------------------------------------------------------------------
@@ -134,6 +142,48 @@ for %%f in ("%SCRIPT_DIR%\test\*.xspec") do (
 set /a "TOTAL_FILES=%PASS%+%FAIL%"
 echo ========================================
 echo XSpec: %PASS% passed, %FAIL% failed (out of %TOTAL_FILES% test files)
+echo ========================================
+echo.
+exit /b %FAIL%
+
+REM ---------------------------------------------------------------------------
+REM Validate stylesheet and schema
+REM ---------------------------------------------------------------------------
+:run_validate
+set "PASS=0"
+set "FAIL=0"
+
+echo ========================================
+echo Validation checks
+echo ========================================
+
+REM Compile-check CDA.xsl by invoking a nonexistent template
+java -cp "%SAXON_CP%" net.sf.saxon.Transform -xsl:"%SCRIPT_DIR%\CDA.xsl" -it:__validation_check__ >"%TEMP%\xsl_check.txt" 2>&1
+findstr /c:"XTDE0040" "%TEMP%\xsl_check.txt" >nul 2>&1
+if not errorlevel 1 (
+    echo   PASS: CDA.xsl compiles
+    set /a "PASS+=1"
+) else (
+    echo   FAIL: CDA.xsl does not compile
+    type "%TEMP%\xsl_check.txt"
+    set /a "FAIL+=1"
+)
+del "%TEMP%\xsl_check.txt" 2>nul
+
+REM Validate cda_l10n.xml against cda_l10n.xsd
+javac -d "%SCRIPT_DIR%\test" "%SCRIPT_DIR%\test\Validate.java" 2>nul
+java -cp "%SCRIPT_DIR%\test" Validate "%SCRIPT_DIR%\cda_l10n.xsd" "%SCRIPT_DIR%\cda_l10n.xml" >nul 2>&1
+if not errorlevel 1 (
+    echo   PASS: cda_l10n.xml validates against cda_l10n.xsd
+    set /a "PASS+=1"
+) else (
+    echo   FAIL: cda_l10n.xml does not validate against cda_l10n.xsd
+    java -cp "%SCRIPT_DIR%\test" Validate "%SCRIPT_DIR%\cda_l10n.xsd" "%SCRIPT_DIR%\cda_l10n.xml"
+    set /a "FAIL+=1"
+)
+
+echo ========================================
+echo Validation: %PASS% passed, %FAIL% failed
 echo ========================================
 echo.
 exit /b %FAIL%
