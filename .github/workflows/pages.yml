@@ -23,10 +23,8 @@ jobs:
 
       - name: Build site
         run: |
-          mkdir -p _site
-          cp index.html _site/
-          cp -r documentation _site/
-          cp -r examples _site/
+          cp -r documentation _site
+          cp -r examples _site/examples
           cp CDA.xsl cda_* _site/examples/
 
       - name: Deploy main site

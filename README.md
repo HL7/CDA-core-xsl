@@ -229,7 +229,7 @@ test/
 examples/
   *.xml                # Example CDA documents
   *.html               # Golden HTML renders for regression testing
-documentation/         # Auto-generated stylesheet docs (Oxygen XML Editor)
+documentation/         # Public stylesheet documentation
 lib/                   # Dependencies (gitignored, auto-downloaded by run-tests.sh)
   xspec/               # XSpec framework
   saxon-he-12.5.jar    # Saxon HE XSLT processor
