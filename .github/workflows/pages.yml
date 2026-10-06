@@ -27,6 +27,7 @@ jobs:
           cp index.html _site/
           cp -r documentation _site/
           cp -r examples _site/
+          cp CDA.xsl cda_* _site/examples/
 
       - name: Deploy main site
         if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
