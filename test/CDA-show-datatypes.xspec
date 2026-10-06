@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
     XSpec tests for CDA.xsl — Datatype rendering templates
-    
-    Covers the "Datatype based functions" that weren't covered in CDA-show-simple:
-    show-code, show-quantity, show-telecom, show-address, show-ivlts
-    
-    Each when/otherwise branch is tested.
-    
-    For text-only output, use select="text()" on x:expect to compare at the
-    text-node level rather than document-node level.
+
+    Tests the show-* templates for complex HL7 datatypes (codes, names,
+    addresses, telecom, quantities, timestamps, identifiers) including
+    both DTr1 and DTr2 variants and their -set wrappers.
 -->
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
                xmlns:hl7="urn:hl7-org:v3"
@@ -18,8 +14,8 @@
     <x:import href="CDA-shared-params.xspec"/>
     
     <!-- ================================================================== -->
-    <!-- show-id template                                                    -->
-    <!-- Output is <span> elements, so we use structural/contains tests.     -->
+    <!-- show-id template                                                   -->
+    <!-- Output is <span> elements, so we use structural/contains tests.    -->
     <!-- ================================================================== -->
     <x:scenario label="show-id template">
         <x:scenario label="renders root and extension">
@@ -169,7 +165,7 @@
     </x:scenario>
     
     <!-- ================================================================== -->
-    <!-- show-integer template                                               -->
+    <!-- show-integer template                                              -->
     <!-- ================================================================== -->
     <x:scenario label="show-integer template">
         <x:scenario label="renders value attribute">
@@ -208,7 +204,7 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- show-integer-set template                                           -->
+    <!-- show-integer-set template                                          -->
     <!-- ================================================================== -->
     <x:scenario label="show-integer-set template">
         <x:scenario label="renders single item with no separator">
@@ -268,7 +264,7 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- show-code                                                           -->
+    <!-- show-code                                                          -->
     <!-- ================================================================== -->
     <x:scenario label="show-code">
         <!--
@@ -421,7 +417,7 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- show-code-set template                                              -->
+    <!-- show-code-set template                                             -->
     <!-- ================================================================== -->
     <x:scenario label="show-code-set template">
         <x:scenario label="renders single code with no separator">
@@ -481,9 +477,9 @@
     </x:scenario>
     
     <!-- ================================================================== -->
-    <!-- show-name template                                                  -->
-    <!-- Output contains whitespace from XML formatting between name parts,  -->
-    <!-- so we use contains() rather than exact text match.                   -->
+    <!-- show-name template                                                 -->
+    <!-- Output contains whitespace from XML formatting between name parts, -->
+    <!-- so we use contains() rather than exact text match.                 -->
     <!-- ================================================================== -->
     <x:scenario label="show-name template">
         <x:scenario label="renders a given name only">
@@ -617,7 +613,7 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- show-name-set template                                              -->
+    <!-- show-name-set template                                             -->
     <!-- ================================================================== -->
     <x:scenario label="show-name-set template">
         <x:scenario label="renders single name">
@@ -677,8 +673,8 @@
     </x:scenario>
     
     <!-- ================================================================== -->
-    <!-- show-address                                                        -->
-    <!-- TODO - lots more to test here... -->
+    <!-- show-address                                                       -->
+    <!-- TODO - lots more to test here...                                   -->
     <!-- ================================================================== -->
     <x:scenario label="show-address">
         
@@ -991,7 +987,7 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- show-address-set template                                           -->
+    <!-- show-address-set template                                          -->
     <!-- ================================================================== -->
     <x:scenario label="show-address-set template">
         <x:scenario label="renders single address">
@@ -1051,7 +1047,7 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- show-quantity                                                        -->
+    <!-- show-quantity                                                      -->
     <!-- ================================================================== -->
     <x:scenario label="show-quantity">
 
@@ -1121,7 +1117,7 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- show-quantity-set template                                           -->
+    <!-- show-quantity-set template                                         -->
     <!-- ================================================================== -->
     <x:scenario label="show-quantity-set template">
         <!-- Note: show-quantity always appends a trailing space after value+unit,
@@ -1183,7 +1179,7 @@
     </x:scenario>
     
     <!-- ================================================================== -->
-    <!-- show-ivlts (interval of timestamps)                                 -->
+    <!-- show-ivlts (interval of timestamps)                                -->
     <!-- ================================================================== -->
     <x:scenario label="show-ivlts">
         
@@ -1241,7 +1237,7 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- show-telecom                                                        -->
+    <!-- show-telecom                                                       -->
     <!-- ================================================================== -->
     <x:scenario label="show-telecom">
 
@@ -1300,7 +1296,7 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- show-telecom-set template                                           -->
+    <!-- show-telecom-set template                                          -->
     <!-- ================================================================== -->
     <x:scenario label="show-telecom-set template">
         <x:scenario label="renders single telecom">
@@ -1360,7 +1356,7 @@
     </x:scenario>
     
     <!-- ================================================================== -->
-    <!-- show-timestamp template                                             -->
+    <!-- show-timestamp template                                            -->
     <!-- ================================================================== -->
     <x:scenario label="show-timestamp template">
         <x:scenario label="renders a timestamp element">
@@ -1384,7 +1380,7 @@
     </x:scenario>
     
     <!-- ================================================================== -->
-    <!-- show-text template                                                  -->
+    <!-- show-text template                                                 -->
     <!-- ================================================================== -->
     <x:scenario label="show-text template">
         <x:scenario label="renders DTr1 text content">
@@ -1424,7 +1420,7 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- show-text-set template                                              -->
+    <!-- show-text-set template                                             -->
     <!-- ================================================================== -->
     <x:scenario label="show-text-set template">
         <x:scenario label="renders single text">
@@ -1491,7 +1487,7 @@
     </x:scenario>
     
     <!-- ================================================================== -->
-    <!-- show-boolean template                                               -->
+    <!-- show-boolean template                                              -->
     <!-- ================================================================== -->
     <x:scenario label="show-boolean template">
         <x:scenario label="renders true value">

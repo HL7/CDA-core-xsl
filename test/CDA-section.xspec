@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
     XSpec tests for CDA.xsl — Section-level templates
-    
-    These templates operate on the section context node and render
-    participant information as div/ul/li structures (contrast with
-    the document-level templates in CDA-header.xspec which
-    render as header_table structures).
+
+    Tests structuredBody rendering, section titles, numbering, indentation,
+    and section-level participant templates (author, informant, subject).
+    Contrast with CDA-header.xspec which tests document-level templates
+    that render as header_table structures.
 -->
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
                xmlns:hl7="urn:hl7-org:v3"
@@ -93,7 +93,7 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- section-author                                                      -->
+    <!-- section-author                                                     -->
     <!-- ================================================================== -->
     <x:scenario label="section-author">
         <x:scenario label="renders person, device, and id-only authors in a ul">
@@ -177,7 +177,7 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- section-informant                                                   -->
+    <!-- section-informant                                                  -->
     <!-- ================================================================== -->
     <x:scenario label="section-informant">
         <x:scenario label="renders assignedEntity and relatedEntity informants with person and org">
@@ -256,7 +256,7 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- section-subject                                                     -->
+    <!-- section-subject                                                    -->
     <!-- ================================================================== -->
     <x:scenario label="section-subject">
         <x:scenario label="renders subject with name, code, and demographics">

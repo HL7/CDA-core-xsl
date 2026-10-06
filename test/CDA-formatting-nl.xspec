@@ -26,7 +26,7 @@
     <x:param name="textLang" select="'nl-NL'"/>
 
     <!-- ================================================================== -->
-    <!-- formatDateTime — Dutch date order: day month year                   -->
+    <!-- formatDateTime — Dutch date order: day month year                  -->
     <!-- ================================================================== -->
     <x:scenario label="formatDateTime with nl-NL locale">
         <x:scenario label="formats a full date in Dutch day-month-year order">
@@ -72,7 +72,7 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- formatMonth — Dutch localized month names                           -->
+    <!-- formatMonth — Dutch localized month names                          -->
     <!-- ================================================================== -->
     <x:scenario label="formatMonth with nl-NL locale">
         <x:scenario label="returns Dutch month name for January">

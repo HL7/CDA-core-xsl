@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    XSpec tests for CDA.xsl — nonXMLBody / observationMedia matching template
+    XSpec tests for CDA.xsl — nonXMLBody, observationMedia, and renderMultiMedia
 
-    Covers: plain text, inline base64 images, referenced images, iframes (HTML/PDF),
-            security checks (javascript injection, malicious content, sanitizer),
-            limit-pdf parameter, observationMedia vs nonXMLBody paths, renderAltText
-
-    Stylesheet parameters used by this template:
-      - limit-pdf (default: 'yes') — controls PDF iframe sandboxing
-      - simple-sanitizer-match / simple-sanitizer-replace — internal variables for URL sanitization
+    Tests the matching template for nonXMLBody/observationMedia (plain text,
+    inline base64, referenced images/iframes, PDF handling, security checks)
+    and the renderMultiMedia template (referenced objects, regionOfInterest).
 -->
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
                xmlns:hl7="urn:hl7-org:v3"

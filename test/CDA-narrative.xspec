@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    XSpec tests for CDA.xsl — Narrative block attribute handling
-    
+    XSpec tests for CDA.xsl — Narrative block rendering
+
     Tests the handleSectionTextAttributes mode template via the element
-    templates that invoke it (content → span, table, tr, th, td).
-    
-    These tests verify that CDA narrative attributes are correctly mapped
-    to their HTML equivalents.
+    templates that invoke it (content/span, table elements, linkHtml, etc.)
+    and verifies that CDA narrative attributes are correctly mapped to their
+    HTML equivalents. Also covers security checks (javascript injection)
+    and all pass-through attribute branches.
 -->
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
                xmlns:hl7="urn:hl7-org:v3"
@@ -16,7 +16,7 @@
     <x:import href="CDA-shared-params.xspec"/>
 
     <!-- ================================================================== -->
-    <!-- ID attribute → id                                                   -->
+    <!-- ID attribute → id                                                  -->
     <!-- ================================================================== -->
     <x:scenario label="ID attribute">
         <x:scenario label="maps CDA ID to HTML id on content/span">
@@ -30,7 +30,7 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- styleCode attribute → class                                         -->
+    <!-- styleCode attribute → class                                        -->
     <!-- ================================================================== -->
     <x:scenario label="styleCode attribute">
         <x:scenario label="maps styleCode to class on content/span">
@@ -53,7 +53,7 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- revised attribute → class + title                                   -->
+    <!-- revised attribute → class + title                                  -->
     <!-- ================================================================== -->
     <x:scenario label="revised attribute">
         <x:scenario label="maps revised=insert to revision class and title">
@@ -91,7 +91,7 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- language attribute → lang                                           -->
+    <!-- language attribute → lang                                          -->
     <!-- ================================================================== -->
     <x:scenario label="language attribute">
         <x:scenario label="maps CDA language to HTML lang">
@@ -105,7 +105,7 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- Combined attributes on content/span                                 -->
+    <!-- Combined attributes on content/span                                -->
     <!-- ================================================================== -->
     <x:scenario label="combined attributes on content">
         <x:scenario label="handles ID + styleCode + language together">
@@ -242,7 +242,7 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- Default class on table, tr, th                                      -->
+    <!-- Default class on table, tr, th                                     -->
     <!-- The class param defaults to narr_table, narr_tr, narr_th           -->
     <!-- ================================================================== -->
     <x:scenario label="default class on table elements">
@@ -267,7 +267,7 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- styleCode combines with default class on table elements              -->
+    <!-- styleCode combines with default class on table elements            -->
     <!-- ================================================================== -->
     <x:scenario label="styleCode on table elements">
         <x:scenario label="table combines narr_table with styleCode">
@@ -298,7 +298,7 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- Table default cellspacing/cellpadding                               -->
+    <!-- Table default cellspacing/cellpadding                              -->
     <!-- ================================================================== -->
     <x:scenario label="table default cellspacing and cellpadding">
         <x:scenario label="adds default cellspacing=1 and cellpadding=1 when not specified">
@@ -331,7 +331,7 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- Table-specific attributes pass through                              -->
+    <!-- Table-specific attributes pass through                             -->
     <!-- ================================================================== -->
     <x:scenario label="table-specific attributes">
         <x:scenario label="border attribute passes through">
@@ -405,7 +405,7 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- IDREF attribute                                                     -->
+    <!-- IDREF attribute                                                    -->
     <!-- ================================================================== -->
     <x:scenario label="IDREF attribute">
         <x:scenario label="maps CDA IDREF to HTML idref">
@@ -418,10 +418,10 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- Attribute filtering / security                                      -->
-    <!-- Illegal attributes should be silently dropped from the output.      -->
+    <!-- Attribute filtering / security                                     -->
+    <!-- Illegal attributes should be silently dropped from the output.     -->
     <!-- The cda_narrativeblock.xml allowlist governs table-family elements.  -->
-    <!-- See NarrativeBlock.xsd for the canonical attribute definitions.      -->
+    <!-- See NarrativeBlock.xsd for the canonical attribute definitions.    -->
     <!-- ================================================================== -->
     <x:scenario label="attribute filtering on table elements">
 
@@ -537,8 +537,8 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- JavaScript injection — terminate="yes"                              -->
-    <!-- The stylesheet terminates on javascript: in attribute values.        -->
+    <!-- JavaScript injection — terminate="yes"                             -->
+    <!-- The stylesheet terminates on javascript: in attribute values.      -->
     <!-- ================================================================== -->
     <x:scenario label="javascript injection protection (styleCode)" catch="yes">
         <x:context>
@@ -557,9 +557,9 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- Element mapping: table family                                       -->
-    <!-- All handled by the combined template at match="hl7:table | ...".    -->
-    <!-- Each CDA element maps to same-named HTML element via local-name().  -->
+    <!-- Element mapping: table family                                      -->
+    <!-- All handled by the combined template at match="hl7:table | ...".   -->
+    <!-- Each CDA element maps to same-named HTML element via local-name(). -->
     <!-- ================================================================== -->
     <x:scenario label="table element mapping">
         <x:scenario label="table produces HTML table">
@@ -585,7 +585,7 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- Element mapping: paragraph, content, pre, br                        -->
+    <!-- Element mapping: paragraph, content, pre, br                       -->
     <!-- ================================================================== -->
     <x:scenario label="paragraph element mapping">
         <x:scenario label="paragraph produces HTML p">
@@ -721,9 +721,9 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- Element mapping: linkHtml                                           -->
-    <!-- linkHtml → <a> with class="linkHtml" as base class.                 -->
-    <!-- Supports href, title, name, rel, rev from NarrativeBlock.xsd.       -->
+    <!-- Element mapping: linkHtml                                          -->
+    <!-- linkHtml → <a> with class="linkHtml" as base class.                -->
+    <!-- Supports href, title, name, rel, rev from NarrativeBlock.xsd.      -->
     <!-- ================================================================== -->
     <x:scenario label="linkHtml element mapping">
         <x:scenario label="linkHtml with fragment href produces anchor with linkHtml class">
@@ -751,8 +751,8 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- Element mapping: caption                                            -->
-    <!-- caption inside table → <caption>, elsewhere → <div class="caption"> -->
+    <!-- Element mapping: caption                                           -->
+    <!-- caption inside table → <caption>, elsewhere → <div class="caption">-->
     <!-- ================================================================== -->
     <x:scenario label="caption element mapping">
         <x:scenario label="caption inside table produces HTML caption">
@@ -785,9 +785,9 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- Element mapping: list                                               -->
-    <!-- listType='ordered' → <ol>, otherwise → <ul>. Items always → <li>.   -->
-    <!-- Caption renders as bold div above the list.                          -->
+    <!-- Element mapping: list                                              -->
+    <!-- listType='ordered' → <ol>, otherwise → <ul>. Items always → <li>.  -->
+    <!-- Caption renders as bold div above the list.                        -->
     <!-- ================================================================== -->
     <x:scenario label="list element mapping">
         <x:scenario label="ordered list with caption produces ol with li items">
@@ -847,11 +847,11 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- Element mapping: footnote and footnoteRef                           -->
-    <!-- footnote renders as div.narr_footnote with [n]. prefix.             -->
-    <!-- footnoteRef renders as superscript [n] linking to the footnote,     -->
-    <!-- with the first 50 chars of the footnote text as a tooltip.          -->
-    <!-- Both use position() over //hl7:footnote for numbering.              -->
+    <!-- Element mapping: footnote and footnoteRef                          -->
+    <!-- footnote renders as div.narr_footnote with [n]. prefix.            -->
+    <!-- footnoteRef renders as superscript [n] linking to the footnote,    -->
+    <!-- with the first 50 chars of the footnote text as a tooltip.         -->
+    <!-- Both use position() over //hl7:footnote for numbering.             -->
     <!-- ================================================================== -->
     <x:scenario label="footnote and footnoteRef element mapping">
         <x:scenario label="footnotes numbered by document order, footnoteRef links back with tooltip">
@@ -875,10 +875,10 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- Element mapping: CDAr3 catch-all elements                           -->
+    <!-- Element mapping: CDAr3 catch-all elements                          -->
     <!-- a, dd, dl, img, ins, span, p, ol, ul, li — all map to same-named   -->
-    <!-- HTML elements with handleSectionTextAttributes. Unlikely to appear   -->
-    <!-- in real CDA R2 documents, but tested for completeness.               -->
+    <!-- HTML elements with handleSectionTextAttributes. Unlikely to appear -->
+    <!-- in real CDA R2 documents, but tested for completeness.             -->
     <!-- ================================================================== -->
     <x:scenario label="CDAr3 catch-all element mapping">
         <x:scenario label="all CDAr3 elements produce correct HTML with attributes">

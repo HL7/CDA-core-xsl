@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
     XSpec tests for CDA.xsl — Formatting and utility templates
-    
-    Covers: caseUp, caseDown, firstCharCaseUp, raiseFontSize, formatDateTime
 -->
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
                xmlns:hl7="urn:hl7-org:v3"
@@ -13,7 +11,7 @@
     <x:import href="CDA-shared-params.xspec"/>
 
     <!-- ================================================================== -->
-    <!-- caseUp template                                                     -->
+    <!-- caseUp template                                                    -->
     <!-- ================================================================== -->
     <x:scenario label="caseUp template">
         <x:scenario label="converts lowercase to uppercase">
@@ -46,7 +44,7 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- caseDown template                                                   -->
+    <!-- caseDown template                                                  -->
     <!-- ================================================================== -->
     <x:scenario label="caseDown template">
         <x:scenario label="converts uppercase to lowercase">
@@ -72,7 +70,7 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- firstCharCaseUp template                                            -->
+    <!-- firstCharCaseUp template                                           -->
     <!-- ================================================================== -->
     <x:scenario label="firstCharCaseUp template">
         <x:scenario label="capitalizes first character of lowercase string">
@@ -105,7 +103,7 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- raiseFontSize template                                              -->
+    <!-- raiseFontSize template                                             -->
     <!-- ================================================================== -->
     <x:scenario label="raiseFontSize template">
         <x:scenario label="adds to default font size (9pt + 3)">
@@ -138,7 +136,7 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- formatDateTime template                                             -->
+    <!-- formatDateTime template                                            -->
     <!-- ================================================================== -->
     <x:scenario label="formatDateTime template">
         <x:scenario label="formats a full date (YYYYMMDD) in en-US">
@@ -231,7 +229,7 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- formatMonth template                                                -->
+    <!-- formatMonth template                                               -->
     <!-- ================================================================== -->
     <x:scenario label="formatMonth template">
         <x:scenario label="returns January for month 01">
@@ -289,7 +287,7 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- getAge template                                                     -->
+    <!-- getAge template                                                    -->
     <!-- ================================================================== -->
     <x:scenario label="getAge template">
         <x:scenario label="calculates age when birthday has passed this year">
@@ -342,7 +340,7 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- tokenize / _tokenize-characters / _tokenize-delimiters              -->
+    <!-- tokenize / _tokenize-characters / _tokenize-delimiters             -->
     <!-- ================================================================== -->
     <x:scenario label="tokenize template">
         <x:scenario label="splits on delimiter and localizes with prefix">

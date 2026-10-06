@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
     XSpec tests for CDA.xsl — Simple show-* and vocabulary lookup templates
-    
-    Covers: show-name, show-id, show-boolean, show-nullFlavor, show-integer,
-            show-text, show-timestamp, show-actClassCode, show-actRelationship,
-            show-participationType, translateTelecomUriScheme
-    
-    For text-only output, use select="text()" on x:expect to compare at the
-    text-node level rather than document-node level.
+
+    Tests templates that produce text output from vocabulary codes,
+    participation types, null flavors, and other simple data.
 -->
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
                xmlns:hl7="urn:hl7-org:v3"
@@ -17,7 +13,7 @@
     <x:import href="CDA-shared-params.xspec"/>
 
     <!-- ================================================================== -->
-    <!-- show-nullFlavor template                                            -->
+    <!-- show-nullFlavor template                                           -->
     <!-- ================================================================== -->
     <x:scenario label="show-nullFlavor template">
         <x:scenario label="renders NI (no information)">
@@ -57,7 +53,7 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- show-actClassCode template                                          -->
+    <!-- show-actClassCode template                                         -->
     <!-- ================================================================== -->
     <x:scenario label="show-actClassCode template">
         <x:scenario label="localizes ACT class code">
@@ -76,7 +72,7 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- show-actRelationship template                                       -->
+    <!-- show-actRelationship template                                      -->
     <!-- ================================================================== -->
     <x:scenario label="show-actRelationship template">
         <x:scenario label="localizes COMP relationship">
@@ -96,7 +92,7 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- show-participationType template                                     -->
+    <!-- show-participationType template                                    -->
     <!-- ================================================================== -->
     <x:scenario label="show-participationType template">
         <x:scenario label="localizes AUT (author) participation">
@@ -115,7 +111,7 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- show-participationTypeOrCode template                               -->
+    <!-- show-participationTypeOrCode template                              -->
     <!-- Combines typeCode, classCode, and code with " - " separator logic  -->
     <!-- ================================================================== -->
     <x:scenario label="show-participationTypeOrCode template">
@@ -183,7 +179,7 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- translateTelecomUriScheme template                                   -->
+    <!-- translateTelecomUriScheme template                                 -->
     <!-- ================================================================== -->
     <x:scenario label="translateTelecomUriScheme template">
         <x:scenario label="translates tel scheme">
@@ -230,9 +226,9 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- show-signatureText template                                         -->
+    <!-- show-signatureText template                                        -->
     <!-- Renders a hardcoded signature icon (base64 PNG) with a title       -->
-    <!-- containing "Signature is present" text + optional thumbnail.        -->
+    <!-- containing "Signature is present" text + optional thumbnail.       -->
     <!-- ================================================================== -->
     <x:scenario label="show-signatureText template">
         <x:scenario label="renders signature icon for signatureText with content">
