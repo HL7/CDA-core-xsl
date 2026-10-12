@@ -2119,9 +2119,26 @@
             </x:expect>
         </x:scenario>
         
-        <!-- TODO - add test with sdtc:signatureText but it doesn't have to be a full-match
-             (the image is a bit obnoxious) -->
-        
+        <x:scenario label="renders authenticator with sdtc:signatureText">
+            <x:context>
+                <ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:sdtc="urn:hl7-org:sdtc">
+                    <authenticator>
+                        <time value="20230615120000"/>
+                        <signatureCode code="S"/>
+                        <assignedEntity>
+                            <assignedPerson>
+                                <name><given>Sig</given><family>Tester</family></name>
+                            </assignedPerson>
+                        </assignedEntity>
+                        <sdtc:signatureText>digitally-signed</sdtc:signatureText>
+                    </authenticator>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="authenticator"/>
+            <x:expect label="output contains a signature img element"
+                      test="starts-with(string($x:result//xhtml:img/@src), 'data:image/png;base64,')"/>
+        </x:scenario>
+
         <x:scenario label="produces no output when no authenticators present">
             <x:context>
                 <ClinicalDocument xmlns="urn:hl7-org:v3"/>
