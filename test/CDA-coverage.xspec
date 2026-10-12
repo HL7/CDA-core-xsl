@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Master XSpec file that imports all individual test files.
+    
+    Use this for code coverage analysis (e.g. Oxygen's XSLT Coverage or
+    XSpec's -c flag with Saxon PE/EE), since coverage tools work on a
+    single .xspec file at a time.
+    
+    NOT used by run-tests.sh (which runs each file individually).
+    
+    Note: CDA-formatting-nl.xspec and CDA-params.xspec are excluded
+    because they override global params that conflict with other files.
+    Run them separately for locale/param coverage.
+-->
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:hl7="urn:hl7-org:v3"
+               xmlns:xhtml="http://www.w3.org/1999/xhtml"
+               stylesheet="../CDA.xsl">
+
+    <x:import href="CDA-shared-params.xspec"/>
+    <x:import href="CDA-formatting.xspec"/>
+    <x:import href="CDA-show-simple.xspec"/>
+    <x:import href="CDA-show-datatypes.xspec"/>
+    <x:import href="CDA-narrative.xspec"/>
+    <x:import href="CDA-header.xspec"/>
+    <x:import href="CDA-section.xspec"/>
+    <x:import href="CDA-nonXML.xspec"/>
+
+</x:description>
