@@ -100,6 +100,12 @@
 						</name>
 					</guardianPerson>
                 </guardian>
+                <guardian>
+                    <guardianOrganization>
+                        <name>Second Organization Guardian</name>
+                        <telecom value="mailto:guardian@organization.org"/>
+                    </guardianOrganization>
+                </guardian>
                 <birthplace>
                     <place>
                         <addr>
@@ -259,7 +265,8 @@
     <informant>
         <!-- A practitioner from another organization. -->
         <assignedEntity>
-            <id extension="222223333" root="2.16.840.1.113883.4.6"/>
+            <!-- <id extension="222223333" root="2.16.840.1.113883.4.6"/> -->
+            <code code="OUTLAB" codeSystem="2.16.840.1.113883.5.111" displayName="Outpatient Lab"/>
             <addr use="WP">
                 <streetAddressLine>1025 Health Drive</streetAddressLine>
                 <city>Portland</city>
@@ -274,9 +281,11 @@
                     <family>Reaction</family>
                     <suffix qualifier="AC">M.D.</suffix>
                 </name>
+                <sdtc:desc>A practitioner from another organization</sdtc:desc>
             </assignedPerson>
             <representedOrganization>
                 <name>The DoctorsApart Physician Group</name>
+                <telecom use="WP" value="tel:+1(555)555-1003"/>
             </representedOrganization>
         </assignedEntity>
     </informant>
@@ -284,14 +293,6 @@
         <!-- A practitioner from another organization. -->
         <assignedEntity>
             <id extension="333444444" root="2.16.840.1.113883.4.6"/>
-            <addr use="WP">
-                <streetAddressLine>1017 Health Drive</streetAddressLine>
-                <city>Portland</city>
-                <state>MD</state>
-                <postalCode>21014</postalCode>
-                <country>US</country>
-            </addr>
-            <telecom use="WP" value="tel:+1(555)555-1017"/>
             <assignedPerson>
                 <name>
                     <given>William</given>
@@ -301,13 +302,21 @@
             </assignedPerson>
             <representedOrganization>
                 <name>Good Health Laboratory</name>
+                <telecom use="WP" value="tel:+1(555)555-1017"/>
+                <addr use="WP">
+                    <streetAddressLine>1017 Health Drive</streetAddressLine>
+                    <city>Portland</city>
+                    <state>MD</state>
+                    <postalCode>21014</postalCode>
+                    <country>US</country>
+                </addr>
             </representedOrganization>
         </assignedEntity>
     </informant>
     <informant>
-        <!-- A practitioner from another organization. -->
+        <!-- Example participant with contact info; no name or ID; but also with organization info -->
         <assignedEntity>
-            <id extension="333222222" root="2.16.840.1.113883.4.6"/>
+            <!-- <id extension="333222222" root="2.16.840.1.113883.4.6"/> -->
             <addr use="WP">
                 <streetAddressLine>1016 Health Drive</streetAddressLine>
                 <city>Portland</city>
@@ -316,40 +325,37 @@
                 <country>US</country>
             </addr>
             <telecom use="WP" value="tel:+1(555)555-1016"/>
+            <!--
             <assignedPerson>
                 <name>
                     <given>Susan</given>
                     <family>Script</family>
                     <suffix qualifier="AC">Pharm.D.</suffix>
                 </name>
-            </assignedPerson>
+            </assignedPerson> -->
             <representedOrganization>
                 <name>People's Pharmacy</name>
             </representedOrganization>
         </assignedEntity>
     </informant>
     <informant>
-        <!-- A practitioner from another organization. -->
+        <!-- Example participant with ONLY contact details -->
         <assignedEntity>
-            <id extension="222334444" root="2.16.840.1.113883.4.6"/>
             <addr use="WP">
-                <streetAddressLine>1027 Health Drive</streetAddressLine>
+                <streetAddressLine>1033 Health Drive</streetAddressLine>
                 <city>Portland</city>
                 <state>MD</state>
                 <postalCode>21014</postalCode>
-                <country>US</country>
             </addr>
-            <telecom use="WP" value="tel:+1(555)555-1027"/>
+            <telecom use="WP" value="mailto:noname@nowhere.org"/>
             <assignedPerson>
+                <!-- 
                 <name>
                     <given>Patrick</given>
                     <family>Pump</family>
                     <suffix qualifier="AC">M.D.</suffix>
-                </name>
+                </name> -->
             </assignedPerson>
-            <representedOrganization>
-                <name>The DoctorsApart Physician Group</name>
-            </representedOrganization>
         </assignedEntity>
     </informant>
     <informant>
@@ -403,6 +409,7 @@
     <legalAuthenticator>
         <time value="20150625150000-0500"/>
         <signatureCode code="S"/>
+        <sdtc:signatureText>THE Wilma Colon</sdtc:signatureText>
         <assignedEntity>
             <id extension="5555555555" root="2.16.840.1.113883.4.6"/>
             <code code="207QA0505X" displayName="Adult Medicine Physician"
@@ -430,6 +437,7 @@
     <authenticator>
         <time value="20150625150000-0500"/>
         <signatureCode code="S"/>
+        <signatureText>Wrong namespace, but still works</signatureText>
         <assignedEntity>
             <id extension="5555555555" root="2.16.840.1.113883.4.6"/>
             <code code="207QA0505X" displayName="Adult Medicine Physician"
@@ -523,6 +531,26 @@
             </associatedPerson>
         </associatedEntity>
     </participant>
+    <!-- Example additional legal-authenticator as a participant-->
+    <participant typeCode="LA">
+        <functionCode code="" />
+        <time value="20140322" />
+        <associatedEntity classCode="SGNOFF">
+            <addr/>
+            <telecom/>
+            <associatedPerson>
+                <name>
+                    <given>Double</given>
+                    <family>Signer</family>
+                </name>
+                <sdtc:desc>Demonstrates a second legal-authenticator</sdtc:desc>
+            </associatedPerson>
+            <scopingOrganization>
+                <name>Scopes</name>
+                <telecom value="mailto:mysignature@totallylegal.org"/>
+            </scopingOrganization>
+        </associatedEntity>
+    </participant>
     <documentationOf>
         <serviceEvent classCode="PCPR">
             <!-- The effectiveTime reflects the provision of care summarized in the document. 
@@ -586,6 +614,72 @@
                 <low value="20090227130000+0500"/>
                 <high value="20090227130000+0500"/>
             </effectiveTime>
+            <responsibleParty>
+                <assignedEntity>
+                    <id root="2.16.840.1.113883.4.6" extension="12345678910"/>
+                    <code
+                        displayName="Allopathic &amp; Osteopathic Physicians; Internal Medicine" codeSystemName="Health Care Provider Taxonomy"
+                        codeSystem="2.16.840.1.113883.6.101" code="207R00000X"/>
+                    <addr use="WP">
+                        <city>Responsible</city>
+                        <state>RI</state>
+                    </addr>
+                    <telecom value="tel:+1(555)555-1432"/>
+                    <assignedPerson>
+                        <name>
+                          <given>Samir</given>
+                          <family>Khan</family>
+                        </name>
+                    </assignedPerson>
+                    <representedOrganization>
+                        <name>Responsibility, Inc.</name>
+                        <telecom value="mailto:responsibility@responsible.com"/>
+                    </representedOrganization>
+                </assignedEntity>
+            </responsibleParty>
+            <encounterParticipant typeCode="ATND">
+                <time>
+                    <low value="20090227130000+0500"/>
+                    <high value="20090227134500+0500"/>
+                </time>
+                <assignedEntity>
+                    <id root="2.16.840.1.113883.4.6" extension="12345678910"/>
+                    <code
+                        displayName="Allopathic &amp; Osteopathic Physicians; Internal Medicine" codeSystemName="Health Care Provider Taxonomy"
+                        codeSystem="2.16.840.1.113883.6.101" code="207R00000X"/>
+                    <addr use="WP">
+                        <city>Responsible</city>
+                        <state>RI</state>
+                    </addr>
+                    <telecom value="tel:+1(555)555-1432"/>
+                    <assignedPerson>
+                        <name>
+                            <given>Samir</given>
+                            <family>Khan</family>
+                        </name>
+                    </assignedPerson>
+                    <representedOrganization>
+                        <name>Responsibility, Inc.</name>
+                        <telecom value="mailto:responsibility@responsible.com"/>
+                    </representedOrganization>
+                </assignedEntity>
+            </encounterParticipant>
+            <encounterParticipant typeCode="ADM">
+                <time>
+                    <low value="20090227130000+0500"/>
+                    <high value="20090227130500+0500"/>
+                </time>
+                <assignedEntity>
+                    <assignedPerson>
+                        <name>
+                            <given>Five</given>
+                            <given>Minute</given>
+                            <family>Provider</family>
+                        </name>
+                    </assignedPerson>
+                </assignedEntity>
+            </encounterParticipant>
+            <!-- TODO - participant -->
             <location>
                 <healthCareFacility>
                     <id root="2.16.540.1.113883.19.2"/>
