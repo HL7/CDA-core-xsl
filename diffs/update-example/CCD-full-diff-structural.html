@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CCD-full - Structural Diff</title>
+<style type="text/css" media="all">
+                    *{
+                        font-family: Verdana, Tahoma, sans-serif;
+                        font-size: 9pt;
+                    }
+                    body{
+                        padding: 2px;
+                        color: #003366;
+                        background-color: white;
+                        font-size: 9pt;
+                    }
+                    #documentheader,
+                    #documentbody,
+                    #documentfooter{
+                        width: 100%;
+                    }
+                    #documentheader{
+                        border-bottom: 1px solid grey;
+                        margin-bottom: 1em;
+                    }
+                    #documentfooter{
+                        border-top: 1px solid grey;
+                        margin-top: 1em;
+                    }
+                    a{
+                        color: #003366;
+                        background-color: white;
+                    }
+                    h1{
+                        font-size: 12pt;
+                        font-weight: bold;
+                    }
+                    h1.title{
+                        text-align: center;
+                    }
+                    h2{
+                        font-size: 11pt;
+                        font-weight: bold;
+                    }
+                    h3{
+                        font-size: 10pt;
+                        font-weight: bold;
+                    }
+                    h4{
+                        font-size: 9pt;
+                        font-weight: bold;
+                    }
+                    h5{
+                        font-size: 9pt;
+                        font-weight: bold;
+                    }
+                    h6{
+                        font-size: 9pt;
+                        font-weight: bold;
+                    }
+                    hr{
+                        width: 100%;
+                    }
+                    span {
+                        font-size: 9pt; /* IE8 hack: doesn't understand inheritance */
+                        display: inline; /* IE8 hack: would go to next line otherwise */
+                    }
+                    table{
+                        line-height: 10pt;
+                        width: 100%;
+                    }
+                    thead tr, th{
+                        background-color: LightGrey;
+                    }
+                    tbody tr{
+                        background-color: #f2f2f2;
+                    }
+                    td{
+                        font-size: 9pt; /* IE8 hack: doesn't understand inheritance */
+                        padding: 0.1cm 0.2cm;
+                        vertical-align: top;
+                    }
+                    .table_simple{
+                        width: auto;
+                        color: inherit;
+                        background-color: inherit;
+                    }
+                    .table_simple td{
+                        padding: 0;
+                    }
+                    .table_simple td.td_label{
+                        font-size: 9pt; /* IE8 hack: doesn't understand inheritance */
+                        font-weight: inherit;
+                        font-style: italic;
+                        padding-right: 0.2cm;
+                    }
+                    .header_table{
+                        border: 1pt solid #00008b;
+                    }
+                    .narr_table{
+                        width: 100%;
+                        margin: 0.3em 0;
+                    }
+                    .narr_tr{
+                        //background-color: #ffffcc;
+                    }
+                    .narr_th{
+                        background-color: LightGrey;
+                        font-size: 9pt; /* IE8 hack: doesn't understand inheritance */
+                    }
+                    .narr_footnote{
+                        font-size: 8pt;
+                        font-style: italic;
+                    }
+                    .td_label{
+                        font-size: 9pt; /* IE8 hack: doesn't understand inheritance */
+                        font-weight: bold;
+                        background-color: LightGrey;
+                    }
+                    .td_label_width{
+                        width: 20%;
+                    }
+                    .span_label{
+                        font-size: 9pt; /* IE8 hack: doesn't understand inheritance */
+                        font-weight: bold;
+                    }
+                    .span_value{
+                        font-size: 9pt; /* IE8 hack: doesn't understand inheritance */
+                        font-weight: normal;
+                    }
+                    .revision_insert{
+                        text-decoration: underline overline;
+                    }
+                    .revision_insert_final{
+                    }
+                    .revision_delete{
+                        text-decoration: line-through;
+                    }
+                    .revision_delete_final{
+                        display: none;
+                    }
+                    .span_button {
+                        display: table-cell;
+                        cursor: pointer;
+                        border: 2pt inset #585858;
+                        border-radius: 15px;
+                        -moz-border-radius: 15px;
+                        padding: 0.1cm 0.2cm;
+                        background-color: #f2f2f2;
+                        font-weight: bold;
+                        vertical-align: baseline;
+                        width: 150px;
+                    }
+                    .warning-sign {
+                        border: 1px solid red;
+                        background-color: yellow;
+                        margin: 1em 0.5em;
+                    }
+                    div.separator {
+                        height: 1em;
+                    }
+                    div.caption {
+                        font-weight: bold;
+                        text-align: center;
+                    }
+                </style>
+<style type="text/css" media="all">
+                    .Bold{
+                        font-weight: bold;
+                    }
+                    .Italics{
+                        font-style: italic;
+                    }
+                    .Underline{
+                        text-decoration: underline;
+                    }
+                    .Emphasis{
+                        font-weight: bold;
+                        font-style: italic;
+                    }
+                    .Lrule{
+                        border-left-width: 2px;
+                        border-left-style: solid;
+                    }
+                    .Rrule{
+                        border-right-width: 2px;
+                        border-right-style: solid;
+                    }
+                    .Toprule{
+                        border-top-width: 2px;
+                        border-top-style: solid;
+                    }
+                    .Botrule{
+                        border-bottom-width: 2px;
+                        border-bottom-style: solid;
+                    }
+                    .Arabic{
+                        list-style: arabic;
+                    }
+                    .LittleRoman{
+                        list-style: lower-roman;
+                    }
+                    .BigRoman{
+                        list-style: upper-roman;
+                    }
+                    .LittleAlpha{
+                        list-style: lower-alpha;
+                    }
+                    .BigAlpha{
+                        list-style: upper-alpha
+                    }
+                    .Disc{
+                        list-style: disc;
+                    }
+                    .Circle{
+                        list-style: circle;
+                    }
+                    .Square{
+                        list-style: square;
+                    }</style>
+<style type="text/css" media="screen">
+                    div.button.expandCollapse {
+                        float: left;
+                        margin-right: 10px;
+                        cursor: pointer;
+                    }
+                </style>
+<style type="text/css" media="print">
+                    button, 
+                    div.button,
+                    #buttontable {
+                        display: none;
+                    }
+                    div.section-content {
+                        display: block !important;
+                    }
+                    .print_visible {
+                        display: block;
+                        float: none;
+                        margin-right: 0;
+                    }
+                </style>
+<style type="text/css" media="screen">
+                    #nav, #nav ul {
+                        padding: 0;
+                        margin: 0;
+                        list-style: none;
+                    }
+                    
+                    #nav li {
+                        float: left;
+                        width: 300px;
+                    }
+                    #nav ul {
+                        position: absolute;
+                        width: 300px;
+                        left: -1000px;
+                    }
+                    #nav li ul li ul {
+                        display: none;
+                    }
+                    
+                    #nav li ul li:hover > ul {
+                        display: block;
+                        position: absolute;
+                        left: 50px !important;
+                    }
+                    #nav li ul li:hover > ul > li > a {
+                        border: 1px solid #585858;
+                    }
+                    
+                    #nav li:hover ul, #nav li.ie_does_hover ul {
+                        left: auto;
+                        background-position: 0 0;
+                    }
+                    
+                    #nav * a {
+                        display: block;
+                        padding: 2px 8px;
+                        text-decoration: none;
+                        font-weight: bold;
+                        font-size: 11px;
+                    }
+                    
+                    #nav ul * a {
+                        font-weight: bold;
+                        color: #585858;
+                        background-color: #f2f2f2;
+                        cursor: pointer;
+                    }
+                    
+                    #nav ul ul a:link, #nav ul ul a:visited {
+                        font-weight: normal;
+                        color: #585858;
+                        background-color: #f2f2f2;
+                        cursor: pointer;
+                    }
+                    
+                    #nav * li a:hover, #nav * li a:active,
+                    #nav * li * li a:hover, #nav * li * li a:active {
+                        /*font-weight: normal;*/
+                        color: white;
+                        background-color: #585858;
+                        cursor: pointer;
+                    }
+                    
+                    #nav * li {
+                        border-left: 2px solid white;
+                    }
+                    
+                    #nav * ul li {
+                        border-top: 2px solid white;
+                        border-left: 0;
+                    }
+                    
+                    /* IE only hack */
+                    * html ul li, * html ul ul li{
+                        border-bottom: 2px solid white;
+                    }
+                    
+                    * html ul ul li{
+                        border-top: 0;
+                    }
+                    /* End IE only hack */
+                </style>
+<style>
+    body { margin: 0; padding: 0; color: #003366; }
+    .diff-legend {
+        position: sticky; top: 0; z-index: 100;
+        background: #fff; padding: 10px 20px;
+        border-bottom: 2px solid #ccc;
+        font-family: -apple-system, sans-serif; font-size: 11pt;
+    }
+    .diff-legend .swatch {
+        display: inline-block; padding: 2px 8px; margin: 0 4px;
+        border-radius: 3px; font-size: 9pt;
+    }
+    .diff-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    .diff-table > tbody > tr > td {
+        vertical-align: top; padding: 6px 12px;
+        border: 1px solid #ddd; width: 50%; overflow: hidden;
+    }
+    .diff-old { background-color: #fff8f8; border-left: 3px solid #e8a0a0 !important; }
+    .diff-new { background-color: #f5fff5; border-left: 3px solid #7cb87c !important; }
+    .hl-del { background-color: #ffd7d5; padding: 1px 2px; border-radius: 2px; }
+    .hl-add { background-color: #acf2bd; padding: 1px 2px; border-radius: 2px; }
+    .collapsed {
+        text-align: center; padding: 4px; color: #bbb; font-style: italic;
+        background: #fafafa; font-family: sans-serif; font-size: 9pt;
+    }
+    .empty-block {
+        color: #ccc; font-style: italic; padding: 20px;
+        font-family: sans-serif; text-align: center;
+    }
+    .section-header {
+        background: #e0e4e8; font-family: -apple-system, sans-serif;
+        font-weight: bold; font-size: 11pt; padding: 8px 12px;
+        border-top: 2px solid #bbb;
+    }
+    .col-header {
+        background: #f0f0f0; font-family: -apple-system, sans-serif;
+        font-weight: bold; font-size: 10pt; padding: 8px 12px;
+        text-align: center; position: sticky; top: 50px; z-index: 99;
+    }
+    .diff-row table { border-collapse: collapse; }
+</style>
+</head>
+<body>
+<div class="diff-legend">
+    <strong>Structural Diff:</strong> CCD-full —
+    9 changed regions,
+    28 unchanged (collapsed)
+    &nbsp;
+    <span class="swatch" style="background:#ffd7d5;">removed</span>
+    <span class="swatch" style="background:#acf2bd;">added</span>
+</div>
+<table class="diff-table">
+<tbody>
+    <tr>
+        <td class="col-header" style="border-right: 2px solid #ccc;">origin/master (951237c)</td>
+        <td class="col-header">update-example (31a22f2)</td>
+    </tr>
+    <tr><td colspan="2" class="section-header">📋 Header</td></tr><tr class="collapsed-row"><td colspan="2" class="collapsed">⋯ 2 unchanged blocks ⋯</td></tr><tr class="diff-row"><td class="diff-old"><table class="header_table">
+            <tbody>
+               <tr>
+                  <td class="td_label">Patient</td>
+                  <td>
+                     <span class="span_value">Legal: Eve BETTERHALF</span>
+                     <span style="float: right; margin-left: 1em;">
+                        <span>
+                           <span class="span_label">Date of Birth: </span>
+                           <span class="span_value">May  1, 1975<span title="At document creation time"> (48yr)</span>
+                           </span>
+                        </span>
+                        <span class="span_label">Gender: </span>
+                        <span class="span_value">Female</span>
+                     </span>
+                     <span style="float: right;" class="print_visible">
+                        <span class="span_label">Patient-ID: </span>
+                        <span class="span_value">
+                           <span>444222222 (SSN)</span>
+                        </span>
+                     </span>
+                  </td>
+               </tr>
+               <tr>
+                  <td class="td_label">Guardian</td>
+                  <td>
+                     <span class="span_value">Boris Bo <span class="hl-del">BETTERHALF</span> - Power of Attorney</span>
+                  </td>
+               </tr>
+               <tr>
+                  <td class="td_label">Encounter</td>
+                  <td>
+                     <span class="span_label">ID: </span>
+                     <span class="span_value">
+                        <span>9937012 (Examples)</span>
+                     </span>, <span class="span_label">Type: </span>
+                     <span class="span_value">Evaluation and Management</span>, <span class="span_label">Date/Time: </span>
+                     <span class="span_value">February  27, 2009 1PM +0500 - 1PM +0500</span>
+                  </td>
+               </tr>
+               <tr>
+                  <td class="td_label">Documentation Of</td>
+                  <td>Care provision, <span class="span_label">Date/Time: </span>
+                     <span class="span_value">from May  1, 1975 to April  12, 2016</span>, <span class="span_label">Performer: </span>
+                     <span class="span_value">Wilma COLON</span>
+                  </td>
+               </tr>
+               <tr>
+                  <td class="td_label">Author</td>
+                  <td>
+                     <span class="span_value">Patricia Patty COLON M.D.</span>, <span class="span_label">Organization: </span>
+                     <span class="span_value">Good Health Hospital System</span>, <span class="span_label">Authored On: </span>
+                     <span class="span_value">May  1, 2023, 11:45:59AM -0500</span>
+                  </td>
+               </tr>
+               <tr>
+                  <td class="td_label">Author</td>
+                  <td>
+                     <span class="span_value">PMEHR - Version 8.3</span>, <span class="span_label">Organization: </span>
+                     <span class="span_value">Good Health Hospital System</span>, <span class="span_label">Authored On: </span>
+                     <span class="span_value">May  1, 2023, 11:45:59AM -0500</span>
+                  </td>
+               </tr>
+            </tbody>
+         </table>
+         </td><td class="diff-new"><table class="header_table">
+            <tbody>
+               <tr>
+                  <td class="td_label">Patient</td>
+                  <td>
+                     <span class="span_value">Legal: Eve BETTERHALF</span>
+                     <span style="float: right; margin-left: 1em;">
+                        <span>
+                           <span class="span_label">Date of Birth: </span>
+                           <span class="span_value">May  1, 1975<span title="At document creation time"> (48yr)</span>
+                           </span>
+                        </span>
+                        <span class="span_label">Gender: </span>
+                        <span class="span_value">Female</span>
+                     </span>
+                     <span style="float: right;" class="print_visible">
+                        <span class="span_label">Patient-ID: </span>
+                        <span class="span_value">
+                           <span>444222222 (SSN)</span>
+                        </span>
+                     </span>
+                  </td>
+               </tr>
+               <tr>
+                  <td class="td_label">Guardian</td>
+                  <td>
+                     <span class="span_value">Boris Bo <span class="hl-add">BETTERHALF, Second Organization Guardian</span> - Power of Attorney</span>
+                  </td>
+               </tr>
+               <tr>
+                  <td class="td_label">Encounter</td>
+                  <td>
+                     <span class="span_label">ID: </span>
+                     <span class="span_value">
+                        <span>9937012 (Examples)</span>
+                     </span>, <span class="span_label">Type: </span>
+                     <span class="span_value">Evaluation and Management</span>, <span class="span_label">Date/Time: </span>
+                     <span class="span_value">February  27, 2009 1PM +0500 - 1PM +0500</span>
+                  </td>
+               </tr>
+               <tr>
+                  <td class="td_label">Documentation Of</td>
+                  <td>Care provision, <span class="span_label">Date/Time: </span>
+                     <span class="span_value">from May  1, 1975 to April  12, 2016</span>, <span class="span_label">Performer: </span>
+                     <span class="span_value">Wilma COLON</span>
+                  </td>
+               </tr>
+               <tr>
+                  <td class="td_label">Author</td>
+                  <td>
+                     <span class="span_value">Patricia Patty COLON M.D.</span>, <span class="span_label">Organization: </span>
+                     <span class="span_value">Good Health Hospital System</span>, <span class="span_label">Authored On: </span>
+                     <span class="span_value">May  1, 2023, 11:45:59AM -0500</span>
+                  </td>
+               </tr>
+               <tr>
+                  <td class="td_label">Author</td>
+                  <td>
+                     <span class="span_value">PMEHR - Version 8.3</span>, <span class="span_label">Organization: </span>
+                     <span class="span_value">Good Health Hospital System</span>, <span class="span_label">Authored On: </span>
+                     <span class="span_value">May  1, 2023, 11:45:59AM -0500</span>
+                  </td>
+               </tr>
+            </tbody>
+         </table>
+         </td></tr><tr class="collapsed-row"><td colspan="2" class="collapsed">⋯ 1 unchanged block ⋯</td></tr><tr><td colspan="2" class="section-header">📄 Document Body</td></tr><tr class="collapsed-row"><td colspan="2" class="collapsed">⋯ 9 unchanged blocks ⋯</td></tr><tr><td colspan="2" class="section-header">📝 Footer</td></tr><tr class="collapsed-row"><td colspan="2" class="collapsed">⋯ 3 unchanged blocks ⋯</td></tr><tr class="diff-row"><td class="diff-old"><table class="header_table">
+            <tbody>
+               <tr>
+                  <td class="td_label td_label_width">Patient</td>
+                  <td style="width: 30%;">Legal: Eve BETTERHALF</td>
+                  <td class="td_label td_label_width">Contact Details</td>
+                  <td style="width: 30%;">Home Primary: 2222 Home Street<br>Beaverton, MD 21014<br>US<br>Tel Home Primary: +1(555)555-2003</td>
+               </tr>
+               <tr>
+                  <td class="td_label td_label_width">Date of Birth</td>
+                  <td style="width: 30%;">May  1, 1975 (48yr)</td>
+                  <td class="td_label td_label_width">Gender</td>
+                  <td>Female</td>
+               </tr>
+               <tr>
+                  <td class="td_label td_label_width">Race</td>
+                  <td style="width: 30%;">Native Hawaiian or Other Pacific Islander, Native Hawaiian, Spanish American Indian</td>
+                  <td class="td_label td_label_width">Ethnicity</td>
+                  <td>Hispanic or Latino</td>
+               </tr>
+               <tr>
+                  <td class="td_label td_label_width">Patient-IDs</td>
+                  <td>
+                     <span>444222222 (SSN)</span>
+                  </td>
+                  <td class="td_label td_label_width">Language Communication</td>
+                  <td colspan="3">
+                     <div>en, Expressed spoken, Good, preferred: yes</div>
+                  </td>
+               </tr>
+               <tr>
+                  <td class="td_label td_label_width">Guardian</td>
+                  <td style="width: 30%;">Boris Bo <span class="hl-del">BETTERHALF</span> - Power of Attorney</td>
+                  <td class="td_label td_label_width">Contact Details</td>
+                  <td>Home Primary: 1111 Home Street<br>Beaverton, MD 21014<br>US<br>Tel Mobile: +1(555)555-1111</td>
+               </tr>
+               <tr>
+                  <td class="td_label td_label_width">Provider Organization</td>
+                  <td style="width: 30%;">
+                     <div>The DoctorsTogether Physician Group</div>
+                     <table class="table_simple">
+                        <tbody>
+                           <tr>
+                              <td class="td_label">ID</td>
+                              <td>
+                                 <span>219BX (1.1.1.1.1.1.1.1.2)</span>
+                              </td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </td>
+                  <td class="td_label td_label_width">Contact Details (Organization)</td>
+                  <td style="width: 30%;">1007 Health Drive<br>Portland, OR 99123<br>US<br>Tel Workplace: +(555)-555-5000</td>
+               </tr>
+            </tbody>
+         </table>
+         </td><td class="diff-new"><table class="header_table">
+            <tbody>
+               <tr>
+                  <td class="td_label td_label_width">Patient</td>
+                  <td style="width: 30%;">Legal: Eve BETTERHALF</td>
+                  <td class="td_label td_label_width">Contact Details</td>
+                  <td style="width: 30%;">Home Primary: 2222 Home Street<br>Beaverton, MD 21014<br>US<br>Tel Home Primary: +1(555)555-2003</td>
+               </tr>
+               <tr>
+                  <td class="td_label td_label_width">Date of Birth</td>
+                  <td style="width: 30%;">May  1, 1975 (48yr)</td>
+                  <td class="td_label td_label_width">Gender</td>
+                  <td>Female</td>
+               </tr>
+               <tr>
+                  <td class="td_label td_label_width">Race</td>
+                  <td style="width: 30%;">Native Hawaiian or Other Pacific Islander, Native Hawaiian, Spanish American Indian</td>
+                  <td class="td_label td_label_width">Ethnicity</td>
+                  <td>Hispanic or Latino</td>
+               </tr>
+               <tr>
+                  <td class="td_label td_label_width">Patient-IDs</td>
+                  <td>
+                     <span>444222222 (SSN)</span>
+                  </td>
+                  <td class="td_label td_label_width">Language Communication</td>
+                  <td colspan="3">
+                     <div>en, Expressed spoken, Good, preferred: yes</div>
+                  </td>
+               </tr>
+               <tr>
+                  <td class="td_label td_label_width">Guardian</td>
+                  <td style="width: 30%;">Boris Bo <span class="hl-add">BETTERHALF, Second Organization Guardian</span> - Power of Attorney</td>
+                  <td class="td_label td_label_width">Contact Details</td>
+                  <td>Home Primary: 1111 Home Street<br>Beaverton, MD 21014<br>US<br>Tel Mobile: +1(555)555-1111</td>
+               </tr>
+               <tr>
+                  <td class="td_label td_label_width">Provider Organization</td>
+                  <td style="width: 30%;">
+                     <div>The DoctorsTogether Physician Group</div>
+                     <table class="table_simple">
+                        <tbody>
+                           <tr>
+                              <td class="td_label">ID</td>
+                              <td>
+                                 <span>219BX (1.1.1.1.1.1.1.1.2)</span>
+                              </td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </td>
+                  <td class="td_label td_label_width">Contact Details (Organization)</td>
+                  <td style="width: 30%;">1007 Health Drive<br>Portland, OR 99123<br>US<br>Tel Workplace: +(555)-555-5000</td>
+               </tr>
+            </tbody>
+         </table>
+         </td></tr><tr class="collapsed-row"><td colspan="2" class="collapsed">⋯ 2 unchanged blocks ⋯</td></tr><tr class="diff-row"><td class="diff-old"><table class="header_table">
+            <tbody>
+               <tr>
+                  <td class="td_label td_label_width">Encounter</td>
+                  <td style="width: 30%;">
+                     <table class="table_simple">
+                        <tbody>
+                           <tr>
+                              <td class="td_label">ID</td>
+                              <td>
+                                 <span>9937012 (Examples)</span>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td class="td_label">Type</td>
+                              <td>Evaluation and Management</td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </td>
+                  <td class="td_label td_label_width">Encounter Date</td>
+                  <td>February  27, 2009 1PM +0500 - 1PM +0500</td>
+               </tr>
+               <tr>
+                  <td class="td_label td_label_width">Encounter Location</td>
+                  <td colspan="3">Double-address example (1st Address<br>Premier, PA 11111<br>USA, 2nd Address<br>Secondtopia, CT 22222<br>USA) of </td>
+               </tr>
+            </tbody>
+         </table>
+         </td><td class="diff-new"><table class="header_table">
+            <tbody>
+               <tr>
+                  <td class="td_label td_label_width">Encounter</td>
+                  <td style="width: 30%;">
+                     <table class="table_simple">
+                        <tbody>
+                           <tr>
+                              <td class="td_label">ID</td>
+                              <td>
+                                 <span>9937012 (Examples)</span>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td class="td_label">Type</td>
+                              <td>Evaluation and Management</td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </td>
+                  <td class="td_label td_label_width">Encounter Date</td>
+                  <td>February  27, 2009 1PM +0500 - 1PM +0500</td>
+               </tr>
+               <tr>
+                  <td class="td_label td_label_width">Encounter Location</td>
+                  <td colspan="3">Double-address example (1st Address<br>Premier, PA 11111<br>USA, 2nd Address<br>Secondtopia, CT 22222<br>USA) of </td>
+               </tr><span class="hl-add">
+               <tr>
+                  <td class="td_label td_label_width">Responsible Party</td>
+                  <td style="width: 30%;">Samir KHAN of Responsibility, Inc.</td>
+                  <td class="td_label td_label_width">Contact Details</td>
+                  <td>Workplace: Responsible, RI<br>
+                     <br>Tel: +1(555)555-1432</td>
+               </tr>
+               <tr>
+                  <td class="td_label td_label_width">attender (February  27, 2009 1PM +0500 - 1:45PM +0500)</td>
+                  <td style="width: 30%;">Samir KHAN of Responsibility, Inc.</td>
+                  <td class="td_label td_label_width">Contact Details</td>
+                  <td>Workplace: Responsible, RI<br>
+                     <br>Tel: +1(555)555-1432</td>
+               </tr>
+               <tr>
+                  <td class="td_label td_label_width">admitter (February  27, 2009 1PM +0500 - 1:05PM +0500)</td>
+                  <td colspan="3">Five Minute PROVIDER</td>
+               </tr></span>
+            </tbody>
+         </table>
+         </td></tr><tr class="collapsed-row"><td colspan="2" class="collapsed">⋯ 6 unchanged blocks ⋯</td></tr><tr class="diff-row"><td class="diff-old"><div class="empty-block">(not present)</div></td><td class="diff-new"><table class="header_table">
+            <tbody>
+               <tr>
+                  <td class="td_label td_label_width">Legal authenticator - signing authority or officer</td>
+                  <td style="width: 30%;">, Double SIGNER<br>Organization: Scopes, at March  22, 2014</td>
+                  <td class="td_label td_label_width">Contact Details</td>
+                  <td>
+                     <br>
+                  </td>
+               </tr>
+            </tbody>
+         </table>
+         </td></tr><tr class="collapsed-row"><td colspan="2" class="collapsed">⋯ 3 unchanged blocks ⋯</td></tr><tr class="diff-row"><td class="diff-old"><table class="header_table">
+            <tbody>
+               <tr>
+                  <td class="td_label td_label_width">Informant</td>
+                  <td style="width: 30%;">William Bill BEAKER of Good Health Laboratory</td><span class="hl-del">
+                  <td class="td_label td_label_width">Contact Details</td>
+                  <td>Workplace: 1017 Health Drive<br>Portland, MD 21014<br>US<br>Tel Workplace: +1(555)555-1017</td></span>
+               </tr>
+            </tbody>
+         </table>
+         </td><td class="diff-new"><table class="header_table">
+            <tbody>
+               <tr>
+                  <td class="td_label td_label_width">Informant</td>
+                  <td>William Bill BEAKER of Good Health Laboratory</td>
+               </tr>
+            </tbody>
+         </table>
+         </td></tr><tr class="diff-row"><td class="diff-old"><table class="header_table">
+            <tbody>
+               <tr>
+                  <td class="td_label td_label_width">Informant</td>
+                  <td style="width: 30%;"><span class="hl-del">Susan SCRIPT Pharm.D. of </span>People's Pharmacy</td>
+                  <td class="td_label td_label_width">Contact Details</td>
+                  <td>Workplace: 1016 Health Drive<br>Portland, MD 21014<br>US<br>Tel Workplace: +1(555)555-1016</td>
+               </tr>
+            </tbody>
+         </table>
+         </td><td class="diff-new"><table class="header_table">
+            <tbody>
+               <tr>
+                  <td class="td_label td_label_width">Informant</td>
+                  <td style="width: 30%;">People's Pharmacy</td>
+                  <td class="td_label td_label_width">Contact Details</td>
+                  <td>Workplace: 1016 Health Drive<br>Portland, MD 21014<br>US<br>Tel Workplace: +1(555)555-1016</td>
+               </tr>
+            </tbody>
+         </table>
+         </td></tr><tr class="diff-row"><td class="diff-old"><table class="header_table">
+            <tbody>
+               <tr>
+                  <td class="td_label td_label_width">Informant</td>
+                  <td style="width: 30%;"><span class="hl-del">Patrick PUMP M.D. of The DoctorsApart Physician Group</span></td>
+                  <td class="td_label td_label_width">Contact Details</td>
+                  <td>Workplace: <span class="hl-del">1027</span> Health Drive<br>Portland, MD 21014<br><span class="hl-del">US</span><br><span class="hl-del">Tel</span> Workplace: <span class="hl-del">+1(555)555-1027</span></td>
+               </tr>
+            </tbody>
+         </table>
+         </td><td class="diff-new"><table class="header_table">
+            <tbody>
+               <tr>
+                  <td class="td_label td_label_width">Informant</td>
+                  <td style="width: 30%;"></td>
+                  <td class="td_label td_label_width">Contact Details</td>
+                  <td>Workplace: <span class="hl-add">1033</span> Health Drive<br>Portland, MD 21014<br><span class="hl-add">
+                     </span><br><span class="hl-add">Mail</span> Workplace: <span class="hl-add">noname@nowhere.org</span></td>
+               </tr>
+            </tbody>
+         </table>
+         </td></tr><tr class="collapsed-row"><td colspan="2" class="collapsed">⋯ 2 unchanged blocks ⋯</td></tr><tr class="diff-row"><td class="diff-old"><table class="header_table">
+            <tbody>
+               <tr>
+                  <td class="td_label td_label_width">Authenticator</td>
+                  <td style="width: 30%;">Wilma COLON M.D. signed at June  25, 2015, 3PM -0500</td>
+                  <td class="td_label td_label_width">Contact Details</td>
+                  <td>Workplace: 1004 Healthcare Drive <br>Portland, MD 21014<br>US<br>Tel Workplace: +1(555)555-1004</td>
+               </tr>
+            </tbody>
+         </table>
+         </td><td class="diff-new"><table class="header_table">
+            <tbody>
+               <tr>
+                  <td class="td_label td_label_width">Authenticator</td>
+                  <td style="width: 30%;">Wilma COLON M.D. signed at June  25, 2015, 3PM -0500<span class="hl-add"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAAsTAAALEwEAmpwYAAACC2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS40LjAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyI+CiAgICAgICAgIDx0aWZmOlJlc29sdXRpb25Vbml0PjI8L3RpZmY6UmVzb2x1dGlvblVuaXQ+CiAgICAgICAgIDx0aWZmOkNvbXByZXNzaW9uPjE8L3RpZmY6Q29tcHJlc3Npb24+CiAgICAgICAgIDx0aWZmOk9yaWVudGF0aW9uPjE8L3RpZmY6T3JpZW50YXRpb24+CiAgICAgICAgIDx0aWZmOlBob3RvbWV0cmljSW50ZXJwcmV0YXRpb24+MjwvdGlmZjpQaG90b21ldHJpY0ludGVycHJldGF0aW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KD0UqkwAAApdJREFUOBGVVL9LslEUfszbD12yBmmRICmkbAiC0v9AQadAQdAaoiFoam5qaYmWCAKFGtqiRQQHpyJ1avMHBkFIQRItYj/Mbu9zPm7IR8P3Hbjvfb3nnOc+5zzn1Vav1/XR0RHe398xMDAArTX+x2w2m+QopbCxsQF1cnKCg4MDeDwePD8/CxaDaCb473dx9j3GxsbQbDYxPDwM9fn5KS7uQ0ND8m4ATY5hbS4wfp5zfX19YXR0VAgolknzer2YnJxEr9eTIJNkQH/bCcZS7+/vcXl5KSHKJIZCIaysrODj40N6SS9vNqzMxf3A9DscDlxcXAggYxQPadlsFtVqFU9PTxgZGRFgl8sFu90urF9fX38EMySYOzg4iLu7O8Fgdcr0p1aroVgs4vj4GNPT07i9vcX6+roE+nw+7O/vS9MZ3w/IywuFAm5ubqQyJRnW4+XlBVdXVxgfH8f19TWCwSBKpRKWl5eFcavVEkCKZ6oiOIVkrjHFkmgcHbfbjZmZGeNDpVLB4eEhNjc3kUql5Jy9np+fl5bwgCWzOpqIZOhzDqkWLRwOI5fLodFoYGpqSs7ImMxjsRgCgQDe3t4EwIiSz+f/lGzoU/atrS0kk0mcnp4iHo9jdnYW6XRaAAnOalZXV+V3/4Pi0Yhl297e1mdnZ3h4eBDp/X6/lEohKMzS0hIWFhbw+PgogJw7LiMmK+S4tNttJBIJKE44wWgcDZZ1fn6OSCQCczMV/BdzOp1Qa2tr4LdIFScmJlAul5HJZLC4uCjjs7OzI8CcsX4jMzNCLJXjE41GQbU0l9VkbSXpvb09bTVd7+7uamtEtMVa/Na/kf5tMZfn3W5Xlq3T6VgXaekDd44Kv2uKMDc39zPE/ex+ezdsvwFm7oHDCGA3ogAAAABJRU5ErkJggg==" alt="" title="Signature is present. Validity has not been checked. ">
+                  </span></td>
+                  <td class="td_label td_label_width">Contact Details</td>
+                  <td>Workplace: 1004 Healthcare Drive <br>Portland, MD 21014<br>US<br>Tel Workplace: +1(555)555-1004</td>
+               </tr>
+            </tbody>
+         </table>
+         </td></tr><tr class="diff-row"><td class="diff-old"><table class="header_table">
+            <tbody>
+               <tr>
+                  <td class="td_label td_label_width">Legal Authenticator</td>
+                  <td style="width: 30%;">Wilma Legal COLON M.D. signed at June  25, 2015, 3PM -0500</td>
+                  <td class="td_label td_label_width">Contact Details</td>
+                  <td>Workplace: 1004 Healthcare Drive <br>Portland, MD 21014<br>US<br>Tel Workplace: +1(555)555-1004</td>
+               </tr>
+            </tbody>
+         </table>
+      </td><td class="diff-new"><table class="header_table">
+            <tbody>
+               <tr>
+                  <td class="td_label td_label_width">Legal Authenticator</td>
+                  <td style="width: 30%;">Wilma Legal COLON M.D. signed at June  25, 2015, 3PM -0500<span class="hl-add"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAAsTAAALEwEAmpwYAAACC2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS40LjAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyI+CiAgICAgICAgIDx0aWZmOlJlc29sdXRpb25Vbml0PjI8L3RpZmY6UmVzb2x1dGlvblVuaXQ+CiAgICAgICAgIDx0aWZmOkNvbXByZXNzaW9uPjE8L3RpZmY6Q29tcHJlc3Npb24+CiAgICAgICAgIDx0aWZmOk9yaWVudGF0aW9uPjE8L3RpZmY6T3JpZW50YXRpb24+CiAgICAgICAgIDx0aWZmOlBob3RvbWV0cmljSW50ZXJwcmV0YXRpb24+MjwvdGlmZjpQaG90b21ldHJpY0ludGVycHJldGF0aW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KD0UqkwAAApdJREFUOBGVVL9LslEUfszbD12yBmmRICmkbAiC0v9AQadAQdAaoiFoam5qaYmWCAKFGtqiRQQHpyJ1avMHBkFIQRItYj/Mbu9zPm7IR8P3Hbjvfb3nnOc+5zzn1Vav1/XR0RHe398xMDAArTX+x2w2m+QopbCxsQF1cnKCg4MDeDwePD8/CxaDaCb473dx9j3GxsbQbDYxPDwM9fn5KS7uQ0ND8m4ATY5hbS4wfp5zfX19YXR0VAgolknzer2YnJxEr9eTIJNkQH/bCcZS7+/vcXl5KSHKJIZCIaysrODj40N6SS9vNqzMxf3A9DscDlxcXAggYxQPadlsFtVqFU9PTxgZGRFgl8sFu90urF9fX38EMySYOzg4iLu7O8Fgdcr0p1aroVgs4vj4GNPT07i9vcX6+roE+nw+7O/vS9MZ3w/IywuFAm5ubqQyJRnW4+XlBVdXVxgfH8f19TWCwSBKpRKWl5eFcavVEkCKZ6oiOIVkrjHFkmgcHbfbjZmZGeNDpVLB4eEhNjc3kUql5Jy9np+fl5bwgCWzOpqIZOhzDqkWLRwOI5fLodFoYGpqSs7ImMxjsRgCgQDe3t4EwIiSz+f/lGzoU/atrS0kk0mcnp4iHo9jdnYW6XRaAAnOalZXV+V3/4Pi0Yhl297e1mdnZ3h4eBDp/X6/lEohKMzS0hIWFhbw+PgogJw7LiMmK+S4tNttJBIJKE44wWgcDZZ1fn6OSCQCczMV/BdzOp1Qa2tr4LdIFScmJlAul5HJZLC4uCjjs7OzI8CcsX4jMzNCLJXjE41GQbU0l9VkbSXpvb09bTVd7+7uamtEtMVa/Na/kf5tMZfn3W5Xlq3T6VgXaekDd44Kv2uKMDc39zPE/ex+ezdsvwFm7oHDCGA3ogAAAABJRU5ErkJggg==" alt="" title="Signature is present. Validity has not been checked. ">
+                  </span></td>
+                  <td class="td_label td_label_width">Contact Details</td>
+                  <td>Workplace: 1004 Healthcare Drive <br>Portland, MD 21014<br>US<br>Tel Workplace: +1(555)555-1004</td>
+               </tr>
+            </tbody>
+         </table>
+      </td></tr>
+</tbody>
+</table>
+</body>
+</html>
