@@ -77,6 +77,30 @@ jobs:
         run: |
           PREVIEW_URL="https://hl7.github.io/CDA-core-xsl/branches/${{ github.ref_name }}/"
           DIFF_URL="https://hl7.github.io/CDA-core-xsl/diffs/${{ github.ref_name }}/"
+
+          # Wait for Pages deployment to be live (up to 2 minutes)
+          wait_for_url() {
+            local url="$1"
+            local timeout=120
+            local interval=10
+            local elapsed=0
+            echo "Waiting for $url ..."
+            while [ $elapsed -lt $timeout ]; do
+              status=$(curl -s -o /dev/null -w "%{http_code}" "$url" || echo "000")
+              if [ "$status" = "200" ]; then
+                echo "  Live after ${elapsed}s"
+                return 0
+              fi
+              sleep $interval
+              elapsed=$((elapsed + interval))
+            done
+            echo "  Timed out after ${timeout}s (last status: $status)"
+            return 1
+          }
+
+          wait_for_url "$PREVIEW_URL"
+          wait_for_url "$DIFF_URL"
+
           BODY="📄 **Preview deployed:** [${PREVIEW_URL}](${PREVIEW_URL})
           🔀 **Render diffs:** [${DIFF_URL}](${DIFF_URL})"
           PR_NUMBER=$(gh pr list --head "${{ github.ref_name }}" --json number --jq '.[0].number')

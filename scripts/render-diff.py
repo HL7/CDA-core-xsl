@@ -425,6 +425,9 @@ def generate_structural_diff(old_html: str, new_html: str,
     &nbsp;
     <span class="swatch" style="background:#ffd7d5;">removed</span>
     <span class="swatch" style="background:#acf2bd;">added</span>
+    <span style="float: right; font-size: 9pt;"><a href="index.html">← Back to index</a></span>
+    <br/>
+    <span style="font-size: 9pt; color: #666;">Comparing <strong>{current_label}</strong> vs <strong>{base_label}</strong></span>
 </div>
 <table class="diff-table">
 <tbody>
@@ -458,11 +461,23 @@ def generate_text_diff(old_html: str, new_html: str,
     new_lines = strip_html(new_html)
 
     differ = HtmlDiff(wrapcolumn=80)
-    return differ.make_file(
+    diff_html = differ.make_file(
         old_lines, new_lines,
         fromdesc=base_label, todesc=current_label,
         context=True, numlines=3
     )
+
+    # Inject a header banner after <body>
+    banner = f'''<div style="font-family: -apple-system, sans-serif; padding: 10px 20px;
+                             border-bottom: 2px solid #ccc; margin-bottom: 10px; font-size: 11pt;">
+        <strong>Text Diff:</strong> {example_name}
+        <span style="float: right; font-size: 9pt;"><a href="index.html">&larr; Back to index</a></span>
+        <br/>
+        <span style="font-size: 9pt; color: #666;">Comparing <strong>{current_label}</strong> vs <strong>{base_label}</strong></span>
+    </div>'''
+    diff_html = diff_html.replace("<body>", f"<body>\n{banner}", 1)
+
+    return diff_html
 
 
 # ---------------------------------------------------------------------------
@@ -527,15 +542,17 @@ def main():
             basename = xml_name.replace(".xml", "")
             print(f"\n--- {xml_name} ---")
 
-            # Export base example
+            # Export base example, or fall back to current branch's XML
+            # (new examples still get diffed — same XML, different XSL)
+            base_xml_path = os.path.join(base_dir, xml_name)
             if not export_base_example(base_ref, xml_name, base_dir):
-                print(f"  Skipping: {xml_name} does not exist in {base_ref}")
-                continue
+                print(f"  {xml_name} is new (not in {base_ref}), using current XML with base XSL")
+                shutil.copy(str(EXAMPLES_DIR / xml_name), base_xml_path)
 
             # Render with base XSL
             old_html_path = os.path.join(base_dir, f"{basename}-old.html")
             if not render_xml(
-                os.path.join(base_dir, xml_name),
+                base_xml_path,
                 os.path.join(base_dir, XSL_FILE),
                 old_html_path
             ):
@@ -576,11 +593,14 @@ def main():
         # Generate index page
         if generated:
             index_rows = ""
+            first_file = generated[0][1].name
             for basename, sp, tp in generated:
                 index_rows += f"""<tr>
                     <td>{basename}</td>
-                    <td><a href="{sp.name}">Structural</a></td>
-                    <td><a href="{tp.name}">Text</a></td>
+                    <td><a href="#" onclick="loadDiff('{sp.name}', this); return false;">Structural</a>
+                        <a href="{sp.name}" target="_blank" class="newwin" title="Open in new tab">↗</a></td>
+                    <td><a href="#" onclick="loadDiff('{tp.name}', this); return false;">Text</a>
+                        <a href="{tp.name}" target="_blank" class="newwin" title="Open in new tab">↗</a></td>
                 </tr>"""
 
             index_html = f"""<!DOCTYPE html>
@@ -589,32 +609,54 @@ def main():
 <meta charset="UTF-8">
 <title>Render Diffs</title>
 <style>
-    body {{ font-family: -apple-system, sans-serif; margin: 40px auto; max-width: 700px; color: #333; }}
-    h1 {{ border-bottom: 1px solid #eee; padding-bottom: 10px; }}
-    table {{ border-collapse: collapse; width: 100%; }}
-    th, td {{ text-align: left; padding: 8px 12px; border-bottom: 1px solid #eee; }}
-    th {{ background: #f6f8fa; }}
-    a {{ color: #0366d6; }}
-    .meta {{ color: #666; font-size: 10pt; margin-bottom: 20px; }}
-    .disclaimer {{ color: #555; font-size: 9.5pt; background: #f8f8f0; border-left: 3px solid #ddd;
-                    padding: 8px 12px; margin-bottom: 16px; line-height: 1.5; }}
+    * {{ margin: 0; padding: 0; box-sizing: border-box; }}
+    body {{ font-family: -apple-system, sans-serif; color: #333; display: flex; flex-direction: column; height: 100vh; }}
+    .header {{ padding: 16px 20px; border-bottom: 1px solid #ddd; background: #fff; flex-shrink: 0; }}
+    h1 {{ font-size: 16pt; margin-bottom: 6px; }}
+    table {{ border-collapse: collapse; width: 100%; margin: 10px 0; }}
+    th, td {{ text-align: left; padding: 6px 12px; border-bottom: 1px solid #eee; }}
+    th {{ background: #f6f8fa; font-size: 9.5pt; }}
+    td {{ font-size: 9.5pt; }}
+    a {{ color: #0366d6; cursor: pointer; }}
+    a.active {{ font-weight: bold; background: #e8f0fe; padding: 2px 4px; border-radius: 3px; }}
+    a.newwin {{ font-size: 8pt; color: #999; text-decoration: none; margin-left: 2px; }}
+    a.newwin:hover {{ color: #0366d6; }}
+    .meta {{ color: #666; font-size: 9pt; }}
+    .disclaimer {{ color: #555; font-size: 9pt; background: #f8f8f0; border-left: 3px solid #ddd;
+                    padding: 6px 12px; margin: 8px 0; line-height: 1.4; }}
+    .viewer {{ flex: 1; border: none; border-top: 2px solid #ccc; }}
 </style>
 </head>
 <body>
-<h1>Render Diffs</h1>
-<p class="disclaimer">
-    These diffs are auto-generated by rendering example CDA documents with both
-    the released and updated versions of the stylesheet. They provide a useful approximation
-    of visual changes but may not capture every difference — always review the rendered
-    examples directly for a complete picture.
-</p>
-<div class="meta">
-    Comparing <strong>{curr_label}</strong> vs <strong>{base_label}</strong>
+<div class="header">
+    <h1>Render Diffs</h1>
+    <p class="disclaimer">
+        These diffs are auto-generated by rendering example CDA documents with both
+        the released and updated versions of the stylesheet. They provide a useful approximation
+        of visual changes but may not capture every difference — always review the rendered
+        examples directly for a complete picture.
+    </p>
+    <div class="meta">
+        Comparing <strong>{curr_label}</strong> vs <strong>{base_label}</strong>
+    </div>
+    <table>
+        <thead><tr><th>Example</th><th>Structural Diff</th><th>Text Diff</th></tr></thead>
+        <tbody>{index_rows}</tbody>
+    </table>
 </div>
-<table>
-    <thead><tr><th>Example</th><th>Structural Diff</th><th>Text Diff</th></tr></thead>
-    <tbody>{index_rows}</tbody>
-</table>
+<iframe id="viewer" class="viewer" src="{first_file}"></iframe>
+<script>
+    let activeLink = null;
+    function loadDiff(url, el) {{
+        document.getElementById('viewer').src = url;
+        if (activeLink) activeLink.classList.remove('active');
+        el.classList.add('active');
+        activeLink = el;
+    }}
+    // Mark the first structural link as active on load
+    document.querySelector('tbody a').classList.add('active');
+    activeLink = document.querySelector('tbody a.active');
+</script>
 </body>
 </html>"""
             index_path = OUTPUT_DIR / "index.html"
