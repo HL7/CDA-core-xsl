@@ -21,12 +21,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
 
       - name: Build site
         run: |
           cp -r documentation _site
           cp -r examples _site/examples
           cp CDA.xsl cda_* _site/examples/
+
+      - name: Set up Java
+        if: github.ref != 'refs/heads/main' && github.ref != 'refs/heads/master'
+        uses: actions/setup-java@v5
+        with:
+          distribution: corretto
+          java-version: '17'
+
+      - name: Generate render diffs
+        if: github.ref != 'refs/heads/main' && github.ref != 'refs/heads/master'
+        run: |
+          ./run-tests.sh --validate 2>/dev/null || true
+          pip install --quiet lxml
+          python3 scripts/render-diff.py --base origin/master
 
       - name: Deploy main site
         if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
@@ -45,13 +61,24 @@ jobs:
           destination_dir: branches/${{ github.ref_name }}
           keep_files: true
 
+      - name: Deploy render diffs
+        if: github.ref != 'refs/heads/main' && github.ref != 'refs/heads/master'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./scripts/diffResults
+          destination_dir: diffs/${{ github.ref_name }}
+          keep_files: true
+
       - name: Comment preview link on PR
         if: github.ref != 'refs/heads/main' && github.ref != 'refs/heads/master'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           PREVIEW_URL="https://hl7.github.io/CDA-core-xsl/branches/${{ github.ref_name }}/"
-          BODY="📄 **Preview deployed:** [${PREVIEW_URL}](${PREVIEW_URL})"
+          DIFF_URL="https://hl7.github.io/CDA-core-xsl/diffs/${{ github.ref_name }}/"
+          BODY="📄 **Preview deployed:** [${PREVIEW_URL}](${PREVIEW_URL})
+          🔀 **Render diffs:** [${DIFF_URL}](${DIFF_URL})"
           PR_NUMBER=$(gh pr list --head "${{ github.ref_name }}" --json number --jq '.[0].number')
           if [ -n "$PR_NUMBER" ]; then
             gh pr comment "$PR_NUMBER" --body "$BODY" --edit-last 2>/dev/null || \
@@ -96,9 +123,15 @@ jobs:
           target: branches
           overwrite: true
 
-      - name: Commit branch index
+      - name: Generate diffs directory listing
+        uses: gacts/directory-listing@v1
+        with:
+          target: diffs
+          overwrite: true
+
+      - name: Commit directory indexes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add branches/index.html 2>/dev/null || true
-          git diff --cached --quiet || (git commit -m "Update branch index" && git push)
+          git add branches/index.html diffs/index.html 2>/dev/null || true
+          git diff --cached --quiet || (git commit -m "Update directory indexes" && git push)

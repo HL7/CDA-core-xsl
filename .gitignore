@@ -19,3 +19,5 @@ test/Validate.class
 examples/CDA.xsl
 examples/cda_l10n.xml
 examples/cda_narrativeblock.xml
+scripts/diffResults/
+scripts/.venv/
