@@ -126,9 +126,11 @@ jobs:
             return 1
           }
 
+          wait_for_url "$PREVIEW_URL"
           wait_for_url "$DIFF_URL"
 
           BODY="<!-- render-diffs-comment -->
+          📄 **Preview deployed:** [${PREVIEW_URL}](${PREVIEW_URL})
           🔀 **Render diffs:** [${DIFF_URL}](${DIFF_URL})"
           PR_NUMBER=$(gh pr list --head "${{ github.ref_name }}" --json number --jq '.[0].number')
           if [ -n "$PR_NUMBER" ]; then
