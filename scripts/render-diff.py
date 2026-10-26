@@ -98,20 +98,55 @@ def check_prereqs():
         sys.exit(1)
 
 
-def git_ref_label(base_ref: str) -> str:
-    """Get a human-readable label for a git ref."""
+def get_github_url() -> str:
+    """Extract GitHub repo URL from git remote, or return empty string."""
+    try:
+        remote = subprocess.check_output(
+            ["git", "remote", "get-url", "origin"],
+            cwd=REPO_ROOT, stderr=subprocess.DEVNULL
+        ).decode().strip()
+        m = re.match(r"git@github\.com:(.+?)(?:\.git)?$", remote)
+        if m:
+            return f"https://github.com/{m.group(1)}"
+        m = re.match(r"https://github\.com/(.+?)(?:\.git)?$", remote)
+        if m:
+            return f"https://github.com/{m.group(1)}"
+    except subprocess.CalledProcessError:
+        pass
+    return ""
+
+
+def get_full_hash(ref: str) -> str:
+    """Get the full commit hash for a ref."""
+    try:
+        return subprocess.check_output(
+            ["git", "rev-parse", ref],
+            cwd=REPO_ROOT, stderr=subprocess.DEVNULL
+        ).decode().strip()
+    except subprocess.CalledProcessError:
+        return ""
+
+
+def git_ref_label(base_ref: str, github_url: str) -> tuple:
+    """Return (plain_label, html_label) for a git ref."""
     try:
         short = subprocess.check_output(
             ["git", "rev-parse", "--short", base_ref],
             cwd=REPO_ROOT, stderr=subprocess.DEVNULL
         ).decode().strip()
-        return f"{base_ref} ({short})"
+        full = get_full_hash(base_ref)
+        plain = f"{base_ref} ({short})"
+        if github_url and full:
+            html = f'{base_ref} (<a href="{github_url}/commit/{full}">{short}</a>)'
+        else:
+            html = plain
+        return plain, html
     except subprocess.CalledProcessError:
-        return base_ref
+        return base_ref, base_ref
 
 
-def current_branch_label() -> str:
-    """Get label for the current working tree."""
+def current_branch_label(github_url: str) -> tuple:
+    """Return (plain_label, html_label) for the current working tree."""
     try:
         branch = subprocess.check_output(
             ["git", "branch", "--show-current"],
@@ -121,16 +156,36 @@ def current_branch_label() -> str:
             ["git", "rev-parse", "--short", "HEAD"],
             cwd=REPO_ROOT, stderr=subprocess.DEVNULL
         ).decode().strip()
+        full = get_full_hash("HEAD")
         dirty = subprocess.call(
             ["git", "diff", "--quiet"], cwd=REPO_ROOT,
             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
         ) != 0
-        label = f"{branch} ({short})"
-        if dirty:
-            label += " + uncommitted changes"
-        return label
+        suffix = " + uncommitted changes" if dirty else ""
+        plain = f"{branch} ({short}){suffix}"
+        if github_url and full:
+            html = f'{branch} (<a href="{github_url}/commit/{full}">{short}</a>){suffix}'
+        else:
+            html = plain
+        return plain, html
     except subprocess.CalledProcessError:
-        return "local"
+        return "local", "local"
+
+
+def compare_link_html(base_ref: str, github_url: str) -> str:
+    """Generate a GitHub compare link, or empty string."""
+    if not github_url:
+        return ""
+    base_short = base_ref.replace("origin/", "")
+    try:
+        branch = subprocess.check_output(
+            ["git", "branch", "--show-current"],
+            cwd=REPO_ROOT, stderr=subprocess.DEVNULL
+        ).decode().strip()
+        url = f"{github_url}/compare/{base_short}...{branch}"
+        return f' · <a href="{url}">view source diff</a>'
+    except subprocess.CalledProcessError:
+        return ""
 
 
 # ---------------------------------------------------------------------------
@@ -279,8 +334,9 @@ def highlight_diff(old_html, new_html):
 # Structural diff (side-by-side rendered blocks)
 # ---------------------------------------------------------------------------
 def generate_structural_diff(old_html: str, new_html: str,
-                             base_label: str, current_label: str,
-                             example_name: str) -> str:
+                             base_plain: str, base_html: str,
+                             curr_plain: str, curr_html: str,
+                             cmp_link: str, example_name: str) -> str:
     """Generate the structural side-by-side diff HTML."""
     old_doc = html.fromstring(old_html.encode() if isinstance(old_html, str) else old_html)
     new_doc = html.fromstring(new_html.encode() if isinstance(new_html, str) else new_html)
@@ -427,13 +483,13 @@ def generate_structural_diff(old_html: str, new_html: str,
     <span class="swatch" style="background:#acf2bd;">added</span>
     <span style="float: right; font-size: 9pt;"><a href="index.html">← Back to index</a></span>
     <br/>
-    <span style="font-size: 9pt; color: #666;">Comparing <strong>{current_label}</strong> vs <strong>{base_label}</strong></span>
+    <span style="font-size: 9pt; color: #666;">Comparing <strong>{curr_html}</strong> vs <strong>{base_html}</strong>{cmp_link}</span>
 </div>
 <table class="diff-table">
 <tbody>
     <tr>
-        <td class="col-header" style="border-right: 2px solid #ccc;">{base_label}</td>
-        <td class="col-header">{current_label}</td>
+        <td class="col-header" style="border-right: 2px solid #ccc;">{base_plain}</td>
+        <td class="col-header">{curr_plain}</td>
     </tr>
     {"".join(rows)}
 </tbody>
@@ -446,8 +502,9 @@ def generate_structural_diff(old_html: str, new_html: str,
 # Text diff (stripped-HTML side-by-side via difflib)
 # ---------------------------------------------------------------------------
 def generate_text_diff(old_html: str, new_html: str,
-                       base_label: str, current_label: str,
-                       example_name: str) -> str:
+                       base_plain: str, base_html: str,
+                       curr_plain: str, curr_html: str,
+                       cmp_link: str, example_name: str) -> str:
     """Generate the plain-text side-by-side diff HTML."""
     def strip_html(h):
         h = re.sub(r"<(script|style)[^>]*>.*?</\1>", "", h, flags=re.DOTALL)
@@ -463,7 +520,7 @@ def generate_text_diff(old_html: str, new_html: str,
     differ = HtmlDiff(wrapcolumn=80)
     diff_html = differ.make_file(
         old_lines, new_lines,
-        fromdesc=base_label, todesc=current_label,
+        fromdesc=base_plain, todesc=curr_plain,
         context=True, numlines=3
     )
 
@@ -473,7 +530,7 @@ def generate_text_diff(old_html: str, new_html: str,
         <strong>Text Diff:</strong> {example_name}
         <span style="float: right; font-size: 9pt;"><a href="index.html">&larr; Back to index</a></span>
         <br/>
-        <span style="font-size: 9pt; color: #666;">Comparing <strong>{current_label}</strong> vs <strong>{base_label}</strong></span>
+        <span style="font-size: 9pt; color: #666;">Comparing <strong>{curr_html}</strong> vs <strong>{base_html}</strong>{cmp_link}</span>
     </div>'''
     diff_html = diff_html.replace("<body>", f"<body>\n{banner}", 1)
 
@@ -511,10 +568,12 @@ def main():
             print("Error: Could not find origin/master or origin/main. Use --base to specify.", file=sys.stderr)
             sys.exit(1)
 
-    base_label = git_ref_label(base_ref)
-    curr_label = current_branch_label()
+    github_url = get_github_url()
+    base_plain, base_html = git_ref_label(base_ref, github_url)
+    curr_plain, curr_html = current_branch_label(github_url)
+    cmp_link = compare_link_html(base_ref, github_url)
 
-    print(f"Comparing: {curr_label}  vs  {base_label}")
+    print(f"Comparing: {curr_plain}  vs  {base_plain}")
 
     # Find example XMLs (exclude support files and viewer)
     example_xmls = sorted([
@@ -576,14 +635,14 @@ def main():
 
             # Generate structural diff
             print(f"  Generating structural diff...")
-            structural = generate_structural_diff(old_html, new_html, base_label, curr_label, basename)
+            structural = generate_structural_diff(old_html, new_html, base_plain, base_html, curr_plain, curr_html, cmp_link, basename)
             structural_path = OUTPUT_DIR / f"{basename}-diff-structural.html"
             structural_path.write_text(structural, encoding="utf-8")
             print(f"  → {structural_path.relative_to(REPO_ROOT)}")
 
             # Generate text diff
             print(f"  Generating text diff...")
-            text = generate_text_diff(old_html, new_html, base_label, curr_label, basename)
+            text = generate_text_diff(old_html, new_html, base_plain, base_html, curr_plain, curr_html, cmp_link, basename)
             text_path = OUTPUT_DIR / f"{basename}-diff-text.html"
             text_path.write_text(text, encoding="utf-8")
             print(f"  → {text_path.relative_to(REPO_ROOT)}")
@@ -637,7 +696,7 @@ def main():
         examples directly for a complete picture.
     </p>
     <div class="meta">
-        Comparing <strong>{curr_label}</strong> vs <strong>{base_label}</strong>
+        Comparing <strong>{curr_html}</strong> vs <strong>{base_html}</strong>{cmp_link}
     </div>
     <table>
         <thead><tr><th>Example</th><th>Structural Diff</th><th>Text Diff</th></tr></thead>
