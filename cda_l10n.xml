@@ -391,6 +391,18 @@
         <value lang="nl-nl">Zorgaanbieder</value>
         <value lang="fr-fr">Organisation</value>
     </translation>
+    <translation key="maritalStatus">
+        <comment>Label: Marital Status</comment>
+        <value lang="en-us">Marital Status</value>
+        <value lang="de-ch">Familienstand</value>
+        <value lang="nl-nl">Burgerlijke staat</value>
+        <value lang="fr-fr">État civil</value>
+    </translation>
+    <translation key="religiousAffiliation">
+        <comment>Label: Religious Affiliation</comment>
+        <value lang="en-us">Religious Affiliation</value>
+        <!-- TODO: Add translations? -->
+    </translation>
     <!-- End: Patient Specific Stuff -->
     <!-- Start: ActRelations Header -->
     <translation key="relatedDocument">
@@ -1582,6 +1594,51 @@
         <value lang="en-us">Undifferentiated</value>
         <value lang="nl-nl">Ongedifferentieerd</value>
         <value lang="fr-fr">Sexe</value>
+    </translation>
+    <!-- TODO: Add non-English translations for Marital Status codes -->
+    <translation key="2.16.840.1.113883.5.2-A">
+        <comment>Label: MaritalStatus: Annulled</comment>
+        <value lang="en-us">Annulled</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.2-D">
+        <comment>Label: MaritalStatus: Divorced</comment>
+        <value lang="en-us">Divorced</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.2-I">
+        <comment>Label: MaritalStatus: Interlocutory</comment>
+        <value lang="en-us">Interlocutory</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.2-L">
+        <comment>Label: MaritalStatus: Legally Separated</comment>
+        <value lang="en-us">Legally Separated</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.2-M">
+        <comment>Label: MaritalStatus: Married</comment>
+        <value lang="en-us">Married</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.2-C">
+        <comment>Label: MaritalStatus: Common Law</comment>
+        <value lang="en-us">Common Law</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.2-P">
+        <comment>Label: MaritalStatus: Polygamous</comment>
+        <value lang="en-us">Polygamous</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.2-T">
+        <comment>Label: MaritalStatus: Domestic partner</comment>
+        <value lang="en-us">Domestic partner</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.2-U">
+        <comment>Label: MaritalStatus: unmarried</comment>
+        <value lang="en-us">unmarried</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.2-S">
+        <comment>Label: MaritalStatus: Never Married</comment>
+        <value lang="en-us">Never Married</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.2-W">
+        <comment>Label: MaritalStatus: Widowed</comment>
+        <value lang="en-us">Widowed</value>
     </translation>
     <translation key="2.16.840.1.113883.5.4-AMB">
         <comment>Label: ActCode: ActEncounterCode: Ambulatory</comment>
@@ -4197,6 +4254,335 @@
         <value lang="en-us">medical home provider</value>
         <value lang="nl-nl">verplegende/verzorgende zorgverlener</value>
         <value lang="fr-fr">prestataire de soins à domicile</value>
+    </translation>
+    <!-- TODO: Add non-English translations for Religious Affiliation codes -->
+    <translation key="2.16.840.1.113883.5.1076-1001">
+        <comment>Label: ReligiousAffiliation: Adventist</comment>
+        <value lang="en-us">Adventist</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1002">
+        <comment>Label: ReligiousAffiliation: African Religions</comment>
+        <value lang="en-us">African Religions</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1003">
+        <comment>Label: ReligiousAffiliation: Afro-Caribbean Religions</comment>
+        <value lang="en-us">Afro-Caribbean Religions</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1004">
+        <comment>Label: ReligiousAffiliation: Agnosticism</comment>
+        <value lang="en-us">Agnosticism</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1005">
+        <comment>Label: ReligiousAffiliation: Anglican</comment>
+        <value lang="en-us">Anglican</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1006">
+        <comment>Label: ReligiousAffiliation: Animism</comment>
+        <value lang="en-us">Animism</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1007">
+        <comment>Label: ReligiousAffiliation: Atheism</comment>
+        <value lang="en-us">Atheism</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1008">
+        <comment>Label: ReligiousAffiliation: Babi &amp; Baha'I faiths</comment>
+        <value lang="en-us">Babi &amp; Baha'I faiths</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1009">
+        <comment>Label: ReligiousAffiliation: Baptist</comment>
+        <value lang="en-us">Baptist</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1010">
+        <comment>Label: ReligiousAffiliation: Bon</comment>
+        <value lang="en-us">Bon</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1011">
+        <comment>Label: ReligiousAffiliation: Cao Dai</comment>
+        <value lang="en-us">Cao Dai</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1012">
+        <comment>Label: ReligiousAffiliation: Celticism</comment>
+        <value lang="en-us">Celticism</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1013">
+        <comment>Label: ReligiousAffiliation: Christian (non-Catholic, non-specific)</comment>
+        <value lang="en-us">Christian (non-Catholic, non-specific)</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1014">
+        <comment>Label: ReligiousAffiliation: Confucianism</comment>
+        <value lang="en-us">Confucianism</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1015">
+        <comment>Label: ReligiousAffiliation: Cyberculture Religions</comment>
+        <value lang="en-us">Cyberculture Religions</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1016">
+        <comment>Label: ReligiousAffiliation: Divination</comment>
+        <value lang="en-us">Divination</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1017">
+        <comment>Label: ReligiousAffiliation: Fourth Way</comment>
+        <value lang="en-us">Fourth Way</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1018">
+        <comment>Label: ReligiousAffiliation: Free Daism</comment>
+        <value lang="en-us">Free Daism</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1019">
+        <comment>Label: ReligiousAffiliation: Gnosis</comment>
+        <value lang="en-us">Gnosis</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1020">
+        <comment>Label: ReligiousAffiliation: Hinduism</comment>
+        <value lang="en-us">Hinduism</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1021">
+        <comment>Label: ReligiousAffiliation: Humanism</comment>
+        <value lang="en-us">Humanism</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1022">
+        <comment>Label: ReligiousAffiliation: Independent</comment>
+        <value lang="en-us">Independent</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1023">
+        <comment>Label: ReligiousAffiliation: Islam</comment>
+        <value lang="en-us">Islam</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1024">
+        <comment>Label: ReligiousAffiliation: Jainism</comment>
+        <value lang="en-us">Jainism</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1025">
+        <comment>Label: ReligiousAffiliation: Jehovah's Witnesses</comment>
+        <value lang="en-us">Jehovah's Witnesses</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1026">
+        <comment>Label: ReligiousAffiliation: Judaism</comment>
+        <value lang="en-us">Judaism</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1027">
+        <comment>Label: ReligiousAffiliation: Latter Day Saints</comment>
+        <value lang="en-us">Latter Day Saints</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1028">
+        <comment>Label: ReligiousAffiliation: Lutheran</comment>
+        <value lang="en-us">Lutheran</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1029">
+        <comment>Label: ReligiousAffiliation: Mahayana</comment>
+        <value lang="en-us">Mahayana</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1030">
+        <comment>Label: ReligiousAffiliation: Meditation</comment>
+        <value lang="en-us">Meditation</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1031">
+        <comment>Label: ReligiousAffiliation: Messianic Judaism</comment>
+        <value lang="en-us">Messianic Judaism</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1032">
+        <comment>Label: ReligiousAffiliation: Mitraism</comment>
+        <value lang="en-us">Mitraism</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1033">
+        <comment>Label: ReligiousAffiliation: New Age</comment>
+        <value lang="en-us">New Age</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1034">
+        <comment>Label: ReligiousAffiliation: non-Roman Catholic</comment>
+        <value lang="en-us">non-Roman Catholic</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1035">
+        <comment>Label: ReligiousAffiliation: Occult</comment>
+        <value lang="en-us">Occult</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1036">
+        <comment>Label: ReligiousAffiliation: Orthodox</comment>
+        <value lang="en-us">Orthodox</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1037">
+        <comment>Label: ReligiousAffiliation: Paganism</comment>
+        <value lang="en-us">Paganism</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1038">
+        <comment>Label: ReligiousAffiliation: Pentecostal</comment>
+        <value lang="en-us">Pentecostal</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1039">
+        <comment>Label: ReligiousAffiliation: Process, The</comment>
+        <value lang="en-us">Process, The</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1040">
+        <comment>Label: ReligiousAffiliation: Reformed/Presbyterian</comment>
+        <value lang="en-us">Reformed/Presbyterian</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1041">
+        <comment>Label: ReligiousAffiliation: Roman Catholic Church</comment>
+        <value lang="en-us">Roman Catholic Church</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1042">
+        <comment>Label: ReligiousAffiliation: Satanism</comment>
+        <value lang="en-us">Satanism</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1043">
+        <comment>Label: ReligiousAffiliation: Scientology</comment>
+        <value lang="en-us">Scientology</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1044">
+        <comment>Label: ReligiousAffiliation: Shamanism</comment>
+        <value lang="en-us">Shamanism</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1045">
+        <comment>Label: ReligiousAffiliation: Shiite (Islam)</comment>
+        <value lang="en-us">Shiite (Islam)</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1046">
+        <comment>Label: ReligiousAffiliation: Shinto</comment>
+        <value lang="en-us">Shinto</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1047">
+        <comment>Label: ReligiousAffiliation: Sikism</comment>
+        <value lang="en-us">Sikism</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1048">
+        <comment>Label: ReligiousAffiliation: Spiritualism</comment>
+        <value lang="en-us">Spiritualism</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1049">
+        <comment>Label: ReligiousAffiliation: Sunni (Islam)</comment>
+        <value lang="en-us">Sunni (Islam)</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1050">
+        <comment>Label: ReligiousAffiliation: Taoism</comment>
+        <value lang="en-us">Taoism</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1051">
+        <comment>Label: ReligiousAffiliation: Theravada</comment>
+        <value lang="en-us">Theravada</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1052">
+        <comment>Label: ReligiousAffiliation: Unitarian-Universalism</comment>
+        <value lang="en-us">Unitarian-Universalism</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1053">
+        <comment>Label: ReligiousAffiliation: Universal Life Church</comment>
+        <value lang="en-us">Universal Life Church</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1054">
+        <comment>Label: ReligiousAffiliation: Vajrayana (Tibetan)</comment>
+        <value lang="en-us">Vajrayana (Tibetan)</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1055">
+        <comment>Label: ReligiousAffiliation: Veda</comment>
+        <value lang="en-us">Veda</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1056">
+        <comment>Label: ReligiousAffiliation: Voodoo</comment>
+        <value lang="en-us">Voodoo</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1057">
+        <comment>Label: ReligiousAffiliation: Wicca</comment>
+        <value lang="en-us">Wicca</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1058">
+        <comment>Label: ReligiousAffiliation: Yaohushua</comment>
+        <value lang="en-us">Yaohushua</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1059">
+        <comment>Label: ReligiousAffiliation: Zen Buddhism</comment>
+        <value lang="en-us">Zen Buddhism</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1060">
+        <comment>Label: ReligiousAffiliation: Zoroastrianism</comment>
+        <value lang="en-us">Zoroastrianism</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1061">
+        <comment>Label: ReligiousAffiliation: Assembly of God</comment>
+        <value lang="en-us">Assembly of God</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1062">
+        <comment>Label: ReligiousAffiliation: Brethren</comment>
+        <value lang="en-us">Brethren</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1063">
+        <comment>Label: ReligiousAffiliation: Christian Scientist</comment>
+        <value lang="en-us">Christian Scientist</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1064">
+        <comment>Label: ReligiousAffiliation: Church of Christ</comment>
+        <value lang="en-us">Church of Christ</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1065">
+        <comment>Label: ReligiousAffiliation: Church of God</comment>
+        <value lang="en-us">Church of God</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1066">
+        <comment>Label: ReligiousAffiliation: Congregational</comment>
+        <value lang="en-us">Congregational</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1067">
+        <comment>Label: ReligiousAffiliation: Disciples of Christ</comment>
+        <value lang="en-us">Disciples of Christ</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1068">
+        <comment>Label: ReligiousAffiliation: Eastern Orthodox</comment>
+        <value lang="en-us">Eastern Orthodox</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1069">
+        <comment>Label: ReligiousAffiliation: Episcopalian</comment>
+        <value lang="en-us">Episcopalian</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1070">
+        <comment>Label: ReligiousAffiliation: Evangelical Covenant</comment>
+        <value lang="en-us">Evangelical Covenant</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1071">
+        <comment>Label: ReligiousAffiliation: Friends</comment>
+        <value lang="en-us">Friends</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1072">
+        <comment>Label: ReligiousAffiliation: Full Gospel</comment>
+        <value lang="en-us">Full Gospel</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1073">
+        <comment>Label: ReligiousAffiliation: Methodist</comment>
+        <value lang="en-us">Methodist</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1074">
+        <comment>Label: ReligiousAffiliation: Native American</comment>
+        <value lang="en-us">Native American</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1075">
+        <comment>Label: ReligiousAffiliation: Nazarene</comment>
+        <value lang="en-us">Nazarene</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1076">
+        <comment>Label: ReligiousAffiliation: Presbyterian</comment>
+        <value lang="en-us">Presbyterian</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1077">
+        <comment>Label: ReligiousAffiliation: Protestant</comment>
+        <value lang="en-us">Protestant</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1078">
+        <comment>Label: ReligiousAffiliation: Protestant, No Denomination</comment>
+        <value lang="en-us">Protestant, No Denomination</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1079">
+        <comment>Label: ReligiousAffiliation: Reformed</comment>
+        <value lang="en-us">Reformed</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1080">
+        <comment>Label: ReligiousAffiliation: Salvation Army</comment>
+        <value lang="en-us">Salvation Army</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1081">
+        <comment>Label: ReligiousAffiliation: Unitarian Universalist</comment>
+        <value lang="en-us">Unitarian Universalist</value>
+    </translation>
+    <translation key="2.16.840.1.113883.5.1076-1082">
+        <comment>Label: ReligiousAffiliation: United Church of Christ</comment>
+        <value lang="en-us">United Church of Christ</value>
     </translation>
     <translation key="typeCode-AUT">
         <comment>Label: ParticipationType Author</comment>
