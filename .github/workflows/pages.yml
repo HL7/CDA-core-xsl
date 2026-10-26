@@ -169,8 +169,6 @@ jobs:
     if: |
       always()
       && (needs.deploy.result == 'success' || needs.cleanup.result == 'success')
-      && github.ref != 'refs/heads/main'
-      && github.ref != 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
