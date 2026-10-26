@@ -52,22 +52,22 @@ jobs:
           publish_dir: ./_site
           keep_files: true
 
-      - name: Deploy branch preview
+      - name: Deploy branch preview and render diffs
         if: github.ref != 'refs/heads/main' && github.ref != 'refs/heads/master'
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./_site
-          destination_dir: branches/${{ github.ref_name }}
-          keep_files: true
+        run: |
+          mkdir -p _deploy/branches/${{ github.ref_name }}
+          cp -r _site/* _deploy/branches/${{ github.ref_name }}/
+          if [ -d scripts/diffResults ]; then
+            mkdir -p _deploy/diffs/${{ github.ref_name }}
+            cp -r scripts/diffResults/* _deploy/diffs/${{ github.ref_name }}/
+          fi
 
-      - name: Deploy render diffs
+      - name: Push to gh-pages (branch)
         if: github.ref != 'refs/heads/main' && github.ref != 'refs/heads/master'
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./scripts/diffResults
-          destination_dir: diffs/${{ github.ref_name }}
+          publish_dir: ./_deploy
           keep_files: true
 
       - name: Comment preview link on PR
