@@ -13,6 +13,7 @@ concurrency:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   deploy:
@@ -43,6 +44,19 @@ jobs:
           publish_dir: ./_site
           destination_dir: branches/${{ github.ref_name }}
           keep_files: true
+
+      - name: Comment preview link on PR
+        if: github.ref != 'refs/heads/main' && github.ref != 'refs/heads/master'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PREVIEW_URL="https://hl7.github.io/CDA-core-xsl/branches/${{ github.ref_name }}/"
+          BODY="📄 **Preview deployed:** [${PREVIEW_URL}](${PREVIEW_URL})"
+          PR_NUMBER=$(gh pr list --head "${{ github.ref_name }}" --json number --jq '.[0].number')
+          if [ -n "$PR_NUMBER" ]; then
+            gh pr comment "$PR_NUMBER" --body "$BODY" --edit-last 2>/dev/null || \
+            gh pr comment "$PR_NUMBER" --body "$BODY"
+          fi
 
   cleanup:
     if: github.event_name == 'delete'
