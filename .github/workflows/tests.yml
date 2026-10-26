@@ -68,10 +68,15 @@ jobs:
           changed=$(git diff --name-only origin/${{ github.base_ref }}...HEAD)
           if echo "$changed" | grep -q '^CDA\.xsl$'; then
             if ! echo "$changed" | grep -q '^documentation/'; then
-              gh pr comment ${{ github.event.pull_request.number }} \
-                --body "⚠️ **Documentation reminder**: \`CDA.xsl\` was modified but \`documentation/CDA.html\` was not updated. Please regenerate it from Oxygen XML Editor before merging." \
-                --edit-last 2>/dev/null || \
-              gh pr comment ${{ github.event.pull_request.number }} \
-                --body "⚠️ **Documentation reminder**: \`CDA.xsl\` was modified but \`documentation/CDA.html\` was not updated. Please regenerate it from Oxygen XML Editor before merging."
+              BODY="<!-- doc-reminder-comment -->
+              ⚠️ **Documentation reminder**: \`CDA.xsl\` was modified but \`documentation/CDA.html\` was not updated. Please regenerate it from Oxygen XML Editor before merging."
+              COMMENT_ID=$(gh api "repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments" \
+                --jq '.[] | select(.body | contains("<!-- doc-reminder-comment -->")) | .id' | head -1)
+              if [ -n "$COMMENT_ID" ]; then
+                gh api "repos/${{ github.repository }}/issues/comments/${COMMENT_ID}" \
+                  -X PATCH -f body="$BODY"
+              else
+                gh pr comment ${{ github.event.pull_request.number }} --body "$BODY"
+              fi
             fi
           fi
