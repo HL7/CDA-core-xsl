@@ -5,6 +5,8 @@ on:
     branches: ['**']
   delete:
     branches: ['**']
+  pull_request:
+    types: [opened]
 
 # Allow only one concurrent deployment per ref
 concurrency:
@@ -98,13 +100,83 @@ jobs:
               description: 'Preview deployed'
             });
 
+  cleanup:
+    if: github.event_name == 'delete'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: gh-pages
+
+      - name: Remove branch preview
+        run: |
+          BRANCH_NAME="${{ github.event.ref }}"
+          if [ -d "branches/${BRANCH_NAME}" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git rm -rf "branches/${BRANCH_NAME}"
+            git commit -m "Clean up preview for deleted branch ${BRANCH_NAME}"
+            git push
+          fi
+
+  update-index:
+    needs: [deploy, cleanup]
+    if: |
+      always()
+      && (needs.deploy.result == 'success' || needs.cleanup.result == 'success')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: gh-pages
+
+      - name: Generate branch directory listing
+        uses: gacts/directory-listing@v1
+        with:
+          target: branches
+          overwrite: true
+
+      - name: Generate diffs directory listing
+        uses: gacts/directory-listing@v1
+        with:
+          target: diffs
+          overwrite: true
+
+      - name: Commit directory indexes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add branches/index.html diffs/index.html 2>/dev/null || true
+          git diff --cached --quiet || (git commit -m "Update directory indexes" && git push)
+
+  comment-on-pr:
+    needs: [deploy]
+    if: |
+      always()
+      && (github.event_name == 'pull_request' || (github.event_name == 'push' && needs.deploy.result == 'success'))
+    runs-on: ubuntu-latest
+    steps:
       - name: Comment preview link on PR
-        if: github.ref != 'refs/heads/main' && github.ref != 'refs/heads/master'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          PREVIEW_URL="https://hl7.github.io/CDA-core-xsl/branches/${{ github.ref_name }}/"
-          DIFF_URL="https://hl7.github.io/CDA-core-xsl/diffs/${{ github.ref_name }}/"
+          # Resolve branch name from either event type
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BRANCH="${{ github.head_ref }}"
+            PR_NUMBER="${{ github.event.pull_request.number }}"
+          else
+            BRANCH="${{ github.ref_name }}"
+            PR_NUMBER=$(gh pr list --repo "${{ github.repository }}" --head "$BRANCH" --json number --jq '.[0].number')
+          fi
+
+          # Skip if no PR or if this is main/master
+          if [ -z "$PR_NUMBER" ] || [ "$BRANCH" = "main" ] || [ "$BRANCH" = "master" ]; then
+            echo "No PR found for ${BRANCH}, skipping"
+            exit 0
+          fi
+
+          PREVIEW_URL="https://hl7.github.io/CDA-core-xsl/branches/${BRANCH}/"
+          DIFF_URL="https://hl7.github.io/CDA-core-xsl/diffs/${BRANCH}/"
 
           # Wait for Pages deployment to be live (up to 2 minutes)
           wait_for_url() {
@@ -132,66 +204,13 @@ jobs:
           BODY="<!-- render-diffs-comment -->
           📄 **Preview deployed:** [${PREVIEW_URL}](${PREVIEW_URL})
           🔀 **Render diffs:** [${DIFF_URL}](${DIFF_URL})"
-          PR_NUMBER=$(gh pr list --head "${{ github.ref_name }}" --json number --jq '.[0].number')
-          if [ -n "$PR_NUMBER" ]; then
-            # Find existing comment with our marker
-            COMMENT_ID=$(gh api "repos/${{ github.repository }}/issues/${PR_NUMBER}/comments" \
-              --jq '.[] | select(.body | contains("<!-- render-diffs-comment -->")) | .id' | head -1)
-            if [ -n "$COMMENT_ID" ]; then
-              gh api "repos/${{ github.repository }}/issues/comments/${COMMENT_ID}" \
-                -X PATCH -f body="$BODY"
-            else
-              gh pr comment "$PR_NUMBER" --body "$BODY"
-            fi
+
+          # Find existing comment with our marker, update or create
+          COMMENT_ID=$(gh api "repos/${{ github.repository }}/issues/${PR_NUMBER}/comments" \
+            --jq '.[] | select(.body | contains("<!-- render-diffs-comment -->")) | .id' | head -1)
+          if [ -n "$COMMENT_ID" ]; then
+            gh api "repos/${{ github.repository }}/issues/comments/${COMMENT_ID}" \
+              -X PATCH -f body="$BODY"
+          else
+            gh pr comment "$PR_NUMBER" --repo "${{ github.repository }}" --body "$BODY"
           fi
-
-  cleanup:
-    if: github.event_name == 'delete'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-        with:
-          ref: gh-pages
-
-      - name: Remove branch preview
-        run: |
-          BRANCH_NAME="${{ github.event.ref }}"
-          if [ -d "branches/${BRANCH_NAME}" ]; then
-            git config user.name "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git rm -rf "branches/${BRANCH_NAME}"
-            git commit -m "Clean up preview for deleted branch ${BRANCH_NAME}"
-            git push
-          fi
-
-  update-index:
-    needs: [deploy, cleanup]
-    if: |
-      always()
-      && (needs.deploy.result == 'success' || needs.cleanup.result == 'success')
-      && github.ref != 'refs/heads/main'
-      && github.ref != 'refs/heads/master'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-        with:
-          ref: gh-pages
-
-      - name: Generate branch directory listing
-        uses: gacts/directory-listing@v1
-        with:
-          target: branches
-          overwrite: true
-
-      - name: Generate diffs directory listing
-        uses: gacts/directory-listing@v1
-        with:
-          target: diffs
-          overwrite: true
-
-      - name: Commit directory indexes
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add branches/index.html diffs/index.html 2>/dev/null || true
-          git diff --cached --quiet || (git commit -m "Update directory indexes" && git push)
