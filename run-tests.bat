@@ -107,21 +107,31 @@ echo Running: %~nx1
 echo ========================================
 call "%XSPEC_BAT%" -t "%~1" > "%TEMP%\xspec_output.txt" 2>&1
 type "%TEMP%\xspec_output.txt"
-REM Parse the passed/pending/failed/total line
-set "COUNTS_LINE="
-for /f "tokens=*" %%L in ('findstr /r "passed: .* pending: .* failed: .* total:" "%TEMP%\xspec_output.txt"') do set "COUNTS_LINE=%%L"
-if defined COUNTS_LINE (
-    for /f "tokens=2,5,8,11" %%a in ("!COUNTS_LINE!") do (
-        set /a "TOTAL_PASSED+=%%a"
-        set /a "TOTAL_PENDING+=%%b"
-        set /a "TOTAL_FAILED+=%%c"
-        set /a "TOTAL_TESTS+=%%d"
-        if %%c gtr 0 (
-            set /a "FAIL+=1"
-            echo   x %~nx1: !COUNTS_LINE!>> "%TEMP%\xspec_failures.txt"
-        ) else (
-            set /a "PASS+=1"
-        )
+REM Parse the counts line: "passed: X / pending: Y / failed: Z / total: W"
+set "FILE_P=0"
+set "FILE_PE=0"
+set "FILE_F=0"
+set "FILE_T=0"
+set "FOUND_COUNTS="
+for /f "tokens=1-11 delims= " %%a in ('findstr /c:"passed:" "%TEMP%\xspec_output.txt"') do (
+    if "%%a"=="passed:" if "%%d"=="pending:" if "%%g"=="failed:" if "%%j"=="total:" (
+        set "FILE_P=%%b"
+        set "FILE_PE=%%e"
+        set "FILE_F=%%h"
+        set "FILE_T=%%k"
+        set "FOUND_COUNTS=1"
+    )
+)
+if defined FOUND_COUNTS (
+    set /a "TOTAL_PASSED+=FILE_P"
+    set /a "TOTAL_PENDING+=FILE_PE"
+    set /a "TOTAL_FAILED+=FILE_F"
+    set /a "TOTAL_TESTS+=FILE_T"
+    if !FILE_F! gtr 0 (
+        set /a "FAIL+=1"
+        echo   x %~nx1: passed: !FILE_P! / pending: !FILE_PE! / failed: !FILE_F! / total: !FILE_T!>> "%TEMP%\xspec_failures.txt"
+    ) else (
+        set /a "PASS+=1"
     )
 ) else (
     findstr /i "error" "%TEMP%\xspec_output.txt" >nul 2>&1 && (
@@ -168,20 +178,30 @@ for %%f in ("%SCRIPT_DIR%\test\*.xspec") do (
             echo ========================================
             call "%XSPEC_BAT%" -t "%%f" > "%TEMP%\xspec_output.txt" 2>&1
             type "%TEMP%\xspec_output.txt"
-            set "COUNTS_LINE="
-            for /f "tokens=*" %%L in ('findstr /r "passed: .* pending: .* failed: .* total:" "%TEMP%\xspec_output.txt"') do set "COUNTS_LINE=%%L"
-            if defined COUNTS_LINE (
-                for /f "tokens=2,5,8,11" %%a in ("!COUNTS_LINE!") do (
-                    set /a "TOTAL_PASSED+=%%a"
-                    set /a "TOTAL_PENDING+=%%b"
-                    set /a "TOTAL_FAILED+=%%c"
-                    set /a "TOTAL_TESTS+=%%d"
-                    if %%c gtr 0 (
-                        set /a "FAIL+=1"
-                        echo   x !BASENAME!: !COUNTS_LINE!>> "%TEMP%\xspec_failures.txt"
-                    ) else (
-                        set /a "PASS+=1"
-                    )
+            set "FILE_P=0"
+            set "FILE_PE=0"
+            set "FILE_F=0"
+            set "FILE_T=0"
+            set "FOUND_COUNTS="
+            for /f "tokens=1-11 delims= " %%a in ('findstr /c:"passed:" "%TEMP%\xspec_output.txt"') do (
+                if "%%a"=="passed:" if "%%d"=="pending:" if "%%g"=="failed:" if "%%j"=="total:" (
+                    set "FILE_P=%%b"
+                    set "FILE_PE=%%e"
+                    set "FILE_F=%%h"
+                    set "FILE_T=%%k"
+                    set "FOUND_COUNTS=1"
+                )
+            )
+            if defined FOUND_COUNTS (
+                set /a "TOTAL_PASSED+=FILE_P"
+                set /a "TOTAL_PENDING+=FILE_PE"
+                set /a "TOTAL_FAILED+=FILE_F"
+                set /a "TOTAL_TESTS+=FILE_T"
+                if !FILE_F! gtr 0 (
+                    set /a "FAIL+=1"
+                    echo   x !BASENAME!: passed: !FILE_P! / pending: !FILE_PE! / failed: !FILE_F! / total: !FILE_T!>> "%TEMP%\xspec_failures.txt"
+                ) else (
+                    set /a "PASS+=1"
                 )
             ) else (
                 findstr /i "error" "%TEMP%\xspec_output.txt" >nul 2>&1 && (
@@ -319,6 +339,7 @@ if errorlevel 1 (
 fc /b "%EX_EXPECTED%" "%EX_ACTUAL%" >nul 2>&1
 if errorlevel 1 (
     echo   FAIL: %EX_BASE%
+    echo         diff examples\%EX_BASE%.html test\example-renders\%EX_BASE%.html
     echo         To accept: run-tests.bat --update
     set /a "FAIL+=1"
 ) else (
