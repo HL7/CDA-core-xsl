@@ -264,7 +264,7 @@ def block_label(elem):
 
 
 def get_blocks(body):
-    """Extract sub-blocks from body, flattening major sections."""
+    """Extract sub-blocks from body, flattening major sections and tables."""
     blocks = []
     for child in body:
         if child.tag in ("script", "style"):
@@ -274,10 +274,69 @@ def get_blocks(body):
             for sub in child:
                 if sub.tag in ("script", "style"):
                     continue
-                blocks.append((eid, sub))
+                _flatten_element(blocks, eid, sub)
         else:
             blocks.append(("", child))
     return blocks
+
+
+def _flatten_element(blocks, section, elem):
+    """Flatten a single element — recurse into header_table tables to extract
+    tr-level blocks, grouping rows that share a rowspan label."""
+    cls = elem.get("class", "")
+
+    # For header_table tables, split into individual tr groups
+    if elem.tag == "table" and "header_table" in cls:
+        tbody = elem.find("tbody")
+        if tbody is None:
+            tbody = elem  # no explicit tbody
+
+        rows = [r for r in tbody if r.tag == "tr"]
+        i = 0
+        group_index = 0
+        total_groups = 0
+        # Pre-count groups to know which is last
+        j = 0
+        while j < len(rows):
+            label_td = rows[j].find('td[@class="td_label td_label_width"]')
+            rs = 1
+            if label_td is not None:
+                try:
+                    rs = int(label_td.get("rowspan", "1"))
+                except ValueError:
+                    rs = 1
+            total_groups += 1
+            j += rs
+
+        while i < len(rows):
+            tr = rows[i]
+            # Check if the label cell has rowspan (groups multiple rows)
+            label_td = tr.find('td[@class="td_label td_label_width"]')
+            rowspan = 1
+            if label_td is not None:
+                try:
+                    rowspan = int(label_td.get("rowspan", "1"))
+                except ValueError:
+                    rowspan = 1
+
+            # Build a mini-table wrapping this group of rows
+            # Add classes to control border visibility
+            from copy import deepcopy
+            classes = cls
+            if group_index > 0:
+                classes += " diff-no-top-border"
+            if group_index < total_groups - 1:
+                classes += " diff-no-bottom-border"
+            group = html.Element("table", attrib={**dict(elem.attrib), "class": classes.strip()})
+            group_tbody = html.Element("tbody")
+            group.append(group_tbody)
+            for j in range(i, min(i + rowspan, len(rows))):
+                group_tbody.append(deepcopy(rows[j]))
+            blocks.append((section, group))
+            i += rowspan
+            group_index += 1
+    else:
+        blocks.append((section, elem))
 
 
 def tokenize_html(html_str):
@@ -296,7 +355,32 @@ def highlight_diff(old_html, new_html):
     """Produce two HTML strings with intra-block change highlighting."""
     old_tokens = tokenize_html(old_html)
     new_tokens = tokenize_html(new_html)
-    sm = SequenceMatcher(None, old_tokens, new_tokens, autojunk=False)
+
+    # Normalize tokens for comparison: collapse ASCII-whitespace-only tokens
+    # to a single space so indentation differences don't produce false diffs.
+    # Non-breaking spaces (\xa0) are NOT collapsed — those are real content.
+    # Original tokens are preserved for output.
+    def norm(token):
+        if not token.startswith("<") and not token.strip():
+            return " "
+        return token
+
+    def wrap_highlight(tokens, css_class):
+        """Wrap text tokens in highlight spans, pass tags through unchanged."""
+        out = []
+        for t in tokens:
+            if t.startswith("<"):
+                out.append(t)
+            elif t.strip():
+                out.append(f'<span class="{css_class}">{t}</span>')
+            else:
+                out.append(t)
+        return out
+
+    old_norm = [norm(t) for t in old_tokens]
+    new_norm = [norm(t) for t in new_tokens]
+
+    sm = SequenceMatcher(None, old_norm, new_norm, autojunk=False)
     old_out, new_out = [], []
 
     for op, i1, i2, j1, j2 in sm.get_opcodes():
@@ -304,28 +388,12 @@ def highlight_diff(old_html, new_html):
             old_out.extend(old_tokens[i1:i2])
             new_out.extend(new_tokens[j1:j2])
         elif op == "replace":
-            old_chunk = "".join(old_tokens[i1:i2])
-            new_chunk = "".join(new_tokens[j1:j2])
-            if not old_chunk.startswith("<"):
-                old_out.append(f'<span class="hl-del">{old_chunk}</span>')
-            else:
-                old_out.append(old_chunk)
-            if not new_chunk.startswith("<"):
-                new_out.append(f'<span class="hl-add">{new_chunk}</span>')
-            else:
-                new_out.append(new_chunk)
+            old_out.extend(wrap_highlight(old_tokens[i1:i2], "hl-del"))
+            new_out.extend(wrap_highlight(new_tokens[j1:j2], "hl-add"))
         elif op == "delete":
-            chunk = "".join(old_tokens[i1:i2])
-            if not chunk.startswith("<"):
-                old_out.append(f'<span class="hl-del">{chunk}</span>')
-            else:
-                old_out.append(chunk)
+            old_out.extend(wrap_highlight(old_tokens[i1:i2], "hl-del"))
         elif op == "insert":
-            chunk = "".join(new_tokens[j1:j2])
-            if not chunk.startswith("<"):
-                new_out.append(f'<span class="hl-add">{chunk}</span>')
-            else:
-                new_out.append(chunk)
+            new_out.extend(wrap_highlight(new_tokens[j1:j2], "hl-add"))
 
     return "".join(old_out), "".join(new_out)
 
@@ -448,8 +516,10 @@ def generate_structural_diff(old_html: str, new_html: str,
         vertical-align: top; padding: 6px 12px;
         border: 1px solid #ddd; width: 50%; overflow: hidden;
     }}
-    .diff-old {{ background-color: #fff8f8; border-left: 3px solid #e8a0a0 !important; }}
-    .diff-new {{ background-color: #f5fff5; border-left: 3px solid #7cb87c !important; }}
+    /* Collapse padding between consecutive split-table rows */
+    .diff-table > tbody > tr.diff-row + tr.diff-row > td {{ padding-top: 0; }}
+    .diff-old {{ background-color: #fff8f8; border-left: 3px solid #e8a0a0 !important; height: 1px; }}
+    .diff-new {{ background-color: #f5fff5; border-left: 3px solid #7cb87c !important; height: 1px; }}
     .hl-del {{ background-color: #ffd7d5; padding: 1px 2px; border-radius: 2px; }}
     .hl-add {{ background-color: #acf2bd; padding: 1px 2px; border-radius: 2px; }}
     .collapsed {{
@@ -470,7 +540,16 @@ def generate_structural_diff(old_html: str, new_html: str,
         font-weight: bold; font-size: 10pt; padding: 8px 12px;
         text-align: center; position: sticky; top: 50px; z-index: 99;
     }}
-    .diff-row table {{ border-collapse: collapse; }}
+    .diff-row table {{ border-collapse: collapse; height: 100%; }}
+    /* Hide artificial borders from split table rows */
+    table.diff-no-bottom-border,
+    table.diff-no-bottom-border tbody tr:last-child td {{ border-bottom: none; }}
+    table.diff-no-top-border,
+    table.diff-no-top-border tbody tr:first-child td {{ border-top: none; }}
+    table.diff-no-top-border {{ margin-top: 0; }}
+    table.diff-no-bottom-border {{ margin-bottom: 0; }}
+    /* Remove gap between diff cells for split rows */
+    .diff-row td + td {{ border-left: 1px solid #ddd; }}
 </style>
 </head>
 <body>
