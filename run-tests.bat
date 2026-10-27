@@ -102,9 +102,9 @@ if not exist "%~1" (
     shift
     goto :run_specific_loop
 )
-echo ========================================
+echo ================================================================
 echo Running: %~nx1
-echo ========================================
+echo ================================================================
 call "%XSPEC_BAT%" -t "%~1" > "%TEMP%\xspec_output.txt" 2>&1
 type "%TEMP%\xspec_output.txt"
 REM Parse the counts line: "passed: X / pending: Y / failed: Z / total: W"
@@ -145,7 +145,7 @@ echo.
 shift
 goto :run_specific_loop
 :run_specific_done
-echo ========================================
+echo ================================================================
 echo XSpec: %PASS% passed, %FAIL% failed
 echo        %TOTAL_PASSED% passed, %TOTAL_PENDING% pending, %TOTAL_FAILED% failed (%TOTAL_TESTS% total tests)
 if exist "%TEMP%\xspec_failures.txt" (
@@ -154,7 +154,7 @@ if exist "%TEMP%\xspec_failures.txt" (
     type "%TEMP%\xspec_failures.txt"
     del "%TEMP%\xspec_failures.txt"
 )
-echo ========================================
+echo ================================================================
 if %FAIL% gtr 0 exit /b 1
 exit /b 0
 
@@ -173,9 +173,9 @@ for %%f in ("%SCRIPT_DIR%\test\*.xspec") do (
     set "BASENAME=%%~nxf"
     if /i not "!BASENAME!"=="CDA-coverage.xspec" (
         if /i not "!BASENAME!"=="CDA-shared-params.xspec" (
-            echo ========================================
+            echo ================================================================
             echo Running: !BASENAME!
-            echo ========================================
+            echo ================================================================
             call "%XSPEC_BAT%" -t "%%f" > "%TEMP%\xspec_output.txt" 2>&1
             type "%TEMP%\xspec_output.txt"
             set "FILE_P=0"
@@ -216,7 +216,7 @@ for %%f in ("%SCRIPT_DIR%\test\*.xspec") do (
     )
 )
 set /a "TOTAL_FILES=%PASS%+%FAIL%"
-echo ========================================
+echo ================================================================
 echo XSpec: %PASS% passed, %FAIL% failed (out of %TOTAL_FILES% test files)
 echo        %TOTAL_PASSED% passed, %TOTAL_PENDING% pending, %TOTAL_FAILED% failed (%TOTAL_TESTS% total tests)
 if exist "%TEMP%\xspec_failures.txt" (
@@ -225,7 +225,7 @@ if exist "%TEMP%\xspec_failures.txt" (
     type "%TEMP%\xspec_failures.txt"
     del "%TEMP%\xspec_failures.txt"
 )
-echo ========================================
+echo ================================================================
 echo.
 exit /b %FAIL%
 
@@ -236,9 +236,9 @@ REM ---------------------------------------------------------------------------
 set "PASS=0"
 set "FAIL=0"
 
-echo ========================================
+echo ================================================================
 echo Validation checks
-echo ========================================
+echo ================================================================
 
 REM Compile-check CDA.xsl by invoking a nonexistent template
 java -cp "%SAXON_CP%" net.sf.saxon.Transform -xsl:"%SCRIPT_DIR%\CDA.xsl" -it:__validation_check__ >"%TEMP%\xsl_check.txt" 2>&1
@@ -265,9 +265,9 @@ if not errorlevel 1 (
     set /a "FAIL+=1"
 )
 
-echo ========================================
+echo ================================================================
 echo Validation: %PASS% passed, %FAIL% failed
-echo ========================================
+echo ================================================================
 echo.
 exit /b %FAIL%
 
@@ -281,17 +281,17 @@ set "SKIP=0"
 set "RENDERS_DIR=%SCRIPT_DIR%\test\example-renders"
 if not exist "%RENDERS_DIR%" mkdir "%RENDERS_DIR%"
 
-echo ========================================
+echo ================================================================
 echo Example regression tests
-echo ========================================
+echo ================================================================
 
 for %%x in ("%EXAMPLES_DIR%\*.xml") do (
     call :run_one_example "%%x"
 )
 
-echo ========================================
+echo ================================================================
 echo Examples: %PASS% passed, %FAIL% failed, %SKIP% skipped
-echo ========================================
+echo ================================================================
 echo.
 exit /b %FAIL%
 
@@ -299,9 +299,9 @@ REM ---------------------------------------------------------------------------
 REM Regenerate golden HTML files
 REM ---------------------------------------------------------------------------
 :update_examples
-echo ========================================
+echo ================================================================
 echo Regenerating golden HTML files
-echo ========================================
+echo ================================================================
 set "COUNT=0"
 for %%x in ("%EXAMPLES_DIR%\*.xml") do (
     set "BASE=%%~nx"
@@ -309,9 +309,9 @@ for %%x in ("%EXAMPLES_DIR%\*.xml") do (
     java -cp "%SAXON_CP%" net.sf.saxon.Transform -s:"%%x" -xsl:"%SCRIPT_DIR%\CDA.xsl" -o:"%EXAMPLES_DIR%\%%~nx.html"
     set /a "COUNT+=1"
 )
-echo ========================================
+echo ================================================================
 echo Updated %COUNT% file(s)
-echo ========================================
+echo ================================================================
 exit /b 0
 
 REM ---------------------------------------------------------------------------

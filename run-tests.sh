@@ -107,9 +107,9 @@ run_xspec() {
             continue
         fi
 
-        echo "========================================"
-        echo "Running: $(basename "$test_file")"
-        echo "========================================"
+    echo "================================================================"
+    echo "Running: $(basename "$test_file")"
+    echo "================================================================"
 
         local output
         output=$("$XSPEC_SH" -t "$test_file" 2>&1) || true
@@ -147,7 +147,7 @@ run_xspec() {
         echo
     done
 
-    echo "========================================"
+    echo "================================================================"
     echo "XSpec: ${file_pass} passed, ${file_fail} failed (out of $((file_pass + file_fail)) test files)"
     echo "       ${total_passed} passed, ${total_pending} pending, ${total_failed} failed (${total_tests} total tests)"
     if [[ ${#failed_summaries[@]} -gt 0 ]]; then
@@ -157,7 +157,7 @@ run_xspec() {
             echo "$summary"
         done
     fi
-    echo "========================================"
+    echo "================================================================"
     echo
 
     return "$file_fail"
@@ -175,9 +175,9 @@ run_examples() {
 
     mkdir -p "$renders_dir"
 
-    echo "========================================"
+    echo "================================================================"
     echo "Example regression tests"
-    echo "========================================"
+    echo "================================================================"
 
     for xml_file in "${EXAMPLES_DIR}"/*.xml; do
         [[ -f "$xml_file" ]] || continue
@@ -217,9 +217,9 @@ run_examples() {
         echo "  No example XML files found in examples/"
     fi
 
-    echo "========================================"
+    echo "================================================================"
     echo "Examples: ${pass} passed, ${fail} failed, ${skip} skipped"
-    echo "========================================"
+    echo "================================================================"
     echo
 
     return "$fail"
@@ -229,9 +229,9 @@ run_examples() {
 # Regenerate golden HTML files from examples/*.xml
 # ---------------------------------------------------------------------------
 update_examples() {
-    echo "========================================"
+    echo "================================================================"
     echo "Regenerating golden HTML files"
-    echo "========================================"
+    echo "================================================================"
 
     local count=0
 
@@ -248,9 +248,9 @@ update_examples() {
         ((count++))
     done
 
-    echo "========================================"
+    echo "================================================================"
     echo "Updated ${count} file(s)"
-    echo "========================================"
+    echo "================================================================"
 }
 
 # ---------------------------------------------------------------------------
@@ -260,9 +260,9 @@ run_validate() {
     local pass=0
     local fail=0
 
-    echo "========================================"
+    echo "================================================================"
     echo "Validation checks"
-    echo "========================================"
+    echo "================================================================"
 
     # Compile-check CDA.xsl by invoking a nonexistent template
     # Saxon will compile the stylesheet and fail at runtime — compile errors exit differently
@@ -290,9 +290,9 @@ run_validate() {
         ((fail++))
     fi
 
-    echo "========================================"
+    echo "================================================================"
     echo "Validation: ${pass} passed, ${fail} failed"
-    echo "========================================"
+    echo "================================================================"
     echo
 
     return "$fail"
