@@ -791,6 +791,7 @@
                             <representedCustodianOrganization>
                                 <name>Good Health Clinic</name>
                                 <telecom value="tel:555-1234" use="WP"/>
+                                <sdtc:telecom use="TMP" value="mailto:secondTelWithSDTC@extension.com"/>
                                 <addr>
                                     <streetAddressLine>100 Main St</streetAddressLine>
                                     <city>Anytown</city>
@@ -808,7 +809,7 @@
                             <td class="td_label td_label_width">Custodian</td>
                             <td style="width: 30%;">Good Health Clinic</td>
                             <td class="td_label td_label_width">Contact Details</td>
-                            <td>100 Main St<br/>Anytown<br/>Tel Workplace: 555-1234</td>
+                            <td>100 Main St<br/>Anytown<br/>Tel Workplace: 555-1234<br/>Mail Temporary: secondTelWithSDTC@extension.com</td>
                         </tr>
                     </tbody>
                 </table>
