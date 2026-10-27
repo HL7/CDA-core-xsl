@@ -33,7 +33,7 @@ set "SAXON_CP=%SAXON_JAR%;%XMLRESOLVER_JAR%;%XMLRESOLVER_DATA_JAR%"
 REM ---------------------------------------------------------------------------
 REM Check for Java
 REM ---------------------------------------------------------------------------
-where java >nul 2>&1
+java -version >nul 2>&1
 if errorlevel 1 (
     echo ERROR: Java is required but not found on PATH.
     echo   Install Java 11+ from one of:
@@ -90,6 +90,11 @@ REM ---------------------------------------------------------------------------
 :run_specific
 set "PASS=0"
 set "FAIL=0"
+set "TOTAL_PASSED=0"
+set "TOTAL_PENDING=0"
+set "TOTAL_FAILED=0"
+set "TOTAL_TESTS=0"
+if exist "%TEMP%\xspec_failures.txt" del "%TEMP%\xspec_failures.txt"
 :run_specific_loop
 if "%~1"=="" goto :run_specific_done
 if not exist "%~1" (
@@ -100,11 +105,31 @@ if not exist "%~1" (
 echo ========================================
 echo Running: %~nx1
 echo ========================================
-call "%XSPEC_BAT%" -t "%~1"
-if errorlevel 1 (
-    set /a "FAIL+=1"
+call "%XSPEC_BAT%" -t "%~1" > "%TEMP%\xspec_output.txt" 2>&1
+type "%TEMP%\xspec_output.txt"
+REM Parse the passed/pending/failed/total line
+set "COUNTS_LINE="
+for /f "tokens=*" %%L in ('findstr /r "passed: .* pending: .* failed: .* total:" "%TEMP%\xspec_output.txt"') do set "COUNTS_LINE=%%L"
+if defined COUNTS_LINE (
+    for /f "tokens=2,5,8,11" %%a in ("!COUNTS_LINE!") do (
+        set /a "TOTAL_PASSED+=%%a"
+        set /a "TOTAL_PENDING+=%%b"
+        set /a "TOTAL_FAILED+=%%c"
+        set /a "TOTAL_TESTS+=%%d"
+        if %%c gtr 0 (
+            set /a "FAIL+=1"
+            echo   x %~nx1: !COUNTS_LINE!>> "%TEMP%\xspec_failures.txt"
+        ) else (
+            set /a "PASS+=1"
+        )
+    )
 ) else (
-    set /a "PASS+=1"
+    findstr /i "error" "%TEMP%\xspec_output.txt" >nul 2>&1 && (
+        set /a "FAIL+=1"
+        echo   x %~nx1: compilation/runtime error>> "%TEMP%\xspec_failures.txt"
+    ) || (
+        set /a "PASS+=1"
+    )
 )
 echo.
 shift
@@ -112,6 +137,13 @@ goto :run_specific_loop
 :run_specific_done
 echo ========================================
 echo XSpec: %PASS% passed, %FAIL% failed
+echo        %TOTAL_PASSED% passed, %TOTAL_PENDING% pending, %TOTAL_FAILED% failed (%TOTAL_TESTS% total tests)
+if exist "%TEMP%\xspec_failures.txt" (
+    echo.
+    echo Failed files:
+    type "%TEMP%\xspec_failures.txt"
+    del "%TEMP%\xspec_failures.txt"
+)
 echo ========================================
 if %FAIL% gtr 0 exit /b 1
 exit /b 0
@@ -122,6 +154,11 @@ REM ---------------------------------------------------------------------------
 :run_xspec_all
 set "PASS=0"
 set "FAIL=0"
+set "TOTAL_PASSED=0"
+set "TOTAL_PENDING=0"
+set "TOTAL_FAILED=0"
+set "TOTAL_TESTS=0"
+if exist "%TEMP%\xspec_failures.txt" del "%TEMP%\xspec_failures.txt"
 for %%f in ("%SCRIPT_DIR%\test\*.xspec") do (
     set "BASENAME=%%~nxf"
     if /i not "!BASENAME!"=="CDA-coverage.xspec" (
@@ -129,11 +166,30 @@ for %%f in ("%SCRIPT_DIR%\test\*.xspec") do (
             echo ========================================
             echo Running: !BASENAME!
             echo ========================================
-            call "%XSPEC_BAT%" -t "%%f"
-            if errorlevel 1 (
-                set /a "FAIL+=1"
+            call "%XSPEC_BAT%" -t "%%f" > "%TEMP%\xspec_output.txt" 2>&1
+            type "%TEMP%\xspec_output.txt"
+            set "COUNTS_LINE="
+            for /f "tokens=*" %%L in ('findstr /r "passed: .* pending: .* failed: .* total:" "%TEMP%\xspec_output.txt"') do set "COUNTS_LINE=%%L"
+            if defined COUNTS_LINE (
+                for /f "tokens=2,5,8,11" %%a in ("!COUNTS_LINE!") do (
+                    set /a "TOTAL_PASSED+=%%a"
+                    set /a "TOTAL_PENDING+=%%b"
+                    set /a "TOTAL_FAILED+=%%c"
+                    set /a "TOTAL_TESTS+=%%d"
+                    if %%c gtr 0 (
+                        set /a "FAIL+=1"
+                        echo   x !BASENAME!: !COUNTS_LINE!>> "%TEMP%\xspec_failures.txt"
+                    ) else (
+                        set /a "PASS+=1"
+                    )
+                )
             ) else (
-                set /a "PASS+=1"
+                findstr /i "error" "%TEMP%\xspec_output.txt" >nul 2>&1 && (
+                    set /a "FAIL+=1"
+                    echo   x !BASENAME!: compilation/runtime error>> "%TEMP%\xspec_failures.txt"
+                ) || (
+                    set /a "PASS+=1"
+                )
             )
             echo.
         )
@@ -142,6 +198,13 @@ for %%f in ("%SCRIPT_DIR%\test\*.xspec") do (
 set /a "TOTAL_FILES=%PASS%+%FAIL%"
 echo ========================================
 echo XSpec: %PASS% passed, %FAIL% failed (out of %TOTAL_FILES% test files)
+echo        %TOTAL_PASSED% passed, %TOTAL_PENDING% pending, %TOTAL_FAILED% failed (%TOTAL_TESTS% total tests)
+if exist "%TEMP%\xspec_failures.txt" (
+    echo.
+    echo Failed files:
+    type "%TEMP%\xspec_failures.txt"
+    del "%TEMP%\xspec_failures.txt"
+)
 echo ========================================
 echo.
 exit /b %FAIL%

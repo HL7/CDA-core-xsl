@@ -91,8 +91,13 @@ install_deps() {
 # ---------------------------------------------------------------------------
 run_xspec() {
     local files=("$@")
-    local pass=0
-    local fail=0
+    local file_pass=0
+    local file_fail=0
+    local total_passed=0
+    local total_pending=0
+    local total_failed=0
+    local total_tests=0
+    local -a failed_summaries=()
 
     export SAXON_CP
 
@@ -106,20 +111,56 @@ run_xspec() {
         echo "Running: $(basename "$test_file")"
         echo "========================================"
 
-        if "$XSPEC_SH" -t "$test_file"; then
-            ((pass++))
+        local output
+        output=$("$XSPEC_SH" -t "$test_file" 2>&1) || true
+        echo "$output"
+
+        # Parse the "passed: X / pending: Y / failed: Z / total: W" line
+        local counts
+        counts=$(echo "$output" | grep -oE 'passed: [0-9]+ / pending: [0-9]+ / failed: [0-9]+ / total: [0-9]+' | tail -1)
+
+        if [[ -n "$counts" ]]; then
+            local p pe f t
+            p=$(echo "$counts" | grep -oE 'passed: [0-9]+' | grep -oE '[0-9]+')
+            pe=$(echo "$counts" | grep -oE 'pending: [0-9]+' | grep -oE '[0-9]+')
+            f=$(echo "$counts" | grep -oE 'failed: [0-9]+' | grep -oE '[0-9]+')
+            t=$(echo "$counts" | grep -oE 'total: [0-9]+' | grep -oE '[0-9]+')
+
+            total_passed=$((total_passed + p))
+            total_pending=$((total_pending + pe))
+            total_failed=$((total_failed + f))
+            total_tests=$((total_tests + t))
+
+            if [[ "$f" -gt 0 ]]; then
+                ((file_fail++))
+                failed_summaries+=("  ✗ $(basename "$test_file"): ${counts}")
+            else
+                ((file_pass++))
+            fi
+        elif echo "$output" | grep -q 'Error\|error'; then
+            ((file_fail++))
+            failed_summaries+=("  ✗ $(basename "$test_file"): compilation/runtime error")
         else
-            ((fail++))
+            ((file_pass++))
         fi
+
         echo
     done
 
     echo "========================================"
-    echo "XSpec: ${pass} passed, ${fail} failed (out of $((pass + fail)) test files)"
+    echo "XSpec: ${file_pass} passed, ${file_fail} failed (out of $((file_pass + file_fail)) test files)"
+    echo "       ${total_passed} passed, ${total_pending} pending, ${total_failed} failed (${total_tests} total tests)"
+    if [[ ${#failed_summaries[@]} -gt 0 ]]; then
+        echo ""
+        echo "Failed files:"
+        for summary in "${failed_summaries[@]}"; do
+            echo "$summary"
+        done
+    fi
     echo "========================================"
     echo
 
-    return "$fail"
+    return "$file_fail"
 }
 
 # ---------------------------------------------------------------------------
