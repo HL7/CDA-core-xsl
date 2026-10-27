@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CCD-full - Structural Diff</title>
+<style type="text/css" media="all">
+                    *{
+                        font-family: Verdana, Tahoma, sans-serif;
+                        font-size: 9pt;
+                    }
+                    body{
+                        padding: 2px;
+                        color: #003366;
+                        background-color: white;
+                        font-size: 9pt;
+                    }
+                    #documentheader,
+                    #documentbody,
+                    #documentfooter{
+                        width: 100%;
+                    }
+                    #documentheader{
+                        border-bottom: 1px solid grey;
+                        margin-bottom: 1em;
+                    }
+                    #documentfooter{
+                        border-top: 1px solid grey;
+                        margin-top: 1em;
+                    }
+                    a{
+                        color: #003366;
+                        background-color: white;
+                    }
+                    h1{
+                        font-size: 12pt;
+                        font-weight: bold;
+                    }
+                    h1.title{
+                        text-align: center;
+                    }
+                    h2{
+                        font-size: 11pt;
+                        font-weight: bold;
+                    }
+                    h3{
+                        font-size: 10pt;
+                        font-weight: bold;
+                    }
+                    h4{
+                        font-size: 9pt;
+                        font-weight: bold;
+                    }
+                    h5{
+                        font-size: 9pt;
+                        font-weight: bold;
+                    }
+                    h6{
+                        font-size: 9pt;
+                        font-weight: bold;
+                    }
+                    hr{
+                        width: 100%;
+                    }
+                    span {
+                        font-size: 9pt; /* IE8 hack: doesn't understand inheritance */
+                        display: inline; /* IE8 hack: would go to next line otherwise */
+                    }
+                    table{
+                        line-height: 10pt;
+                        width: 100%;
+                    }
+                    thead tr, th{
+                        background-color: LightGrey;
+                    }
+                    tbody tr{
+                        background-color: #f2f2f2;
+                    }
+                    td{
+                        font-size: 9pt; /* IE8 hack: doesn't understand inheritance */
+                        padding: 0.1cm 0.2cm;
+                        vertical-align: top;
+                    }
+                    .table_simple{
+                        width: auto;
+                        color: inherit;
+                        background-color: inherit;
+                    }
+                    .table_simple td{
+                        padding: 0;
+                    }
+                    .table_simple td.td_label{
+                        font-size: 9pt; /* IE8 hack: doesn't understand inheritance */
+                        font-weight: inherit;
+                        font-style: italic;
+                        padding-right: 0.2cm;
+                    }
+                    .header_table{
+                        border: 1pt solid #00008b;
+                    }
+                    .narr_table{
+                        width: 100%;
+                        margin: 0.3em 0;
+                    }
+                    .narr_tr{
+                        //background-color: #ffffcc;
+                    }
+                    .narr_th{
+                        background-color: LightGrey;
+                        font-size: 9pt; /* IE8 hack: doesn't understand inheritance */
+                    }
+                    .narr_footnote{
+                        font-size: 8pt;
+                        font-style: italic;
+                    }
+                    .td_label{
+                        font-size: 9pt; /* IE8 hack: doesn't understand inheritance */
+                        font-weight: bold;
+                        background-color: LightGrey;
+                    }
+                    .td_label_width{
+                        width: 20%;
+                    }
+                    .span_label{
+                        font-size: 9pt; /* IE8 hack: doesn't understand inheritance */
+                        font-weight: bold;
+                    }
+                    .span_value{
+                        font-size: 9pt; /* IE8 hack: doesn't understand inheritance */
+                        font-weight: normal;
+                    }
+                    .revision_insert{
+                        text-decoration: underline overline;
+                    }
+                    .revision_insert_final{
+                    }
+                    .revision_delete{
+                        text-decoration: line-through;
+                    }
+                    .revision_delete_final{
+                        display: none;
+                    }
+                    .span_button {
+                        display: table-cell;
+                        cursor: pointer;
+                        border: 2pt inset #585858;
+                        border-radius: 15px;
+                        -moz-border-radius: 15px;
+                        padding: 0.1cm 0.2cm;
+                        background-color: #f2f2f2;
+                        font-weight: bold;
+                        vertical-align: baseline;
+                        width: 150px;
+                    }
+                    .warning-sign {
+                        border: 1px solid red;
+                        background-color: yellow;
+                        margin: 1em 0.5em;
+                    }
+                    div.separator {
+                        height: 1em;
+                    }
+                    div.caption {
+                        font-weight: bold;
+                        text-align: center;
+                    }
+                </style>
+<style type="text/css" media="all">
+                    .Bold{
+                        font-weight: bold;
+                    }
+                    .Italics{
+                        font-style: italic;
+                    }
+                    .Underline{
+                        text-decoration: underline;
+                    }
+                    .Emphasis{
+                        font-weight: bold;
+                        font-style: italic;
+                    }
+                    .Lrule{
+                        border-left-width: 2px;
+                        border-left-style: solid;
+                    }
+                    .Rrule{
+                        border-right-width: 2px;
+                        border-right-style: solid;
+                    }
+                    .Toprule{
+                        border-top-width: 2px;
+                        border-top-style: solid;
+                    }
+                    .Botrule{
+                        border-bottom-width: 2px;
+                        border-bottom-style: solid;
+                    }
+                    .Arabic{
+                        list-style: arabic;
+                    }
+                    .LittleRoman{
+                        list-style: lower-roman;
+                    }
+                    .BigRoman{
+                        list-style: upper-roman;
+                    }
+                    .LittleAlpha{
+                        list-style: lower-alpha;
+                    }
+                    .BigAlpha{
+                        list-style: upper-alpha
+                    }
+                    .Disc{
+                        list-style: disc;
+                    }
+                    .Circle{
+                        list-style: circle;
+                    }
+                    .Square{
+                        list-style: square;
+                    }</style>
+<style type="text/css" media="screen">
+                    div.button.expandCollapse {
+                        float: left;
+                        margin-right: 10px;
+                        cursor: pointer;
+                    }
+                </style>
+<style type="text/css" media="print">
+                    button, 
+                    div.button,
+                    #buttontable {
+                        display: none;
+                    }
+                    div.section-content {
+                        display: block !important;
+                    }
+                    .print_visible {
+                        display: block;
+                        float: none;
+                        margin-right: 0;
+                    }
+                </style>
+<style type="text/css" media="screen">
+                    #nav, #nav ul {
+                        padding: 0;
+                        margin: 0;
+                        list-style: none;
+                    }
+                    
+                    #nav li {
+                        float: left;
+                        width: 300px;
+                    }
+                    #nav ul {
+                        position: absolute;
+                        width: 300px;
+                        left: -1000px;
+                    }
+                    #nav li ul li ul {
+                        display: none;
+                    }
+                    
+                    #nav li ul li:hover > ul {
+                        display: block;
+                        position: absolute;
+                        left: 50px !important;
+                    }
+                    #nav li ul li:hover > ul > li > a {
+                        border: 1px solid #585858;
+                    }
+                    
+                    #nav li:hover ul, #nav li.ie_does_hover ul {
+                        left: auto;
+                        background-position: 0 0;
+                    }
+                    
+                    #nav * a {
+                        display: block;
+                        padding: 2px 8px;
+                        text-decoration: none;
+                        font-weight: bold;
+                        font-size: 11px;
+                    }
+                    
+                    #nav ul * a {
+                        font-weight: bold;
+                        color: #585858;
+                        background-color: #f2f2f2;
+                        cursor: pointer;
+                    }
+                    
+                    #nav ul ul a:link, #nav ul ul a:visited {
+                        font-weight: normal;
+                        color: #585858;
+                        background-color: #f2f2f2;
+                        cursor: pointer;
+                    }
+                    
+                    #nav * li a:hover, #nav * li a:active,
+                    #nav * li * li a:hover, #nav * li * li a:active {
+                        /*font-weight: normal;*/
+                        color: white;
+                        background-color: #585858;
+                        cursor: pointer;
+                    }
+                    
+                    #nav * li {
+                        border-left: 2px solid white;
+                    }
+                    
+                    #nav * ul li {
+                        border-top: 2px solid white;
+                        border-left: 0;
+                    }
+                    
+                    /* IE only hack */
+                    * html ul li, * html ul ul li{
+                        border-bottom: 2px solid white;
+                    }
+                    
+                    * html ul ul li{
+                        border-top: 0;
+                    }
+                    /* End IE only hack */
+                </style>
+<style>
+    body { margin: 0; padding: 0; color: #003366; }
+    .diff-legend {
+        position: sticky; top: 0; z-index: 100;
+        background: #fff; padding: 10px 20px;
+        border-bottom: 2px solid #ccc;
+        font-family: -apple-system, sans-serif; font-size: 11pt;
+    }
+    .diff-legend .swatch {
+        display: inline-block; padding: 2px 8px; margin: 0 4px;
+        border-radius: 3px; font-size: 9pt;
+    }
+    .diff-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    .diff-table > tbody > tr > td {
+        vertical-align: top; padding: 6px 12px;
+        border: 1px solid #ddd; width: 50%; overflow: hidden;
+    }
+    .diff-old { background-color: #fff8f8; border-left: 3px solid #e8a0a0 !important; }
+    .diff-new { background-color: #f5fff5; border-left: 3px solid #7cb87c !important; }
+    .hl-del { background-color: #ffd7d5; padding: 1px 2px; border-radius: 2px; }
+    .hl-add { background-color: #acf2bd; padding: 1px 2px; border-radius: 2px; }
+    .collapsed {
+        text-align: center; padding: 4px; color: #bbb; font-style: italic;
+        background: #fafafa; font-family: sans-serif; font-size: 9pt;
+    }
+    .empty-block {
+        color: #ccc; font-style: italic; padding: 20px;
+        font-family: sans-serif; text-align: center;
+    }
+    .section-header {
+        background: #e0e4e8; font-family: -apple-system, sans-serif;
+        font-weight: bold; font-size: 11pt; padding: 8px 12px;
+        border-top: 2px solid #bbb;
+    }
+    .col-header {
+        background: #f0f0f0; font-family: -apple-system, sans-serif;
+        font-weight: bold; font-size: 10pt; padding: 8px 12px;
+        text-align: center; position: sticky; top: 50px; z-index: 99;
+    }
+    .diff-row table { border-collapse: collapse; }
+</style>
+</head>
+<body>
+<div class="diff-legend">
+    <strong>Structural Diff:</strong> CCD-full —
+    0 changed regions,
+    37 unchanged (collapsed)
+    &nbsp;
+    <span class="swatch" style="background:#ffd7d5;">removed</span>
+    <span class="swatch" style="background:#acf2bd;">added</span>
+    <span style="float: right; font-size: 9pt;"><a href="index.html">← Back to index</a></span>
+    <br/>
+    <span style="font-size: 9pt; color: #666;">Comparing <strong>test-coverage (<a href="https://github.com/HL7/CDA-core-xsl/commit/6abbeb09e7658d21ca97443b5386559479e7c403">6abbeb0</a>)</strong> vs <strong>origin/master (<a href="https://github.com/HL7/CDA-core-xsl/commit/4307677d95b23f5939836ac2aab05673313cc754">4307677</a>)</strong> · <a href="https://github.com/HL7/CDA-core-xsl/compare/master...test-coverage">view source diff</a></span>
+</div>
+<table class="diff-table">
+<tbody>
+    <tr>
+        <td class="col-header" style="border-right: 2px solid #ccc;">origin/master (4307677)</td>
+        <td class="col-header">test-coverage (6abbeb0)</td>
+    </tr>
+    <tr><td colspan="2" class="section-header">📋 Header</td></tr><tr class="collapsed-row"><td colspan="2" class="collapsed">⋯ 4 unchanged blocks ⋯</td></tr><tr><td colspan="2" class="section-header">📄 Document Body</td></tr><tr class="collapsed-row"><td colspan="2" class="collapsed">⋯ 9 unchanged blocks ⋯</td></tr><tr><td colspan="2" class="section-header">📝 Footer</td></tr><tr class="collapsed-row"><td colspan="2" class="collapsed">⋯ 24 unchanged blocks ⋯</td></tr>
+</tbody>
+</table>
+</body>
+</html>
