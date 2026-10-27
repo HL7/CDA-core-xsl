@@ -1626,10 +1626,7 @@
         <x:scenario label="renders multiple participants covering all branches">
             <x:context>
                 <ClinicalDocument xmlns="urn:hl7-org:v3">
-                    <!-- 1. typeCode+classCode label, functionCode, person with desc+birthTime+addr+telecom
-                         BUG: desc and birthTime silently ignored — show-associatedEntity checks
-                         hl7:assignedPerson/hl7:desc and hl7:assignedPerson/hl7:birthTime but the
-                         element is hl7:associatedPerson (wrong element name). -->
+                    <!-- 1. typeCode+classCode label, functionCode, person with desc+birthTime+addr+telecom -->
                     <participant typeCode="IND">
                         <functionCode code="FUN" displayName="Fun"/>
                         <associatedEntity classCode="NOK">
