@@ -395,7 +395,7 @@
                     <signatureCode xmlns="urn:hl7-org:v3" code="S"/>
                 </x:param>
             </x:call>
-            <x:expect label="renders signed" select="text()">signed</x:expect>
+            <x:expect label="renders signed" select="text()">Signed</x:expect>
         </x:scenario>
         
         <x:scenario label="defaults codeSystem for signatureCode element (bad code)">
@@ -405,7 +405,7 @@
                     <hl7:signatureCode code="bad" />
                 </x:param>
             </x:call>
-            <x:expect label="renders bad (ParticipantSignature)" select="text()">bad (ParticipationSignature)</x:expect>
+            <x:expect label="renders bad (Signature Code)" select="text()">bad (Signature Code)</x:expect>
         </x:scenario>
 
         <x:scenario label="empty input produces no output">

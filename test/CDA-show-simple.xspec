@@ -92,25 +92,6 @@
     </x:scenario>
 
     <!-- ================================================================== -->
-    <!-- show-participationType template                                    -->
-    <!-- ================================================================== -->
-    <x:scenario label="show-participationType template">
-        <x:scenario label="localizes AUT (author) participation">
-            <x:call template="show-participationType">
-                <x:param name="ptype">AUT</x:param>
-            </x:call>
-            <x:expect label="renders author (originator)" select="text()">author (originator)</x:expect>
-        </x:scenario>
-
-        <x:scenario label="localizes INF (informant) participation">
-            <x:call template="show-participationType">
-                <x:param name="ptype">INF</x:param>
-            </x:call>
-            <x:expect label="renders informant" select="text()">informant</x:expect>
-        </x:scenario>
-    </x:scenario>
-
-    <!-- ================================================================== -->
     <!-- show-participationTypeOrCode template                              -->
     <!-- Combines typeCode, classCode, and code with " - " separator logic  -->
     <!-- ================================================================== -->
@@ -119,6 +100,14 @@
             <x:call template="show-participationTypeOrCode">
                 <x:param name="typeCode">ATND</x:param>
             </x:call>
+            <x:expect label="renders attender" select="text()">Attender</x:expect>
+        </x:scenario>
+        
+        <x:scenario label="typeCode only (no capitalization)">
+            <x:call template="show-participationTypeOrCode">
+                <x:param name="typeCode">ATND</x:param>
+                <x:param name="capitalize" select="false()"/>
+            </x:call>
             <x:expect label="renders attender" select="text()">attender</x:expect>
         </x:scenario>
 
@@ -126,7 +115,7 @@
             <x:call template="show-participationTypeOrCode">
                 <x:param name="classCode">NOK</x:param>
             </x:call>
-            <x:expect label="renders next of kin" select="text()">next of kin</x:expect>
+            <x:expect label="renders next of kin" select="text()">Next of kin</x:expect>
         </x:scenario>
 
         <x:scenario label="code only">
@@ -146,7 +135,7 @@
                 <x:param name="typeCode">IND</x:param>
                 <x:param name="classCode">NOK</x:param>
             </x:call>
-            <x:expect label="renders indirect target - next of kin" select="text()">indirect target - next of kin</x:expect>
+            <x:expect label="renders indirect target - next of kin" select="text()">Indirect target - next of kin</x:expect>
         </x:scenario>
 
         <x:scenario label="typeCode + classCode + code shows all three">
@@ -161,7 +150,7 @@
                 </x:param>
             </x:call>
             <x:expect label="renders type - class then code"
-                      test="string(.) = 'indirect target - personal relationship Mother'"/>
+                      test="string(.) = 'Indirect target - personal relationship Mother'"/>
         </x:scenario>
 
         <x:scenario label="classCode only, no separator">
@@ -174,7 +163,7 @@
 
         <x:scenario label="no params produces empty output">
             <x:call template="show-participationTypeOrCode"/>
-            <x:expect label="empty output" select="()"/>
+            <x:expect label="empty output" test="string(.) = ''"/>
         </x:scenario>
     </x:scenario>
 
