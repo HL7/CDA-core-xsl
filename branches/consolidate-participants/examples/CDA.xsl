@@ -4391,12 +4391,12 @@
             <xsl:with-param name="in" select="$contact/hl7:addr"/>
             <xsl:with-param name="sep" select="'br'"/>
         </xsl:call-template>
-        <xsl:if test="$contact/hl7:addr and $contact/hl7:telecom">
+        <xsl:if test="$contact/hl7:addr and $contact/*[local-name() = 'telecom']">
             <br/>
         </xsl:if>
         <xsl:call-template name="show-telecom-set">
-            <xsl:with-param name="in" select="$contact/hl7:telecom"/>
-            <xsl:with-param name="sep" select="', '"/>
+            <xsl:with-param name="in" select="$contact/*[local-name() = 'telecom']"/>
+            <xsl:with-param name="sep" select="'br'"/>
         </xsl:call-template>
     </xsl:template>
 
