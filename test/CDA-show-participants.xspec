@@ -1,0 +1,943 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    XSpec tests for CDA.xsl — show-participant-* templates
+
+    Tests the show-participant-table, show-participant-person, and
+    show-participant-org templates that render participant information
+    into the 4-column adaptive header_table layout. These templates
+    replaced the former show-assignedEntity / show-associatedEntity
+    templates and are used by all document-level participant renderers
+    (author, authenticator, informant, participant, etc.).
+-->
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:hl7="urn:hl7-org:v3"
+               xmlns:sdtc="urn:hl7-org:sdtc"
+               xmlns:xhtml="http://www.w3.org/1999/xhtml"
+               stylesheet="../CDA.xsl">
+
+    <x:import href="CDA-shared-params.xspec"/>
+    <x:param name="currentDate" select="'20260901'"/>
+
+    <!-- ================================================================== -->
+    <!-- show-participant-person template                                    -->
+    <!-- ================================================================== -->
+    <x:scenario label="show-participant-person">
+
+        <x:scenario label="renders person name with parenthetical ID">
+            <x:context>
+                <assignedEntity xmlns="urn:hl7-org:v3">
+                    <id root="1.2.3" extension="E-1"/>
+                    <assignedPerson>
+                        <name><given>Jane</given><family>Smith</family></name>
+                    </assignedPerson>
+                </assignedEntity>
+            </x:context>
+            <x:call template="show-participant-person"/>
+            <x:expect label="name followed by (ID: ...)">Jane  SMITH (ID: <span xmlns="http://www.w3.org/1999/xhtml">E-1 (1.2.3)</span>)</x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders person name without ID when no id element">
+            <x:context>
+                <assignedEntity xmlns="urn:hl7-org:v3">
+                    <assignedPerson>
+                        <name><given>Solo</given><family>Person</family></name>
+                    </assignedPerson>
+                </assignedEntity>
+            </x:context>
+            <x:call template="show-participant-person"/>
+            <x:expect label="just name">Solo  PERSON</x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders device softwareName when no person">
+            <x:context>
+                <assignedAuthor xmlns="urn:hl7-org:v3">
+                    <assignedAuthoringDevice>
+                        <softwareName>EHR System v5</softwareName>
+                    </assignedAuthoringDevice>
+                </assignedAuthor>
+            </x:context>
+            <x:call template="show-participant-person">
+                <x:param name="personElement" select="()"/>
+                <x:param name="deviceElement">
+                    <assignedAuthoringDevice xmlns="urn:hl7-org:v3">
+                        <softwareName>EHR System v5</softwareName>
+                    </assignedAuthoringDevice>
+                </x:param>
+            </x:call>
+            <x:expect label="device name">EHR System v5</x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders DTr2 device softwareName/@value">
+            <x:context>
+                <assignedAuthor xmlns="urn:hl7-org:v3">
+                    <assignedDevice>
+                        <softwareName value="DTr2 Software"/>
+                    </assignedDevice>
+                </assignedAuthor>
+            </x:context>
+            <x:call template="show-participant-person">
+                <x:param name="personElement" select="()"/>
+                <x:param name="deviceElement">
+                    <assignedDevice xmlns="urn:hl7-org:v3">
+                        <softwareName value="DTr2 Software"/>
+                    </assignedDevice>
+                </x:param>
+            </x:call>
+            <x:expect label="DTr2 device name">DTr2 Software</x:expect>
+        </x:scenario>
+
+        <x:scenario label="falls back to bare ID when no name or device">
+            <x:context>
+                <assignedEntity xmlns="urn:hl7-org:v3">
+                    <id root="1.2.3" extension="ONLY-ID"/>
+                </assignedEntity>
+            </x:context>
+            <x:call template="show-participant-person"/>
+            <x:expect label="ID: prefix without parentheses"
+                      test="string(.) = 'ID: ONLY-ID (1.2.3)'"/>
+        </x:scenario>
+
+        <x:scenario label="looks up person name from elsewhere in document by root+extension">
+            <x:context select="//hl7:assignedEntity">
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <informant>
+                        <assignedEntity>
+                            <id root="9.8.7" extension="PERSON-MATCH"/>
+                        </assignedEntity>
+                    </informant>
+                    <fakeElement>
+                        <id root="9.8.7" extension="PERSON-MATCH"/>
+                        <name><given>Remote</given><family>Person</family></name>
+                    </fakeElement>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="show-participant-person"/>
+            <x:expect label="resolved remote name with parenthetical ID">Remote  PERSON (ID: <xhtml:span>PERSON-MATCH (9.8.7)</xhtml:span>)</x:expect>
+        </x:scenario>
+        
+        <x:scenario label="looks up person name from elsewhere in document by root + no extension">
+            <x:context select="//hl7:assignedEntity">
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <informant>
+                        <assignedEntity>
+                            <id root="9.8.7"/>
+                        </assignedEntity>
+                    </informant>
+                    <fakeElement>
+                        <id root="9.8.7" extension="PERSON-MATCH"/>
+                        <name><given>Decoy</given><family>Person</family></name>
+                    </fakeElement>
+                    <fakeElement>
+                        <id root="9.8.7"/>
+                        <name><given>Real</given><given>Remote</given><family>Person</family></name>
+                    </fakeElement>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="show-participant-person"/>
+            <x:expect label="resolved remote name with parenthetical ID">Real  Remote  PERSON (ID: <xhtml:span>9.8.7</xhtml:span>)</x:expect>
+        </x:scenario>
+
+        <x:scenario label="produces no output when no name, device, or ID">
+            <x:context>
+                <assignedEntity xmlns="urn:hl7-org:v3"/>
+            </x:context>
+            <x:call template="show-participant-person"/>
+            <x:expect label="empty" select="()"/>
+        </x:scenario>
+
+        <x:scenario label="renders code div">
+            <x:context>
+                <assignedEntity xmlns="urn:hl7-org:v3">
+                    <assignedPerson>
+                        <name><given>Jane</given><family>Smith</family></name>
+                    </assignedPerson>
+                    <code displayName="Family Medicine"/>
+                </assignedEntity>
+            </x:context>
+            <x:call template="show-participant-person"/>
+            <x:expect label="name with Code div">Jane  SMITH<div xmlns="http://www.w3.org/1999/xhtml">
+                  <span class="span_label">Code: </span>Family Medicine</div>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders description and DOB from personElement">
+            <x:context>
+                <assignedEntity xmlns="urn:hl7-org:v3">
+                    <assignedPerson>
+                        <name><given>Jane</given><family>Smith</family></name>
+                        <desc>Board certified</desc>
+                        <birthTime value="19800601"/>
+                    </assignedPerson>
+                </assignedEntity>
+            </x:context>
+            <x:call template="show-participant-person"/>
+            <x:expect label="name with Description and DOB divs">Jane  SMITH<div xmlns="http://www.w3.org/1999/xhtml">
+                  <span class="span_label">Description: </span>Board certified</div>
+               <div xmlns="http://www.w3.org/1999/xhtml">
+                  <span class="span_label">Date of Birth: </span>June  1, 1980</div>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders signature with timestamp">
+            <x:context select="//hl7:assignedEntity">
+                <authenticator xmlns="urn:hl7-org:v3">
+                    <time value="20230615120000"/>
+                    <signatureCode code="S"/>
+                    <assignedEntity>
+                        <assignedPerson>
+                            <name><given>Sig</given><family>Person</family></name>
+                        </assignedPerson>
+                    </assignedEntity>
+                </authenticator>
+            </x:context>
+            <x:call template="show-participant-person"/>
+            <x:expect label="name with Signed div">Sig  PERSON<div xmlns="http://www.w3.org/1999/xhtml">
+                  <span class="span_label">Signed</span> at&#160;June  15, 2023, 12AM</div>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders functionCode when present on parent">
+            <x:context select="//hl7:assignedEntity">
+                <performer xmlns="urn:hl7-org:v3">
+                    <functionCode displayName="Primary Care Provider"/>
+                    <assignedEntity>
+                        <assignedPerson>
+                            <name><given>Alice</given><family>Doctor</family></name>
+                        </assignedPerson>
+                    </assignedEntity>
+                </performer>
+            </x:context>
+            <x:call template="show-participant-person"/>
+            <x:expect label="name with Function div">Alice  DOCTOR<div xmlns="http://www.w3.org/1999/xhtml">
+                  <span class="span_label">Function: </span>Primary Care Provider</div>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- show-participant-org template                                       -->
+    <!-- ================================================================== -->
+    <x:scenario label="show-participant-org">
+
+        <x:scenario label="renders org name with ID and Organization label">
+            <x:context>
+                <representedOrganization xmlns="urn:hl7-org:v3">
+                    <id root="2.3.4" extension="ORG-1"/>
+                    <name>Good Health Clinic</name>
+                </representedOrganization>
+            </x:context>
+            <x:call template="show-participant-org"/>
+            <x:expect label="Organization div with name and nested ID div">
+                <div xmlns="http://www.w3.org/1999/xhtml">
+                  <span class="span_label">Organization: </span>Good Health Clinic<div>
+                     <span class="span_label">ID: </span>
+                     <span>ORG-1 (2.3.4)</span>
+                  </div>
+               </div>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="skips Organization label when skipOrganizationLabel is true">
+            <x:context>
+                <representedOrganization xmlns="urn:hl7-org:v3">
+                    <name>Clinic</name>
+                </representedOrganization>
+            </x:context>
+            <x:call template="show-participant-org">
+                <x:param name="skipOrganizationLabel" select="true()"/>
+            </x:call>
+            <x:expect label="div with name only, no Organization prefix">
+                <div xmlns="http://www.w3.org/1999/xhtml">Clinic</div>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="falls back to bare ID when no name">
+            <x:context>
+                <representedOrganization xmlns="urn:hl7-org:v3">
+                    <id root="9.8.7" extension="ORG-X"/>
+                </representedOrganization>
+            </x:context>
+            <x:call template="show-participant-org"/>
+            <x:expect label="Organization div with ID labels">
+                <div xmlns="http://www.w3.org/1999/xhtml">
+                  <span class="span_label">Organization: </span>
+                  <span class="span_label">ID: </span>
+                  <span>ORG-X (9.8.7)</span>
+               </div>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="renders standardIndustryClassCode">
+            <x:context>
+                <scopingOrganization xmlns="urn:hl7-org:v3">
+                    <name>Insurance Co</name>
+                    <standardIndustryClassCode displayName="Health Insurance"/>
+                </scopingOrganization>
+            </x:context>
+            <x:call template="show-participant-org"/>
+            <x:expect label="org div plus Code div">
+                <div xmlns="http://www.w3.org/1999/xhtml">
+                  <span class="span_label">Organization: </span>Insurance Co</div>
+               <div xmlns="http://www.w3.org/1999/xhtml">
+                  <span class="span_label">Code: </span>Health Insurance</div>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="produces no output when no name, id, or code">
+            <x:context>
+                <representedOrganization xmlns="urn:hl7-org:v3"/>
+            </x:context>
+            <x:call template="show-participant-org"/>
+            <x:expect label="empty" select="()"/>
+        </x:scenario>
+
+        <x:scenario label="looks up org name from elsewhere in document by root+extension">
+            <x:context select="//hl7:representedOrganization">
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <author>
+                        <assignedAuthor>
+                            <representedOrganization>
+                                <id root="9.8.7" extension="ORG-MATCH"/>
+                            </representedOrganization>
+                        </assignedAuthor>
+                    </author>
+                    <fakeElement>
+                        <id root="9.8.7" extension="ORG-MATCH"/>
+                        <name>Remote Org Name</name>
+                    </fakeElement>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="show-participant-org"/>
+            <x:expect label="resolved remote name with ID">
+                <div xmlns="http://www.w3.org/1999/xhtml">
+                  <span class="span_label">Organization: </span>Remote Org Name<div>
+                     <span class="span_label">ID: </span>
+                     <span>ORG-MATCH (9.8.7)</span>
+                  </div>
+               </div>
+            </x:expect>
+        </x:scenario>
+        
+        <x:scenario label="looks up org name from elsewhere in document by root + missing extension">
+            <x:context select="//hl7:representedOrganization">
+                <ClinicalDocument xmlns="urn:hl7-org:v3">
+                    <author>
+                        <assignedAuthor>
+                            <representedOrganization>
+                                <id root="9.8.7"/>
+                            </representedOrganization>
+                        </assignedAuthor>
+                    </author>
+                    <fakeElementDecory>
+                        <id root="9.8.7" extension="ORG-MATCH"/>
+                        <name>Should not match - this has extension</name>
+                    </fakeElementDecory>
+                    <fakeElement>
+                        <id root="9.8.7"/>
+                        <name>Matching org without extension</name>
+                    </fakeElement>
+                </ClinicalDocument>
+            </x:context>
+            <x:call template="show-participant-org"/>
+            <x:expect label="resolved remote name with ID">
+                <div xmlns="http://www.w3.org/1999/xhtml">
+                    <span class="span_label">Organization: </span>Matching org without extension<div>
+                        <span class="span_label">ID: </span>
+                        <span>9.8.7</span>
+                    </div>
+                </div>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================== -->
+    <!-- show-participant-table template — layout combinations              -->
+    <!-- ================================================================== -->
+    <x:scenario label="show-participant-table">
+
+        <!-- ============================================================== -->
+        <!-- 4 cells: person + personal contact + org + org contact (2×2)    -->
+        <!-- ============================================================== -->
+        <x:scenario label="2×2: person and org with both contact details">
+            <x:context>
+                <assignedEntity xmlns="urn:hl7-org:v3">
+                    <telecom value="tel:555-PERS"/>
+                    <assignedPerson>
+                        <name><given>Jane</given><family>Smith</family></name>
+                    </assignedPerson>
+                    <representedOrganization>
+                        <name>Good Health Clinic</name>
+                        <telecom value="tel:555-ORG1"/>
+                    </representedOrganization>
+                </assignedEntity>
+            </x:context>
+            <x:call template="show-participant-table">
+                <x:param name="labelKey" select="'author'"/>
+            </x:call>
+            <x:expect label="2×2 full grid: person/contact row + org/org-contact row">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width" rowspan="2">Author</td>
+                            <td style="width: 30%;">Jane  SMITH</td>
+                            <td class="td_label td_label_width">Contact Details</td>
+                            <td>Tel: 555-PERS</td>
+                        </tr>
+                        <tr>
+                            <td>
+                           <div>
+                              <span class="span_label">Organization: </span>Good Health Clinic</div>
+                            </td>
+                            <td class="td_label td_label_width">Contact Details (Organization)</td>
+                            <td>Tel: 555-ORG1</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+
+        <!-- ============================================================== -->
+        <!-- 3 cells: person + org + personal contact (right spans 2 rows)  -->
+        <!-- ============================================================== -->
+        <x:scenario label="2×1+right: person and org, personal contact only">
+            <x:context>
+                <assignedEntity xmlns="urn:hl7-org:v3">
+                    <telecom value="tel:555-PERS"/>
+                    <assignedPerson>
+                        <name><given>Jane</given><family>Smith</family></name>
+                    </assignedPerson>
+                    <representedOrganization>
+                        <name>Good Health Clinic</name>
+                    </representedOrganization>
+                </assignedEntity>
+            </x:context>
+            <x:call template="show-participant-table">
+                <x:param name="labelKey" select="'author'"/>
+            </x:call>
+            <x:expect label="contact details column spans both rows">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width" rowspan="2">Author</td>
+                            <td style="width: 30%;">Jane  SMITH</td>
+                            <td class="td_label td_label_width" rowspan="2">Contact Details</td>
+                            <td rowspan="2">Tel: 555-PERS</td>
+                        </tr>
+                        <tr>
+                            <td>
+                           <div>
+                              <span class="span_label">Organization: </span>Good Health Clinic</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+
+        <!-- ============================================================== -->
+        <!-- 3 cells: person + org + org contact (missing personal contact) -->
+        <!-- org contact goes to right1 with "(Organization)" label         -->
+        <!-- ============================================================== -->
+        <x:scenario label="2×2-ish: person and org with org contact only (no personal contact)">
+            <x:context>
+                <assignedEntity xmlns="urn:hl7-org:v3">
+                    <assignedPerson>
+                        <name><given>Jane</given><family>Smith</family></name>
+                    </assignedPerson>
+                    <representedOrganization>
+                        <name>Good Health Clinic</name>
+                        <telecom value="tel:555-ORG1"/>
+                    </representedOrganization>
+                </assignedEntity>
+            </x:context>
+            <x:call template="show-participant-table">
+                <x:param name="labelKey" select="'author'"/>
+            </x:call>
+            <x:expect label="org contact spans both rows with (Organization) label">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width" rowspan="2">Author</td>
+                            <td style="width: 30%;">Jane  SMITH</td>
+                            <td class="td_label td_label_width" rowspan="2">Contact Details (Organization)</td>
+                            <td rowspan="2">Tel: 555-ORG1</td>
+                        </tr>
+                        <tr>
+                            <td>
+                           <div>
+                              <span class="span_label">Organization: </span>Good Health Clinic</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+
+        <!-- ============================================================== -->
+        <!-- 3 cells: person + personal contact + org contact               -->
+        <!-- (missing org name — but org has contact so right2 exists)      -->
+        <!-- ============================================================== -->
+        <x:scenario label="2-right: person with both contacts but no org name (missing org)">
+            <x:context>
+                <assignedEntity xmlns="urn:hl7-org:v3">
+                    <telecom value="tel:555-PERS"/>
+                    <assignedPerson>
+                        <name><given>Jane</given><family>Smith</family></name>
+                    </assignedPerson>
+                    <representedOrganization>
+                        <telecom value="tel:555-ORG1"/>
+                    </representedOrganization>
+                </assignedEntity>
+            </x:context>
+            <x:call template="show-participant-table">
+                <x:param name="labelKey" select="'author'"/>
+            </x:call>
+            <x:expect label="person spans both rows, two right-side contact rows">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width" rowspan="2">Author</td>
+                            <td rowspan="2" style="width: 30%;">Jane  SMITH</td>
+                            <td class="td_label td_label_width">Contact Details</td>
+                            <td>Tel: 555-PERS</td>
+                        </tr>
+                        <tr>
+                            <td class="td_label td_label_width">Contact Details (Organization)</td>
+                            <td>Tel: 555-ORG1</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+
+        <!-- ============================================================== -->
+        <!-- 3 cells: org + personal contact + org contact                  -->
+        <!-- (missing person name — but entity has contact)                 -->
+        <!-- ============================================================== -->
+        <!-- NOTE: This produces an empty <td style="width: 30%;"/> for the person cell.
+             Visually this creates a blank cell — arguably a minor rendering issue but
+             the layout is structurally correct (contact details still appear). -->
+        <x:scenario label="2×2-noperson: org with both contacts but no person (missing person)">
+            <x:context>
+                <assignedEntity xmlns="urn:hl7-org:v3">
+                    <telecom value="tel:555-PERS"/>
+                    <representedOrganization>
+                        <name>Good Health Clinic</name>
+                        <telecom value="tel:555-ORG1"/>
+                    </representedOrganization>
+                </assignedEntity>
+            </x:context>
+            <x:call template="show-participant-table">
+                <x:param name="labelKey" select="'author'"/>
+            </x:call>
+            <x:expect label="empty person cell in row 1, org in row 2, both contacts">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width" rowspan="2">Author</td>
+                            <td style="width: 30%;">&#160;</td>
+                            <td class="td_label td_label_width">Contact Details</td>
+                            <td>Tel: 555-PERS</td>
+                        </tr>
+                        <tr>
+                            <td>
+                           <div>
+                              <span class="span_label">Organization: </span>Good Health Clinic</div>
+                            </td>
+                            <td class="td_label td_label_width">Contact Details (Organization)</td>
+                            <td>Tel: 555-ORG1</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+
+        <!-- ============================================================== -->
+        <!-- 2 cells: person + personal contact (1×2)                       -->
+        <!-- ============================================================== -->
+        <x:scenario label="1×2: person with personal contact details">
+            <x:context>
+                <assignedEntity xmlns="urn:hl7-org:v3">
+                    <telecom value="tel:555-1234"/>
+                    <assignedPerson>
+                        <name><given>Jane</given><family>Smith</family></name>
+                    </assignedPerson>
+                </assignedEntity>
+            </x:context>
+            <x:call template="show-participant-table">
+                <x:param name="labelKey" select="'author'"/>
+            </x:call>
+            <x:expect label="person left, Contact Details right">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Author</td>
+                            <td style="width: 30%;">Jane  SMITH</td>
+                            <td class="td_label td_label_width">Contact Details</td>
+                            <td>Tel: 555-1234</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+
+        <!-- ============================================================== -->
+        <!-- 2 cells: person + org contact only (no personal contact)       -->
+        <!-- Contact Details label gets "(Organization)" suffix             -->
+        <!-- ============================================================== -->
+        <x:scenario label="1×2: person with org contact only">
+            <x:context>
+                <assignedEntity xmlns="urn:hl7-org:v3">
+                    <assignedPerson>
+                        <name><given>Jane</given><family>Smith</family></name>
+                    </assignedPerson>
+                    <representedOrganization>
+                        <telecom value="tel:555-ORG1"/>
+                    </representedOrganization>
+                </assignedEntity>
+            </x:context>
+            <x:call template="show-participant-table">
+                <x:param name="labelKey" select="'author'"/>
+            </x:call>
+            <x:expect label="org contact in right column with (Organization) label">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Author</td>
+                            <td style="width: 30%;">Jane  SMITH</td>
+                            <td class="td_label td_label_width">Contact Details (Organization)</td>
+                            <td>Tel: 555-ORG1</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+
+        <!-- ============================================================== -->
+        <!-- 2 cells: person + org, no contact (2×1)                        -->
+        <!-- ============================================================== -->
+        <x:scenario label="2×1: person and org, no contact details">
+            <x:context>
+                <assignedEntity xmlns="urn:hl7-org:v3">
+                    <assignedPerson>
+                        <name><given>Jane</given><family>Smith</family></name>
+                    </assignedPerson>
+                    <representedOrganization>
+                        <name>Good Health Clinic</name>
+                    </representedOrganization>
+                </assignedEntity>
+            </x:context>
+            <x:call template="show-participant-table">
+                <x:param name="labelKey" select="'author'"/>
+            </x:call>
+            <x:expect label="label rowspan=2, both rows colspan=3">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width" rowspan="2">Author</td>
+                            <td colspan="3">Jane  SMITH</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                           <div>
+                              <span class="span_label">Organization: </span>Good Health Clinic</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+
+        <!-- ============================================================== -->
+        <!-- 2 cells: both contacts only (no person, no org name)           -->
+        <!-- Rare edge case: empty left column, two right-side contact rows -->
+        <!-- ============================================================== -->
+        <!-- NOTE: produces an empty <td style="width: 30%;"/> in the person cell,
+             same visual oddity as the 3-cell missing-person case above. -->
+        <x:scenario label="2-right-only: both contacts but no person or org name (missing person and org)">
+            <x:context>
+                <assignedEntity xmlns="urn:hl7-org:v3">
+                    <telecom value="tel:555-PERS"/>
+                    <representedOrganization>
+                        <telecom value="tel:555-ORG1"/>
+                    </representedOrganization>
+                </assignedEntity>
+            </x:context>
+            <x:call template="show-participant-table">
+                <x:param name="labelKey" select="'author'"/>
+            </x:call>
+            <x:expect label="empty left column spans both rows, two right-side contact rows">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width" rowspan="2">Author</td>
+                            <td rowspan="2" style="width: 30%;">&#160;</td>
+                            <td class="td_label td_label_width">Contact Details</td>
+                            <td>Tel: 555-PERS</td>
+                        </tr>
+                        <tr>
+                            <td class="td_label td_label_width">Contact Details (Organization)</td>
+                            <td>Tel: 555-ORG1</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+
+        <!-- ============================================================== -->
+        <!-- 1 cell: person only, no contact (1×1)                          -->
+        <!-- ============================================================== -->
+        <x:scenario label="1×1: person only, no contact details">
+            <x:context>
+                <assignedEntity xmlns="urn:hl7-org:v3">
+                    <assignedPerson>
+                        <name><given>Solo</given><family>Person</family></name>
+                    </assignedPerson>
+                </assignedEntity>
+            </x:context>
+            <x:call template="show-participant-table">
+                <x:param name="labelKey" select="'author'"/>
+            </x:call>
+            <x:expect label="single row with colspan=3, no Contact Details cells">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Author</td>
+                            <td colspan="3">Solo  PERSON</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+
+        <!-- ============================================================== -->
+        <!-- 1 cell: org only (no person, no device, no ID)                 -->
+        <!-- ============================================================== -->
+        <x:scenario label="1×1: org only, no person">
+            <x:context>
+                <assignedEntity xmlns="urn:hl7-org:v3">
+                    <representedOrganization>
+                        <name>Org Only Clinic</name>
+                    </representedOrganization>
+                </assignedEntity>
+            </x:context>
+            <x:call template="show-participant-table">
+                <x:param name="labelKey" select="'custodian'"/>
+            </x:call>
+            <x:expect label="org in left1 with colspan=3">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Custodian</td>
+                            <td colspan="3">
+                           <div>
+                              <span class="span_label">Organization: </span>Org Only Clinic</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+
+        <!-- ============================================================== -->
+        <!-- 1 cell: ID only (no name, device, or org)                      -->
+        <!-- ============================================================== -->
+        <x:scenario label="1×1: ID only (no name, device, or org)">
+            <x:context>
+                <assignedEntity xmlns="urn:hl7-org:v3">
+                    <id root="1.2.3" extension="BARE-ID"/>
+                </assignedEntity>
+            </x:context>
+            <x:call template="show-participant-table">
+                <x:param name="labelKey" select="'typeCode-INF'"/>
+            </x:call>
+            <x:expect label="ID in colspan=3 cell">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Informant</td>
+                            <td colspan="3">ID: <span>BARE-ID (1.2.3)</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+
+        <!-- ============================================================== -->
+        <!-- 1 cell: device with org (2×1)                                  -->
+        <!-- ============================================================== -->
+        <x:scenario label="device with org renders device name and org row">
+            <x:context>
+                <assignedAuthor xmlns="urn:hl7-org:v3">
+                    <assignedAuthoringDevice>
+                        <softwareName>Clinical System v3</softwareName>
+                    </assignedAuthoringDevice>
+                    <representedOrganization>
+                        <name>Health Corp</name>
+                    </representedOrganization>
+                </assignedAuthor>
+            </x:context>
+            <x:call template="show-participant-table">
+                <x:param name="labelKey" select="'author'"/>
+                <x:param name="deviceElement">
+                    <assignedAuthoringDevice xmlns="urn:hl7-org:v3">
+                        <softwareName>Clinical System v3</softwareName>
+                    </assignedAuthoringDevice>
+                </x:param>
+            </x:call>
+            <x:expect label="device in row 1, org in row 2">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width" rowspan="2">Author</td>
+                            <td colspan="3">Clinical System v3</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                           <div>
+                              <span class="span_label">Organization: </span>Health Corp</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+
+        <!-- ============================================================== -->
+        <!-- Parameter variants                                             -->
+        <!-- ============================================================== -->
+        <x:scenario label="uses labelOverride when provided">
+            <x:context>
+                <assignedEntity xmlns="urn:hl7-org:v3">
+                    <assignedPerson>
+                        <name><given>Pat</given><family>Test</family></name>
+                    </assignedPerson>
+                </assignedEntity>
+            </x:context>
+            <x:call template="show-participant-table">
+                <x:param name="labelOverride">Custom Label</x:param>
+            </x:call>
+            <x:expect label="label cell uses override text">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Custom Label</td>
+                            <td colspan="3">Pat  TEST</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="appends time to label when timeInLabel is true">
+            <x:context select="//hl7:assignedEntity">
+                <performer xmlns="urn:hl7-org:v3">
+                    <time><low value="20260101"/><high value="20260201"/></time>
+                    <assignedEntity>
+                        <assignedPerson>
+                            <name><given>Tim</given><family>Keeper</family></name>
+                        </assignedPerson>
+                    </assignedEntity>
+                </performer>
+            </x:context>
+            <x:call template="show-participant-table">
+                <x:param name="labelKey" select="'author'"/>
+                <x:param name="timeInLabel" select="true()"/>
+            </x:call>
+            <x:expect label="label has time range in parentheses">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Author (from&#160;January  1, 2026 to&#160;February  1, 2026)</td>
+                            <td colspan="3">Tim  KEEPER</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="omits time from label when timeInLabel is false">
+            <x:context select="//hl7:assignedEntity">
+                <performer xmlns="urn:hl7-org:v3">
+                    <time><low value="20260101"/><high value="20260201"/></time>
+                    <assignedEntity>
+                        <assignedPerson>
+                            <name><given>Tim</given><family>Keeper</family></name>
+                        </assignedPerson>
+                    </assignedEntity>
+                </performer>
+            </x:context>
+            <x:call template="show-participant-table">
+                <x:param name="labelKey" select="'author'"/>
+                <x:param name="timeInLabel" select="false()"/>
+            </x:call>
+            <x:expect label="label without time">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Author</td>
+                            <td colspan="3">Tim  KEEPER</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="includeTable=false outputs bare tr without table wrapper">
+            <x:context>
+                <assignedEntity xmlns="urn:hl7-org:v3">
+                    <assignedPerson>
+                        <name><given>Bare</given><family>Row</family></name>
+                    </assignedPerson>
+                </assignedEntity>
+            </x:context>
+            <x:call template="show-participant-table">
+                <x:param name="labelKey" select="'author'"/>
+                <x:param name="includeTable" select="false()"/>
+            </x:call>
+            <x:expect label="bare tr, no table wrapper" test="not(contains(string($x:result), 'header_table'))"/>
+            <x:expect label="has label and name" test="contains(string($x:result), 'Author') and contains(string($x:result), 'Bare  ROW')"/>
+        </x:scenario>
+
+        <!-- ============================================================== -->
+        <!-- Comprehensive: all person fields + org + both contacts         -->
+        <!-- ============================================================== -->
+        <x:scenario label="comprehensive: person with all fields, org, and both contacts">
+            <x:context>
+                <assignedEntity xmlns="urn:hl7-org:v3">
+                    <id root="2.16.840.1.113883.19.5" extension="A-001"/>
+                    <code displayName="Family Medicine"/>
+                    <addr><city>Springfield</city></addr>
+                    <telecom value="tel:555-PERS"/>
+                    <assignedPerson>
+                        <name><given>Jane</given><family>Smith</family></name>
+                        <desc>Board certified</desc>
+                        <birthTime value="19800601"/>
+                    </assignedPerson>
+                    <representedOrganization>
+                        <id root="2.3.4" extension="ORG-1"/>
+                        <name>Good Health Clinic</name>
+                        <telecom value="tel:555-ORG1"/>
+                    </representedOrganization>
+                </assignedEntity>
+            </x:context>
+            <x:call template="show-participant-table">
+                <x:param name="labelKey" select="'author'"/>
+            </x:call>
+            <!-- Full 2×2 with all person sub-fields rendered.
+                 Whitespace inside the person td comes from the XSL output indentation
+                 of the <div> elements produced by show-participant-person. -->
+            <x:expect label="all fields present: name, ID, code, desc, DOB, contact, org, org-id, org-contact"
+                      test="count($x:result[1]//xhtml:tr) = 2"/>
+            <x:expect label="person name with ID" test="contains(string($x:result[1]), 'Jane  SMITH (ID: A-001 (2.16.840.1.113883.19.5))')"/>
+            <x:expect label="code" test="contains(string($x:result[1]), 'Family Medicine')"/>
+            <x:expect label="description" test="contains(string($x:result[1]), 'Board certified')"/>
+            <x:expect label="DOB" test="contains(string($x:result[1]), 'June  1, 1980')"/>
+            <x:expect label="personal contact in row 1" test="contains(string($x:result[1]//xhtml:tr[1]), '555-PERS')"/>
+            <x:expect label="org name and ID in row 2" test="contains(string($x:result[1]//xhtml:tr[2]), 'Good Health Clinic') and contains(string($x:result[1]//xhtml:tr[2]), 'ORG-1 (2.3.4)')"/>
+            <x:expect label="org contact in row 2" test="contains(string($x:result[1]//xhtml:tr[2]), '555-ORG1')"/>
+        </x:scenario>
+    </x:scenario>
+
+</x:description>

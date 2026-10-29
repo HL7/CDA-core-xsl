@@ -33,6 +33,22 @@ jobs:
           cp -r examples _site/examples
           cp CDA.xsl cda_* _site/examples/
 
+          # Build release preview zip
+          # Update this list when adding files to the release package
+          RELEASE_FILES="
+            CDA.xsl
+            cda_l10n.xml
+            cda_narrativeblock.xml
+            documentation/CDA.html
+            documentation/docHtml.css
+            documentation/cda_l10n.html
+            documentation/img/*
+          "
+          mkdir -p _site/release
+          BRANCH_NAME="${GITHUB_REF##refs/heads/}"
+          ZIP_NAME="Sample_CDA_Style_Sheet-review-${BRANCH_NAME}.zip"
+          zip -q "_site/release/${ZIP_NAME}" $RELEASE_FILES
+
       - name: Set up Java
         if: github.ref != 'refs/heads/main' && github.ref != 'refs/heads/master'
         uses: actions/setup-java@v5
@@ -80,6 +96,33 @@ jobs:
           script: |
             const branch = context.ref.replace('refs/heads/', '');
             const previewUrl = `https://hl7.github.io/CDA-core-xsl/branches/${branch}/`;
+            const desc = `Preview for ${branch}`;
+
+            // Clean up old deployments for THIS branch only
+            const deployments = await github.rest.repos.listDeployments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              environment: 'preview',
+              per_page: 100
+            });
+            for (const d of deployments.data.filter(d => d.description === desc)) {
+              try {
+                await github.rest.repos.createDeploymentStatus({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  deployment_id: d.id,
+                  state: 'inactive'
+                });
+                await github.rest.repos.deleteDeployment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  deployment_id: d.id
+                });
+              } catch (e) {
+                core.info(`Could not delete deployment ${d.id}: ${e.message}`);
+              }
+            }
+
             const deployment = await github.rest.repos.createDeployment({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -88,7 +131,7 @@ jobs:
               auto_merge: false,
               required_contexts: [],
               transient_environment: true,
-              description: `Preview for ${branch}`
+              description: desc
             });
             await github.rest.repos.createDeploymentStatus({
               owner: context.repo.owner,
@@ -177,6 +220,7 @@ jobs:
 
           PREVIEW_URL="https://hl7.github.io/CDA-core-xsl/branches/${BRANCH}/"
           DIFF_URL="https://hl7.github.io/CDA-core-xsl/diffs/${BRANCH}/"
+          ZIP_URL="https://hl7.github.io/CDA-core-xsl/branches/${BRANCH}/release/Sample_CDA_Style_Sheet-review-${BRANCH}.zip"
 
           # Wait for Pages deployment to be live (up to 2 minutes)
           wait_for_url() {
@@ -200,10 +244,12 @@ jobs:
 
           wait_for_url "$PREVIEW_URL"
           wait_for_url "$DIFF_URL"
+          wait_for_url "$ZIP_URL"
 
           BODY="<!-- render-diffs-comment -->
           📄 **Preview deployed:** [${PREVIEW_URL}](${PREVIEW_URL})
-          🔀 **Render diffs:** [${DIFF_URL}](${DIFF_URL})"
+          🔀 **Render diffs:** [${DIFF_URL}](${DIFF_URL})
+          📦 **Release preview:** [Sample_CDA_Style_Sheet-review-${BRANCH}.zip](${ZIP_URL})"
 
           # Find existing comment with our marker, update or create
           COMMENT_ID=$(gh api "repos/${{ github.repository }}/issues/${PR_NUMBER}/comments" \

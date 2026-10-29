@@ -791,6 +791,7 @@
                             <representedCustodianOrganization>
                                 <name>Good Health Clinic</name>
                                 <telecom value="tel:555-1234" use="WP"/>
+                                <sdtc:telecom use="TMP" value="mailto:secondTelWithSDTC@extension.com"/>
                                 <addr>
                                     <streetAddressLine>100 Main St</streetAddressLine>
                                     <city>Anytown</city>
@@ -808,7 +809,7 @@
                             <td class="td_label td_label_width">Custodian</td>
                             <td style="width: 30%;">Good Health Clinic</td>
                             <td class="td_label td_label_width">Contact Details</td>
-                            <td>100 Main St<br/>Anytown<br/>Tel Workplace: 555-1234</td>
+                            <td>100 Main St<br/>Anytown<br/>Tel Workplace: 555-1234<br/>Mail Temporary: secondTelWithSDTC@extension.com</td>
                         </tr>
                     </tbody>
                 </table>
@@ -838,7 +839,7 @@
                     <tbody>
                         <tr>
                             <td class="td_label td_label_width">Custodian</td>
-                            <td style="width: 30%;"><span>ORG-1 (2.16.840.1.113883.19.5)</span></td>
+                            <td style="width: 30%;">ID: <span>ORG-1 (2.16.840.1.113883.19.5)</span></td>
                             <td class="td_label td_label_width">Contact Details</td>
                             <td>100 Main St<br/>Anytown<br/>Tel Workplace: 555-1234</td>
                         </tr>
@@ -932,17 +933,15 @@
                         </tr>
                         <tr>
                             <td class="td_label td_label_width">Guardian</td>
-                            <td style="width: 30%;">Bob  GUARDIAN - Grandparent</td>
+                            <td style="width: 30%;">Bob  GUARDIAN<div><span class="span_label">Code: </span>Grandparent</div></td>
                             <td class="td_label td_label_width">Contact Details</td>
                             <td>Guardianville<br/>Tel: 555-9999</td>
                         </tr>
                         <tr>
                             <td class="td_label td_label_width">Provider Organization</td>
-                            <td style="width: 30%;">
-                                <div>Good Health Clinic</div>
-                            </td>
-                            <td class="td_label td_label_width">Contact Details (Organization)</td>
-                            <td style="width: 30%;">Tel: 555-0000</td>
+                            <td style="width: 30%;">Good Health Clinic</td>
+                            <td class="td_label td_label_width">Contact Details</td>
+                            <td>Tel: 555-0000</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1117,19 +1116,9 @@
                       test="$x:result//xhtml:tr[xhtml:td = 'Provider Organization']">
                 <tr xmlns="http://www.w3.org/1999/xhtml">
                     <td class="td_label td_label_width">Provider Organization</td>
-                    <td style="width: 30%;">
-                        <div>Regional Medical Center</div>
-                        <table class="table_simple">
-                            <tbody>
-                                <tr>
-                                    <td class="td_label">ID</td>
-                                    <td><span>ORG-1 (2.16.840.1.113883.19.5)</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                    <td class="td_label td_label_width">Contact Details (Organization)</td>
-                    <td style="width: 30%;">Tel: 555-8888</td>
+                    <td style="width: 30%;">Regional Medical Center (ID: <span>ORG-1 (2.16.840.1.113883.19.5)</span>)</td>
+                    <td class="td_label td_label_width">Contact Details</td>
+                    <td>Tel: 555-8888</td>
                 </tr>
             </x:expect>
         </x:scenario>
@@ -1223,7 +1212,7 @@
                         </tr>
                         <tr>
                             <td class="td_label td_label_width">Performer - Primary Care Provider</td>
-                            <td style="width: 30%;">Alice  DOCTOR</td>
+                            <td style="width: 30%;">Alice  DOCTOR<div><span class="span_label">Function: </span>Primary Care Provider</div></td>
                             <td class="td_label td_label_width">Contact Details</td>
                             <td>Tel: 555-1234</td>
                         </tr>
@@ -1376,7 +1365,7 @@
                             <td>Tel: 555-1111</td>
                         </tr>
                         <tr>
-                            <td class="td_label td_label_width">attender (from&#160;January  1, 2026 to&#160;January  8, 2026)</td>
+                            <td class="td_label td_label_width">Attender (from&#160;January  1, 2026 to&#160;January  8, 2026)</td>
                             <td style="width: 30%;">Bob  ATTENDING</td>
                             <td class="td_label td_label_width">Contact Details</td>
                             <td>Tel: 555-2222</td>
@@ -1503,9 +1492,9 @@
             <x:call template="componentOf"/>
             <!-- Without addr/telecom, name td gets colspan="3" and no Contact Details cells -->
             <x:expect label="participant row has colspan 3 and no contact details"
-                      test="$x:result//xhtml:tr[xhtml:td = 'consultant']">
+                      test="$x:result//xhtml:tr[xhtml:td = 'Consultant']">
                 <tr xmlns="http://www.w3.org/1999/xhtml">
-                    <td class="td_label td_label_width">consultant</td>
+                    <td class="td_label td_label_width">Consultant</td>
                     <td colspan="3">Jane  CONSULTANT</td>
                 </tr>
             </x:expect>
@@ -1601,13 +1590,24 @@
                     class="header_table">
                     <tbody>
                         <tr>
-                            <td class="td_label td_label_width" rowspan="2">Author</td>
-                            <td style="width: 30%;" rowspan="2">Jane  SMITH<div>Jane's desc tag</div> Date of Birth January  2, 2023 - Code: Family Medicine, Organization: Good Health Clinic</td>
+                            <td class="td_label td_label_width"
+                                rowspan="2">Author</td>
+                            <td style="width: 30%;">Jane  SMITH (ID: <span>A-12345 (2.16.840.1.113883.19.5)</span>)<div>
+                                    <span class="span_label">Code: </span>Family Medicine</div>
+                                <div><span class="span_label">Description: </span>Jane's desc tag</div>
+                                <div><span class="span_label">Date of Birth: </span>January  2, 2023</div>
+                            </td>
                             <td class="td_label td_label_width">Contact Details</td>
                             <td>123 Main St.<br />Anywhere<br />Mail Workplace: jane@organization.com</td>
-                            
                         </tr>
                         <tr>
+                            <td>
+                                <div><span class="span_label">Organization: </span>Good Health Clinic<div>
+                                        <span class="span_label">ID: </span>
+                                        <span>org1 (2.3.4)</span>
+                                    </div>
+                                </div>
+                            </td>
                             <td class="td_label td_label_width">Contact Details (Organization)</td>
                             <td>100 Medical Circle<br />Healing Springs<br />Tel Workplace: 800-111-1111</td>
                         </tr>
@@ -1617,8 +1617,16 @@
                     class="header_table">
                     <tbody>
                         <tr>
-                            <td class="td_label td_label_width">Author</td>
-                            <td colspan="3">Clinical Documentation System v3.2, Organization: <span>O-123 (2.16.840.1.113883.19.5)</span>
+                            <td class="td_label td_label_width" rowspan="2">Author</td>
+                            <td colspan="3">Clinical Documentation System v3.2</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <div>
+                                    <span class="span_label">Organization: </span>
+                                    <span class="span_label">ID: </span>
+                                    <span>O-123 (2.16.840.1.113883.19.5)</span>
+                                </div>
                             </td>
                         </tr>
                     </tbody>
@@ -1636,8 +1644,19 @@
                     class="header_table">
                     <tbody>
                         <tr>
-                            <td class="td_label td_label_width">Author</td>
-                            <td colspan="3">, Organization: Good Health Clinic</td>
+                            <td class="td_label td_label_width" rowspan="2">Author</td>
+                            <td colspan="3">ID: <span>A-12345 (2.16.840.1.113883.19.5)</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <div>
+                                    <span class="span_label">Organization: </span>Good Health Clinic<div>
+                                        <span class="span_label">ID: </span>
+                                        <span>org1 (2.3.4)</span>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -1645,8 +1664,19 @@
                     class="header_table">
                     <tbody>
                         <tr>
-                            <td class="td_label td_label_width">Author</td>
-                            <td colspan="3">, Organization: Good Health Clinic</td>
+                            <td class="td_label td_label_width"
+                                rowspan="2">Author</td>
+                            <td colspan="3">ID: <span>A-12345 (2.16.840.1.113883.19.5)</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <div>
+                                    <span class="span_label">Organization: </span>
+                                    <span class="span_label">ID: </span>
+                                    <span>2.3.4</span>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -1669,10 +1699,7 @@
         <x:scenario label="renders multiple participants covering all branches">
             <x:context>
                 <ClinicalDocument xmlns="urn:hl7-org:v3">
-                    <!-- 1. typeCode+classCode label, functionCode, person with desc+birthTime+addr+telecom
-                         BUG: desc and birthTime silently ignored — show-associatedEntity checks
-                         hl7:assignedPerson/hl7:desc and hl7:assignedPerson/hl7:birthTime but the
-                         element is hl7:associatedPerson (wrong element name). -->
+                    <!-- 1. typeCode+classCode label, functionCode, person with desc+birthTime+addr+telecom -->
                     <participant typeCode="IND">
                         <functionCode code="FUN" displayName="Fun"/>
                         <associatedEntity classCode="NOK">
@@ -1729,7 +1756,11 @@
                     <tbody>
                         <tr>
                             <td class="td_label td_label_width">Indirect target - next of kin test</td>
-                            <td style="width: 30%;">Fun, Ellen  KIN, test, ID: <span>NOK-1 (1.2.3)</span></td>
+                            <td style="width: 30%;">Ellen  KIN (ID: <span>NOK-1 (1.2.3)</span>)<div><span class="span_label">Function: </span>Fun</div>
+                                <div><span class="span_label">Code: </span>test</div>
+                                <div><span class="span_label">Description: </span>Ellen description</div>
+                                <div><span class="span_label">Date of Birth: </span>March  1, 1970</div>
+                            </td>
                             <td class="td_label td_label_width">Contact Details</td>
                             <td>123 Assoc Ave.<br/>Tel: 800-1231-7654</td>
                         </tr>
@@ -1738,16 +1769,37 @@
                 <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
                     <tbody>
                         <tr>
-                            <td class="td_label td_label_width">Holder - policy holder</td>
-                            <td>Sam  HOLDER, Health Insurance<br/>Organization: Acme InsuranceHealth Insurance Carriers Code:, ID: <span>ORG-INS (2.16.840.1.113883.19.5)</span>from&#160;January  1, 2026 to&#160;September  1, 2026</td>
+                            <td class="td_label td_label_width" rowspan="2">Holder - policy holder (from&#160;January  1, 2026 to&#160;September  1, 2026)</td>
+                            <td colspan="3">Sam  HOLDER<div><span class="span_label">Code: </span>Health Insurance</div></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <div><span class="span_label">Organization: </span>Acme Insurance<div>
+                                        <span class="span_label">ID: </span><span>ORG-INS (2.16.840.1.113883.19.5)</span>
+                                    </div>
+                                </div>
+                                <div><span class="span_label">Code: </span>Health Insurance Carriers</div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
                 <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
                     <tbody>
                         <tr>
-                            <td class="td_label td_label_width">Indirect target - 2.16.840.1.113883.5.110-GUAR</td>
-                            <td>ID: <span>G-001 (2.16.840.1.113883.19.5)</span><br/>Organization: Offices of Physicians Code:, ID: <span>SCOPE-1 (9.8.7)</span></td>
+                            <td class="td_label td_label_width" rowspan="2">Indirect target - 2.16.840.1.113883.5.110-GUAR</td>
+                            <td colspan="3">ID: <span>G-001 (2.16.840.1.113883.19.5)</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                           <div>
+                              <span class="span_label">Organization: </span>
+                              <span class="span_label">ID: </span>
+                              <span>SCOPE-1 (9.8.7)</span>
+                           </div>
+                           <div>
+                              <span class="span_label">Code: </span>Offices of Physicians</div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -1755,7 +1807,7 @@
                     <tbody>
                         <tr>
                             <td class="td_label td_label_width">participant</td>
-                            <td>Jane  UNKNOWN</td>
+                            <td colspan="3">Jane  UNKNOWN</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1793,7 +1845,7 @@
                     <tbody>
                         <tr>
                             <td class="td_label td_label_width">Data Enterer</td>
-                            <td>Tom  TYPIST</td>
+                            <td colspan="3">Tom  TYPIST</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1858,7 +1910,6 @@
                                 <!-- Not actually allowed, but XSL renders it... -->
                                 <birthTime value="20230102"/>
                             </assignedPerson>
-                            <!-- Not displayed for informant -->
                             <code code="207Q00000X" codeSystem="2.16.840.1.113883.6.101" displayName="Family Medicine"/>
                             <representedOrganization>
                                 <name>Good Health Clinic</name>
@@ -1901,41 +1952,41 @@
                     class="header_table">
                     <tbody>
                         <tr>
-                            <td class="td_label td_label_width">Informant</td>
-                            <td style="width: 30%;">Jane  SMITH<div>Jane's desc tag</div> Date of Birth January  2, 2023 of Good Health Clinic</td>
+                            <td class="td_label td_label_width" rowspan="2">Informant</td>
+                            <td style="width: 30%;">Jane  SMITH<div><span class="span_label">Code: </span>Family Medicine</div><div><span class="span_label">Description: </span>Jane's desc tag</div><div><span class="span_label">Date of Birth: </span>January  2, 2023</div></td>
                             <td class="td_label td_label_width">Contact Details</td>
                             <td>Mail Workplace: jane@organization.com</td>
                         </tr>
-                    </tbody>
-                </table>
-                <table xmlns="http://www.w3.org/1999/xhtml"
-                    class="header_table">
-                    <tbody>
                         <tr>
-                            <td class="td_label td_label_width">Informant</td>
-                            <td>
-                                <span>I-12345 (2.16.840.1.113883.19.5)</span>
-                            </td>
+                            <td><div><span class="span_label">Organization: </span>Good Health Clinic</div></td>
+                            <td class="td_label td_label_width">Contact Details (Organization)</td>
+                            <td>Tel Workplace: 800-111-1111</td>
                         </tr>
                     </tbody>
                 </table>
-                <table xmlns="http://www.w3.org/1999/xhtml"
-                    class="header_table">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
                     <tbody>
                         <tr>
                             <td class="td_label td_label_width">Informant</td>
-                            <td style="width: 30%;">Mary  JONES<div>Mary's description</div> Date of Birth April  4, 2024</td>
+                            <td colspan="3">ID: <span>I-12345 (2.16.840.1.113883.19.5)</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Informant</td>
+                            <td style="width: 30%;">Mary  JONES<div><span class="span_label">Code: </span>Mother</div><div><span class="span_label">Description: </span>Mary's description</div><div><span class="span_label">Date of Birth: </span>April  4, 2024</div></td>
                             <td class="td_label td_label_width">Contact Details</td>
                             <td>Tel Home Primary: 555-123-4567</td>
                         </tr>
                     </tbody>
                 </table>
-                <table xmlns="http://www.w3.org/1999/xhtml"
-                    class="header_table">
+                <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
                     <tbody>
                         <tr>
                             <td class="td_label td_label_width">Informant</td>
-                            <td>Karen  GIVER</td>
+                            <td colspan="3">Karen  GIVER</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1980,26 +2031,15 @@
                 <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
                     <tbody>
                         <tr>
-                            <td class="td_label td_label_width">Information Recipient</td>
+                            <td class="td_label td_label_width" rowspan="2">Information Recipient</td>
                             <td style="width: 30%;">Dr  Pat  SPECIALIST</td>
-                            <td class="td_label td_label_width">Contact Details</td>
-                            <td>123 Info St.<br />Tel: 800-111-1234</td>
+                            <td class="td_label td_label_width" rowspan="2">Contact Details</td>
+                            <td rowspan="2">123 Info St.<br/>Tel: 800-111-1234</td>
                         </tr>
                         <tr>
-                            <td class="td_label td_label_width">Organization</td>
-                            <td style="width: 30%;">
-                                <div>Specialty Clinic</div>
-                                <table class="table_simple">
-                                    <tbody>
-                                        <tr>
-                                            <td class="td_label">ID</td>
-                                            <td><span>ORG-1 (2.16.840.1.113883.19.5)</span></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            <td>
+                                <div><span class="span_label">Organization: </span>Specialty Clinic<div><span class="span_label">ID: </span><span>ORG-1 (2.16.840.1.113883.19.5)</span></div></div>
                             </td>
-                            <td class="td_label td_label_width">Contact Details (Organization)</td>
-                            <td style="width: 30%;"/>
                         </tr>
                     </tbody>
                 </table>
@@ -2017,19 +2057,19 @@
                 </ClinicalDocument>
             </x:context>
             <x:call template="informationRecipient"/>
-            <x:expect label="produces header_table with id and trailing br">
+            <x:expect label="produces header_table with id">
                 <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
                     <tbody>
                         <tr>
                             <td class="td_label td_label_width">Information Recipient</td>
-                            <td colspan="3"><span>RECIP-99 (2.16.840.1.113883.19.5)</span><br/></td>
+                            <td colspan="3">ID: <span>RECIP-99 (2.16.840.1.113883.19.5)</span></td>
                         </tr>
                     </tbody>
                 </table>
             </x:expect>
         </x:scenario>
         
-        <x:scenario label="renders recipient with id only (no name)">
+        <x:scenario label="renders recipient with id only (no name) (duplicate)">
             <x:context>
                 <ClinicalDocument xmlns="urn:hl7-org:v3">
                     <informationRecipient>
@@ -2040,12 +2080,12 @@
                 </ClinicalDocument>
             </x:context>
             <x:call template="informationRecipient"/>
-            <x:expect label="produces header_table with id and trailing br">
+            <x:expect label="produces header_table with id">
                 <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
                     <tbody>
                         <tr>
                             <td class="td_label td_label_width">Information Recipient</td>
-                            <td colspan="3"><span>RECIP-99 (2.16.840.1.113883.19.5)</span><br/></td>
+                            <td colspan="3">ID: <span>RECIP-99 (2.16.840.1.113883.19.5)</span></td>
                         </tr>
                     </tbody>
                 </table>
@@ -2085,7 +2125,9 @@
                     <tbody>
                         <tr>
                             <td class="td_label td_label_width">Authenticator</td>
-                            <td>John  REVIEWER signed&#160;at&#160;June  15, 2023, 12AM</td>
+                            <td colspan="3">John  REVIEWER<div>
+                              <span class="span_label">Signed</span> at&#160;June  15, 2023, 12AM</div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -2111,8 +2153,15 @@
                 <table xmlns="http://www.w3.org/1999/xhtml" class="header_table">
                     <tbody>
                         <tr>
-                            <td class="td_label td_label_width">Authenticator</td>
-                            <td>Signing Org signed&#160;at&#160;June  15, 2023, 12AM</td>
+                            <td class="td_label td_label_width" rowspan="2">Authenticator</td>
+                            <td colspan="3">
+                                <div><span class="span_label">Signed</span> at&#160;June  15, 2023, 12AM</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <div><span class="span_label">Organization: </span>Signing Org</div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -2177,10 +2226,13 @@
                     <tbody>
                         <tr>
                             <td class="td_label td_label_width">Legal Authenticator</td>
-                            <td style="width: 30%;">Sarah  LEGAL signed&#160;at&#160;June  15, 2023, 2PM</td>
+                            <td style="width: 30%;">Sarah  LEGAL<div>
+                              <span class="span_label">Code: </span>Adult Medicine Physician</div>
+                                <div><span class="span_label">Signed</span> at&#160;June  15, 2023, 2PM</div>
+                            </td>
                             <td class="td_label td_label_width">Contact Details</td>
                             <td>Workplace: 1004 Healthcare Drive <br />Portland<br />Tel Workplace: +1(555)555-1004</td>
-                            
+
                         </tr>
                     </tbody>
                 </table>
