@@ -96,6 +96,29 @@ jobs:
           script: |
             const branch = context.ref.replace('refs/heads/', '');
             const previewUrl = `https://hl7.github.io/CDA-core-xsl/branches/${branch}/`;
+
+            // Check if an active deployment already exists for this branch
+            const deployments = await github.rest.repos.listDeployments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              environment: 'preview',
+              per_page: 100
+            });
+            const existing = deployments.data.find(d => d.description === `Preview for ${branch}`);
+            if (existing) {
+              // Update the existing deployment's status with the new SHA
+              await github.rest.repos.createDeploymentStatus({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                deployment_id: existing.id,
+                state: 'success',
+                environment_url: previewUrl,
+                log_url: `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+                description: 'Preview deployed'
+              });
+              return;
+            }
+
             const deployment = await github.rest.repos.createDeployment({
               owner: context.repo.owner,
               repo: context.repo.repo,
