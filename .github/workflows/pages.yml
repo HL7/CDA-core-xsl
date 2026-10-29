@@ -98,16 +98,29 @@ jobs:
             const previewUrl = `https://hl7.github.io/CDA-core-xsl/branches/${branch}/`;
             const desc = `Preview for ${branch}`;
 
-            // Only create a deployment if one doesn't already exist for this branch
+            // Clean up old deployments for THIS branch only
             const deployments = await github.rest.repos.listDeployments({
               owner: context.repo.owner,
               repo: context.repo.repo,
               environment: 'preview',
               per_page: 100
             });
-            if (deployments.data.some(d => d.description === desc)) {
-              core.info('Deployment already exists, skipping');
-              return;
+            for (const d of deployments.data.filter(d => d.description === desc)) {
+              try {
+                await github.rest.repos.createDeploymentStatus({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  deployment_id: d.id,
+                  state: 'inactive'
+                });
+                await github.rest.repos.deleteDeployment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  deployment_id: d.id
+                });
+              } catch (e) {
+                core.info(`Could not delete deployment ${d.id}: ${e.message}`);
+              }
             }
 
             const deployment = await github.rest.repos.createDeployment({
