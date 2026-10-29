@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Oxygen XML Editor — "Generate Documentation" settings for CDA.xsl
+
+    This file stores the configuration for generating the stylesheet
+    documentation (documentation/CDA.html). To use:
+
+    1. Open CDA.xsl in Oxygen XML Editor
+    2. XSLT menu → Generate Documentation...
+    3. Click "Load Settings" and select this file
+    4. Click "Generate"
+
+    Output is written to documentation/CDA.html (relative to CDA.xsl).
+    Commit the updated CDA.html after regenerating.
+
+    To update these settings:
+    1. Adjust options in the Generate Documentation dialog
+    2. Click "Export Settings" and overwrite this file
+-->
+<serialized xml:space="preserve">
+	<serializableOrderedMap>
+		<entry>
+			<String>xsl.documentation.options</String>
+			<xslDocumentationOptions>
+				<field name="includeTemplates">
+					<Boolean>true</Boolean>
+				</field>
+				<field name="includeFunctions">
+					<Boolean>true</Boolean>
+				</field>
+				<field name="includeVariables">
+					<Boolean>true</Boolean>
+				</field>
+				<field name="includeGlobalParameters">
+					<Boolean>true</Boolean>
+				</field>
+				<field name="includeAttributeSets">
+					<Boolean>true</Boolean>
+				</field>
+				<field name="includeCharacterMaps">
+					<Boolean>true</Boolean>
+				</field>
+				<field name="includeKeys">
+					<Boolean>true</Boolean>
+				</field>
+				<field name="includeOutputs">
+					<Boolean>true</Boolean>
+				</field>
+				<field name="includeDecimalFormats">
+					<Boolean>true</Boolean>
+				</field>
+				<field name="includeImportedIncludedStylesheets">
+					<Boolean>true</Boolean>
+				</field>
+				<field name="detailsNamespace">
+					<Boolean>true</Boolean>
+				</field>
+				<field name="detailsLocation">
+					<Boolean>false</Boolean>
+				</field>
+				<field name="detailsParameters">
+					<Boolean>true</Boolean>
+				</field>
+				<field name="detailsSource">
+					<Boolean>true</Boolean>
+				</field>
+				<field name="detailsReferences">
+					<Boolean>true</Boolean>
+				</field>
+				<field name="detailsSupersedes">
+					<Boolean>true</Boolean>
+				</field>
+				<field name="detailsReturnType">
+					<Boolean>true</Boolean>
+				</field>
+				<field name="detailsOverriding">
+					<Boolean>true</Boolean>
+				</field>
+				<field name="detailsUsedBy">
+					<Boolean>true</Boolean>
+				</field>
+				<field name="detailsDocumentation">
+					<Boolean>true</Boolean>
+				</field>
+				<field name="detailsDocumentationUseComments">
+					<Boolean>true</Boolean>
+				</field>
+				<field name="detailsImportPrecedence">
+					<Boolean>true</Boolean>
+				</field>
+				<field name="unexpandedOutputFile">
+					<String>documentation/${cfn}.html</String>
+				</field>
+				<field name="splitMethod">
+					<Integer>1</Integer>
+				</field>
+				<field name="openOutputInBrowser">
+					<Boolean>false</Boolean>
+				</field>
+				<field name="format">
+					<Integer>1</Integer>
+				</field>
+				<field name="customXSL">
+					<null/>
+				</field>
+				<field name="deleteXMLFiles">
+					<Boolean>true</Boolean>
+				</field>
+				<field name="includeIndex">
+					<Boolean>true</Boolean>
+				</field>
+				<field name="copyAdditionalResources">
+					<Boolean>false</Boolean>
+				</field>
+				<field name="additionalResourcesDir">
+					<null/>
+				</field>
+			</xslDocumentationOptions>
+		</entry>
+	</serializableOrderedMap>
+</serialized>
