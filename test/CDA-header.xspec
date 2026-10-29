@@ -1585,29 +1585,102 @@
                 </ClinicalDocument>
             </x:context>
             <x:call template="author"/>
-            <x:expect label="produces five author tables"
-                      test="count($x:result) = 5"/>
-            <!-- Author 1: Person with org, code, desc, birthTime, contact details -->
-            <x:expect label="first author has person name with ID"
-                      test="contains(string($x:result[1]), 'Jane  SMITH')"/>
-            <x:expect label="first author has Code, Description, DOB divs"
-                      test="contains(string($x:result[1]), 'Code:') and contains(string($x:result[1]), 'Description:') and contains(string($x:result[1]), 'Date of Birth:')"/>
-            <x:expect label="first author has org row with name and ID"
-                      test="contains(string($x:result[1]), 'Good Health Clinic') and contains(string($x:result[1]), 'org1 (2.3.4)')"/>
-            <x:expect label="first author has personal and org contact details"
-                      test="contains(string($x:result[1]), 'Contact Details') and contains(string($x:result[1]), 'Contact Details (Organization)')"/>
-            <!-- Author 2: Device with org id -->
-            <x:expect label="second author is device with org ID"
-                      test="contains(string($x:result[2]), 'Clinical Documentation System v3.2') and contains(string($x:result[2]), 'O-123')"/>
-            <!-- Author 3: DTr2 assignedDevice -->
-            <x:expect label="third author is DTr2 device"
-                      test="contains(string($x:result[3]), 'Unreleased But Supported')"/>
-            <!-- Author 4: ID-only with org name resolved from matching org -->
-            <x:expect label="fourth author has ID and resolved org name"
-                      test="contains(string($x:result[4]), 'A-12345') and contains(string($x:result[4]), 'Good Health Clinic')"/>
-            <!-- Author 5: ID-only with root-only org id — name lookup now falls back to OID -->
-            <x:expect label="fifth author has ID and org OID fallback"
-                      test="contains(string($x:result[5]), 'A-12345') and contains(string($x:result[5]), '2.3.4')"/>
+            <x:expect label="produces header_table with author details">
+                <table xmlns="http://www.w3.org/1999/xhtml"
+                    class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width"
+                                rowspan="2">Author</td>
+                            <td style="width: 30%;">Jane  SMITH (ID: <span>A-12345 (2.16.840.1.113883.19.5)</span>)<div>
+                                    <span class="span_label">Code: </span>Family Medicine</div>
+                                <div><span class="span_label">Description: </span>Jane's desc tag</div>
+                                <div><span class="span_label">Date of Birth: </span>January  2, 2023</div>
+                            </td>
+                            <td class="td_label td_label_width">Contact Details</td>
+                            <td>123 Main St.<br />Anywhere<br />Mail Workplace: jane@organization.com</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div><span class="span_label">Organization: </span>Good Health Clinic<div>
+                                        <span class="span_label">ID: </span>
+                                        <span>org1 (2.3.4)</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="td_label td_label_width">Contact Details (Organization)</td>
+                            <td>100 Medical Circle<br />Healing Springs<br />Tel Workplace: 800-111-1111</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table xmlns="http://www.w3.org/1999/xhtml"
+                    class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width" rowspan="2">Author</td>
+                            <td colspan="3">Clinical Documentation System v3.2</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <div>
+                                    <span class="span_label">Organization: </span>
+                                    <span class="span_label">ID: </span>
+                                    <span>O-123 (2.16.840.1.113883.19.5)</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table xmlns="http://www.w3.org/1999/xhtml"
+                    class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width">Author</td>
+                            <td colspan="3">Unreleased But Supported</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table xmlns="http://www.w3.org/1999/xhtml"
+                    class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width" rowspan="2">Author</td>
+                            <td colspan="3">ID: <span>A-12345 (2.16.840.1.113883.19.5)</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <div>
+                                    <span class="span_label">Organization: </span>Good Health Clinic<div>
+                                        <span class="span_label">ID: </span>
+                                        <span>org1 (2.3.4)</span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table xmlns="http://www.w3.org/1999/xhtml"
+                    class="header_table">
+                    <tbody>
+                        <tr>
+                            <td class="td_label td_label_width"
+                                rowspan="2">Author</td>
+                            <td colspan="3">ID: <span>A-12345 (2.16.840.1.113883.19.5)</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <div>
+                                    <span class="span_label">Organization: </span>
+                                    <span class="span_label">ID: </span>
+                                    <span>2.3.4</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </x:expect>
         </x:scenario>
         
         <x:scenario label="produces no output when no authors present">
