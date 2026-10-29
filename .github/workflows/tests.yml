@@ -53,7 +53,7 @@ jobs:
         run: ./run-tests.sh --examples
 
   doc-reminder:
-    name: Documentation reminder
+    name: Documentation and coverage reminder
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
@@ -61,15 +61,22 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Check if CDA.xsl changed without documentation update
+      - name: Check if CDA.xsl changed without documentation or coverage update
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           changed=$(git diff --name-only origin/${{ github.base_ref }}...HEAD)
           if echo "$changed" | grep -q '^CDA\.xsl$'; then
-            if ! echo "$changed" | grep -q '^documentation/'; then
+            missing=""
+            if ! echo "$changed" | grep -q '^documentation/CDA\.html$'; then
+              missing="$missing \`documentation/CDA.html\`"
+            fi
+            if ! echo "$changed" | grep -q '^documentation/xspec-coverage\.html$'; then
+              missing="$missing \`documentation/xspec-coverage.html\`"
+            fi
+            if [ -n "$missing" ]; then
               BODY="<!-- doc-reminder-comment -->
-              ⚠️ **Documentation reminder**: \`CDA.xsl\` was modified but \`documentation/CDA.html\` was not updated. Please regenerate it from Oxygen XML Editor before merging."
+              ⚠️ **Documentation reminder**: \`CDA.xsl\` was modified but${missing} was not updated. Please regenerate from Oxygen XML Editor before merging."
               COMMENT_ID=$(gh api "repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments" \
                 --jq '.[] | select(.body | contains("<!-- doc-reminder-comment -->")) | .id' | head -1)
               if [ -n "$COMMENT_ID" ]; then
