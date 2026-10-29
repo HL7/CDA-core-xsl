@@ -380,7 +380,7 @@
                 <id extension="321CX" root="2.16.840.1.113883.4.6"/>
                 <name>Good Health Hospital HIE</name>
                 <telecom use="WP" value="tel:+1(555)555-1009"/>
-                <sdtc:telecom use="TMP" value="mailto:secondTelWithSDTC@extension.com"/>
+                <sdtc:telecom use="DIR" value="mailto:direct@goodhealth.org"/>
                 <addr use="WP">
                     <streetAddressLine>1009 Healthcare Drive </streetAddressLine>
                     <city>Portland</city>
