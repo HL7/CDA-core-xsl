@@ -1215,9 +1215,6 @@
     </xd:doc>
     <xsl:template name="section-title">
         <xsl:param name="level" select="3"/>
-        <!--<xsl:if test="@ID">
-            <a name="{@ID}"/>
-        </xsl:if>-->
         <xsl:element name="{concat('h', $level)}">
             <xsl:attribute name="id">
                 <xsl:choose>
@@ -1644,9 +1641,6 @@
     <xsl:template match="hl7:paragraph">
         <p>
             <xsl:apply-templates select="." mode="handleSectionTextAttributes"/>
-            <!--<xsl:if test="@ID">
-                <a name="{@ID}"/>
-            </xsl:if>-->
             <xsl:apply-templates/>
         </p>
     </xsl:template>
@@ -1684,13 +1678,6 @@
     <xsl:template match="hl7:content">
         <span>
             <xsl:apply-templates select="." mode="handleSectionTextAttributes"/>
-            <!--<xsl:if test="@ID">
-                <a name="{@ID}"/>
-            </xsl:if>-->
-            <!-- IHE PCC MCV -->
-            <!--<xsl:if test="@styleCode = 'xHR' or starts-with(@styleCode, 'xHR ')">
-                <hr class="xHR"/>
-            </xsl:if>-->
             <xsl:apply-templates/>
         </span>
     </xsl:template>
@@ -1723,15 +1710,9 @@
             <xsl:when test="@listType='ordered'">
                 <ol>
                     <xsl:apply-templates select="." mode="handleSectionTextAttributes"/>
-                    <!--<xsl:if test="@ID">
-                        <a name="{@ID}"/>
-                    </xsl:if>-->
                     <xsl:for-each select="hl7:item">
                         <li>
                             <xsl:apply-templates select="." mode="handleSectionTextAttributes"/>
-                            <!--<xsl:if test="@ID">
-                                <a name="{@ID}"/>
-                            </xsl:if>-->
                             <xsl:apply-templates/>
                         </li>
                     </xsl:for-each>
@@ -1741,15 +1722,9 @@
                 <!-- list is unordered -->
                 <ul>
                     <xsl:apply-templates select="." mode="handleSectionTextAttributes"/>
-                    <!--<xsl:if test="@ID">
-                        <a name="{@ID}"/>
-                    </xsl:if>-->
                     <xsl:for-each select="hl7:item">
                         <li>
                             <xsl:apply-templates select="." mode="handleSectionTextAttributes"/>
-                            <!--<xsl:if test="@ID">
-                                <a name="{@ID}"/>
-                            </xsl:if>-->
                             <xsl:apply-templates/>
                         </li>
                     </xsl:for-each>
@@ -1768,18 +1743,12 @@
             <xsl:when test="parent::hl7:table">
                 <caption>
                     <xsl:apply-templates select="." mode="handleSectionTextAttributes"/>
-                    <!--<xsl:if test="@ID">
-                        <a name="{@ID}"/>
-                    </xsl:if>-->
                     <xsl:apply-templates/>
                 </caption>
             </xsl:when>
             <xsl:otherwise>
                 <div class="caption">
                     <xsl:apply-templates select="." mode="handleSectionTextAttributes"/>
-                    <!--<xsl:if test="@ID">
-                        <a name="{@ID}"/>
-                    </xsl:if>-->
                     <xsl:apply-templates/>
                 </div>
             </xsl:otherwise>
@@ -1845,21 +1814,6 @@
             <xsl:text>]</xsl:text>
         </sup>
     </xsl:template>
-
-    <!--<xd:doc>
-        <xd:desc>
-            <xd:p>Handle renderMultiMedia. Produces one or more iframes depending on the number of IDREFS in @referencedObject. Can have a caption on all of them.</xd:p>
-        </xd:desc>
-    </xd:doc>
-    <xsl:template match="hl7:renderMultiMedia">
-        <xsl:variable name="idrefs">
-            <xsl:call-template name="tokenize">
-                <xsl:with-param name="string" select="@referencedObject"/>
-            </xsl:call-template>
-        </xsl:variable>
-        
-        <xsl:apply-templates select="ancestor::hl7:ClinicalDocument//hl7:observationMedia[@ID = $idrefs]"/>
-    </xsl:template>-->
     
     <xsl:variable name="table-elem-attrs" select="document('cda_narrativeblock.xml')/tableElems"/>
     
@@ -1869,154 +1823,10 @@
     <xsl:template match="hl7:table | hl7:thead | hl7:tfoot | hl7:tbody | hl7:colgroup | hl7:col | hl7:tr | hl7:th | hl7:td">
         <xsl:element name="{local-name()}">
             <xsl:apply-templates select="." mode="handleSectionTextAttributes"/>
-            <!--<xsl:if test="@ID">
-                <a name="{@ID}"/>
-            </xsl:if>-->
             <xsl:apply-templates/>
         </xsl:element>
     </xsl:template>
 
-    <!--<xd:doc>
-        <xd:desc>
-            <xd:p>Handle table</xd:p>
-        </xd:desc>
-    </xd:doc>
-    <xsl:template match="hl7:table">
-        <table>
-            <xsl:apply-templates select="." mode="handleSectionTextAttributes">
-                <xsl:with-param name="class" select="'narr_table'"/>
-            </xsl:apply-templates>
-            <!-\-<xsl:if test="@ID">
-                <a name="{@ID}"/>
-            </xsl:if>-\->
-            <xsl:apply-templates/>
-        </table>
-    </xsl:template>
-
-    <xd:doc>
-        <xd:desc>
-            <xd:p>Handle thead</xd:p>
-        </xd:desc>
-    </xd:doc>
-    <xsl:template match="hl7:thead">
-        <thead>
-            <xsl:apply-templates select="." mode="handleSectionTextAttributes"/>
-            <!-\-<xsl:if test="@ID">
-                <a name="{@ID}"/>
-            </xsl:if>-\->
-            <xsl:apply-templates/>
-        </thead>
-    </xsl:template>
-
-    <xd:doc>
-        <xd:desc>
-            <xd:p>Handle tfoot</xd:p>
-        </xd:desc>
-    </xd:doc>
-    <xsl:template match="hl7:tfoot">
-        <tfoot>
-            <xsl:apply-templates select="." mode="handleSectionTextAttributes"/>
-            <!-\-<xsl:if test="@ID">
-                <a name="{@ID}"/>
-            </xsl:if>-\->
-            <xsl:apply-templates/>
-        </tfoot>
-    </xsl:template>
-    
-    <xd:doc>
-        <xd:desc>
-            <xd:p>Handle tbody</xd:p>
-        </xd:desc>
-    </xd:doc>
-    <xsl:template match="hl7:tbody">
-        <tbody>
-            <xsl:apply-templates select="." mode="handleSectionTextAttributes"/>
-            <!-\-<xsl:if test="@ID">
-                <a name="{@ID}"/>
-            </xsl:if>-\->
-            <xsl:apply-templates/>
-        </tbody>
-    </xsl:template>
-
-    <xd:doc>
-        <xd:desc>
-            <xd:p>Handle colgroup</xd:p>
-        </xd:desc>
-    </xd:doc>
-    <xsl:template match="hl7:colgroup">
-        <colgroup>
-            <xsl:apply-templates select="." mode="handleSectionTextAttributes"/>
-            <!-\-<xsl:if test="@ID">
-                <a name="{@ID}"/>
-            </xsl:if>-\->
-            <xsl:apply-templates/>
-        </colgroup>
-    </xsl:template>
-
-    <xd:doc>
-        <xd:desc>
-            <xd:p>Handle col</xd:p>
-        </xd:desc>
-    </xd:doc>
-    <xsl:template match="hl7:col">
-        <col>
-            <xsl:apply-templates select="." mode="handleSectionTextAttributes"/>
-            <!-\-<xsl:if test="@ID">
-                <a name="{@ID}"/>
-            </xsl:if>-\->
-            <xsl:apply-templates/>
-        </col>
-    </xsl:template>
-
-    <xd:doc>
-        <xd:desc>
-            <xd:p>Handle tr</xd:p>
-        </xd:desc>
-    </xd:doc>
-    <xsl:template match="hl7:tr">
-        <tr>
-            <xsl:apply-templates select="." mode="handleSectionTextAttributes">
-                <xsl:with-param name="class" select="'narr_tr'"/>
-            </xsl:apply-templates>
-            <!-\-<xsl:if test="@ID">
-                <a name="{@ID}"/>
-            </xsl:if>-\->
-            <xsl:apply-templates/>
-        </tr>
-    </xsl:template>
-
-    <xd:doc>
-        <xd:desc>
-            <xd:p>Handle th</xd:p>
-        </xd:desc>
-    </xd:doc>
-    <xsl:template match="hl7:th">
-        <th>
-            <xsl:apply-templates select="." mode="handleSectionTextAttributes">
-                <xsl:with-param name="class" select="'narr_th'"/>
-            </xsl:apply-templates>
-            <!-\-<xsl:if test="@ID">
-                <a name="{@ID}"/>
-            </xsl:if>-\->
-            <xsl:apply-templates/>
-        </th>
-    </xsl:template>
-
-    <xd:doc>
-        <xd:desc>
-            <xd:p>Handle td</xd:p>
-        </xd:desc>
-    </xd:doc>
-    <xsl:template match="hl7:td">
-        <td>
-            <xsl:apply-templates select="." mode="handleSectionTextAttributes"/>
-            <!-\-<xsl:if test="@ID">
-                <a name="{@ID}"/>
-            </xsl:if>-\->
-            <xsl:apply-templates/>
-        </td>
-    </xsl:template>-->
-    
     <xd:doc>
         <xd:desc>Security measure. Only process images on the image whitelist</xd:desc>
         <xd:param name="current-whitelist"/>
@@ -2092,12 +1902,6 @@
     </xd:doc>
     <xsl:template match="hl7:renderMultiMedia">
         <xsl:variable name="imageRefs" select="@referencedObject"/>
-        <!--<xsl:variable name="imageRefs">
-            <xsl:call-template name="tokenize">
-                <xsl:with-param name="string" select="@referencedObject"/>
-                <xsl:with-param name="delimiters" select="' '"/>
-            </xsl:call-template>
-        </xsl:variable>-->
         <xsl:variable name="referencedObjects" select="ancestor::hl7:ClinicalDocument//hl7:regionOfInterest[@ID = $imageRefs] | ancestor::hl7:ClinicalDocument//hl7:observationMedia[@ID = $imageRefs]"/>
         <div>
             <xsl:apply-templates select="hl7:caption"/>
@@ -2109,46 +1913,7 @@
                             is not very encouraging to put in the effort, so we just render the images for now
                         -->
                         <xsl:apply-templates select=".//hl7:observationMedia">
-                            <!--<xsl:with-param name="usemap" select="@ID"/>-->
                         </xsl:apply-templates>
-                        <!--<xsl:variable name="coords">
-                            <xsl:variable name="tcoords">
-                                <xsl:for-each select="hl7:value/@value">
-                                    <xsl:value-of select="."/>
-                                    <xsl:text> </xsl:text>
-                                </xsl:for-each>
-                            </xsl:variable>
-                            <xsl:value-of select="translate(normalize-space($tcoords),' ',',')"/>
-                        </xsl:variable>-->
-                        <!--<svg id="graph" width="100%" height="400px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
-                            <!-\- pattern -\->
-                            <defs>
-                                <pattern id="image" x="0%" y="0%" height="100%" width="100%" viewBox="0 0 512 512">
-                                    <image x="0%" y="0%" width="512" height="512" xlink:href="https://cdn3.iconfinder.com/data/icons/people-professions/512/Baby-512.png"/>
-                                </pattern>
-                            </defs>
-                            <circle id="sd" class="medium" cx="5%" cy="40%" r="5%" fill="url(#image)" stroke="lightblue" stroke-width="0.5%"/>
-                        </svg>-->
-                        <!--<map id="{@ID}" name="{@ID}">
-                            <xsl:choose>
-                                <!-\- A circle defined by two (column,row) pairs. The first point is the center of the circle and the second point is a point on the perimeter of the circle. -\->
-                                <xsl:when test="hl7:code/@code = 'CIRCLE'">
-                                    <area shape="circle" coords="{$coords}" alt="Computer" href="computer.htm"/>
-                                </xsl:when>
-                                <!-\- An ellipse defined by four (column,row) pairs, the first two points specifying the endpoints of the major axis and the second two points specifying the endpoints of the minor axis. -\->
-                                <xsl:when test="hl7:code/@code = 'ELLIPSE'">
-                                    <area shape="poly" coords="{$coords}" alt="Computer" href="computer.htm"/>
-                                </xsl:when>
-                                <!-\- A single point denoted by a single (column,row) pair, or multiple points each denoted by a (column,row) pair. -\->
-                                <xsl:when test="hl7:code/@code = 'POINT'">
-                                    <area shape="poly" coords="{$coords}" alt="Computer" href="computer.htm"/>
-                                </xsl:when>
-                                <!-\- A series of connected line segments with ordered vertices denoted by (column,row) pairs; if the first and last vertices are the same, it is a closed polygon. -\->
-                                <xsl:when test="hl7:code/@code = 'POLY'">
-                                    <area shape="poly" coords="{$coords}" alt="Computer" href="computer.htm"/>
-                                </xsl:when>
-                            </xsl:choose>
-                        </map>-->
                     </xsl:when>
                     <!-- Here is where the direct MultiMedia image referencing goes -->
                     <xsl:when test="self::hl7:observationMedia">
@@ -2167,9 +1932,6 @@
     <xsl:template match="hl7:sup">
         <sup>
             <xsl:apply-templates select="." mode="handleSectionTextAttributes"/>
-            <!--<xsl:if test="@ID">
-                <a name="{@ID}"/>
-            </xsl:if>-->
             <xsl:apply-templates/>
         </sup>
     </xsl:template>
@@ -2182,9 +1944,6 @@
     <xsl:template match="hl7:sub">
         <sub>
             <xsl:apply-templates select="." mode="handleSectionTextAttributes"/>
-            <!--<xsl:if test="@ID">
-                <a name="{@ID}"/>
-            </xsl:if>-->
             <xsl:apply-templates/>
         </sub>
     </xsl:template>
@@ -2448,9 +2207,6 @@
                     <!-- For CDAr3 we might get a slew of attributes not catered for explicitly, 
                         but supposedly HTML compatible so just could add them as-is -->
                     <!-- However... CDAr3 never happened and this poses a security risk, so ignore -->
-                    <!--<xsl:attribute name="{$attr-name}">
-                        <xsl:value-of select="."/>
-                    </xsl:attribute>-->
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:for-each>
@@ -2551,19 +2307,6 @@
             <xsl:text> </xsl:text>
             <xsl:value-of select="$confidentialityText"/>
         </xsl:if>
-        <!--<xsl:if test="*[local-name(.) = 'statusCode']">
-            <xsl:if test="hl7:confidentialityCode[@code[not(. = 'N')]]">
-                <xsl:text>,</xsl:text>
-            </xsl:if>
-            <xsl:text> </xsl:text>
-            <xsl:call-template name="getLocalizedString">
-                <xsl:with-param name="key" select="'statusCode'"/>
-                <xsl:with-param name="post" select="': '"/>
-            </xsl:call-template>
-            <xsl:call-template name="getLocalizedString">
-                <xsl:with-param name="key" select="concat('status-', *[local-name(.) = 'statusCode']/@code)"/>
-            </xsl:call-template>
-        </xsl:if>-->
         <xsl:text>)</xsl:text>
     </xsl:template>
 
@@ -6240,8 +5983,6 @@
     </xd:doc>
     <xsl:template name="translateTelecomUriScheme">
         <xsl:param name="code"/>
-        <!--xsl:value-of select="document('voc.xml')/systems/system[@root=$code/@codeSystem]/code[@value=$code/@code]/@displayName"/-->
-        <!--xsl:value-of select="document('codes.xml')/*/code[@code=$code]/@display"/-->
         <xsl:choose>
             <!-- lookup table Telecom URI -->
             <xsl:when test="$code = 'tel'">
