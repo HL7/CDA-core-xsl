@@ -1,5 +1,5 @@
 # CDA R2 Stylesheet
-Quick Links: [Examples/Documentation](https://hl7.github.io/CDA-core-xsl/) - [Usage](#manual) - [Localization](#localization) - [Parameters](#parameters) - [Wiki](https://github.com/HL7/cda-core-xsl/wiki) - [Release Notes](https://github.com/HL7/cda-core-xsl/wiki/Revisions) - **[Security Notes](https://github.com/HL7/cda-core-xsl/wiki/Security-Notes)**
+Quick Links: [Examples/Documentation](https://hl7.github.io/CDA-core-xsl/) - [Usage](#usage) - [Localization](#localization) - [Parameters](#parameters) - [Development](#development) - [Wiki](https://github.com/HL7/cda-core-xsl/wiki) - [Release Notes](https://github.com/HL7/cda-core-xsl/wiki/Revisions) - **[Security Notes](https://github.com/HL7/cda-core-xsl/wiki/Security-Notes)**
 
 ## Introduction
 The CDA Release 2.0 publication comes with an *informative* stylesheet based on [XSLT 1.0](https://www.w3.org/TR/1999/REC-xslt-19991116). The stylesheet is maintained under responsibility of the [Structured Documents Workgroup](https://confluence.hl7.org/display/SD). Publications are under [releases](https://github.com/HL7/cda-core-xsl/releases)
@@ -240,7 +240,7 @@ python3 scripts/combine-coverage.py --open          # combine and open
 python3 scripts/combine-coverage.py --open --watch   # auto-regenerate when source files change
 ```
 
-Reads `*-coverage.html` from `test/results/` by default. The `--watch` flag monitors for file changes and regenerates automatically — useful when iterating on coverage in Oxygen. Output is written to `documentation/xspec-coverage.html`.
+Reads `*-coverage.html` from `test/results/` by default. The `--watch` flag monitors for file changes and regenerates automatically — useful when iterating on coverage in Oxygen. Output is written to `documentation/xspec-coverage.html`, viewable at [hl7.github.io/CDA-core-xsl/xspec-coverage.html](https://hl7.github.io/CDA-core-xsl/xspec-coverage.html).
 
 ### Documentation
 Stylesheet documentation (`documentation/CDA.html`) is generated using Oxygen XML Editor's "Generate Documentation" feature. This produces an HTML reference of all templates, parameters, variables, and their `xd:doc` annotations.
