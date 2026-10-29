@@ -19,7 +19,7 @@ regenerates the combined report automatically. Useful when iterating on
 tests in Oxygen — re-run coverage there, and the combined report updates
 within a few seconds. The browser tab just needs a refresh.
 
-Output: <dir>/combined-coverage.html
+Output: documentation/xspec-coverage.html
 """
 
 import argparse
@@ -32,6 +32,7 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parent
 DEFAULT_DIR = REPO_ROOT / "test" / "results"
+DEFAULT_OUTPUT = REPO_ROOT / "documentation" / "xspec-coverage.html"
 
 
 def parse_coverage_file(filepath):
@@ -390,7 +391,6 @@ def run_once(coverage_dir, verbose=True):
     """Run a single coverage combination. Returns output_path or None on error."""
     # Find all coverage HTML files
     coverage_files = sorted(coverage_dir.glob("*-coverage.html"))
-    coverage_files = [f for f in coverage_files if f.name != "combined-coverage.html"]
 
     if not coverage_files:
         if verbose:
@@ -443,7 +443,7 @@ def run_once(coverage_dir, verbose=True):
             print(f"  Hit by supporting tests only: {supporting}")
 
     # Generate
-    output_path = coverage_dir / "combined-coverage.html"
+    output_path = DEFAULT_OUTPUT
     if verbose:
         print(f"\nGenerating {output_path.relative_to(REPO_ROOT)}...")
     generate_report(parsed, combined_lines, per_file_hits, output_path)
